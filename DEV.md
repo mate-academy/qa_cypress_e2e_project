@@ -8,6 +8,13 @@
 
 ## How to Run
 
+Pre-setup:
+
+  ```bash
+    npm install -g sequelize-cli
+    npm install -g sequelize
+  ```
+
 1. x86 chips
 
     ```bash
