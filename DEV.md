@@ -13,6 +13,9 @@ Pre-setup:
   ```bash
     npm install -g sequelize-cli
     npm install -g sequelize
+    npm install -g pg --save-dev
+    npm install --save-dev cypress-image-snapshot
+    npm i
   ```
 
 1. x86 chips

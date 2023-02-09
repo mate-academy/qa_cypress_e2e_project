@@ -12,8 +12,8 @@ describe('Sign In page', () => {
 
   before(() => {
     cy.task('db:clear');
-    cy.task('newUser').then(newUser => {
-      user = newUser;
+    cy.task('generateUser').then(generateUser => {
+      user = generateUser;
     });
   });
   
