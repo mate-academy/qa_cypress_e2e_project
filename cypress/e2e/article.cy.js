@@ -1,3 +1,6 @@
+/// <reference types="cypress" />
+/// <reference types="../support" />
+
 describe('Article', () => {
   before(() => {
 
@@ -10,7 +13,7 @@ describe('Article', () => {
   it('should be created using New Article form', () => {
 
   });
-  
+
   it('should be edited using Edit button', () => {
 
   });
