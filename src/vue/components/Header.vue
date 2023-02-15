@@ -21,6 +21,7 @@
             active-class="active"
             exact
             :to="{ name: 'login' }"
+            data-cy="sign_in"
           >
             <i class="ion-compose"></i>Sign in
           </router-link>
@@ -55,6 +56,7 @@
               name: 'article-edit',
               params: { new: true }
             }"
+            data-cy="new_aricle"
           >
             <i class="ion-compose"></i>&nbsp;New Article
           </router-link>
