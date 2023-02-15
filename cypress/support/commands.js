@@ -24,7 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { faker } from '@faker-js/faker';
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
@@ -33,47 +32,10 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (username, email, password) => {
-  cy.request({
-    method: 'POST',
-    url: '/users',
-    body: {
-      email,
-      username,
-      password
-    }
-  });
-});
-
-Cypress.Commands.add('login', (username, email, password) => {
+Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
-  }).then(response => {
-    cy.setCookie('drash_sess', response.body.user.token)
-  })
-});
-
-Cypress.Commands.add('article', (title, description, body) => {
-  cy.request('POST', '/users', {
-    email: faker.internet.email(),
-    username: faker.random.word(),
-    password: 'Test123!'
-  }).then(response => {
-    cy.setCookie('drash_sess', response.body.user.token);
-
-    cy.request({method: 'POST',
-      url: '/articles',
-      body: {
-        article: {
-          title,
-          description,
-          body,
-          tags: faker.lorem.word(),
-          author_id: response.body.user.id
-        }
-      }
-    })
-  })
+  });
 });

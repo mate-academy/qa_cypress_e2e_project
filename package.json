@@ -1,11 +1,6 @@
 {
   "dependencies": {
-    "pg": "^8.9.0",
-    "sequelize": "^6.28.0",
+    "sequelize": "^6.21.2",
     "sequelize-cli": "^6.4.1"
-  },
-  "devDependencies": {
-    "cypress": "^12.5.1",
-    "cypress-image-snapshot": "^4.0.1"
   }
 }

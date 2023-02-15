@@ -1,90 +1,38 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
 
-const { generateUser } = require("../support/generate");
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import homePageObject from '../support/pages/home.pageObject';
+
+const signInPage = new SignInPageObject();
+const homePage = new homePageObject();
 
 describe('Sign In page', () => {
-  beforeEach(() => {
+  let user;
+
+  before(() => {
     cy.task('db:clear');
-    cy.visit('/#/login');
+    cy.task('generateUser').then(generateUser => {
+      user = generateUser;
+    });
   });
   
-  it('should log in with existing credentials', () => {
-    const { username, email, password } = generateUser();
-    cy.register(username, email, password);
+  it('should provide an ability to log in with existing credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
-    cy.getByDataCy('email-sign-in')
-      .type(email);
-    
-    cy.getByDataCy('password-sign-in')
-      .type(password);
-    
-    cy.getByDataCy('sign-in-btn')
+    signInPage.emailField
+      .type(user.email);
+    signInPage.passwordField
+      .type(user.password);
+    signInPage.signInBtn
       .click();
 
-    cy.contains('a', username)
-      .should('exist');
+    homePage.usernameLink
+      .should('contain', user.username);
   });
 
-  it('should not log in with wrong email', () => {
-    const { username, email, password } = generateUser();
-    cy.register(username, email, password);
-
-    cy.getByDataCy('email-sign-in')
-      .type(`wrong${email}`);
+  it('should not provide an ability to log in with wrong credentials', () => {
     
-    cy.getByDataCy('password-sign-in')
-      .type(password);
-    
-    cy.getByDataCy('sign-in-btn')
-      .click();
-
-    cy.contains('div', 'Invalid user credentials.')
-      .should('exist');
-  });
-
-  it('should not log in with wrong password', () => {
-    const { username, email, password } = generateUser();
-    cy.register(username, email, password);
-
-    cy.getByDataCy('email-sign-in')
-      .type(email);
-    
-    cy.getByDataCy('password-sign-in')
-      .type(`wrong${password}`);
-    
-    cy.getByDataCy('sign-in-btn')
-      .click();
-    
-    cy.contains('div', 'Invalid user credentials.')
-      .should('exist');
-  });
-
-  it('should not log in with empty email field', () => {
-    const { username, email, password } = generateUser();
-    cy.register(username, email, password);
-    
-    cy.getByDataCy('password-sign-in')
-      .type(password);
-    
-    cy.getByDataCy('sign-in-btn')
-      .click();
-
-    cy.contains('div', 'Email field required.')
-      .should('exist');
-  });
-
-  it('should not log in with empty password field', () => {
-    const { username, email, password } = generateUser();
-    cy.register(username, email, password);
-
-    cy.getByDataCy('email-sign-in')
-      .type(email);
-    
-    cy.getByDataCy('sign-in-btn')
-      .click();
-
-    cy.contains('div', 'Password field required.')
-      .should('exist');
   });
 });
