@@ -26,16 +26,85 @@
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
+const faker = require("faker");
+
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', () => {
+
+  let username = faker.lorem.word();
+  let email = username+'@mail.com';
+  let password = '12345Qwert!';
+
   cy.request('POST', '/users', {
     email,
     username,
     password
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+});
+});
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  
+  let username = faker.lorem.word();
+  let email = username+'@mail.com';
+  let password = '12345Qwert!';
+  let author_id;
+
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token)
+    author_id = response.body.user.id;
+  }).then(() => {
+    cy.request('POST', '/articles', { 
+      article: {
+        title,
+        description,
+        body,
+        tags: faker.lorem.word({length: 3}),
+        author_id
+      }
   });
+});
+});
+Cypress.Commands.add('registerNew', (username, email, password) => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+});
+});
+Cypress.Commands.add('createNewArticle', (title, description, body) => {
+  
+  let username = faker.lorem.word();
+  let email = username+'@mail.com';
+  let password = '12345Qwert!';
+  let author_id;
+
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then(response => {
+    author_id = response.body.user.id;
+  }).then(() => {
+    cy.request('POST', '/articles', { 
+      article: {
+        title,
+        description,
+        body,
+        tags: faker.lorem.word({length: 3}),
+        author_id
+      }
+  });
+});
 });
