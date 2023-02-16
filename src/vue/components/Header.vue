@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="login-btn"
             class="nav-link"
             active-class="active"
             exact
