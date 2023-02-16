@@ -3,7 +3,7 @@
     <div class="user-info">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
+          <div data-cy="user-bio" class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>
@@ -16,7 +16,7 @@
               </router-link>
             </div>
             <div v-else>
-              <button
+              <button data-cy="unfollowBtn"
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
@@ -24,7 +24,7 @@
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
               </button>
-              <button
+              <button data-cy="followBtn"
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
