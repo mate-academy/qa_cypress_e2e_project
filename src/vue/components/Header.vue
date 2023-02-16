@@ -28,6 +28,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-up-link"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -66,7 +67,7 @@
             exact
             :to="{ name: 'settings' }"
           >
-            <i class="ion-gear-a"></i>&nbsp;Settings
+            <i data-cy="settings-link" class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
         </li>
         <li class="nav-item" v-if="user.username">
