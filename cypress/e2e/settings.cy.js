@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="../support" />
 
 import userPageObject from "../support/pages/userPage.pageObject";
 import homePageObject from "../support/pages/home.pageObject";

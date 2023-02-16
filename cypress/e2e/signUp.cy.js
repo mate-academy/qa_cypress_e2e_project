@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
 
+
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 import homePageObject from '../support/pages/home.pageObject';
 
@@ -62,6 +63,7 @@ const errorMsg = 'Registration failed!';
       .type(user.password);
     signUp.signUpBtn
       .click();
+
 
     signUp.modalWind
       .should('contain', errorMsg);

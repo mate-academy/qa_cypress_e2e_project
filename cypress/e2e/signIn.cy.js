@@ -2,10 +2,10 @@
 /// <reference types="../support" />
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
-import homePageObject from '../support/pages/home.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const signInPage = new SignInPageObject();
-const homePage = new homePageObject();
+const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
@@ -22,7 +22,7 @@ describe('Sign In page', () => {
   beforeEach(() => {
     signInPage.visit();
   });
-  
+
   it('should provide an ability to log in with existing credentials', () => {
 
     signInPage.emailField
@@ -35,6 +35,7 @@ describe('Sign In page', () => {
     homePage.usernameLink
       .should('contain', user.username);
   });
+
 
   it('should not provide an ability to log in with wrong password', () => {
 
@@ -66,5 +67,6 @@ describe('Sign In page', () => {
 
     cy.url()
       .should('contain', '/login');
+
   });
 });

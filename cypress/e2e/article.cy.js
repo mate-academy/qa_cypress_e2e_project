@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
 
+
 import homePageObject from '../support/pages/home.pageObject';
 import createArticle from '../support/pages/createArticle.pageObject';
 import articlePage from '../support/pages/articlePage.pageObject';
@@ -10,6 +11,7 @@ const userProfile = new userPage();
 const homePage = new homePageObject();
 const articleCreate = new createArticle();
 const pageArticle = new articlePage ();
+
 
 describe('Article', () => {
   let article;
@@ -54,6 +56,7 @@ describe('Article', () => {
     
 
   });
+
   
   it('should be edited using Edit button', () => { 
     cy.createArticle(article.title, article.description, article.body)
