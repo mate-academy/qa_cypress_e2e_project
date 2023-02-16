@@ -1,4 +1,6 @@
+
 /// <reference types='cypress' />
+
 
 describe('Article', () => {
   let user;
@@ -38,7 +40,7 @@ describe('Article', () => {
     cy.getByDataCy('delete-article')
       .should('exist');
   });
-  
+
   it('should be edited using Edit button', () => {
     cy.createArticle(article.title, article.description, article.body)
      .then(response => {

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+
 describe('Sign In page', () => {
   let user;
 
@@ -8,7 +9,7 @@ describe('Sign In page', () => {
       user = generateUser;
     });
   });
-  
+
   it('should provide an ability to log in with existing credentials', () => {
     cy.register(user.email, user.username, user.password);
     cy.visit('/#/login');
@@ -51,5 +52,6 @@ describe('Sign In page', () => {
       .click();
     cy.get('.swal-text')
       .should('have.text', errorMessage);
+
   });
 });

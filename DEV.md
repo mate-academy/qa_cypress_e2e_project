@@ -5,16 +5,13 @@
   - [Run with `make` commands](#run-with-make-commands)
   - [Frontend login](#frontend-login)
   - [Connect to Database](#connect-to-database)
+  - [Troubleshooting](#troubleshooting)
 
 ## How to Run
 
 Pre-setup:
 
   ```bash
-    npm install -g sequelize-cli
-    npm install -g sequelize
-    npm install -g pg --save-dev
-    npm install --save-dev cypress-image-snapshot
     npm i
   ```
 
@@ -95,3 +92,7 @@ The advanced way:
    password: userpassword
    # select * from users;
    ```
+
+## Troubleshooting
+
+- [Windows: Webpack is not watching the changes. Realoading of containers required to observe new attributes](https://github.com/webpack/webpack/issues/2949#issuecomment-279348745)

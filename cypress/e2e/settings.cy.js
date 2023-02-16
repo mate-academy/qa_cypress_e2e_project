@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="../support" />
 
 describe('Settings page', () => {
   let user;
