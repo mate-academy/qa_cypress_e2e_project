@@ -8,14 +8,14 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
     setupNodeEvents(on, config) {
       on("task", {
         generateUser() {
           randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test'+`${randomNumber}`+'@mail.com',
+            email: 'testqa'+`${randomNumber}`+'@mail.com',
             password: '12345Qwert!',
           };
         },
@@ -25,7 +25,7 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
-          };;
+          };
         },
         'db:clear'() {
           clear();
