@@ -1,6 +1,6 @@
 import PageObject from '../PageObject';
 
-class homePageObject extends PageObject {
+class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
@@ -8,4 +8,4 @@ class homePageObject extends PageObject {
   }
 }
 
-export default homePageObject;
+export default HomePageObject;

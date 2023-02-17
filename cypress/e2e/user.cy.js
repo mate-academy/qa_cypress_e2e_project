@@ -1,3 +1,6 @@
+/// <reference types="cypress" />
+/// <reference types="../support" />
+
 describe('User', () => {
   let user;
   let article;

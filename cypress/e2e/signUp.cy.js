@@ -1,13 +1,14 @@
+/// <reference types="cypress" />
+
 describe('Sign Up page', () => {
   let user;
-
+  
   before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
     });
   });
-
 
   it('should provide an ability to register a new account', () => {
     const successRegistrationTitle = 'Welcome!';

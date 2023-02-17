@@ -39,7 +39,7 @@ describe('Article', () => {
     cy.getByDataCy('delete-btn')
       .should('exist');
   });
-  
+
   it('should be edited using Edit button', () => {
     const newTitle = 'New Title!'
     cy.createArticle(article.title, article.description, article.body, article.tag)
