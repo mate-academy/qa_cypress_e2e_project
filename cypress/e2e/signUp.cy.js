@@ -8,28 +8,12 @@ describe('Sign Up page', () => {
     cy.visit('#/register')
   });
 
-  it(`The Sign up page should contain title 'Sign up'`, () => {
+  it(`The page contains title 'Sign up'`, () => {
     cy.get('h1').should('contain.text', 'Sign up');
   });
 
   it(`The Sign up page should contain 'Have an account' link`, () => {
     cy.contains('a', 'Have an account').should('exist');
-  });
-
-  it(`The Sign up page should contain the 'Username' field`, () => {
-    cy.findByPlaceholder('Username').should('exist');
-  });
-
-  it(`The Sign up page should contain the 'Email' field`, () => {
-    cy.findByPlaceholder('Email').should('exist');
-  });
-
-  it(`The Sign up page should contain the 'Password' field`, () => {
-    cy.findByPlaceholder('Password').should('exist');
-  });
-
-  it(`The Sign up page should contain the 'Sign up' button`, () => {
-    cy.contains('button', 'Sign up').should('exist');
   });
 
   it(`The user can register with valid data`, () => {
@@ -86,7 +70,6 @@ describe('Sign Up page', () => {
     cy.findByPlaceholder('Email').type(email);
     cy.findByPlaceholder('Password').type(password);
     cy.contains('button', 'Sign up').click();
-    cy.contains('.swal-modal', 'Email already taken.')
-      .should('exist');
+    cy.contains('.swal-modal', 'Email already taken.').should('exist');
   });
 });

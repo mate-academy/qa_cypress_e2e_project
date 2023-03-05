@@ -15,26 +15,22 @@ describe('Sign In page', () => {
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
     });
+    signInPage.visit();
+
   });
 
-  it(`Sign in page should contain 'Sign in' title `, () => {
-    signInPage.visit();
+  it(`The Sign in page should contain 'Sign in' title `, () => {
     cy.get('h1').should('contain.text', 'Sign in');
   });
 
-  it(`Sign in page should contain 'Email' field `, () => {
-    signInPage.visit();
+  it(`The Sign in page contains the 'Login form'`, () => {
     signInPage.emailField.should('exist');
-  });
-
-  it(`Sign in page should contain 'Password' button `, () => {
-    signInPage.visit();
     signInPage.passwordField.should('exist');
+    signInPage.signInBtn.should('exist');
   });
 
-  it.only(`The user have an ability to log
+  it(`The user have an ability to log
      in with existing credentials`, () => {
-      signInPage.visit();
       cy.registerNewUser().then(user => {
         cy.getByDataCy('email-sign-in').type(user.email);
         cy.getByDataCy('password-sign-in').type(user.password);
@@ -44,7 +40,7 @@ describe('Sign In page', () => {
       })
   });
 
-  it(`The users haven't an ability to log in with wrong email`, () => {
+  it(`The users haven't an ability to log in using wrong email`, () => {
     signInPage.visit();
     signInPage.emailField.type(`a${user.email}`);
     signInPage.passwordField.type(`${user.password}`);
@@ -52,7 +48,7 @@ describe('Sign In page', () => {
     cy.contains('.swal-modal', 'Invalid user credentials.').should('exist');
   });
 
-  it(`The users haven't an ability to log in with wrong password`, () => {
+  it(`The users haven't an ability to log in using wrong password`, () => {
     signInPage.visit();
     signInPage.emailField.type(`${user.email}`);
     signInPage.passwordField.type(`${user.password}a`);
