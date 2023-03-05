@@ -1,4 +1,5 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
+
 const faker = require("faker");
 const { clear } = require("./server/db");
 const { seed } = require("./server/db");
