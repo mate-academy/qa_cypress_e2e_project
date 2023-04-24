@@ -8,7 +8,7 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667/#/',
     setupNodeEvents(on, config) {
       on("task", {
         generateUser() {
