@@ -37,7 +37,7 @@
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-qa="signUp-btn" class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
