@@ -3,12 +3,13 @@
     <router-link
       :to="{ name: 'profile', params: { username: authorUsername() } }"
     >
-      <img :src="authorImage()" />
+      <img :src="authorImage()" data-qa="author-img"/>
     </router-link>
     <div class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="author-username"
       >
         {{ authorUsername() }}
       </router-link>
