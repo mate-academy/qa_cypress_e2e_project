@@ -1,0 +1,13 @@
+{
+  "successTitle": "Welcome!",
+  "successText": "Your registration was successful!",
+  "failureTitle": "Registration failed!",
+  "updateSettingsSuccess": "Update successful!",
+  "usernameRequired": "Username field required.",
+  "emailRequired": "Email field required.",
+  "passwordRequired": "Password field required.",
+  "incorrectPassword": "Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.",
+  "emailTaken": "Email already taken.",
+  "loginFailed": "Login failed!",
+  "invalidCreds": "Invalid user credentials."
+}

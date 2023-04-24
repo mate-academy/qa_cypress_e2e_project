@@ -2,8 +2,8 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit</h1>
-        <p>A place to share your knowledge.</p>
+        <h1 class="logo-font" data-qa="title">conduit</h1>
+        <p data-qa="motto">A place to share your knowledge.</p>
       </div>
     </div>
     <div class="container page">
@@ -16,6 +16,7 @@
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
                   active-class="active"
+                  data-qa="your-feed-tab"
                 >
                   Your Feed
                 </router-link>
@@ -26,6 +27,7 @@
                   exact
                   class="nav-link"
                   active-class="active"
+                  data-qa="global-feed-tab"
                 >
                   Global Feed
                 </router-link>
@@ -45,10 +47,9 @@
         </div>
         <div class="col-md-3">
           <div class="sidebar">
-            <p>Popular Tags</p>
+            <p data-qa="popular-tags">Popular Tags</p>
             <div class="tag-list">
-              <Tag v-for="(tag, index) in tags" :name="tag" :key="index">
-              </Tag>
+              <Tag v-for="(tag, index) in tags" :name="tag" :key="index"> </Tag>
             </div>
           </div>
         </div>
@@ -58,22 +59,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Tag from "@/components/Tag.vue";
+import { mapGetters } from 'vuex';
+import Tag from '@/components/Tag.vue';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     Tag
   },
   mounted() {
-    this.$store.dispatch("fetchTags");
+    this.$store.dispatch('fetchTags');
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "tags"
-    ]),
+    ...mapGetters(['is_authenticated', 'tags']),
     tag() {
       return this.$route.params.tag;
     }

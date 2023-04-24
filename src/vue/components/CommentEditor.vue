@@ -8,21 +8,24 @@
           v-model="comment"
           placeholder="Write a comment..."
           rows="3"
+          data-qa="type-comment"
         >
         </textarea>
       </div>
       <div class="card-footer">
         <img :src="userImage" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <button class="btn btn-sm btn-primary" data-qa="post-comment-btn">
+          Post Comment
+        </button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import ListErrors from "@/components/ListErrors.vue";
+import ListErrors from '@/components/ListErrors.vue';
 export default {
-  name: "CommentEditor",
+  name: 'CommentEditor',
   components: { ListErrors },
   props: {
     slug: { type: String, required: true },
@@ -37,9 +40,9 @@ export default {
   },
   methods: {
     onSubmit(slug, comment) {
-      console.log("Dispatching event: createArticleComment")
+      console.log('Dispatching event: createArticleComment');
       this.$store
-        .dispatch("createArticleComment", { slug, comment })
+        .dispatch('createArticleComment', { slug, comment })
         .then(() => {
           this.comment = null;
           this.errors = {};
