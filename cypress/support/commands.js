@@ -48,9 +48,10 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
 Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request({
     method: 'POST',
-    url: 'http://localhost:1667/users/login',
+    url: 'http://localhost:1667/users',
     body: {
         email: email,
+        username: username,
         password: password
       }
   }).then((response) => {
@@ -61,9 +62,10 @@ Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', passwo
 Cypress.Commands.add('createArticle', (articleTitle, articleDescription, articleBody) => {
   cy.request({
     method: 'POST',
-    url: 'http://localhost:1667/users/login',
+    url: 'http://localhost:1667/users',
     body: {
         email: 'riot@qa.team',
+        username: 'riot',
         password: '12345Qwert!'
       }
   }).then((response) => {
@@ -83,4 +85,6 @@ Cypress.Commands.add('createArticle', (articleTitle, articleDescription, article
     });
   }); 
 });
+
+
 

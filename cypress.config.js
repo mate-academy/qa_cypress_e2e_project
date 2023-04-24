@@ -1,7 +1,7 @@
 const { defineConfig } = require("cypress");
 const faker = require("faker");
-const { clear } = require("../../server/db");
-const { seed } = require("../../server/db");
+const { clear } = require("./server/db");
+const { seed } = require("./server/db");
 const {
   addMatchImageSnapshotPlugin,
 } = require('cypress-image-snapshot/plugin');
@@ -10,7 +10,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/#/',
     setupNodeEvents(on, config) {
-      on('task', {
+      on("task", {
         generateUser() {
           randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
@@ -29,7 +29,7 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-        
+
           return null;
         },
         'db:seed'() {
@@ -42,5 +42,3 @@ module.exports = defineConfig({
     },
   },
 });
-
-

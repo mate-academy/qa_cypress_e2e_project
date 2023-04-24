@@ -17,7 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
-            class="nav-link"
+            class="nav-link" data-cy="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"

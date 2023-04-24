@@ -67,7 +67,6 @@ describe('Sign Up page', () => {
       .type(userPassword);
     cy.getByDataCy('sign-in-btn')
       .click();
-
     
     cy.getByDataCy('username-link')
       .should('contain', userUsername);
