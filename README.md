@@ -4,6 +4,7 @@
 
 1. Fork the repo.
 1. Clone **your** forked repository.
+1. Run `npm i`.
 1. Create a new branch `git checkout -b e2e_testing`.
 1. Run the [app](./DEV.md).
 1. Resolve tasks.
