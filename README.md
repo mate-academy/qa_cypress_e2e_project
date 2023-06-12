@@ -8,6 +8,7 @@
 1. Create a new branch `git checkout -b e2e_testing`.
 1. Run the [app](./DEV.md).
 1. Resolve tasks.
+1. Check yourself before submitting the task with a [Cypress checklist](https://mate-academy.github.io/qa-program/checklists/cypress.html).
 1. Create a pull request.
 1. Do not forget to click on `Re-request review` if you submit the homework after previous review.
 
