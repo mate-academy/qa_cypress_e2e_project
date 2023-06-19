@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM debian:oldstable-20230612-slim
 
 RUN apt update -y \
   && apt clean \

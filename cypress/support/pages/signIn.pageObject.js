@@ -14,6 +14,10 @@ class SignInPageObject extends PageObject {
   get signInBtn() {
     return cy.getByDataCy('sign-in-btn');
   }
+
+  get modalAllert() {
+    return cy.get('.swal-modal')
+  }
 }
 
 export default SignInPageObject;

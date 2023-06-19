@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vue/runtime-dom": "^3.3.4",
     "cypress-image-snapshot": "^4.0.1",
     "eslint-plugin-cypress": "^2.12.1",
     "faker": "^5.5.3",
