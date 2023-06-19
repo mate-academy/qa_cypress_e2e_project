@@ -25,7 +25,7 @@
                   :to="{ name: 'home' }"
                   exact
                   class="nav-link"
-                  active-class="active"
+                  dataqa="Global-Feed"
                 >
                   Global Feed
                 </router-link>

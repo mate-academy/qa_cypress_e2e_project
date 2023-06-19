@@ -12,12 +12,11 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
-          return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
-          };
+          const randomNumber = Math.ceil(Math.random() * 1000);
+          const username = faker.name.firstName() + randomNumber;
+          const email = `${username}${randomNumber}@mail.com`;
+          const password = '12345Qwert!';
+          return { username, email, password };
         },
         generateArticle() {
           return {
@@ -29,16 +28,14 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
-      addMatchImageSnapshotPlugin(on, config);
-    }
-  }
+    },
+  },
+  plugins: [addMatchImageSnapshotPlugin],
 });
