@@ -17,7 +17,7 @@ describe('Sign In page', () => {
     });
   });
 
-  it.only('should provide an ability to log in with existing credentials', () => {
+  it('should provide an ability to log in with existing credentials', () => {
     cy.register();
     signInPage.visit();
     
@@ -29,10 +29,19 @@ describe('Sign In page', () => {
       .click();
 
     homePage.usernameLink
-      .should('contain', user.username);
+      .should('contain', 'riot');
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
-
+  it.only('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    
+    signInPage.emailField
+      .type(user.email);
+    signInPage.passwordField
+      .type('12345Qwert!');
+    signInPage.signInBtn
+      .click();
+    signInPage.checkFailedSignIn();
+    signInPage.closeModalWindow();
   });
 });
