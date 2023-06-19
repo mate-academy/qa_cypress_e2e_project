@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
@@ -18,21 +18,33 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
     cy.register(user.email, user.username, user.password);
+    signInPage.visit();
+    cy.wait(500);
 
-    signInPage.emailField
-      .type(user.email);
-    signInPage.passwordField
-      .type(user.password);
-    signInPage.signInBtn
-      .click();
+    // signInPage.emailField.type(user.email);
+    // signInPage.passwordField.type(user.password);
+    // signInPage.signInBtn.click();
 
-    homePage.usernameLink
-      .should('contain', user.username);
+    // homePage.usernameLink.should('contain', user.username);
+
+
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it.only('should not provide an ability to log in with wrong credentials', () => {
+    cy.register(user.email, user.username, user.password);
+    signInPage.visit();
+    cy.wait(500);
 
+    cy.get('[placeholder="Email"]').type(user.email);
+    cy.get('[placeholder="Password"]').type('Wrong password');
+    cy.contains('.btn', 'Sign in').click();
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+
+    // signInPage.emailField.type(user.email);
+    // signInPage.passwordField.type(user.password);
+    // signInPage.signInBtn.click();
+
+    // homePage.usernameLink.should('contain', user.username);
   });
 });

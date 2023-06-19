@@ -11,7 +11,8 @@
                   type="text"
                   class="form-control form-control-lg"
                   v-model="article.title"
-                  placeholder="Article Title"
+                  placeholder="Article Title55555"
+                  data-cy="publish-article-title"
                 />
               </fieldset>
               <fieldset class="form-group">
