@@ -17,7 +17,7 @@
     "lodash": "^4.17.20",
     "markdown-it": "^8.4.2",
     "mime-types": "^2.1.22",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "prismjs": "^1.21.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",

@@ -18,13 +18,13 @@ Pre-setup:
 1. x86 chips
 
     ```bash
-      sudo docker-compose build && sudo docker-compose up
+      docker-compose build && docker-compose up
     ```
 
     If case of `"docker-compose" command not found`, use this command
 
     ```bash
-      sudo docker compose build && sudo docker compose up
+      docker compose build && docker compose up
     ```
 
 1. Apple silicon chips (M1, M2)
@@ -40,8 +40,8 @@ Navigate to [http://localhost:1667](http://localhost:1667)
 Also, you can run the project with `Makefile` ([Unbuntu](https://www.unixmen.com/install-ubuntu-make-on-ubuntu-15-04/)), ([Windows](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows), for Mac available by default) commands:
 
 ```bash
-  make up  // for x86
-  make m1  // for M1
+  make build  // command for x86
+  make build-m1  // command for ARM (M1, M2)
 ```
 
 ## Frontend login
