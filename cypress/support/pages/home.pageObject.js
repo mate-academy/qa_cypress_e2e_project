@@ -11,3 +11,5 @@ class HomePageObject extends PageObject {
       .should('contain', 'No articles')
   }
 }
+
+export default HomePageObject;
