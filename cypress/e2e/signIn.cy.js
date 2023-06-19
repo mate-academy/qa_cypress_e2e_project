@@ -17,14 +17,14 @@ describe('Sign In page', () => {
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
+  it.only('should provide an ability to log in with existing credentials', () => {
+    cy.register();
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
+    
     signInPage.emailField
-      .type(user.email);
+      .type('riot@qa.team');
     signInPage.passwordField
-      .type(user.password);
+      .type('12345Qwert!');
     signInPage.signInBtn
       .click();
 

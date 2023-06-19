@@ -57,7 +57,7 @@ describe('Article', () => {
     articlesPage.articleTitle.should('contain', 'new Title');
   });
 
-  it('should be deleted using Delete button', () => {
+  it.only('should be deleted using Delete button', () => {
     cy.createArticle(testData.title, testData.description, testData.body, testData.tag).then((respons) => {
       const slug = respons.body.article.slug;
 

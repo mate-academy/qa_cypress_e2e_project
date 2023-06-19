@@ -8,12 +8,14 @@ class ArticlesPageObject extends PageObject {
   }
 
   clickOnEditBtn() {
-    cy.contains('.btn', 'Edit Article')
+    cy.getByDataCy('editBtn')
+      .first()
       .click();
   }
 
   clickOnDeleteBtn() {
-    cy.contains('.btn', 'Delete Article')
+    cy.getByDataCy('deleteBtn')
+      .first()
       .click();
   }
 }

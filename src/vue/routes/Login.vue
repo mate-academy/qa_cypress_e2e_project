@@ -19,6 +19,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="signInEmail"
                 data-cy="email-sign-in"
               />
             </fieldset>
