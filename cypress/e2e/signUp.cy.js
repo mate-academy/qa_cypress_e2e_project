@@ -7,7 +7,7 @@ describe('Sign Up page', () => {
     cy.visit('#/register');
   });
 
-  it('User is able to sign up with valid data', () => {
+  it('User is able to sign up with valid dataa', () => {
     const { username, email, password } = generateNewUser();
     cy.get('[data-qa="username-sign-up"]').type(username);
     cy.get('[data-qa="email-sign-up"]').type(email);
