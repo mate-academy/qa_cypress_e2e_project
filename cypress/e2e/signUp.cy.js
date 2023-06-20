@@ -1,9 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
-import HomePageObject from '../support/pages/home.pageObject';
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 
-const homePage = new HomePageObject();
 const signUpPage = new SignUpPageObject();
 
 describe('Sign Up page', () => {
@@ -44,7 +42,7 @@ describe('Sign Up page', () => {
     signUpPage.assertFailedSignUpInvalidEmail();
   });
 
-  it.only('should not provide an ability to register with password without any numbers', () => {
+  it('should not provide an ability to register with password without any numbers', () => {
     signUpPage.visit();
     signUpPage.usernameField.type(user.username);
     signUpPage.emailField.type(user.email);
