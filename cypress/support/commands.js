@@ -39,3 +39,25 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+
+Cypress.Commands.add('createArticle', (title, description, body, tags) => {
+  cy.request('POST', '/users', {
+    email: 'riot@qa.team',
+    username: 'riot',
+    password: '12345Qwert!'
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+
+    cy.request('POST', '/articles', {
+      article: {
+        title,
+        description,
+        body,
+        tags,
+        author_id: authorId
+      }
+    });
+  });
+});

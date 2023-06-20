@@ -33,6 +33,17 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    const wrongEmail = 'wrongemail@example.com';
+    const wrongPassword = 'wrongpassword';
+
+    signInPage.emailField.type(wrongEmail);
+    signInPage.passwordField.type(wrongPassword);
+    signInPage.signInBtn.click();
+
+    cy.get('.swal-text').should('contain', 'Invalid user credentials.');
+
+    homePage.usernameLink.should('not.exist');
   });
 });
