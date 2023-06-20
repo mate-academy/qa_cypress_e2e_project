@@ -10,6 +10,7 @@
                 <input
                   type="text"
                   class="form-control form-control-lg"
+                  data-qa="article-title-new-article"
                   v-model="article.title"
                   placeholder="Article Title"
                 />
@@ -18,6 +19,7 @@
                 <input
                   type="text"
                   class="form-control"
+                  data-qa="article-about-new-article"
                   v-model="article.description"
                   placeholder="What's this article about?"
                 />
@@ -25,6 +27,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control"
+                  data-qa="article-body-new-article"
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
@@ -34,6 +37,7 @@
               <fieldset class="form-group">
                 <vue-tags-input
                   placeholder="Enter tags"
+                  data-qa="tag-new-article"
                   class="form-control"
                   v-model="tag"
                   :tags="tags"
@@ -45,6 +49,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-qa="submit-btn-new-article"
             >
               Publish Article
             </button>
