@@ -41,14 +41,24 @@ Cypress.Commands.add(`registerNewUser`, () => {
     .then(response => ({...response.body.user, ...user}));
 });
 
-Cypress.Commands.add('getByDataCy', (selector) => {
+Cypress.Commands.add('getByDataQa', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
-  });
+Cypress.Commands.add('register', () => {
+  const user = generateNewUser();
+  cy.request('POST', '/users', user)
+    .then(response => ({ ...response.body.user, ...user }));
 });
+
+Cypress.Commands.add('login', (generateUser) => {
+  cy.request('POST', 'http://localhost:1667/users/login', {
+    user: {
+      email: user.email,
+      password: user.password,
+    }
+  })
+  .then(response => {
+    cy.setCookie('drash_sess', response.body.user.token)
+  });
+})
