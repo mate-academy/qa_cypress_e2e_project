@@ -16,13 +16,13 @@
 
 Go to `e2e` folder and cover listed functionality with e2e tests:
 
-- creating an article;
-- editings an article;
-- deleting an article;
-- sign in (positive);
-- sign in (invalid credentials);
-- sign up (positive);
-- sign up (negative);
+- creating an article; *(done)*
+- editings an article; *(done)*
+- deleting an article; *(done)*
+- sign in (positive); *(done)*
+- sign in (invalid credentials); *(done)*
+- sign up (positive); *(done)*
+- sign up (negative); *(done)*
 - following/unfollowing the user;
 - updating bio;
 - updating username;
