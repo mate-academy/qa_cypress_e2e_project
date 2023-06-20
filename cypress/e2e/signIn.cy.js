@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
-
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 
