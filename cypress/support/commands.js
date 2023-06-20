@@ -51,14 +51,17 @@ Cypress.Commands.add('register', () => {
     .then(response => ({ ...response.body.user, ...user }));
 });
 
-Cypress.Commands.add('login', (generateUser) => {
-  cy.request('POST', 'http://localhost:1667/users/login', {
-    user: {
-      email: user.email,
-      password: user.password,
-    }
+Cypress.Commands.add('login', () => {
+  cy.task('generateUser').then(generateUser => {
+    cy.wrap(generateUser).as('user')
+    cy.request('POST', 'http://localhost:1667/users', {
+        username: generateUser.username,
+        email: generateUser.email,
+        password: generateUser.password,
+    })
+
+    .then(response => {
+      cy.setCookie('drash_sess', response.body.user.token)
+    });
   })
-  .then(response => {
-    cy.setCookie('drash_sess', response.body.user.token)
-  });
-})
+});
