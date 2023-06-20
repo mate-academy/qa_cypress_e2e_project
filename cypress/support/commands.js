@@ -27,12 +27,13 @@
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
+const faker = require('faker');
 
 Cypress.Commands.add('getByDataQA', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = 'Qwert123!') => {
   cy.request('POST', '/users', {
     email,
     username,
@@ -40,46 +41,47 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
   });
 });
 
-Cypress.Commands.add('findByPlaceholder', (placeholder) => {
-  cy.get(`[placeholder="${placeholder}"]`);
-});
-
-Cypress.Commands.add('login', (email, password) => {
-  cy.request('POST', '/users/login', {
-    user: {
-      email,
-      password
-    }
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
   }).then(response => {
     const user = {
-      bio: response.body.user.bio,
-      effectiveImage: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+      id: response.body.user.id,
+      username: response.body.user.username,
       email: response.body.user.email,
+      bio: response.body.user.bio,
       image: response.body.user.image,
-      token: response.body.user.token,
-      username: response.body.user.username
+      token: response.body.user.token
     };
     window.localStorage.setItem('user', JSON.stringify(user));
-    cy.setCookie('auth', response.body.user.token);
+    cy.setCookie('drash_sess', response.body.user.token);
   });
 });
 
-Cypress.Commands.add('createArticle', (title, description, body) => {
-  cy.getCookie('auth').then((token) => {
-    const authToken = token.value;
+Cypress.Commands.add('createArticle', (title, description, body, tags) => {
+  cy.request({
+    url: '/users',
+    method: 'POST',
+    body: {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      username: faker.random.word()
+    }
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
     cy.request({
+      url: '/articles',
       method: 'POST',
-      url: 'api/articles',
       body: {
         article: {
           title,
           description,
           body,
-          tagList: []
+          tags,
+          author_id: response.body.user.id
         }
-      },
-      headers: {
-        Authorization: `Token ${authToken}`
       }
     });
   });
