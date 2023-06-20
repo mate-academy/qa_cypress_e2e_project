@@ -56,8 +56,8 @@ Cypress.Commands.add('createArticle', (title, description, body, tags) => {
     method: 'POST',
     url: '/users',
     body: {
-      username: 'riot1',
-      email: 'riot1@qa.team',
+      username: 'riot',
+      email: 'riot@qa.team',
       password: '12345Qwerty!'
     }
   }).then((response) => {

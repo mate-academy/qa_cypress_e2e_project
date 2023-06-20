@@ -2,9 +2,11 @@
 /// <reference types="../support" />
 import NewArticlePageObject from '../support/pages/newArticle.pageObject';
 import ArticlePageObject from '../support/pages/article.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const newArticlePage = new NewArticlePageObject();
 const articlePage = new ArticlePageObject();
+const homePage = new HomePageObject();
 let article;
 
 describe('Article', () => {
@@ -44,6 +46,13 @@ describe('Article', () => {
   });
 
   it('should be deleted using Delete button', () => {
-
+    newArticlePage.visit();
+    cy.reload();
+    cy.createArticle(article.title, article.description, article.body, article.tag).then((respons) => {
+      const slug = respons.body.article.slug;
+      articlePage.visitArticlePage(slug);
+    });
+    articlePage.deleteBtn.click();
+    homePage.assertDeletingArticle(article.title);
   });
 });

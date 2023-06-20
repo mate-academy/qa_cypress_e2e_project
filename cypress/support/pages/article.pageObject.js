@@ -1,6 +1,8 @@
 import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
+  url = '#/articles/';
+
   visitArticlePage(slug) {
     cy.visit(`#/articles/${slug}`);
   }
