@@ -10,7 +10,6 @@ let article;
 describe('Article', () => {
   beforeEach(() => {
     cy.task('db:clear');
-    cy.login();
     cy.task('generateArticle')
       .then(generateArticle => {
         article = generateArticle;
@@ -18,6 +17,7 @@ describe('Article', () => {
   });
 
   it('should be created using New Article form', () => {
+    cy.register();
     newArticlePage.visit();
     newArticlePage.articleTitleField.type(article.title);
     newArticlePage.articleDescriptionField.type(article.description);
@@ -29,7 +29,18 @@ describe('Article', () => {
   });
 
   it('should be edited using Edit button', () => {
-
+    newArticlePage.visit();
+    cy.reload();
+    cy.createArticle(article.title, article.description, article.body, article.tag).then((respons) => {
+      const slug = respons.body.article.slug;
+      articlePage.visitArticlePage(slug);
+    });
+    articlePage.editBtn.click();
+    newArticlePage.articleTitleField.type(`{selectAll}${article.title}`);
+    newArticlePage.articleBodyField.type(`{selectAll}${article.body}`);
+    newArticlePage.submitBtn.click();
+    articlePage.assertArticleTitle(article.title);
+    articlePage.assertArticleBody(article.body);
   });
 
   it('should be deleted using Delete button', () => {

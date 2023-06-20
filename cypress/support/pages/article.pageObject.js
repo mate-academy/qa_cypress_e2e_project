@@ -1,7 +1,9 @@
 import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
-  url = '#/articles/';
+  visitArticlePage(slug) {
+    cy.visit(`#/articles/${slug}`);
+  }
 
   get articleTitleContainer() {
     return cy.getByDataCy('article-title');
@@ -17,6 +19,14 @@ class ArticlePageObject extends PageObject {
 
   assertArticleBody(body) {
     this.articleBodyContainer.should('contain', body);
+  }
+
+  get editBtn() {
+    return cy.getByDataCy('edit-btn-article-page').eq(0);
+  }
+
+  get deleteBtn() {
+    return cy.getByDataCy('delete-btn-article-page').eq(0);
   }
 }
 
