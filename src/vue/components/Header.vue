@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="signIn-link"
             class="nav-link"
             active-class="active"
             exact
@@ -69,9 +70,9 @@
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
         </li>
-        <li class="nav-item" v-if="user.username">
+        <li class="nav-item" data-qa="header-nav-username" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact

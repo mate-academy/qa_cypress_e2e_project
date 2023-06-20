@@ -26,6 +26,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-qa="follow-author-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
@@ -47,6 +48,7 @@
                 <router-link
                   class="nav-link"
                   active-class="active"
+                  data-qa="my-articles-tab"
                   exact
                   :to="{ name: 'profile', params: { username: profile.username } }"
                 >
