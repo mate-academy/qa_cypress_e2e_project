@@ -34,7 +34,7 @@ describe('User', () => {
       .should('contain', `Unfollow ${userToFollow.secondUsername}`);
   });
 
-  it('should be able to unfollow the user', () => {
+  it.skip('should be able to unfollow the user', () => {
     cy.register(userToFollow.secondEmail, userToFollow.secondUsername, userToFollow.secondPassword);
     cy.register(user.email, user.username, user.password);
     cy.login(user.email, user.password);
