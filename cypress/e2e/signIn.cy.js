@@ -17,22 +17,26 @@ describe('Sign In page', () => {
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
+  beforeEach(() => {
     signInPage.visit();
+  });
+
+  it('should provide an ability to log in with existing credentials', () => {
     cy.register(user.email, user.username, user.password);
-
-    signInPage.emailField
-      .type(user.email);
-    signInPage.passwordField
-      .type(user.password);
-    signInPage.signInBtn
-      .click();
-
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
     homePage.usernameLink
       .should('contain', user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong Email', () => {
+    signInPage.loginWrongEmail(user.email, user.password);
+    signInPage.assertloginFailed('Login failed!', 'Invalid user credentials.');
+  });
 
+  it('should not provide an ability to log in with wrong Password', () => {
+    signInPage.loginWrongPassword(user.email, user.password);
+    signInPage.assertloginFailed('Login failed!', 'Invalid user credentials.');
   });
 });
