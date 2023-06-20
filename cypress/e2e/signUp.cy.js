@@ -10,6 +10,7 @@ describe('Sign Up page', () => {
 
   it('User is able to sign up with valid data', () => {
     const {username, email, password} = generateNewUser();
+    
     cy.get('[data-qa="username-sign-up"]').type(username);
     cy.get('[data-qa="email-sign-up"]').type(email);
     cy.get('[data-qa="password-sign-up"]').type(password);
