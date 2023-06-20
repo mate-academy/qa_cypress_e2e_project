@@ -12,11 +12,11 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const name = faker.name.firstName() + faker.name.lastName();
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: name.toLowerCase(),
+            email: faker.internet.email(),
+            password: '!234Qwert'
           };
         },
         generateArticle() {
