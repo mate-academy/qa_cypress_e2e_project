@@ -8,7 +8,9 @@
             <h4 data-cy="profile-username">
               {{ profile.username }}
             </h4>
-            <p>{{ profile.bio }}</p>
+            <p
+              data-cy="profile-bio"
+            >{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"

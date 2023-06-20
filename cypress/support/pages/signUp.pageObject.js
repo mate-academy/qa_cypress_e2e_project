@@ -18,6 +18,10 @@ class SignUpPageObject extends PageObject {
   get signUpBtn() {
     return cy.getByDataCy('sign-up-btn');
   }
+
+  assertRegistration(modalText) {
+    cy.get('.swal-modal').should('contain', modalText);
+  }
 }
 
 export default SignUpPageObject;

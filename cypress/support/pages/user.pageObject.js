@@ -1,16 +1,23 @@
 import PageObject from '../PageObject';
 
 class userPageObject extends PageObject {
+  visitUserPage(username) {
+    cy.visit(`#/@${username}/`);
+  }
 
-  get username() {
+  get profileUsername() {
     return cy.getByDataCy('profile-username');
   }
   
-  get unfollowUser() {
+  get profileBio() {
+    return cy.getByDataCy('profile-bio');
+  }
+  
+  get unfollowBtn() {
     return cy.getByDataCy('profile-unfollow');
   }
 
-  get followUser() {
+  get followBtn() {
     return cy.getByDataCy('profile-follow');
   }
 }

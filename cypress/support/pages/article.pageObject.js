@@ -1,14 +1,28 @@
 import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
- // url = '/#/articles/' + ;
+  visitArticlePage(title) {
+    cy.visit(`http://localhost:1667/#/articles/${title}`);
+  }
 
   get editArticleBtn() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy('article-edit-btn');
   }
 
   get deleteArticleBtn() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataCy('article-delete-btn');
+  }
+
+  get articleTitleContainer() {
+    return cy.getByDataCy('banner-article-title');
+  }
+
+  assertArticleTitle(title) {
+    this.articleTitleContainer.should('contain', title);
+  }
+
+  assertDeletingArticle(modalText) {
+    cy.getByDataCy('article-list-global-feed').should('contain', modalText);
   }
 }
 
