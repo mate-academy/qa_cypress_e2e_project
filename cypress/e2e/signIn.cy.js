@@ -10,15 +10,15 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
     });
+    signInPage.visit();
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
     cy.register(user.email, user.username, user.password);
 
     signInPage.emailField
@@ -33,6 +33,16 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.emailField
+      .type('random@email.haha');
+    signInPage.passwordField
+      .type(user.password);
+    signInPage.signInBtn
+      .click();
+
+    homePage.modalWindow
+      .should('contain', 'Invalid user credentials.');
   });
 });

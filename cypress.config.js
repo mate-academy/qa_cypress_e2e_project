@@ -13,15 +13,22 @@ module.exports = defineConfig({
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName = faker.name.firstName();
+          const newUsername = faker.name.firstName() + '_NEW';
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: userName + randomNumber,
+            newUsername,
+            bio: faker.lorem.words(),
+            email: userName + randomNumber + '@mail.com',
+            newEmail: newUsername + randomNumber + '@new.mail',
+            password: '12345Qwert!',
+            newPassword: 'NewPasswordVeryLongAhahahah!!1'
           };
         },
         generateArticle() {
           return {
             title: faker.lorem.word(),
+            newTitle: 'ThisIsTheNewArticleTitle!',
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
