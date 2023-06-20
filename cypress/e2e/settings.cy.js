@@ -52,7 +52,7 @@ describe('Settings page', () => {
     settingsPage.emailField.should('have.value', user.email);
   });
 
-  it.only('should provide an ability to update password', () => {
+  it('should provide an ability to update password', () => {
     settingsPage.visit();
     settingsPage.typePassword(user.password);
     settingsPage.clickOnUpdate();

@@ -4,7 +4,11 @@ class UserPageObject extends PageObject {
   url = '/#/';
   
   get userBio() {
-    return cy.getByDataCy('userBio')
+    return cy.getByDataCy('userBio');
+  }
+
+  get followBtn() {
+    return cy.getByDataCy('followUserBtn');
   }
 
 }

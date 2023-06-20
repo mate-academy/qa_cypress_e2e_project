@@ -42,6 +42,14 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
       });
     });;
 
+Cypress.Commands.add('createUser', (email, username, password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  })
+  });;
+
 Cypress.Commands.add('createArticle', (title, description, body, tags) => {
     cy.request('POST', '/users', {
       email: 'riot@qa.team',
