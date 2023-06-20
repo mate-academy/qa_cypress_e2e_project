@@ -7,12 +7,27 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('signInEmail');
   }
 
+  typeEmail(email) {
+    this.emailField
+      .type(email);
+  }
+
   get passwordField() {
     return cy.getByDataCy('passwordSignIn');
   }
 
+  typePassword(password) {
+    this.passwordField
+      .type(password);
+  }
+
   get signInBtn() {
     return cy.getByDataCy('signInBtn');
+  }
+
+  clickOnSignIn() {
+    this.signInBtn
+      .click();
   }
 
   checkFailedSignIn() {
