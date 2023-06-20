@@ -8,11 +8,11 @@ class ArticlePageObject extends PageObject {
   }
 
   get articleTitleContainer() {
-    return cy.getByDataCy('article-title');
+    return cy.getByDataQa('article-title');
   }
 
   get articleBodyContainer() {
-    return cy.getByDataCy('article-body');
+    return cy.getByDataQa('article-body');
   }
 
   assertArticleTitle(title) {
@@ -24,11 +24,11 @@ class ArticlePageObject extends PageObject {
   }
 
   get editBtn() {
-    return cy.getByDataCy('edit-btn-article-page').eq(0);
+    return cy.getByDataQa('edit-btn-article-page').eq(0);
   }
 
   get deleteBtn() {
-    return cy.getByDataCy('delete-btn-article-page').eq(0);
+    return cy.getByDataQa('delete-btn-article-page').eq(0);
   }
 }
 
