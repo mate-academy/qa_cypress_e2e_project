@@ -11,7 +11,7 @@ const homePage = new HomePageObject();
 describe('Sign Up page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
@@ -52,7 +52,7 @@ describe('Sign Up page', () => {
     signUpPage.modalWindow.should('contain', 'Password field required.');
   });
 
-  it.only('should not provide an ability to register user with invalid password', () => {
+  it('should not provide an ability to register user with invalid password', () => {
     signUpPage.visit();
     signUpPage.typeUsername(user.username);
     signUpPage.typeEmail(user.email);
