@@ -5,6 +5,9 @@ import ArticleEditorPageObject from "../support/pages/articleEditor.pageObject";
 import ArticlesPageObject from "../support/pages/articles.pageObject";
 import HomePageObject from "../support/pages/home.pageObject";
 
+
+
+
 const articleEditorPage = new ArticleEditorPageObject();
 const articlesPage = new ArticlesPageObject();
 const homePage = new HomePageObject();
@@ -54,7 +57,7 @@ describe('Article', () => {
     articlesPage.articleTitle.should('contain', 'new Title');
   });
 
-  it.only('should be deleted using Delete button', () => {
+  it('should be deleted using Delete button', () => {
     cy.createArticle(testData.title, testData.description, testData.body, testData.tag).then((respons) => {
       const slug = respons.body.article.slug;
 

@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
@@ -41,13 +42,13 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
       });
     });;
 
-    Cypress.Commands.add('createUser', (email, username, password = '12345Qwert!') => {
-      cy.request('POST', '/users', {
-        email,
-        username,
-        password
-      })
-      });;
+Cypress.Commands.add('createUser', (email, username, password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  })
+  });;
 
 Cypress.Commands.add('createArticle', (title, description, body, tags) => {
     cy.request('POST', '/users', {
@@ -57,7 +58,7 @@ Cypress.Commands.add('createArticle', (title, description, body, tags) => {
     }).then(response => {
       cy.setCookie('drash_sess', response.body.user.token);
       const authorId = response.body.user.id;
-
+      
       cy.request('POST', '/articles', {
       article: {
       title,
@@ -69,4 +70,3 @@ Cypress.Commands.add('createArticle', (title, description, body, tags) => {
     }) 
   });
 });;
-

@@ -26,3 +26,4 @@ class ArticleEditorPageObject extends PageObject {
 }
 
 export default ArticleEditorPageObject;
+
