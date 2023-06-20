@@ -19,7 +19,6 @@ describe('Settings page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.wait(100);
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
     });
