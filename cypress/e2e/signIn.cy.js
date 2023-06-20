@@ -32,7 +32,7 @@ describe('Sign In page', () => {
       .should('contain', user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to sign in with wrong email', () => {
     cy.register(user.email, user.username, user.password);
     signInPage.visit();
 
@@ -40,6 +40,20 @@ describe('Sign In page', () => {
       .type(`iia${user.email}`);
     signInPage.passwordField
       .type(user.password);
+    signInPage.signInBtn
+      .click();
+
+    signInPage.assertFailedSignIn();
+  });
+
+  it('should not provide an ability to sign in with wrong password', () => {
+    cy.register(user.email, user.username, user.password);
+    signInPage.visit();
+
+    signInPage.emailField
+      .type(user.email);
+    signInPage.passwordField
+      .type(`wrong${user.password}`);
     signInPage.signInBtn
       .click();
 

@@ -18,6 +18,8 @@ class SignInPageObject extends PageObject {
   assertFailedSignIn() {
     cy.get('.swal-title')
       .should('contain', 'Login failed!');
+    cy.get('.swal-text')
+      .should('contain', 'Invalid user credentials.');
   }
 }
 
