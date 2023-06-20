@@ -14,6 +14,14 @@ class SignInPageObject extends PageObject {
   get signInBtn() {
     return cy.getByDataCy('sign-in-btn');
   }
+
+  checkMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+  }
+
+  closeModalWindow() {
+    cy.get('.swal-button').click();
+  }
 }
 
 export default SignInPageObject;

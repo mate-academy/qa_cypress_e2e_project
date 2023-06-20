@@ -36,6 +36,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  
                 />
               </fieldset>
               <fieldset class="form-group">

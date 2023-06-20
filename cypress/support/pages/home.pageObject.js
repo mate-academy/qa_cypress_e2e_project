@@ -11,6 +11,16 @@ class HomePageObject extends PageObject {
     cy.get('.article-preview')
       .should('contain', 'No articles');
   }
+
+  checkRegistration() {
+    cy.get('.swal-text')
+      .should('contain', 'Your registration was successful!');
+  }
+
+  clickOnOkBtn() {
+    cy.get('.swal-button')
+      .click();
+  }
 }
 
 export default HomePageObject;
