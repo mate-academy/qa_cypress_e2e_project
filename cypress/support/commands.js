@@ -28,8 +28,8 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('getByDataQa', (selector) => {
+  cy.get(`[data-qa="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
@@ -37,5 +37,52 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     email,
     username,
     password
+  });
+});
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users/login', {
+    user: {
+      email,
+      username,
+      password
+    }
+  }).then(response => {
+    const user = {
+      bio: response.body.user.bio,
+      effectiveImage: "https://static.productionready.io/images/smiley-cyrus.jpg",
+      email: response.body.user.email,
+      image: response.body.user.image,
+      token: response.body.user.token,
+      username: response.body.user.username,
+    };
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle', (email, username, password, title, description, body, tags) => {
+  cy.request('POST', '/users/login', {
+    user: {
+      email,
+      username,
+      password
+    }
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+    const authToken = response.body.user.token;
+
+    cy.request('POST', '/articles', {
+      headers: {
+        Cookie: `drash_sess=${authToken}`
+      },
+      article: {
+        title,
+        description,
+        body,
+        tags: `${tags}{enter}`,
+        author_id: authorId
+      }
+    })
   });
 });
