@@ -36,6 +36,7 @@
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
+                data-qa="signUpPassword"
                 placeholder="Password"
               />
             </fieldset>
