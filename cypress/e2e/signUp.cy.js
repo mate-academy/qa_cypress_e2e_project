@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign Up page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
@@ -97,7 +97,7 @@ describe('Sign Up page', () => {
     cy.sweetAlertConfirmBtn('OK');
   });
 
-  it.only('should not provide an ability to sign up without valid password', () => {
+  it('should not provide an ability to sign up without valid password', () => {
     signUpPage.visit();
 
     signUpPage.signUpUsernameField

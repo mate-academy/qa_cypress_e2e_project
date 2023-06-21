@@ -7,7 +7,7 @@ import ArticlePageObject from '../support/pages/article.pageObject';
 const newArticle = new NewArticlePageObject();
 const articlePage = new ArticlePageObject();
 
-describe('User', () => {
+describe('Article', () => {
   let article;
 
   before(() => {
