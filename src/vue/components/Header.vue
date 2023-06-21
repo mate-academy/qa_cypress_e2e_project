@@ -15,7 +15,7 @@
             Home
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-qa="sign-in-link">
           <router-link
             class="nav-link"
             active-class="active"
@@ -25,7 +25,7 @@
             <i class="ion-compose"></i>Sign in
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-qa="sign-up-link">
           <router-link
             class="nav-link"
             active-class="active"
@@ -61,6 +61,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="settings-link"
             class="nav-link"
             active-class="active"
             exact
@@ -71,7 +72,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
