@@ -19,20 +19,23 @@ describe('Sign In page', () => {
 
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+    cy.login(user.email, user.username, user.password);
 
-    signInPage.emailField
-      .type(user.email);
-    signInPage.passwordField
-      .type(user.password);
-    signInPage.signInBtn
-      .click();
+    signInPage.emailField.type(user.email);
+    signInPage.passwordField.type(user.password);
+    signInPage.signInBtn.click();
 
     homePage.usernameLink
       .should('contain', user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.emailField.type(user.email);
+    signInPage.passwordField.type('1');
+    signInPage.signInBtn.click();
+    signInPage.checkMessage();
+    signInPage.closeModalWindow();
   });
 });
