@@ -29,7 +29,7 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+  cy.get(`[data-qa="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
@@ -39,3 +39,47 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+      email,
+      username,
+      password
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle', (title, description, body, tags) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:1667/users',
+    body: {
+      username: 'riot',
+      email: 'riot@qa.team',
+      password: '12345Qwert!'
+    }
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+    const authToken = response.body.user.token;
+
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:1667/articles',
+      headers: {
+        Cookie: `drash_sess=${authToken}`
+      },
+      body: {
+        article: {
+          title,
+          description,
+          body,
+          tags: `${tags}{enter}`,
+          author_id: authorId
+        }
+      }
+    })
+  });
+});
+
