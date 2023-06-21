@@ -9,6 +9,8 @@ const {
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
+    viewportHeight: 800,
+    viewportWidth: 1280,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
