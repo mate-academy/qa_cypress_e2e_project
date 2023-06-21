@@ -26,7 +26,9 @@
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 import faker from 'faker';
+
 import { generateNewUser } from './generateNewUser';
+import { generateNewArticle } from './generateNewArticle';
 
 addMatchImageSnapshotCommand();
 
@@ -54,6 +56,7 @@ Cypress.Commands.add('register', () => {
 Cypress.Commands.add('login', () => {
   cy.task('generateUser').then(generateUser => {
     cy.wrap(generateUser).as('user')
+
     cy.request('POST', 'http://localhost:1667/users', {
         username: generateUser.username,
         email: generateUser.email,
@@ -62,6 +65,26 @@ Cypress.Commands.add('login', () => {
 
     .then(response => {
       cy.setCookie('drash_sess', response.body.user.token)
+    });
+  })
+});
+
+Cypress.Commands.add('createArticle', () => {
+  const user = generateNewUser();
+  const article = generateNewArticle();
+
+  cy.request('POST', '/users', user).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const author_id = response.body.user.id;
+
+    return cy.request('POST', '/articles', {
+      article: {
+        title: article.title,
+        description: article.description,
+        body: article.body,
+        tagList: article.tagList,
+        author_id: author_id
+      }
     });
   })
 });
