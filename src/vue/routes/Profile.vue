@@ -21,7 +21,7 @@
                 v-if="profile.following"
                 @click.prevent="unfollow()"
               >
-                <i class="ion-plus-round"></i> &nbsp;Unfollow
+                <i dataqa="unfollow-user-btn" class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
               </button>
               <button
@@ -29,7 +29,7 @@
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
-                <i class="ion-plus-round"></i> &nbsp;Follow
+                <i dataqa="follow-user-btn" class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}
               </button>
             </div>

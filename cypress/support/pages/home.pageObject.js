@@ -7,6 +7,10 @@ class HomePageObject extends PageObject {
     return cy.getByDataQa('username-link');
   }
 
+  assertUsername(username) {
+    this.usernameLink.should('contain', username);
+  }
+
   get globalFeed() {
     return cy.getByDataQa('Global-Feed');
   }
@@ -18,6 +22,29 @@ class HomePageObject extends PageObject {
   assertAfterDeleteArticle() {
     this.globalFeed.should('contain', 'Global Feed');
     this.NoArticleMessage.should('contain', 'No articles are here... yet.');
+  }
+
+  assertLogOUtHomePage() {
+    cy.getByDataCy('navbar-links-logout')
+      .should('contain', 'Home')
+      .and('contain', 'Sign in')
+      .and('contain', 'Sign up');
+  }
+
+  get registrationSuccessModal() {
+    return cy.get('.swal-modal');
+  }
+
+  assertRegistrationSuccessModal(message) {
+    this.registrationSuccessModal.should('contain', message);
+  }
+
+  get successModalOkBtn() {
+    return cy.contains('.swal-button', 'OK');
+  }
+
+  clickOnModalOkBtn() {
+    this.successModalOkBtn.click();
   }
 }
 
