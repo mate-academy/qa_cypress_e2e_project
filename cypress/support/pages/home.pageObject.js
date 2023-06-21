@@ -21,6 +21,17 @@ class HomePageObject extends PageObject {
     cy.get('.swal-button')
       .click();
   }
+
+  get navMenu() {
+    return cy.get('.navbar-light');
+  }
+
+  assertLogOUtHomePage() {
+    cy.getByDataCy('navbar-links-logout')
+      .should('contain', 'Home')
+      .and('contain', 'Sign in')
+      .and('contain', 'Sign up');
+  }
 }
 
 export default HomePageObject;

@@ -70,7 +70,7 @@ describe('Sign Up page', () => {
     signUpPage.modalWindow.should('contain', 'Password field required.');
   });
 
-  it.only('should not provide an ability to sign up with only 8 spices in password field', () => {
+  it('should not provide an ability to sign up with only 8 spices in password field', () => {
     signUpPage.visit();
     signUpPage.usernameField.type(user.username);
     signUpPage.emailField.type(user.email);
