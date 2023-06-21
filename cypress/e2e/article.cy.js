@@ -21,11 +21,11 @@ describe('Article', () => {
   it('should be created using New Article form', () => {
     cy.register();
     newArticlePage.visit();
-    newArticlePage.articleTitleField.type(article.title);
-    newArticlePage.articleDescriptionField.type(article.description);
-    newArticlePage.articleBodyField.type(article.body);
-    newArticlePage.articleTagField.type(article.tag);
-    newArticlePage.submitBtn.click();
+    newArticlePage.typeArticleTitle(article.title);
+    newArticlePage.typeArticleDescription(article.description);
+    newArticlePage.typeArticleBody(article.body);
+    newArticlePage.typeArticleTag(article.tag);
+    newArticlePage.clickSubmitBtn();
     articlePage.assertArticleTitle(article.title);
     articlePage.assertArticleBody(article.body);
   });
@@ -37,10 +37,10 @@ describe('Article', () => {
       const slug = respons.body.article.slug;
       articlePage.visitArticlePage(slug);
     });
-    articlePage.editBtn.click();
-    newArticlePage.articleTitleField.type(`{selectAll}${article.title}`);
-    newArticlePage.articleBodyField.type(`{selectAll}${article.body}`);
-    newArticlePage.submitBtn.click();
+    articlePage.clickEditBtn();
+    newArticlePage.typeNewArticleTitle(article.title);
+    newArticlePage.typeNewArticleBody(article.body);
+    newArticlePage.clickSubmitBtn();
     articlePage.assertArticleTitle(article.title);
     articlePage.assertArticleBody(article.body);
   });
@@ -52,7 +52,7 @@ describe('Article', () => {
       const slug = respons.body.article.slug;
       articlePage.visitArticlePage(slug);
     });
-    articlePage.deleteBtn.click();
+    articlePage.clickDeleteBtn();
     homePage.assertDeletingArticle(article.title);
   });
 });

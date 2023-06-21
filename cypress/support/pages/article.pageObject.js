@@ -16,19 +16,33 @@ class ArticlePageObject extends PageObject {
   }
 
   assertArticleTitle(title) {
-    this.articleTitleContainer.should('contain', title);
+    this.articleTitleContainer
+      .should('contain', title);
   }
 
   assertArticleBody(body) {
-    this.articleBodyContainer.should('contain', body);
+    this.articleBodyContainer
+      .should('contain', body);
   }
 
   get editBtn() {
-    return cy.getByDataQa('edit-btn-article-page').eq(0);
+    return cy.getByDataQa('edit-btn-article-page')
+      .eq(0);
+  }
+
+  clickEditBtn() {
+    this.editBtn
+      .click();
   }
 
   get deleteBtn() {
-    return cy.getByDataQa('delete-btn-article-page').eq(0);
+    return cy.getByDataQa('delete-btn-article-page')
+      .eq(0);
+  }
+
+  clickDeleteBtn() {
+    this.deleteBtn
+      .click();
   }
 }
 

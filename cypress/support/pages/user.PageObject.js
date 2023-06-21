@@ -5,21 +5,33 @@ class UserPageObject extends PageObject {
     cy.visit(`#/@${username}/`);
   }
 
+  get followBtn() {
+    return cy.getByDataQa('follow-btn');
+  }
+
   clickFollowBtn() {
-    cy.getByDataQa('follow-btn').click();
+    this.followBtn
+      .click();
+  }
+
+  get unfollowBtn() {
+    return cy.getByDataQa('unfollow-btn');
   }
 
   clickUnfollowBtn() {
-    cy.getByDataQa('unfollow-btn').click();
+    this.unfollowBtn
+      .click();
   }
 
   assertSuccessfulFollowUser(username) {
-    cy.getByDataQa('unfollow-btn').should('be.visible')
+    this.unfollowBtn
+      .should('be.visible')
       .and('contain', `Unfollow ${username}`);
   }
 
   assertSuccessfulUnfollowUser(username) {
-    cy.getByDataQa('follow-btn').should('be.visible')
+    this.followBtn
+      .should('be.visible')
       .and('contain', `Follow ${username}`);
   }
 }

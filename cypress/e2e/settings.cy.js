@@ -2,55 +2,75 @@
 /// <reference types="../support" />
 import SettingsPageObject from '../support/pages/settings.PageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const settingsPage = new SettingsPageObject();
 const homePage = new HomePageObject();
+const signInPage = new SignInPageObject();
+
 describe('Settings page', () => {
   let newData;
+  let user;
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateNewData').then(generateNewData => {
       newData = generateNewData;
     });
+    cy.task('generateUser').then(generateUser => {
+      user = generateUser;
+    });
     cy.register();
   });
 
   it('should provide an ability to update username', () => {
     settingsPage.visit();
-    settingsPage.usernameField.type(`{selectAll}${newData.username}`);
-    settingsPage.updateSettingsBtn.click();
+    settingsPage.typeNewUsername(newData.username);
+    settingsPage.clickUpdateSettingsBtn();
     settingsPage.assertMessageAboutUpdatingData();
-    homePage.usernameLink.should('contain', newData.username);
+    homePage.assetrNewUsername(newData.username);
   });
 
   it('should provide an ability to update bio', () => {
     settingsPage.visit();
-    settingsPage.bioField.type(`{selectAll}${newData.bio}`);
-    settingsPage.updateSettingsBtn.click();
+    settingsPage.typeNewBio(newData.bio);
+    settingsPage.clickUpdateSettingsBtn();
     settingsPage.assertMessageAboutUpdatingData();
-    homePage.usernameLink.click();
+    homePage.clickUsernameLink();
     settingsPage.assertMessageAboutUpdatingBio(newData.bio);
   });
 
-  it('should provide an ability to update an email', () => {
-    //settingsPage.visit();
-    //settingsPage.emailField.type(`{selectAll}${newData.email}`);
-    //settingsPage.updateSettingsBtn.click();
-    //settingsPage.assertMessageAboutUpdatingData();
-    //settingsPage.emailField.should('to.have.value', newData.email);
+  it.skip('should provide an ability to update an email', () => {
+    settingsPage.visit();
+    settingsPage.typeNewEmail(newData.email);
+    settingsPage.clickUpdateSettingsBtn();
+    settingsPage.assertMessageAboutUpdatingData();
+    settingsPage.clickLogoutBtn();
+    signInPage.visit();
+    signInPage.typeEmail(newData.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    homePage.assertSuccessfulLogin(user.username);
   });
 
   it('should provide an ability to update password', () => {
-    //settingsPage.visit();
-    //settingsPage.passwordField.type(`{selectAll}${newData.password}`);
-    //settingsPage.updateSettingsBtn.click();
-    //settingsPage.assertMessageAboutUpdatingData();
+    cy.register(user.email, user.username, user.password);
+    cy.login(user.email, user.password);
+    settingsPage.visit();
+    settingsPage.typeNewPassword(newData.password);
+    settingsPage.clickUpdateSettingsBtn();
+    settingsPage.assertMessageAboutUpdatingData();
+    settingsPage.clickLogoutBtn();
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(newData.password);
+    signInPage.clickSignInBtn();
+    homePage.assertSuccessfulLogin(user.username);
   });
 
   it('should provide an ability to log out', () => {
     settingsPage.visit();
-    settingsPage.logoutBtn.click();
+    settingsPage.clickLogoutBtn();
     settingsPage.assertSuccessfulLogout();
   });
 });

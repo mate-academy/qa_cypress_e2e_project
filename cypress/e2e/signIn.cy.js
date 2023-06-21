@@ -19,27 +19,27 @@ describe('Sign In page', () => {
   it('should provide an ability to log in with existing credentials', () => {
     cy.register(user.email, user.username, user.password);
     signInPage.visit();
-    signInPage.emailField.type(user.email);
-    signInPage.passwordField.type(user.password);
-    signInPage.signInBtn.click();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
     homePage.assertSuccessfulLogin(user.username);
   });
 
   it('should not provide an ability to log in with wrong email', () => {
     cy.register(user.email, user.username, user.password);
     signInPage.visit();
-    signInPage.emailField.type('test@qa.team');
-    signInPage.passwordField.type(user.password);
-    signInPage.signInBtn.click();
+    signInPage.typeEmail('test@qa.team');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
     signInPage.assertFailedLogIn();
   });
 
   it('should not provide an ability to log in with wrong password', () => {
     cy.register(user.email, user.username, user.password);
     signInPage.visit();
-    signInPage.emailField.type(user.email);
-    signInPage.passwordField.type('password');
-    signInPage.signInBtn.click();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('password');
+    signInPage.clickSignInBtn();
     signInPage.assertFailedLogIn();
   });
 });

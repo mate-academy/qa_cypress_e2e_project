@@ -7,24 +7,54 @@ class SettingsPageObject extends PageObject {
     return cy.getByDataQa('username-settings');
   }
 
+  typeNewUsername(newUsername) {
+    this.usernameField
+      .type(`{selectAll}${newUsername}`);
+  }
+
   get bioField() {
     return cy.getByDataQa('bio-settings');
+  }
+
+  typeNewBio(newBio) {
+    this.bioField
+      .type(`{selectAll}${newBio}`);
   }
 
   get emailField() {
     return cy.getByDataQa('email-settings');
   }
 
+  typeNewEmail(newEmail) {
+    this.emailField
+      .type(`{selectAll}${newEmail}`);
+  }
+
   get passwordField() {
     return cy.getByDataQa('password-settings');
+  }
+
+  typeNewPassword(newPassword) {
+    this.passwordField
+      .type(`{selectAll}${newPassword}`);
   }
 
   get updateSettingsBtn() {
     return cy.getByDataQa('update-btn-settings');
   }
 
+  clickUpdateSettingsBtn() {
+    this.updateSettingsBtn
+      .click();
+  }
+
   get logoutBtn() {
     return cy.getByDataQa('logout-btn-settings');
+  }
+
+  clickLogoutBtn() {
+    this.logoutBtn
+      .click();
   }
 
   assertMessageAboutUpdatingData() {

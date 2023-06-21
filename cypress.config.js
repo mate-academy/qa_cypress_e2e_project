@@ -27,6 +27,15 @@ module.exports = defineConfig({
             tag: faker.lorem.word()
           };
         },
+        generateNewData() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'user' + `${randomNumber}` + '@gmail.com',
+            password: 'Asdfg12345!'
+          };
+        },
         'db:clear'() {
           clear();
 

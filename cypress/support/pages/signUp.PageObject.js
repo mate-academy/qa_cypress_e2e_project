@@ -7,16 +7,36 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataQa('username-sign-up');
   }
 
+  typeUsername(username) {
+    this.usernameField
+      .type(username);
+  }
+
   get emailField() {
     return cy.getByDataQa('email-sign-up');
+  }
+
+  typeEmail(email) {
+    this.emailField
+      .type(email);
   }
 
   get passwordField() {
     return cy.getByDataQa('password-sign-up');
   }
 
+  typePassword(password) {
+    this.passwordField
+      .type(password);
+  }
+
   get signInBtn() {
     return cy.getByDataQa('sign-up-btn');
+  }
+
+  clickSignInBtn() {
+    this.signInBtn
+      .click();
   }
 
   assertSuccessfulSignUp() {
