@@ -21,13 +21,10 @@ describe('User', () => {
 
   it.skip('should be able to follow the another user', () => {
     cy.register(userForFollow.email, userForFollow.username, userForFollow.password);
-    cy.wait(1000);
 
     cy.login(userFollower.email, userFollower.username, userFollower.password);
 
     userPage.visitUserPage(userForFollow.username);
-    cy.wait(1000);
-
     userPage.followBtn.click();
     userPage.should('contain', 'Unfollow');
   });

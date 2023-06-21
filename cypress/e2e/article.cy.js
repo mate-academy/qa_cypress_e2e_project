@@ -21,8 +21,8 @@ describe('Article', () => {
   beforeEach(() => {
     cy.task('db:clear');
     cy.wait(500);
+
     cy.login();
-    cy.wait(500);
     cy.task('generateArticle').then(generateArticle => {
       article = generateArticle;
     });
@@ -34,7 +34,6 @@ describe('Article', () => {
     publishArticle.articleDescriptionField.clear().type(article.description);
     publishArticle.articleBodyField.clear().type(article.body);
     publishArticle.publishBtn.click();
-    cy.wait(1000);
 
     articlePage.assertArticleTitle(article.title);
   });
@@ -44,18 +43,17 @@ describe('Article', () => {
     publishArticle.articleDescriptionField.clear().type(article.description);
     publishArticle.articleBodyField.clear().type(article.body);
     publishArticle.publishBtn.click();
-    cy.wait(1000);
+
     articlePage.assertArticleTitle(article.title);
 
     articlePage.visitArticlePage(article.title);
-
     articlePage.editArticleBtn.eq(0).click();
 
     publishArticle.articleTitleField.clear().type(testData.articleTitle);
     publishArticle.articleDescriptionField.clear().type(testData.articleDescription);
     publishArticle.articleBodyField.clear().type(testData.articleBody);
     publishArticle.publishBtn.click();
-    cy.wait(1000);
+    
     articlePage.assertArticleTitle(testData.articleTitle);
   });
 
@@ -64,13 +62,11 @@ describe('Article', () => {
     publishArticle.articleDescriptionField.clear().type(article.description);
     publishArticle.articleBodyField.clear().type(article.body);
     publishArticle.publishBtn.click();
-    cy.wait(1000);
+
     articlePage.assertArticleTitle(article.title);
 
     articlePage.visitArticlePage(article.title);
-
     articlePage.deleteArticleBtn.eq(1).click();
-    cy.wait(1000);
 
     homePage.visitYourFeed();
     homePage.assertDeletingArticle('No articles are here... yet.');

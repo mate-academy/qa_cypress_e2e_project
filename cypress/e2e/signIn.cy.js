@@ -21,7 +21,6 @@ describe('Sign In page', () => {
     cy.wait(500);
 
     cy.register(user.email, user.username, user.password);
-    cy.wait(500);
     signInPage.visit();
   });
 

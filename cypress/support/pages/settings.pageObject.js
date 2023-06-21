@@ -30,6 +30,10 @@ class SettingsPageObject extends PageObject {
   assertEditing(modalText) {
     cy.get('.swal-modal').should('contain', modalText);
   }
+
+  confirm(modalText) {
+    cy.get('.swal-button').should('contain', modalText).click();
+  }
 }
 
 export default SettingsPageObject;

@@ -30,8 +30,8 @@ describe('Settings page', () => {
   beforeEach(() => {
     cy.task('db:clear');
     cy.wait(500);
+
     cy.login(user.email, user.username, user.password);
-    cy.wait(500);
     settingsPage.visit();
   });
 
@@ -45,11 +45,9 @@ describe('Settings page', () => {
   it('should provide an ability to update bio', () => {
     settingsPage.editBioInput.clear().type(testData.newBio);
     settingsPage.updateBtn.click();
-    cy.wait(100);
+
     settingsPage.assertEditing('Update successful!');
-    cy.wait(1000);
     userPage.visitUserPage(user.username);
-    cy.wait(500);
     userPage.profileBio.should('contain', testData.newBio);
   });
 
@@ -57,14 +55,13 @@ describe('Settings page', () => {
     settingsPage.editEmailInput.clear().type(testData.newEmail);
     settingsPage.updateBtn.click();
     settingsPage.assertEditing('Update successful!');
-    cy.get('.swal-button').should('contain', 'OK').click();
+    settingsPage.confirm('OK');
 
     settingsPage.logoutBtn.click();
     signInPage.visit();
     signInPage.emailField.type(testData.newEmail);
     signInPage.passwordField.type(user.password);
     signInPage.signInBtn.click();
-    cy.wait(500);
 
     homePage.usernameLink.should('contain', user.username);
   });
@@ -73,15 +70,14 @@ describe('Settings page', () => {
     settingsPage.editPasswordInput.clear().type(testData.newPassword);
     settingsPage.updateBtn.click();
     settingsPage.assertEditing('Update successful!');
-    cy.get('.swal-button').should('contain', 'OK').click();
+    settingsPage.confirm('OK');
 
-    settingsPage.visit();
     settingsPage.logoutBtn.click();
     signInPage.visit();
     signInPage.emailField.type(user.email);
     signInPage.passwordField.type(testData.newPassword);
     signInPage.signInBtn.click();
-    cy.wait(500);
+
     homePage.usernameLink.should('contain', user.username);
   });
 
