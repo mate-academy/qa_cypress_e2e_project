@@ -13,15 +13,21 @@ module.exports = defineConfig({
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          let userName = faker.name.firstName() + `${randomNumber}`
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: userName.toLowerCase(),
+            newUserName: userName.toLowerCase() + `${randomNumber}`,
+            bio: faker.random.words(),
+            email: 'test'+`${randomNumber}`+'@mail.com',
+            newEmail: `${userName}`+`${randomNumber}`+'@mail.com',
+            password: '12345Qwert!',
+            newPassword: `${userName}`+`${randomNumber}`
           };
         },
         generateArticle() {
           return {
             title: faker.lorem.word(),
+            newTitle: 'The best way to learn',
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
