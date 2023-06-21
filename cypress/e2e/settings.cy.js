@@ -21,7 +21,7 @@ describe('Settings page', () => {
   it('should provide an ability to update username', () => {
     settingsPage.userNameField
       .clear()
-      .type('Newusername');
+      .type(user.username);
     settingsPage.updSettingsBtn
       .click();
     cy.contains('.swal-title', 'Update successful!');
@@ -30,7 +30,7 @@ describe('Settings page', () => {
 
   it('should provide an ability to update bio', () => {
     settingsPage.bioField
-      .type('Newuserbio');
+      .type(user.bio);
     settingsPage.updSettingsBtn
       .click();
     cy.contains('.swal-title', 'Update successful!');
@@ -39,7 +39,7 @@ describe('Settings page', () => {
   it('should provide an ability to update an email', () => {
     settingsPage.emailField
       .clear()    
-      .type('Newuser@email.com');
+      .type(user.email);
     settingsPage.updSettingsBtn
       .click();
     cy.contains('.swal-title', 'Update successful!');
@@ -47,15 +47,13 @@ describe('Settings page', () => {
 
   it('should provide an ability to update password', () => {
     settingsPage.passwordField    
-      .type('1newUserPass!');
+      .type(user.password);
     settingsPage.updSettingsBtn
       .click();
     cy.contains('.swal-title', 'Update successful!');
   });
 
   it('should provide an ability to log out', () => {
-    
-    settingsPage.visit();
     settingsPage.logOutBtn
       .click();
     cy.url().should('eq', 'http://localhost:1667/#/');
