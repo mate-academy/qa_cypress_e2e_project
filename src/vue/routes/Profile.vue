@@ -17,7 +17,7 @@
             </div>
             <div v-else>
               <button
-                class="btn btn-sm btn-secondary action-btn"
+                class="btn btn-sm btn-secondary action-btn" data-qa="unfollow-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
               >
@@ -26,6 +26,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-qa="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >

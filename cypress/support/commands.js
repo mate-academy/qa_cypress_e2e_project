@@ -41,10 +41,9 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
   });
 });
 
-Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
+Cypress.Commands.add('login', (email, password) => {
+  cy.request('POST', '/users/login', {
     email,
-    username,
     password
   }).then(response => {
     const user = {
@@ -52,7 +51,7 @@ Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', passwo
       username: response.body.user.username,
       email: response.body.user.email,
       bio: response.body.user.bio,
-      image: response.body.user.image,
+      image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
       token: response.body.user.token
     };
     window.localStorage.setItem('user', JSON.stringify(user));
@@ -70,7 +69,7 @@ Cypress.Commands.add('createArticle', (title, description, body, tags) => {
       username: faker.random.word()
     }
   }).then(response => {
-    cy.setCookie('drash_sess', response.body.user.token);
+    cy.setCookies('drash_sess', response.body.user.token);
     cy.request({
       url: '/articles',
       method: 'POST',

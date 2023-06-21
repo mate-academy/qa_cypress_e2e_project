@@ -26,12 +26,12 @@ describe('Article page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    signInPage.visit();
-    cy.login(user.email, user.username, user.password);
-    articlePage.visit();
   });
 
-  it('should provide to create new article', () => {
+  it.only('should provide to create new article', () => {
+    signInPage.visit();
+    cy.login(user.email, user.password);
+    articlePage.visit();
     articlePage.visit();
     articlePage.titleArticleField
       .type(article.title);

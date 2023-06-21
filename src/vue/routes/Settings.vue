@@ -20,6 +20,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-qa="username-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +29,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-qa="user-bio-input"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +38,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-qa="email-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,9 +47,14 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-qa="password-input"
+
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button 
+                class="btn btn-lg btn-primary pull-xs-right"
+                data-qa="update-Btn"
+              >
                 Update Settings
               </button>
             </fieldset>
