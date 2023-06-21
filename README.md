@@ -23,11 +23,11 @@ Go to `e2e` folder and cover listed functionality with e2e tests:
 - sign in (invalid credentials); *(done)*
 - sign up (positive); *(done)*
 - sign up (negative); *(done)*
-- following/unfollowing the user;
-- updating bio;
-- updating username;
-- updating email;
-- updating password.
+- following/unfollowing the user; *(done)*
+- updating bio; *(done)*
+- updating username; *(done)*
+- updating email; *(done)*
+- updating password. *(done)*
 
 ### Basics level
 
