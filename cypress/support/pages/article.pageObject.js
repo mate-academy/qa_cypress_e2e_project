@@ -19,6 +19,11 @@ class ArticlePageObject extends PageObject {
     this.articleBody.should('contain', body);
   }
 
+  assertDeletingArticle(message, title) {
+    cy.getByDataQa('article-list').should('contain', message);
+    cy.getByDataQa('article-list').should('not.have.value', title);
+  }
+
   visitArticlePage(slug) {
     cy.visit(`#/articles/${slug}`);
   }

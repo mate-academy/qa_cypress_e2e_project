@@ -9,14 +9,15 @@ const articlePage = new ArticlePageObject();
 let article;
 let user;
 const newArticlePage = '#/editor';
+const noArticlesMessage = 'No articles are here... yet.';
 
 describe('Article', () => {
   before(() => {
-    cy.task('generateUser').then(generateUser => {
-      user = generateUser;
+    cy.task('generateUser').then(generatedUser => {
+      user = generatedUser;
     });
-    cy.task('generateArticle').then(generateArticle => {
-      article = generateArticle;
+    cy.task('generateArticle').then(generatedArticle => {
+      article = generatedArticle;
     });
   });
 
@@ -59,6 +60,6 @@ describe('Article', () => {
       articlePage.visitArticlePage(slug);
     });
     homePage.clickOnBtn('delete-article');
-    homePage.assertDeletingArticle(article.title);
+    articlePage.assertDeletingArticle(noArticlesMessage, article.title);
   });
 });

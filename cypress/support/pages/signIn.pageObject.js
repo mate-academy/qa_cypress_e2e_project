@@ -1,18 +1,15 @@
 import PageObject from '../PageObject';
 
 class SignInPageObject extends PageObject {
-  url = '/#/login';
+  url = '#/login';
 
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
+  assertSuccessfulLogin(username) {
+    cy.getByDataQa('username-link').should('contain', username);
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
-  }
-
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  assertUnsuccessfulLogIn(errorText, errorTitle) {
+    cy.get('.swal-text').should('contain', errorText);
+    cy.get('.swal-title').should('contain', errorTitle);
   }
 }
 
