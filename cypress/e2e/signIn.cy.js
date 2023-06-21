@@ -18,21 +18,28 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
+    signInPage.visit();
     signInPage.emailField
       .type(user.email);
     signInPage.passwordField
       .type(user.password);
     signInPage.signInBtn
       .click();
-
     homePage.usernameLink
       .should('contain', user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    const invalidEmail = 'invalide@xamplecom';
+   
+    signInPage.emailField.type(invalidEmail);
+    signInPage.passwordField.type(user.password);
+    signInPage.signInBtn.click();
 
+    // Assertion: Error message is displayed
+    homePage.modalWindow
+    .should('contain', 'Email must be a valid email.');
   });
-});
+  });
