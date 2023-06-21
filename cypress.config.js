@@ -12,6 +12,9 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
+          const username = faker.internet.userName();
+          const email = faker.internet.email();
+          const password = faker.internet.password();
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
