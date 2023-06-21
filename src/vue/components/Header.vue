@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light">
+  <nav data-cy="navbar-links-logout" class="navbar navbar-light">
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'home' }">
         conduit
@@ -71,7 +71,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            dataqa="username-link"
             class="nav-link"
             active-class="active"
             exact
