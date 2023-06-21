@@ -14,6 +14,10 @@ class SignInPageObject extends PageObject {
   get signInBtn() {
     return cy.getByDataCy('sign-in-btn');
   }
+
+  assertLogin(modalText) {
+    cy.get('.swal-modal').should('contain', modalText);
+  }
 }
 
 export default SignInPageObject;

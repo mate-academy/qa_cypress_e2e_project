@@ -1,5 +1,8 @@
 <template>
-  <nav class="navbar navbar-light">
+  <nav 
+    class="navbar navbar-light"
+    data-cy="header-navbar"
+  >
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'home' }">
         conduit
