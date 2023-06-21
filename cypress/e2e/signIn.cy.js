@@ -33,6 +33,19 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    const wrongCredentials = {
+      email: 'wrogl@example.com',
+      password: 'wrogpassword',
+    };
 
+    signInPage.visit();
+    signInPage.emailField
+      .type(wrongCredentials.email);
+    signInPage.passwordField
+      .type(wrongCredentials.password);
+    signInPage.signInBtn
+      .click();
+    cy.get('.swal-text')
+      .should('contain','Invalid user credentials.')
   });
 });

@@ -24,17 +24,15 @@ describe('Sign Up page', () => {
     cy.getByDataCy('password-sign-up')
       .type(user.password);
     cy.getByDataCy('sign-up-btn')
-      .click;
+      .click();
 
     cy.get('.swal-text')
       .should('contain', successfulmessage);
     cy.contains('OK')
       .click();
     cy.getByDataCy('username-link')
-      .should('contain', user.username)
-
+      .should('contain', user.username);
  });
-});
 it('should not provide ability to create a new account with empty password field', () => {
   const errormessage = 'Password field required.'
   cy.getByDataCy('sign-up-link')
@@ -54,4 +52,5 @@ it('should not provide ability to create a new account with empty password field
     .click();
   cy.url()
     .should('include','register');
+});
 });
