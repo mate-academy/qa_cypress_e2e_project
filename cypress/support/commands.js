@@ -29,7 +29,7 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+  cy.get(`[data-qa="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
@@ -37,5 +37,36 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     email,
     username,
     password
+  }).then(response => {
+        cy.setCookie('drash_sess', response.body.user.token);
+      });
+    });;
+
+Cypress.Commands.add('createUser', (email, username, password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  })
+  });;
+
+Cypress.Commands.add('createArticle', (title, description, body, tags) => {
+    cy.request('POST', '/users', {
+      email: 'riot@qa.team',
+      username: 'riot',
+      password: '12345Qwert!'
+    }).then(response => {
+      cy.setCookie('drash_sess', response.body.user.token);
+      const authorId = response.body.user.id;
+      
+      cy.request('POST', '/articles', {
+      article: {
+      title,
+      description,
+      body,
+      tags,
+      author_id: authorId
+      }
+    }) 
   });
-});
+});;
