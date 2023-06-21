@@ -15,8 +15,9 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            email: faker.internet.email().toLowerCase(),
+            password: '12345Qwert!',
+            bio: faker.lorem.words()
           };
         },
         generateArticle() {
@@ -25,6 +26,15 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
+          };
+        },
+        generateNewTestData() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'user' + `${randomNumber}` + '@qa.team',
+            password: 'D1te$ttt!'
           };
         },
         'db:clear'() {
