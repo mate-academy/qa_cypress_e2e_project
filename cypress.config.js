@@ -19,6 +19,16 @@ module.exports = defineConfig({
             password: '12345Qwert!'
           };
         },
+        generateNewUser() {
+          let randomNumber = Math.ceil(Math.random(1000) * 1000);
+          let userName = faker.name.firstName() + `${randomNumber}`
+          return {
+            bio: faker.random.words(),
+            username: userName.toLowerCase(),
+            email: userName.toLowerCase() + '@mail.com',
+            password: 'Qwert12345',
+          };
+        },
         generateArticle() {
           return {
             title: faker.lorem.word(),
