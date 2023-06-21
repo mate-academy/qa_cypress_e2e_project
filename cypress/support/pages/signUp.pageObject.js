@@ -5,22 +5,22 @@ class SignUpPageObject extends PageObject {
 
   get usernameField() {
     // return cy.getByDataCy('username-sign-up');
-    return cy.get(':nth-child(1) > .form-control');
+    return cy.getByPlaceholder('Username');
   }
 
   get emailField() {
     // return cy.getByDataCy('email-sign-up');
-    return cy.get(':nth-child(2) > .form-control');
+    return cy.getByPlaceholder('Email');
   }
 
   get passwordField() {
     // return cy.getByDataCy('password-sign-up');
-    return cy.get(':nth-child(3) > .form-control');
+    return cy.getByPlaceholder('Password');
   }
 
   get signUpBtn() {
     // return cy.getByDataCy('sign-up-btn');
-    return cy.get('.btn');
+    return cy.contains('.btn', 'Sign up');
   }
 
   getValidationErrors() {

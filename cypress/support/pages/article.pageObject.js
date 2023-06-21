@@ -9,15 +9,13 @@ class ArticlesPageObject extends PageObject {
 
   clickOnEditBtn() {
     // cy.getByDataCy('editBtn')
-    cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary')
-      .first()
+    return cy.contains('.btn', 'Edit Article')
       .click();
   }
 
   clickOnDeleteBtn() {
     // cy.getByDataCy('deleteBtn')
-    cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-danger')
-      .first()
+    return cy.contains('.btn', 'Delete Article')
       .click();
   }
 }

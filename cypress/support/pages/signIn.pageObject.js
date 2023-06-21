@@ -5,17 +5,17 @@ class SignInPageObject extends PageObject {
 
   get emailField() {
     // return cy.getByDataCy('email-sign-in');
-    return cy.get(':nth-child(1) > .form-control');
+    return cy.getByPlaceholder('Email');
   }
 
   get passwordField() {
     // return cy.getByDataCy('password-sign-in');
-    return cy.get(':nth-child(2) > .form-control');
+    return cy.getByPlaceholder('Password');
   }
 
   get signInBtn() {
     // return cy.getByDataCy('sign-in-btn');
-    return cy.get('.btn');
+    return cy.contains('.btn', 'Sign in');
   }
 }
 

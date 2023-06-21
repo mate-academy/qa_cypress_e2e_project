@@ -5,22 +5,22 @@ class SettingsPageObject extends PageObject {
 
   get usernameInput() {
     // return cy.getByDataCy('settings-username-input');
-    return cy.get(':nth-child(2) > .form-control');
+    return cy.getByPlaceholder('Your username');
   }
 
   get bioTextarea() {
     // return cy.getByDataCy('settings-bio-textarea');
-    return cy.get(':nth-child(3) > .form-control');
+    return cy.getByPlaceholder('Short bio about you');
   }
 
   get emailInput() {
     // return cy.getByDataCy('settings-email-input');
-    return cy.get(':nth-child(4) > .form-control');
+    return cy.getByPlaceholder('Email');
   }
 
   get passwordInput() {
     // return cy.getByDataCy('settings-password-input');
-    return cy.get(':nth-child(5) > .form-control');
+    return cy.getByPlaceholder('Password');
   }
 
   get updateSettingsBtn() {

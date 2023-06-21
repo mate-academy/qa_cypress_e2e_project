@@ -13,11 +13,16 @@ describe('Article', () => {
   before(() => {
 
   });
-
+  let user;
   let testData;
 
   beforeEach(() => {
     cy.task('db:clear');
+
+    cy.task('generateUser').then(generateUser => {
+      user = generateUser;
+    });
+
     cy.task('generateArticle').then(generateArticle => {
       testData = generateArticle;
     });
@@ -28,7 +33,7 @@ describe('Article', () => {
   });
 
   it('should be created using New Article form', () => {
-    cy.register();
+    cy.login();
 
     articleEditPage.visit();
 

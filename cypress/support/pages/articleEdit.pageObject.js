@@ -5,23 +5,18 @@ class ArticleEditorPageObject extends PageObject {
 
   typeTitle(title) {
     // cy.getByDataCy('article-title')
-    cy.get(':nth-child(1) > .form-control')
-      .as('titleField')
-      .clear()
-      .then(() => {
-        cy.get('@titleField').type(title);
-      });
+    return cy.getByPlaceholder('Article Title').type(title);
   }
 
   typeDescription(desc) {
     // cy.getByDataCy('article-description')
-    cy.get(':nth-child(2) > .form-control')
+    return cy.getByPlaceholder(`What's this article about?`)
       .type(desc);
   }
 
   typeBody(body) {
     // cy.getByDataCy('article-body')
-    cy.get(':nth-child(3) > .form-control')
+    cy.getByPlaceholder('Write your article')
       .type(body);
   }
 

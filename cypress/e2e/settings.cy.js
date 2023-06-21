@@ -6,17 +6,18 @@ import SettingsPageObject from '../support/pages/settings.pageObject';
 const settingsPage = new SettingsPageObject();
 
 describe('Settings page', () => {
-  let usersettings;
+  let user;
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
-      usersettings = generateUser;
+      user = generateUser;
     });
   });
 
   beforeEach(() => {
     cy.task('db:clear');
+    cy.login(user.email, user.username, user.password);
+    settingsPage.visit();
   });
 
   it('should provide an ability to update username', () => {
@@ -48,14 +49,14 @@ describe('Settings page', () => {
 
     settingsPage.passwordInput.clear().type(newPassword);
     settingsPage.updateSettingsBtn.click();
+    settingsPage.logoutBtn.click();
 
-    cy.logout();
-    cy.login(usersettings.email, newPassword);
+    cy.login(user.email, newPassword);
   });
 
   it('should provide an ability to log out', () => {
     settingsPage.logoutBtn.click();
 
-    cy.url().should('include', '/login');
+    cy.url().should('include', '/');
   });
 });
