@@ -25,6 +25,7 @@
                   :to="{ name: 'home' }"
                   exact
                   class="nav-link"
+                  data-cy="Global-Feed"
                   active-class="active"
                 >
                   Global Feed

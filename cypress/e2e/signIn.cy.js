@@ -33,6 +33,16 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.emailField
+      .type(`wrong${user.email}`);
+    signInPage.passwordField
+      .type(user.password);
+    signInPage.signInBtn
+      .click();
+
+    signInPage.failedSignIn();
+    signInPage.closeModalWindow();
   });
 });
