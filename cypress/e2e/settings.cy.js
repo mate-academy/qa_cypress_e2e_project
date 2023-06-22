@@ -2,11 +2,9 @@
 /// <reference types="../support" />
 
 import SettingsPageObject from '../support/pages/settings.pageObject';
-import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const faker = require('faker');
 const settingsPage = new SettingsPageObject();
-const signInPage = new SignInPageObject();
 
 const userData = {
   username: faker.name.firstName().toLowerCase(),
@@ -19,14 +17,11 @@ describe('Settings page', () => {
   let user;
 
   before(() => {
-    cy.task('generateUser').then(generateUser => {
-      user = generateUser;
-    });
-  });
-  beforeEach(() => {
     cy.task('db:clear');
-    signInPage.visit();
-    cy.login(user.email, user.password);
+    cy.register();
+  });
+
+  beforeEach(() => {
     settingsPage.visit();
   });
 
@@ -45,7 +40,7 @@ describe('Settings page', () => {
       .should('have.value', userData.username);
   });
 
-  it.only('should provide an ability to update bio', () => {
+  it('should provide an ability to update bio', () => {
     settingsPage.userBioField
       .clear()
       .type(userData.userBio);
@@ -90,7 +85,7 @@ describe('Settings page', () => {
     cy.reload();
 
     signInPage.visit();
-    cy.login(user.email, user.username, userData.password);
+    cy.login();
     cy.get('.nav-link')
       .should('contain', user.username);
   });

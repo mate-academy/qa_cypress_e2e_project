@@ -2,20 +2,20 @@
 /// <reference types='../support' />
 
 import ArticlePageObject from '../support/pages/article.pageObject';
-import SignInPageObject from '../support/pages/signIn.pageObject';
 const faker = require('faker');
 
 const articlePage = new ArticlePageObject();
-const signInPage = new SignInPageObject();
 const testArticle = {
   title: faker.lorem.sentence(),
   body: faker.lorem.sentence(5)
 };
+
 describe('Article page', () => {
   let user;
   let article;
 
   before(() => {
+    cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
@@ -24,14 +24,8 @@ describe('Article page', () => {
     });
   });
 
-  beforeEach(() => {
-    cy.task('db:clear');
-  });
-
-  it.only('should provide to create new article', () => {
-    signInPage.visit();
-    cy.login(user.email, user.password);
-    articlePage.visit();
+  it('should provide to create new article', () => {
+    cy.register(user.email, user.username, user.password);
     articlePage.visit();
     articlePage.titleArticleField
       .type(article.title);
@@ -53,14 +47,12 @@ describe('Article page', () => {
   });
 
   it('should be edited article title using Edit button', () => {
-    articlePage.visit();
     cy.createArticle(article.title, article.description, article.body).then(response => {
       const slug = response.body.article.slug;
       cy.visit(`/#/articles/${slug}`);
     });
     articlePage.editBtn
       .click();
-
     articlePage.titleArticleField
       .clear()
       .type(testArticle.title);

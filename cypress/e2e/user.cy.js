@@ -1,40 +1,31 @@
 /// <reference types="cypress" />
 /// <reference types="../support" />
 import UserPageObject from '../support/pages/user.pageObject';
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import SignUpPageObject from '../support/pages/signUp.pageObject';
+
+const faker = require('faker');
 
 const userPage = new UserPageObject();
-const signInPage = new SignInPageObject();
-const signUpPage = new SignUpPageObject();
-
 describe('User', () => {
-  let firstUser;
-  let user;
+  const followUser = {
+    username: faker.name.firstName().toLowerCase(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  };
+
   before(() => {
-    cy.task('generateUser').then(generateUser => {
-      firstUser = generateUser;
-    });
-    cy.task('generateUser').then(generateUser => {
-      suser = generateUser;
-    });
-  });
-  beforeEach(() => {
-    cy.register(firstUser.email, firstUser.username, firstUser.password);
-    cy.register(user.email, user.username, user.password);
+    cy.task('db:clear');
+
+    cy.register();
+    cy.createUser(followUser.email, followUser.username, followUser.password)
   });
 
-  it.skip('should be able to follow the another user', () => {
-    cy.login(user.email, user.password);
-    userPage.visit();
-    cy.visit(`#/@${firstUser.username}/`);
+  it('should be able to follow the another user', () => {
+    cy.visit(`#/@${followUser.username}/`);
     userPage.followButton
       .click();
   });
-  it.skip('should be able to unfollow the another user', () => {
-    cy.login(user.email, user.password);
-    userPage.visit();
-    cy.visit('http://localhost:1667/#/' + firstUser.username);
+  it('should be able to unfollow the another user', () => {
+    cy.visit('http://localhost:1667/#/' + followUser.username);
     userPage.unfollowButton
       .click();
   });
