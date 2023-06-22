@@ -37,6 +37,14 @@ module.exports = defineConfig({
             tag: faker.lorem.word()
           };
         },
+        generateNewArticle() {
+          return {
+            title: faker.lorem.word(),
+            description: faker.lorem.words(),
+            body: faker.lorem.words(),
+            tag: faker.lorem.word()
+          };
+        },
         'db:clear'() {
           clear();
 
