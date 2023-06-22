@@ -20,19 +20,35 @@ describe('Sign In page', () => {
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
+    cy.intercept('POST', '/users/login')
+      .as('login');
     signInPage.emailField
       .type(user.email);
     signInPage.passwordField
       .type(user.password);
     signInPage.signInBtn
       .click();
-
+    cy.wait('@login');
     homePage.usernameLink
       .should('contain', user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong passsword', () => {
+    const password = 'password';
+    const unsuccessLoginTitle = 'Login failed!';
+    const unsuccessLoginText = 'Invalid user credentials.';
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.emailField
+      .type(user.email);
+    signInPage.passwordField
+      .type(password);
+    signInPage.signInBtn
+      .click();
 
+    cy.get('.swal-title')
+      .should('have.text', unsuccessLoginTitle);
+    cy.get('.swal-text')
+      .should('have.text', unsuccessLoginText);
   });
 });
