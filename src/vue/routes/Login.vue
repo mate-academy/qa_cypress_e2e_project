@@ -28,10 +28,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="passwordSignIn"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="qa="signInBtn">
               Sign in
             </button>
           </form>
