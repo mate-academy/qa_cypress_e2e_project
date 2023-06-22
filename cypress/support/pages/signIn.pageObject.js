@@ -3,17 +3,28 @@ import PageObject from '../PageObject';
 class SignInPageObject extends PageObject {
   url = '/#/login';
 
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
+  typeEmail(email) {
+    cy.getByDataQa('email-sign-in')
+      .type(email);
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+  typePassword(password) {
+    cy.getByDataQa('password-sign-in')
+      .type(password);
   }
 
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  clickSignInBtn() {
+    cy.getByDataQa('sign-in-btn')
+      .click();
   }
+
+  checkErrorMessage() {
+    cy.get('.swal-modal')
+      .should('exist')
+      .and('contain', 'Invalid user credentials.');
+    cy.get('.swal-button')
+      .click();
+    }
 }
 
 export default SignInPageObject;
