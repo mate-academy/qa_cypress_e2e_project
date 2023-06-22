@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="user-info">
+    <div class="user-info" data-cy="user-info">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
@@ -26,6 +26,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
