@@ -21,6 +21,7 @@
             active-class="active"
             exact
             :to="{ name: 'login' }"
+            data-qa="sign-in-link"
           >
             <i class="ion-compose"></i>Sign in
           </router-link>
@@ -31,6 +32,7 @@
             active-class="active"
             exact
             :to="{ name: 'register' }"
+            data-qa="sign-up-link"
           >
             <i class="ion-compose"></i>Sign up
           </router-link>
@@ -65,13 +67,14 @@
             active-class="active"
             exact
             :to="{ name: 'settings' }"
+            data-qa="settings-link"
           >
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact

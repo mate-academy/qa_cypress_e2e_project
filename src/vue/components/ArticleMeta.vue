@@ -9,6 +9,7 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="username-link"
       >
         {{ authorUsername() }}
       </router-link>
@@ -28,8 +29,8 @@
         'btn-outline-primary': article && !article.favorited
       }"
     >
-      <i class="ion-heart"></i>
-      <span class="counter"> {{ article.favoritesCount }} </span>
+      <i data-qa="follow-unfollow-button" class="ion-heart"></i>
+      <span data-qa="followed-users-counter" class="counter"> {{ article.favoritesCount }} </span>
     </button>
   </div>
 </template>

@@ -37,7 +37,7 @@
               <fieldset class="form-group">
                 <vue-tags-input
                   placeholder="Enter tags"
-                  data-qa="tag-new-article"
+                  data-qa="article-tag"
                   class="form-control"
                   v-model="tag"
                   :tags="tags"

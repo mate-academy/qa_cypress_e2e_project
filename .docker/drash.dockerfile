@@ -1,11 +1,11 @@
-FROM debian:stable-slim
+FROM debian:oldstable-20230612-slim
 
 RUN apt update -y \
   && apt clean \
   && apt install bash curl unzip -y \
   && apt install -y --no-install-recommends nodejs \
   && apt install -y --no-install-recommends npm \
-  && npm install -g npm@6.13.6
+  && npm install -g npm@8.19.4
 
 RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.5.1
 RUN export DENO_INSTALL="/usr/bin"

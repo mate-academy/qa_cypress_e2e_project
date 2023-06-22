@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then(generateUser => {
       user = generateUser;
@@ -33,6 +33,18 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.emailField
+      .type('rio@qa.team');
+    signInPage.passwordField
+      .type('12345Qwer!');
+    signInPage.signInBtn
+      .click();
+      signInPage.assertWrongCredentials(
+        'Login failed!', 
+        'Invalid user credentials.'
+      );
   });
 });
