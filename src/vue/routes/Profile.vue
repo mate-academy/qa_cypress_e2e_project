@@ -28,6 +28,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-cy = "follow-btn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}
@@ -40,7 +41,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="col-xs-12 col-md-10 offset-md-1" data-cy="user-articles">
           <div class="articles-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
