@@ -7,8 +7,8 @@ import HomePageObject from '../support/pages/home.pageObject';
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 let user;
-const invalidCredsMessage = 'Invalid user credentials.';
-const failedLoginMessage = 'Login failed!';
+const invalidCredsMessage 
+const failedLoginMessage = 'Login failed!'= 'Invalid user credentials.';;
 const invalidEmail = 'whatever@qa.com';
 const invalidPassword = 'wrongpassword';
 
