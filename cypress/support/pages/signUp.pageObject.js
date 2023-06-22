@@ -18,6 +18,23 @@ class SignUpPageObject extends PageObject {
   get signUpBtn() {
     return cy.getByDataCy('sign-up-btn');
   }
+
+  fillUsernameField(username) {
+    this.usernameField.type(username);
+  }
+
+  fillEmailField(email) {
+    this.emailField.type(email);
+  }
+
+  fillPasswordField(password) {
+    this.passwordField.type(password);
+  }
+
+  clickOnSignUpBtn() {
+    this.signUpBtn.click();
+  }
 }
 
 export default SignUpPageObject;
+

@@ -27,30 +27,19 @@ describe('Sign In page', () => {
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
-    signInPage.emailField
-      .type(user.email);
-    signInPage.passwordField
-      .type(user.password);
-    signInPage.signInBtn
-      .click();
-
-    homePage.usernameLink
-      .should('contain', user.username);
+    signInPage.fillEmailField(user.email);
+    signInPage.fillPasswordField(user.password);
+    signInPage.clickOnSignInBtn();
+    homePage.assertUsernameLink(user.username);
   });
 
   it('should not provide an ability to log in with invalid email', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
-    signInPage.emailField
-      .type(testData.invalidEmail);
-    signInPage.passwordField
-      .type(user.password);
-    signInPage.signInBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signInPage.fillEmailField(testData.invalidEmail);
+    signInPage.fillPasswordField(user.password);
+    signInPage.clickOnSignInBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Login failed! Email must be a valid email.');
     });
@@ -59,17 +48,13 @@ describe('Sign In page', () => {
   it('should not provide an ability to log in with invalid password', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
-    signInPage.emailField
-      .type(user.email);
-    signInPage.passwordField
-      .type(testData.invalidPassword);
-    signInPage.signInBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signInPage.fillEmailField(user.email);
+    signInPage.fillPasswordField(testData.invalidPassword);
+    signInPage.clickOnSignInBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Login failed! Invalid users credentials.');
     });
   });
 });
+

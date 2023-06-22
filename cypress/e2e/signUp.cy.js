@@ -24,34 +24,22 @@ describe('Sign Up page', () => {
     const successMessage = 'Your registration was successful!'
     
     signUpPage.visit();
-    signUpPage.usernameField
-      .type(user.username);
-    signUpPage.emailField
-      .type(user.email);
-    signUpPage.passwordField
-      .type(user.password);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-text')
-      .should('contain', successMessage)
-    cy.contains('OK')
-      .click();
-    homePage.usernameLink
-      .should('contain', user.username);
+    signUpPage.fillUsernameField(user.username);
+    signUpPage.fillEmailField(user.email);
+    signUpPage.fillPasswordField(user.password);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-text').should('contain', successMessage)
+    cy.contains('OK').click();
+    homePage.assertUsernameLink(user.username);
   });
 
   it('should not provide an ability to register a new account with invalid email', () => {
     signUpPage.visit();
-    signUpPage.usernameField
-      .type(user.username);
-    signUpPage.emailField
-      .type(testData.invalidEmail);
-    signUpPage.passwordField
-      .type(user.password);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signUpPage.fillUsernameField(user.username);
+    signUpPage.fillEmailField(testData.invalidEmail);
+    signUpPage.fillPasswordField(user.password);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Registration failed! Email must be a valid email.');
     });
@@ -59,16 +47,11 @@ describe('Sign Up page', () => {
 
   it('should not provide an ability to register a new account with invalid password', () => {
     signUpPage.visit();
-    signUpPage.usernameField
-      .type(user.username);
-    signUpPage.emailField
-      .type(user.email);
-    signUpPage.passwordField
-      .type(testData.invalidPassword);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signUpPage.fillUsernameField(user.username);
+    signUpPage.fillEmailField(user.email);
+    signUpPage.fillPasswordField(testData.invalidPassword);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Registration failed! Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.');
     });
@@ -76,14 +59,10 @@ describe('Sign Up page', () => {
 
   it('should not provide an ability to register a new account with blank username field', () => {
     signUpPage.visit();
-    signUpPage.emailField
-      .type(user.email);
-    signUpPage.passwordField
-      .type(user.password);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signUpPage.fillEmailField(user.email);
+    signUpPage.fillPasswordField(user.password);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Registration failed! Username field required.');
     });
@@ -91,14 +70,10 @@ describe('Sign Up page', () => {
 
   it('should not provide an ability to register a new account with blank email field', () => {
     signUpPage.visit();
-    signUpPage.usernameField
-      .type(user.username);
-    signUpPage.passwordField
-      .type(testData.invalidPassword);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signUpPage.fillUsernameField(user.username);
+    signUpPage.fillPasswordField(user.password);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Registration failed! Email field required.');
     });
@@ -106,16 +81,10 @@ describe('Sign Up page', () => {
 
   it('should not provide an ability to register a new account with blank password field', () => {
     signUpPage.visit();
-    signUpPage.usernameField
-      .type(user.username);
-    signUpPage.emailField
-      .type(user.email);
-    signUpPage.passwordField
-      .type(testData.invalidPassword);
-    signUpPage.signUpBtn
-      .click();
-    cy.get('.swal-button')
-      .click();
+    signUpPage.fillUsernameField(user.username);
+    signUpPage.fillEmailField(user.email);
+    signUpPage.clickOnSignUpBtn();
+    cy.get('.swal-button').click();
     cy.on('window:alert', (str) => {
       expect(str).to.equal('Registration failed! Password field required.');
     });

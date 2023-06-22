@@ -14,6 +14,27 @@ class SignInPageObject extends PageObject {
   get signInBtn() {
     return cy.getByDataCy('sign-in-btn');
   }
+
+  fillEmailField(email) {
+    this.emailField.type(email);
+  }
+
+  fillPasswordField(password) {
+    this.passwordField.type(password);
+  }
+
+  clickOnSignInBtn() {
+    this.signInBtn.click();
+  }
+
+  signInWithUpdatedCredentials(email, password) {
+    cy.clearCookies();
+    cy.reload();
+    this.emailField.type(email);
+    this.passwordField.type(password);
+    this.signInBtn.click();
+  }
 }
 
 export default SignInPageObject;
+
