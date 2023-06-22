@@ -22,7 +22,7 @@
             exact
             :to="{ name: 'login' }"
           >
-            <i class="ion-compose"></i>Sign in
+            <i class="ion-compose" data-qa="sign-in-home"></i>Sign in
           </router-link>
         </li>
         <li class="nav-item">
@@ -71,7 +71,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
