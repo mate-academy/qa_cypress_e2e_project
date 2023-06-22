@@ -6,6 +6,10 @@ class HomePageObject extends PageObject {
   get usernameLink() {
     return cy.getByDataCy('username-link');
   }
+  cheackArticlesList() {
+    cy.get('.article-preview')
+      .should('contain', 'No articles')
+  }
 }
 
 export default HomePageObject;
