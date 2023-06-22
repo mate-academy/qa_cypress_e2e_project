@@ -8,7 +8,7 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
@@ -24,7 +24,7 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tags: faker.lorem.word()
           };
         },
         'db:clear'() {
