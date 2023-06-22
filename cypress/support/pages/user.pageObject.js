@@ -1,22 +1,28 @@
 import PageObject from '../PageObject';
 
 class userPageObject extends PageObject {
+  url = `/#/`;
+
   visitUserPage(username) {
-    cy.visit(`#/@${username}/`);
+    cy.visit(`/#/@${username}`);
   }
 
-  get profileUsername() {
-    return cy.getByDataCy('profile-username');
+  get userName() {
+    return cy.get('h4');
   }
 
-  get followBtn() {
-    return cy.getByDataCy('follow-button-user');
+  get userBio() {
+    return cy.get('p');
   }
 
   get unfollowBtn() {
-    return cy.getByDataCy('unfollow-button-user');
+    return cy.contains('.btn', 'Unfollow');
   }
 
+
+  get followBtn() {
+    return cy.contains('.btn', 'Follow');
+  }
 }
 
 export default userPageObject;
