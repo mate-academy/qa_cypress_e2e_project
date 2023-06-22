@@ -39,6 +39,17 @@ module.exports = defineConfig({
         }
       });
       addMatchImageSnapshotPlugin(on, config);
+
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        // Chrome is used by default for `cypress open`
+        // Electron is used for `cypress run` but the command line flags are modified by ELECTRON_EXTRA_LAUNCH_ARGS environment variable
+        if (browser.name === 'chrome') {
+          // exposes window.gc() function that will manually force garbage collection
+          launchOptions.args.push('--js-flags=--expose-gc');
+        }
+
+        return launchOptions;
+      });
     }
   }
 });
