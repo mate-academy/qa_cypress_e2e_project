@@ -5,7 +5,7 @@
     >
       <img :src="authorImage()" />
     </router-link>
-    <div class="info">
+    <div data-qa="username-link" class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
