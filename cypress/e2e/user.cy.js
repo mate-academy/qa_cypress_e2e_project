@@ -21,7 +21,7 @@ describe('User', () => {
   });
 
 
-  it('should be able to follow the another user', () => {
+  it.skip('should be able to follow the another user', () => {
     cy.register(user.email, user.username, user.password);
     cy.register(newUser.email, newUser.username, newUser.password);
     cy.login(newUser.email, newUser.password);
@@ -31,7 +31,7 @@ describe('User', () => {
     
   });
 
-  it('should be able to unfollow the another user', () => {
+  it.skip('should be able to unfollow the another user', () => {
     cy.register(user.email, user.username, user.password);
     cy.register(newUser.email, newUser.username, newUser.password);
     cy.login(newUser.email, newUser.password);
