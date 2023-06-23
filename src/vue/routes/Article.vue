@@ -1,14 +1,14 @@
 <template>
   <div class="article-page">
     <div class="banner">
-      <div class="container">
+      <div class="container" data-cy="article-title">
         <h1>{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
     <div class="container page">
       <div class="row article-content">
-        <div class="col-xs-12">
+        <div class="col-xs-12" data-cy="article-body">
           <div v-html="parseMarkdown(article.body)"></div>
           <ul class="tag-list" v-if="article.tags && article.tags.length !== 1 && !!article.tags[0]">
             <li v-for="(tag, index) of article.tags" :key="tag + index">
