@@ -15,7 +15,7 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            email: faker.internet.email(),
             password: '12345Qwert!'
           };
         },
@@ -25,6 +25,12 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
+          };
+        },
+        loginUser() {
+          return {
+            email: 'qatest098@gmail.com',
+            password: 'Qatest123!'
           };
         },
         'db:clear'() {
