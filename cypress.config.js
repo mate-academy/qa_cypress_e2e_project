@@ -21,6 +21,14 @@ module.exports = defineConfig({
             wrongPassword: randomNumber
           };
         },
+        generateTestUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: faker.internet.email(),
+            password: '12345Qwert!'
+          };
+        },
         generateArticle() {
           return {
             title: faker.lorem.word(),

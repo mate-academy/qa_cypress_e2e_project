@@ -55,3 +55,14 @@ Cypress.Commands.add('articleFlow', (article) => {
   cy.findByPlaceholder('Enter tags').type(article.tag);
   cy.contains('.btn', 'Publish Article').click();
 });
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerTestUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
