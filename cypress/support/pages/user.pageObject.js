@@ -12,6 +12,10 @@ class UserPageObject extends PageObject {
   assertUsername(username) {
     cy.get('h4').should('contain', username);
   }
+
+  unFollowButton(username) {
+    cy.contains('.btn', `Unfollow ${username}`).click();
+  }
 };
 
 export default UserPageObject;

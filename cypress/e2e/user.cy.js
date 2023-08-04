@@ -28,4 +28,13 @@ describe('User', () => {
     userPage.assertUsername(testUser.username);
     userPage.followButton(testUser.username);
   });
+
+  it('should be able to unfollow the another user', () => {
+    cy.registerTestUser(testUser.email, testUser.username, testUser.password);
+    cy.register(user.email, user.username, user.password);
+    userPage.visit(testUser.username);
+    userPage.assertUsername(testUser.username);
+    userPage.followButton(testUser.username);
+    userPage.unFollowButton(testUser.username);
+  });
 });
