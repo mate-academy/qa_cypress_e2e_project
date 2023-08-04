@@ -23,24 +23,6 @@ class NewArticlePageObject extends PageObject {
       .type(tag);
   }
 
-  typeEditArticleTitle(title) {
-    cy.findByPlaceholder('Article Title')
-      .clear()
-      .type(title);
-  }
-
-  typeEditArticleDescription(description) {
-    cy.findByPlaceholder('What\'s this article about?')
-      .clear()
-      .type(description);
-  }
-
-  typeEditArticleBody(body) {
-    cy.findByPlaceholder('Write your article (in markdown)')
-      .clear()
-      .type(body);
-  }
-
   clickPublishArticleBtn() {
     cy.contains('.btn', 'Publish Article')
       .click();

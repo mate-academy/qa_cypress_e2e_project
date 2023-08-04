@@ -3,10 +3,12 @@
 /// <reference types='../support' />
 
 import NewArticlePageObject from '../support/pages/newArticle.pageObject';
+import EditArticlePageObject from '../support/pages/EditArticle.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import ArticlePageObject from '../support/pages/article.pageObject';
 
 const newArticlePage = new NewArticlePageObject();
+const editArticlePage = new EditArticlePageObject();
 const homePage = new HomePageObject();
 const articlePage = new ArticlePageObject();
 
@@ -59,9 +61,9 @@ describe('Article', () => {
 
     articlePage.clickEditBtn();
 
-    newArticlePage.typeEditArticleTitle(articleData.title);
-    newArticlePage.typeEditArticleDescription(articleData.description);
-    newArticlePage.typeEditArticleBody(articleData.body);
+    editArticlePage.typeEditArticleTitle(articleData.title);
+    editArticlePage.typeEditArticleDescription(articleData.description);
+    editArticlePage.typeEditArticleBody(articleData.body);
     newArticlePage.clickPublishArticleBtn();
 
     articlePage.assertArticleData(articleData.title, articleData.body, userData.username);
