@@ -18,6 +18,26 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: faker.internet.email(),
+            password: 'Vasylteam1!',
+            invalidEmail: 'a' + faker.internet.email(),
+            invalidPassword: 'Vasylt1m',
+            passwordWithoutCapital: 'vasylteam1',
+            passwordWithoutLower: 'VASYLTEAM1',
+            passwordWith1char: 'V',
+            passwordWith7char: 'Vasylt1',
+            passwordWithoutNum: 'Vasylter',
+            passwordWith16char: 'Vasylteamteamtea1',
+            invalidRegEmail: faker.name.firstName(),
+            emailWithoutAt: 'andrey123gmail.com',
+            emailWithoutTopLvl: 'andrey123@gmail',
+            emailWithoutDomain: 'andrey123@.com'
+          };
+        },
+        generateNewUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: faker.internet.email(),
             password: 'Vasylteam1!'
           };
         },

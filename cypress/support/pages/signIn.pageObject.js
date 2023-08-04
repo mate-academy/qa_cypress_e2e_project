@@ -26,8 +26,37 @@ class SignInPageObject extends PageObject {
   }
 
   clickSignInBtn() {
-    this.signInBtn
+    cy.getByDataCy('sign-in-btn')
       .click();
+  }
+
+  popUpWindow() {
+    cy.get('.swal-modal').should('exist');
+  }
+
+  assertLogInError() {
+    cy.get('.swal-modal')
+      .should('contain', 'Login failed!');
+  }
+
+  assertLogInErrorMsg() {
+    cy.get('.swal-modal')
+      .should('contain', 'Invalid user credentials');
+  }
+
+  closePopUpWindow() {
+    cy.get('.swal-button')
+      .click();
+  }
+
+  assertEmptyEmailError() {
+    cy.get('.swal-modal')
+      .should('contain', 'Email field required.');
+  }
+
+  assertEmptyPassError() {
+    cy.get('.swal-modal')
+      .should('contain', 'Password field required.');
   }
 }
 

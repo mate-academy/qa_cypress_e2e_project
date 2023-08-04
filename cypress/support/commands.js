@@ -64,3 +64,23 @@ Cypress.Commands.add('newArticle', (article) => {
 
   cy.contains('.btn', 'Publish Article').click();
 });
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  });
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerNewUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});

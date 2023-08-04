@@ -3,10 +3,12 @@
 import CreateArticlePageObject from '../support/pages/createArticle.pageObject';
 import ArticlePageObject from '../support/pages/article.pageObject';
 import EditArticlePageObject from '../support/pages/editArticle.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const createArticlePage = new CreateArticlePageObject();
 const articlePage = new ArticlePageObject();
 const editArticle = new EditArticlePageObject();
+const homePage = new HomePageObject();
 
 describe('Article', () => {
   let user;
@@ -39,9 +41,9 @@ describe('Article', () => {
 
     createArticlePage.clickOnThePublish();
 
-    cy.get('h1').should('contain', article.title);
+    articlePage.assertArticleTitle(article.title);
 
-    cy.url().should('include', article.title);
+    articlePage.assertArticleSlug(article.title);
   });
 
   it('should be edited using Edit button', () => {
@@ -65,9 +67,9 @@ describe('Article', () => {
 
     editArticle.clickOnThePublish();
 
-    cy.get('h1').should('contain', article.title);
+    articlePage.assertArticleTitle(article.title);
 
-    cy.url().should('include', article.title);
+    articlePage.assertArticleSlug(article.title);
   });
 
   it('should be deleted using Delete button', () => {
@@ -77,10 +79,10 @@ describe('Article', () => {
 
     articlePage.clickOnTheDeleteBtn();
 
-    cy.url().should('include', '/#/');
+    homePage.assertMainPageUrl();
 
-    cy.get('h1').should('contain.text', 'conduit');
+    homePage.assertMainPageLogo();
 
-    cy.get('p').should('contain.text', 'A place to share your knowledge.');
+    homePage.assertMainPageLogoText();
   });
 });

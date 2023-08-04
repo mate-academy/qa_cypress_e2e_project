@@ -8,6 +8,10 @@ class ArticlePageObject extends PageObject {
       .should('be.visible', title);
   }
 
+  assertArticleSlug(title) {
+    cy.url().should('include', title);
+  }
+
   assertArticleBody(body) {
     cy.get('p')
       .should('be.visible', body);

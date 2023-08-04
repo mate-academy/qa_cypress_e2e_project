@@ -1,6 +1,6 @@
 import PageObject from '../PageObject';
 
-class ArticlePageObject extends PageObject {
+class CreateArticlePageObject extends PageObject {
   url = '/#/editor';
 
   addTitle(title) {
@@ -29,4 +29,4 @@ class ArticlePageObject extends PageObject {
   }
 }
 
-export default ArticlePageObject;
+export default CreateArticlePageObject;
