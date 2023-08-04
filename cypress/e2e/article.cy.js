@@ -2,7 +2,7 @@
 /// <reference types='../support' />
 
 import CreateArticlePageObject from '../support/pages/createArticle.pageObject';
-import EditArticlePageObject from '../support/pages/editArticlePageObject';
+import EditArticlePageObject from '../support/pages/editArticle.pageObject';
 import ArticlePageObject from '../support/pages/article.pageObject';
 
 const createArticlePage = new CreateArticlePageObject();
@@ -35,16 +35,16 @@ describe('Article', () => {
     createArticlePage.typeTags(article.tag);
     createArticlePage.clickOnPublishBtn();
 
-    cy.get('h1').should('contain', article.title);
     cy.url().should('include', article.title);
+    cy.get('h1').should('contain', article.title);
   });
 
-  it.only('should be edited using Edit button', () => {
+  it('should be edited using Edit button', () => {
     cy.login(user.email, user.username, user.password);
     cy.createArticle(article);
 
     articlePage.clickOnEditBtn();
-    editArticlePage.editTitle('[Edited]');
+    editArticlePage.editTitle(article.title + '[Edited]');
     editArticlePage.editDescription(article.description + '[Edited]');
     editArticlePage.editBody(article.body + '[Edited]');
     editArticlePage.editTags(article.tag + '[Edited]');

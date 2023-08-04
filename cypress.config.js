@@ -16,7 +16,7 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: faker.internet.email(),
-            password: 'Qwer123#!'
+            password: 'Qwer123#'
           };
         },
         generateArticle() {

@@ -4,7 +4,7 @@ class EditArticlePageObject extends PageObject {
   url = '/#/editor';
 
   editTitle(title) {
-    cy.findByPlaceholder('Article Title').type(title);
+    cy.findByPlaceholder('Article Title').clear().type(title);
   }
 
   editDescription(description) {
