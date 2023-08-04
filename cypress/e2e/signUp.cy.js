@@ -9,7 +9,8 @@ const homePage = new HomePageObject();
 describe('Sign Up page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
+    cy.task('db:clear');
     homePage.visit();
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -58,7 +59,7 @@ describe('Sign Up page', () => {
     signUpPage.errorInvalidEmailMessage();
   });
 
-  it.only('should not allow to register user with invalid password', () => {
+  it('should not allow to register user with invalid password', () => {
     signUpPage.visit();
     signUpPage.typeUsername(user.username);
     signUpPage.typeEmailRegsrt(user.email);
