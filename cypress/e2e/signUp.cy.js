@@ -18,7 +18,7 @@ describe('Sign Up page', () => {
     });
   });
 
-  it.only('should allow to sign up with valid data', () => {
+  it('should allow to sign up with valid data', () => {
     signUpPage.visit();
 
     signUpPage.typeUsername(user.username);
