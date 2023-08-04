@@ -31,12 +31,17 @@ class SignUpPageObject extends PageObject {
   }
 
   get signUpBtn() {
-    return cy.getByDataCy('sign-up-btn').click();
+    return cy.getByDataCy('sign-up-btn');
   }
 
   clickSignUpBtn() {
     this.signUpBtn
       .click();
+  }
+
+  verifySuccessMessage(message) {
+    cy.get('.swal-modal')
+      .should('contain', message);
   }
 }
 
