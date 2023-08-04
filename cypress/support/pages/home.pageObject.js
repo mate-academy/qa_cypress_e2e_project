@@ -11,6 +11,19 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  assertMainPageUrl() {
+    cy.url().should('include', '/#/');
+  }
+
+  assertMainPageLogo() {
+    cy.get('h1').should('contain.text', 'conduit');
+  }
+
+  // eslint-disable-next-line no-dupe-class-members
+  assertMainPageLogoText() {
+    cy.get('p').should('contain.text', 'A place to share your knowledge.');
+  }
 }
 
 export default HomePageObject;
