@@ -15,18 +15,19 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            email: 'test' + `${randomNumber}` + '@qa.com',
             password: '12345Qwert!'
           };
         },
         generateArticle() {
           return {
             title: faker.lorem.word(),
-            description: faker.lorem.words(),
-            body: faker.lorem.words(),
+            description: faker.lorem.words(3),
+            body: faker.lorem.words(7),
             tag: faker.lorem.word()
           };
         },
+
         'db:clear'() {
           clear();
 
