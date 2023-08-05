@@ -42,5 +42,26 @@ Cypress.Commands.add('register',
       email,
       username,
       password
+    }).then((response) => {
+      cy.setCookie('drash_sess', response.body.user.token);
     });
   });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  cy.request('POST', '/users', {
+    email: 'riot@qa.team',
+    password: 'Qwerty!23',
+    username: 'usertest1'
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.request('POST', '/articles', {
+      article: {
+        title,
+        description,
+        body,
+        tags: '',
+        author_id: response.body.user.id
+      }
+    });
+  });
+});
