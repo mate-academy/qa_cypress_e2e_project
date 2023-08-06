@@ -11,6 +11,10 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  assertHomeUrl() {
+    cy.url().should('include', '/#/');
+  }
 }
 
 export default HomePageObject;
