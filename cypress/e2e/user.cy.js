@@ -29,7 +29,11 @@ describe('User', () => {
 
     userPage.assertUsername(user.username);
 
+    userPage.assertFollowBtn(user.username);
+
     userPage.clickOnTheFollowBtn(user.username);
+
+    userPage.assertUnfollowBtn();
   });
 
   it('should be able to unfollow the another user', () => {
@@ -41,6 +45,8 @@ describe('User', () => {
     userPage.visitUser(user.username);
 
     userPage.assertUsername(user.username);
+
+    userPage.assertFollowBtn(user.username);
 
     userPage.clickOnTheFollowBtn(user.username);
 

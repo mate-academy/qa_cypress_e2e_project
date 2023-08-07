@@ -5,12 +5,6 @@ class UserPageObject extends PageObject {
     cy.visit(`/#/@${username}`);
   };
 
-  assertBio(bio) {
-    cy.get('.user-info')
-      .find('p')
-      .should('contain', bio);
-  };
-
   clickOnTheFollowBtn(username) {
     cy.contains('.btn', `Follow ${username}`)
       .click();
@@ -22,7 +16,7 @@ class UserPageObject extends PageObject {
   }
 
   assertFollowBtn(username) {
-    cy.contains('.btn', `Follow${username}`).should('be.visible');
+    cy.contains('.btn', `Follow ${username}`).should('be.visible');
   }
 
   assertUnfollowBtn(username) {
@@ -32,6 +26,12 @@ class UserPageObject extends PageObject {
   assertUsername (username) {
     cy.get('h4').should('contain.text', username);
   }
+
+  assertNewBio(bio) {
+    cy.get('.user-info')
+      .find('p')
+      .should('contain', bio);
+  };
 };
 
 export default UserPageObject;
