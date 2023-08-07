@@ -32,10 +32,60 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
+});
+
+Cypress.Commands.add('register',
+  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    });
+  });
+
+Cypress.Commands.add('login',
+  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    }).then((response) => {
+      cy.setCookie('drash_sess', response.body.user.token);
+    });
+  });
+
+Cypress.Commands.add('createArticle', (user,
+  title, description, body, tags) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:1667/users',
+    body: {
+      username: user.username,
+      email: user.email,
+      password: user.password
+    }
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+    const authToken = response.body.user.token;
+
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:1667/articles',
+      headers: {
+        Cookie: `drash_sess=${authToken}`
+      },
+      body: {
+        article: {
+          title,
+          description,
+          body,
+          tags: `${tags}{enter}`,
+          author_id: authorId
+        }
+      }
+    });
   });
 });

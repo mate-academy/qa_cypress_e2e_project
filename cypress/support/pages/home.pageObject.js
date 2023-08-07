@@ -7,6 +7,16 @@ class HomePageObject extends PageObject {
     return cy.getByDataCy('username-link');
   }
 
+  assertUsernameLink(username) {
+    this.usernameLink
+      .should('contain', username);
+  }
+
+  assertHomePageUrl() {
+    cy.url()
+      .should('eq', 'http://localhost:1667/#/');
+  }
+
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
