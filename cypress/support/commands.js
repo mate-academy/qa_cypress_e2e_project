@@ -33,7 +33,18 @@ Cypress.Commands.add('getByDataCy', (selector) => {
 });
 
 // eslint-disable-next-line max-len
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email = 'riotTest@qa.team', username = 'riotTest', password = '123Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerSecondUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,

@@ -25,6 +25,16 @@ module.exports = defineConfig({
             invalidEmail2: 'testQA@gmail'
           };
         },
+        generateSecondUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: 'test' + `${randomNumber}` + '@mail.com',
+            password: 'AnyPass12345!',
+            bio: faker.lorem.words()
+          };
+        },
+
         generateArticle() {
           return {
             title: faker.lorem.word(),
