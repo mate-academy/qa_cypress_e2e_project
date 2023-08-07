@@ -12,10 +12,18 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random() * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
+            password: '12345Qwert!'
+          };
+        },
+        generateUser2() {
+          const randomNumber = Math.ceil(Math.random() * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: 'user2name' + `${randomNumber}` + '@qa.com',
             password: '12345Qwert!'
           };
         },
@@ -36,6 +44,22 @@ module.exports = defineConfig({
           seed();
 
           return null;
+        },
+        'registerUser1'(email, username, password) {
+          const randomNumber = Math.ceil(Math.random() * 1000);
+          return {
+            username: username + `${randomNumber}`,
+            email: email + `${randomNumber}` + '@qa.com',
+            password: password + 1
+          };
+        },
+        'registerUser2'(email, username, password) {
+          const randomNumber = Math.ceil(Math.random() * 1000);
+          return {
+            username: username + `${randomNumber}`,
+            email: email + `${randomNumber}` + '@qa.com',
+            password: password + 2
+          };
         }
       });
       addMatchImageSnapshotPlugin(on, config);
