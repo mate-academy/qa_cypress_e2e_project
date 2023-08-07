@@ -38,9 +38,9 @@ describe('Sign Up page', () => {
 
   it('should not able to register user with empty "Username" field', () => {
     registerUser('', user.email, user.password);
+    signUpPage.clickOkBtn();
     signUpPage.assertFailedRegistration();
     signUpPage.assertUsernameFieldRequired();
-    signUpPage.clickOkBtn();
   });
 
   it('should not be able to register user with empty "Email" field', () => {
