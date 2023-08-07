@@ -28,7 +28,18 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  // eslint-disable-next-line max-len
+  it.only('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    signInPage.typeEmail('wrongemail@example.com');
+    signInPage.typePassword('wrongpassword');
+    signInPage.clickSignInBtn();
 
+    cy.contains('Invalid user credentials.').should('be.visible');
+    cy.url().should('include', '/#/login');
+    cy.get('.swal-modal').should('be.visible');
+    cy.contains('.swal-title', 'Login failed!').should('be.visible');
+    cy.contains('.swal-text', 'Invalid user credentials.').should('be.visible');
+    cy.get('.swal-modal button.swal-button--confirm').click();
   });
 });
