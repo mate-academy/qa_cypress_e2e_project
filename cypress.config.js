@@ -12,11 +12,20 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random(10000) * 10000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
             password: '12345Qwert!'
+          };
+        },
+        generateUser2() {
+          const randomNumber = Math.ceil(Math.random(100000) * 100000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'edited' + `${randomNumber}` + '@mail.com',
+            password: `${randomNumber}` + 'Edited!'
           };
         },
         generateArticle() {
