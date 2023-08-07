@@ -13,6 +13,16 @@ class UserPageObject extends PageObject {
       .click();
   }
 
+  assertFollowBtn() {
+    cy.get('.btn')
+      .should('contain', 'Follow');
+  }
+
+  assertUnfollowBtn() {
+    cy.get('.btn')
+      .should('contain', 'Unfollow');
+  }
+
   assertUser2PageUrl() {
     cy.url()
       .should('eq', 'http://localhost:1667/#/@Sasha');

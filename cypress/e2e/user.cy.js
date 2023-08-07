@@ -37,9 +37,10 @@ describe('User', () => {
     homePage.assertUsernameLink(user.username);
 
     userPage.visit();
+    userPage.assertUser2PageUrl();
     userPage.clickFollowBtn();
 
-    userPage.assertUser2PageUrl();
+    userPage.assertUnfollowBtn();
   });
 
   it('should be able to unfollow the user', () => {
@@ -54,9 +55,11 @@ describe('User', () => {
     homePage.assertUsernameLink(user.username);
 
     userPage.visit();
+    userPage.assertUser2PageUrl();
     userPage.clickFollowBtn();
+    userPage.assertUnfollowBtn();
     userPage.clickUnfollowBtn();
 
-    userPage.assertUser2PageUrl();
+    userPage.assertFollowBtn();
   });
 });
