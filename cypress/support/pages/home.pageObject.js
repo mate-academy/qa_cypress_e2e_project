@@ -12,7 +12,7 @@ class HomePageObject extends PageObject {
       .should('contain', username);
   }
 
-  assertHomeUrl() {
+  assertHomePageUrl() {
     cy.url().should('include', '/#/');
   }
 }

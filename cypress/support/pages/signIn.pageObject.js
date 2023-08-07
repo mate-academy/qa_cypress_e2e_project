@@ -29,6 +29,28 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
-}
 
+  assertModalWindow() {
+    cy.get('.swal-modal').should('exist');
+  }
+
+  closeModalWindow() {
+    cy.get('.swal-button').click();
+  }
+
+  assertEmptyPasswordMessage() {
+    cy.get('.swal-modal')
+      .should('contain', 'Password field required.');
+  }
+
+  assertEmptyEmailMessage() {
+    cy.get('.swal-modal')
+      .should('contain', 'Email field required.');
+  }
+
+  assertInvalidEmailMessage() {
+    cy.contains('.swal-modal', 'Email must be a valid email.')
+      .should('exist');
+  }
+}
 export default SignInPageObject;
