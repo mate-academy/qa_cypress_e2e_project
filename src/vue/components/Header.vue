@@ -71,6 +71,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
+            data-qa="username-link"
             data-cy="username-link"
             class="nav-link"
             active-class="active"
