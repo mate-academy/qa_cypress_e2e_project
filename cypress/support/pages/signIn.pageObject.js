@@ -17,17 +17,34 @@ class SignInPageObject extends PageObject {
 
   typeEmail(email) {
     this.emailField
-      .type(email);
+      .type('riot@qa.team');
   }
 
   typePassword(password) {
     this.passwordField
-      .type(password);
+      .type('12345Qwert!');
+  }
+
+  typeInvalidPassword(password) {
+    this.passwordField
+      .type('wrongpassword123');
   }
 
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertLoginFailed() {
+    cy.get('.swal-title').should('contain.text', 'Login failed!');
+  }
+
+  assertInvalidCreds() {
+    cy.get('.swal-text').should('contain.text', 'Invalid user credentials.');
+  }
+
+  clickOkBtn() {
+    cy.get('.swal-button').click();
   }
 }
 
