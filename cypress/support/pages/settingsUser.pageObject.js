@@ -22,7 +22,7 @@ class SettingsUserPageObject extends PageObject {
 
   editEmail(email) {
     cy.get(':nth-child(3) > .nav-link').click();
-    cy.findByPlaceholder('Email').type('adamsmasher@mail.com');
+    cy.findByPlaceholder('Email').clear().type('adamsmasher@mail.com');
     cy.get('form > :nth-child(1) > .btn').click();
   }
 

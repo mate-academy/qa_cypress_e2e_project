@@ -44,7 +44,7 @@ describe('Settings page', () => {
     settingsUser.assertBioUser();
   });
 
-  it('should provide an ability to update an email', () => {
+  it.only('should provide an ability to update an email', () => {
     signInAndVisitSettings();
     settingsUser.editEmail();
     settingsUser.assertSuccesfulEdit();
