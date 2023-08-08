@@ -16,18 +16,27 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  errorMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Invalid user credentials.');
+    cy.get('.swal-button').click();
+  }
+
+  errorEmailMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Email field required.');
+    cy.get('.swal-button').click();
   }
 }
 
