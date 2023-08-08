@@ -4,13 +4,14 @@
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import faker from 'faker';
+import { generatePassword, generateUsername } from '../support/helpfunctions';
 
 const signUpPage = new SignUpPageObject();
 const homePage = new HomePageObject();
 
 describe('Sign Up page', () => {
   let user;
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -24,6 +25,7 @@ describe('Sign Up page', () => {
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
 
+    signUpPage.successMessage();
     homePage.assertHeaderContainUsername(user.username);
   });
 
@@ -39,8 +41,57 @@ describe('Sign Up page', () => {
     signUpPage.clickSignUpBtn();
 
     cy.get('.swal-title').should('contain', 'Registration failed!');
-    // eslint-disable-next-line spaced-comment
-    //cy.get('.swal-text').should('contain', 'Email already taken.');
+    cy.url().should('include', 'register');
+  });
+
+  // eslint-disable-next-line max-len
+  it('should not provide an ability to sign up with 2 symbols for username', () => {
+    signUpPage.visit();
+
+    signUpPage.typeUsername('te');
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    cy.get('.swal-title').should('contain', 'Registration failed!');
+    cy.url().should('include', 'register');
+  });
+
+  // eslint-disable-next-line max-len
+  it('should provide an ability to sign up with 3 symbols for username', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername('tes');
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    signUpPage.successMessage();
+    homePage.assertHeaderContainUsername('tes');
+  });
+
+  // eslint-disable-next-line max-len
+  it('should provide an ability to sign up with 40 symbols for username', () => {
+    signUpPage.visit();
+    const username = generateUsername(40);
+    signUpPage.typeUsername(username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    signUpPage.successMessage();
+    homePage.assertHeaderContainUsername(username);
+  });
+
+  // eslint-disable-next-line max-len
+  it('should not provide an ability to sign up with 41 symbols for username', () => {
+    signUpPage.visit();
+    const username = generateUsername(41);
+    signUpPage.typeUsername(username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    cy.get('.swal-title').should('contain', 'Registration failed!');
     cy.url().should('include', 'register');
   });
 
@@ -199,15 +250,6 @@ describe('Sign Up page', () => {
   // eslint-disable-next-line max-len
   it('should provide an ability to sign up with 29 symbols for password', () => {
     signUpPage.visit();
-    function generatePassword(length) {
-      const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let password = 'T1@';
-      for (let i = 0; i < length; i++) {
-        // eslint-disable-next-line max-len
-        password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return password;
-    };
     const password = generatePassword(26);
 
     signUpPage.typeUsername(user.username);
@@ -221,15 +263,6 @@ describe('Sign Up page', () => {
   // eslint-disable-next-line max-len
   it('should provide an ability to sign up with 30 symbols for password', () => {
     signUpPage.visit();
-    function generatePassword(length) {
-      const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let password = 'T1@';
-      for (let i = 0; i < length; i++) {
-        // eslint-disable-next-line max-len
-        password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return password;
-    };
     const password = generatePassword(27);
 
     signUpPage.typeUsername(user.username);
@@ -243,15 +276,6 @@ describe('Sign Up page', () => {
   // eslint-disable-next-line max-len
   it('should not provide an ability to sign up with 31 symbols for password', () => {
     signUpPage.visit();
-    function generatePassword(length) {
-      const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let password = 'T1@';
-      for (let i = 0; i < length; i++) {
-        // eslint-disable-next-line max-len
-        password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return password;
-    };
     const password = generatePassword(28);
 
     signUpPage.typeUsername(user.username);

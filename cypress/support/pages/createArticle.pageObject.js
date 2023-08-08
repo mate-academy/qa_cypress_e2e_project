@@ -1,6 +1,6 @@
 import PageObject from '../PageObject';
 
-class createArticlePageObject extends PageObject {
+class CreateArticlePageObject extends PageObject {
   url = '/#/editor';
 
   get articleTitleField() {
@@ -74,4 +74,4 @@ class createArticlePageObject extends PageObject {
   }
 }
 
-export default createArticlePageObject;
+export default CreateArticlePageObject;

@@ -33,10 +33,10 @@ describe('User', () => {
 
     userPage.clickFollowBtn(secondUser.username);
 
-    cy.contains('button', `Unfollow ${secondUser.username}`).should('exist');
+    userPage.assertFollowingUser(secondUser.username);
   });
 
-  it('should be able to follow the another user', () => {
+  it('should be able to unfollow the followed user', () => {
     // eslint-disable-next-line max-len
     cy.registerSecondUser(secondUser.email, secondUser.username, secondUser.password);
     cy.register(user.email, user.username, user.password);
@@ -47,6 +47,6 @@ describe('User', () => {
     userPage.clickFollowBtn(secondUser.username);
     userPage.clickUnfollowBtn(secondUser.username);
 
-    cy.contains('button', `Follow ${secondUser.username}`).should('exist');
+    userPage.assertUnfollowingUser(secondUser.username);
   });
 });

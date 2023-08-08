@@ -14,7 +14,11 @@ class UserPageObject extends PageObject {
   }
 
   assertFollowingUser(username) {
-    cy.contains('button', `Unfollow ${username}`).should('exist');
+    cy.contains('.btn', `Unfollow ${username}`).should('exist');
+  }
+
+  assertUnfollowingUser(username) {
+    cy.contains('.btn', `Follow ${username}`).should('exist');
   }
 };
 
