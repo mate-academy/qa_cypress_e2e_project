@@ -33,7 +33,7 @@ Cypress.Commands.add('getByDataCy', (selector) => {
 });
 
 Cypress.Commands.add('findByPlaceholder', (placeholder) => {
-  cy.get(`[placeholder='${placeholder}']`);
+  cy.get(`[placeholder="${placeholder}"]`);
 });
 
 Cypress.Commands.add('register', (user) => {
@@ -44,5 +44,21 @@ Cypress.Commands.add('register', (user) => {
   })
     .then((response) => {
       cy.setCookie('drash_sess', response.body.user.token);
+      window.localStorage.setItem('id', response.body.user.id);
     });
+});
+Cypress.Commands.add('createArticle', (article) => {
+  cy.request({
+    method: 'POST',
+    url: '/articles',
+    body: {
+      article: {
+        author_id: window.localStorage.getItem('id'),
+        body: article.body,
+        description: article.description,
+        tags: [article.tag],
+        title: article.title
+      }
+    }
+  });
 });
