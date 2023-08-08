@@ -67,4 +67,77 @@ describe('Sign Up page', () => {
     signUpPage.clickSignUpBtn();
     signUpPage.errorInvalidPasswordMessage();
   });
+
+  // eslint-disable-next-line max-len
+  it('should not allow to register user with password without Capital letters', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWithoutCapital);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user with lowercase password', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWithoutLower);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user with 1 character in password', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWith1char);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user with 7 character in password', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWith7char);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user without numbers in password', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWithoutNum);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user with 16 characters in password', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.email);
+    signUpPage.typePasswordRegsrt(user.passwordWith16char);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidPasswordMessage();
+  });
+
+  it('should not allow to register user without @ in email', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.emailWithoutDomain);
+    signUpPage.typePasswordRegsrt(user.password);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidEmailMessage();
+  });
+
+  it('should not allow to register user without .com in email', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmailRegsrt(user.emailWithoutTopDomain);
+    signUpPage.typePasswordRegsrt(user.password);
+    signUpPage.clickSignUpBtn();
+    signUpPage.errorInvalidEmailMessage();
+  });
 });

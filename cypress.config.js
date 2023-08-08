@@ -18,7 +18,15 @@ module.exports = defineConfig({
             email: faker.internet.email(),
             password: '12345Qwert!',
             wrongEmail: faker.name.lastName(),
-            wrongPassword: randomNumber
+            wrongPassword: randomNumber,
+            passwordWithoutCapital: 'qatest1',
+            passwordWithoutLower: 'QATEST1',
+            passwordWith1char: 'Q',
+            passwordWith7char: 'Qatest9',
+            passwordWithoutNum: 'Qatests',
+            passwordWith16char: 'Qatesterengineer',
+            emailWithoutDomain: faker.name.lastName() + '.com',
+            emailWithoutTopDomain: faker.name.lastName() + '@'
           };
         },
         generateTestUser() {
