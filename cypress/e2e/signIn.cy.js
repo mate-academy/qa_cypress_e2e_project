@@ -1,3 +1,4 @@
+/* eslint-disable */
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
@@ -9,9 +10,11 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  const invalidUserPassword = 'Invld';
+  const invalidUserEmail = 'Invldemail';
 
-  before(() => {
-    cy.task('db:clear');
+  beforeEach(() => {
+    cy.task('db:clear'); //
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
@@ -28,7 +31,53 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with an invalid password', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(invalidUserPassword);
+    signInPage.clickSignInBtn();
+
+    cy.wait(3000);
+
+    signInPage.assertInvalidUserCredentials();
+  });
+
+  it('should not provide an ability to log in with an invalid email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(invalidUserEmail);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    cy.wait(3000);
+
+    signInPage.assertEmailMustBeAValidEmail();
+  });
+
+  it('should not provide an ability to log in with an empty email field', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    cy.wait(3000);
+
+    signInPage.assertEmailFieldRequired();
+  });
+
+  it('should not provide an ability to log in with an empty password field', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.clickSignInBtn();
+
+    cy.wait(3000);
+
+    signInPage.assertPasswordFieldRequired();
   });
 });

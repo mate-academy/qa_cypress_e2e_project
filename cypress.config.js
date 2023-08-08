@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { defineConfig } = require('cypress');
 const faker = require('faker');
 const { clear } = require('./server/db');
@@ -13,10 +14,12 @@ module.exports = defineConfig({
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const username = faker.name.firstName() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: username,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!' + username,
+            bio: 'bio for' + username
           };
         },
         generateArticle() {

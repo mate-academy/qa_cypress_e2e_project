@@ -8,8 +8,11 @@ class HomePageObject extends PageObject {
   }
 
   assertHeaderContainUsername(username) {
-    this.usernameLink
-      .should('contain', username);
+    this.usernameLink.should('contain', username);
+  }
+
+  assertUserHeaderNotExist() {
+    this.usernameLink.should('not.exist');
   }
 }
 
