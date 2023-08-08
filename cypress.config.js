@@ -33,6 +33,15 @@ module.exports = defineConfig({
             password: '12345Qwert!'
           };
         },
+        generateTestUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: faker.internet.email(),
+            password: 'Qwert12345!',
+            bio: faker.lorem.words()
+          };
+        },
         'db:clear'() {
           clear();
 

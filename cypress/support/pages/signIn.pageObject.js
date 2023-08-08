@@ -28,7 +28,14 @@ class SignInPageObject extends PageObject {
   }
 
   errorMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
     cy.get('.swal-modal').should('contain', 'Invalid user credentials.');
+    cy.get('.swal-button').click();
+  }
+
+  errorEmailMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Email field required.');
     cy.get('.swal-button').click();
   }
 }

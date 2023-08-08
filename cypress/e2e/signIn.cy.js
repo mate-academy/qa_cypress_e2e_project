@@ -33,4 +33,12 @@ describe('Sign In page', () => {
     signInPage.clickSignInBtn();
     signInPage.errorMessage();
   });
+
+  it('should not provide an ability to log in without email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.errorEmailMessage();
+  });
 });
