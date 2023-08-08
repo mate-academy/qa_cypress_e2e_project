@@ -34,9 +34,13 @@ describe('User', () => {
     // eslint-disable-next-line max-len
     cy.get('.swal-text').should('contain.text', 'Your registration was successful!');
     cy.get('.swal-button').click();
-    cy.get('[data-cy="username-link"]').contains('Kassandra');
-    cy.get('.article-preview').contains(article.title).click();
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-secondary > :nth-child(3)').click();
+    cy.visit(`/#/@${'riot'}`);
+    // cy.get('.navbar-brand').click();
+    // cy.wait(5000);
+    // cy.get('[data-cy="username-link"]').contains('Kassandra');
+    // cy.get('.article-preview').contains(article.title).click();
+    cy.get('.col-xs-12 > div > .btn').click();
+    cy.get('.col-xs-12 > div > .btn').contains('Unfollow');
   });
   it('should be able to unfollow the another user', () => {
     cy.visit('/#/login');
@@ -58,6 +62,33 @@ describe('User', () => {
     // eslint-disable-next-line max-len
     cy.get('.swal-text').should('contain.text', 'Your registration was successful!');
     cy.get('.swal-button').click();
+    cy.visit(`/#/@${'riot'}`);
+    cy.get('.col-xs-12 > div > .btn').contains('Unfollow');
+    cy.get('.col-xs-12 > div > .btn').click();
+    cy.get('.col-xs-12 > div > .btn').contains('Follow');
+  });
+
+  it.only('should be able to follow the another user Global feed flow', () => {
+    cy.visit('/#/login');
+    cy.signIn();
+    cy.wait(5000);
+    cy.visit('/#/editor');
+    cy.findByPlaceholder('Article Title').type(article.title);
+    cy.get(':nth-child(2) > .form-control').type(article.description);
+    cy.findByPlaceholder('Write your article (in markdown)').type(article.body);
+    cy.findByPlaceholder('Enter tags').type(article.tag);
+    cy.get('.btn').click();
+    cy.wait(5000);
+    cy.visit('/#/register');
+    cy.findByPlaceholder('Username').type('Kassandra');
+    cy.findByPlaceholder('Email').type('kassandra012@gmail.com');
+    cy.findByPlaceholder('Password').type('user.Password1');
+    cy.get('.btn').click();
+    cy.wait(5000);
+    // eslint-disable-next-line max-len
+    cy.get('.swal-text').should('contain.text', 'Your registration was successful!');
+    cy.get('.swal-button').click();
+    cy.wait(5000);
     cy.get('[data-cy="username-link"]').contains('Kassandra');
     cy.get('.article-preview').contains(article.title).click();
     cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-secondary > :nth-child(3)').click();

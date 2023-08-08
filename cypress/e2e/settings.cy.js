@@ -35,7 +35,7 @@ describe('Settings page', () => {
     homePage.assertHeaderContainUpdateUsername();
   });
 
-  it('should provide an ability to update an email', () => {
+  it.only('should provide an ability to update an email', () => {
     cy.wait(5000);
     cy.visit('/#/settings');
     cy.wait(5000);
