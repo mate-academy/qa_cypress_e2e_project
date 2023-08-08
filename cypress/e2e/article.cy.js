@@ -48,6 +48,6 @@ describe('Article', () => {
     cy.register(user.email, user.username, user.password);
     cy.createArticle(article);
     articlePage.clickOnDeleteBtn();
-    homePage.assertHomeUrl();
+    homePage.assertHomePageUrl();
   });
 });
