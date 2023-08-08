@@ -16,6 +16,7 @@
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
                   active-class="active"
+                  cy-data="Your Feed"
                 >
                   Your Feed
                 </router-link>

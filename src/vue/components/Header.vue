@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            cy-data="login_link"
             class="nav-link"
             active-class="active"
             exact
@@ -27,6 +28,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            cy-data="register_link"
             class="nav-link"
             active-class="active"
             exact
@@ -49,6 +51,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            cy-data="create_article"
             class="nav-link"
             active-class="active"
             :to="{
@@ -62,6 +65,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            cy-data="settings-link"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,7 +75,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            cy-data="username-link"
             class="nav-link"
             active-class="active"
             exact
