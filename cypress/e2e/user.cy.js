@@ -25,7 +25,7 @@ describe('User', () => {
     });
   });
 
-  it('should be able to follow the another user', () => {
+  it('should be able to follow/unfollow the another user', () => {
     cy.register(user.email, user.username, user.password);
     cy.newArticle(article);
     createArticle.assertArticleTitleExists(article.title);
@@ -43,6 +43,7 @@ describe('User', () => {
     signUpPage.clickOkBtn();
 
     followUnfollow.followUser();
+    followUnfollow.assertUserFollow();
     followUnfollow.unfollowUser(user.username);
   });
 });

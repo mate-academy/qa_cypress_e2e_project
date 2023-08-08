@@ -6,7 +6,12 @@ class FollowUnfollowPageObject extends PageObject {
 
     cy.get('.article-preview').click();
     // eslint-disable-next-line max-len
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-secondary > :nth-child(3)').click();
+    cy.get('.author').click();
+    cy.get('.col-xs-12 > div > .btn').click();
+  }
+
+  assertUserFollow() {
+    cy.get('.col-xs-12 > div > .btn').should('contain', 'Unfollow');
   }
 
   unfollowUser(username) {
