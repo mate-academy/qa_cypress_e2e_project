@@ -6,7 +6,7 @@
           <h1 class="text-xs-center">Your Settings</h1>
           <form @submit.prevent="updateSettings()">
             <fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" cy-data="url_field">
                 <input
                   class="form-control"
                   type="text"
@@ -14,7 +14,7 @@
                   placeholder="URL of profile picture"
                 />
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" cy-data="username_field">
                 <input
                   class="form-control form-control-lg"
                   type="text"
@@ -22,7 +22,7 @@
                   placeholder="Your username"
                 />
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" cy-data="bio_field">
                 <textarea
                   class="form-control form-control-lg"
                   rows="8"
@@ -30,7 +30,7 @@
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" cy-data="email_field">
                 <input
                   class="form-control form-control-lg"
                   type="text"
@@ -38,7 +38,7 @@
                   placeholder="Email"
                 />
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" cy-data="password_field">
                 <input
                   class="form-control form-control-lg"
                   type="password"
@@ -46,14 +46,14 @@
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" cy-data="Update button">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" cy-data="Logout button">
             Or click here to logout.
           </button>
         </div>

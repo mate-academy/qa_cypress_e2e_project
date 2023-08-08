@@ -36,7 +36,16 @@ module.exports = defineConfig({
           seed();
 
           return null;
-        }
+        },
+        generateSettings() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'test' + `${randomNumber}` + '@mail.com',
+            password: '12345Qwert!' + randomNumber
+          }
+        } 
       });
       addMatchImageSnapshotPlugin(on, config);
     }
