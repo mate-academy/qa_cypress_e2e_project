@@ -5,10 +5,11 @@ const { seed } = require('./server/db');
 const {
   addMatchImageSnapshotPlugin
 } = require('cypress-image-snapshot/plugin');
-
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
+    viewportHeight: 1000,
+    viewportWeight: 1200,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
@@ -16,7 +17,8 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            bio: faker.lorem.words()
           };
         },
         generateArticle() {
@@ -29,12 +31,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
