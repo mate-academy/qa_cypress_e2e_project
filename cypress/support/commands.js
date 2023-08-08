@@ -32,10 +32,36 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
+Cypress.Commands.add('getByPlaceholder', (selector) => {
+  cy.get(`[placeholder="${selector}"]`);
+});
+
+Cypress.Commands.add('getByHref', (selector) => {
+  cy.get(`[href="${selector}"]`);
+});
+
+Cypress.Commands.add('getByType', (selector) => {
+  cy.get(`[type="${selector}"]`);
+});
+
+// eslint-disable-next-line max-len
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('followRegister', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
   });
 });

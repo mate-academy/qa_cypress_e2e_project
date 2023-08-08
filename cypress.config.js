@@ -15,7 +15,7 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            email: faker.lorem.word() + `${randomNumber}` + `${randomNumber}` + '@mail.com',
             password: '12345Qwert!'
           };
         },
@@ -25,6 +25,25 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
+          };
+        },
+        generateSettings() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            // eslint-disable-next-line max-len
+            picture: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: faker.lorem.word() + `${randomNumber}` + `${randomNumber}` + '@mail.com',
+            password: '12345Qwe'
+          };
+        },
+        generateFollow() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}` + `${randomNumber}`,
+            email: faker.lorem.word() + `${randomNumber}` + `${randomNumber}` + '@mail.com',
+            password: '12345Qwe'
           };
         },
         'db:clear'() {
