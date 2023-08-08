@@ -32,10 +32,41 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
+// eslint-disable-next-line max-len
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
+});
+
+Cypress.Commands.add('findById', (id) => {
+  cy.get(`#${id}`);
+});
+
+Cypress.Commands.add('publishArticle', (article) => {
+  cy.visit('/#/editor');
+  cy.getByDataCy('article-title').type(article.title);
+  cy.getByDataCy('article-description').type(article.description);
+  cy.getByDataCy('article-body').type(article.body);
+  cy.findByPlaceholder('Enter tags').type(article.tag);
+  cy.getByDataCy('publish-article-btn').click();
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerSecondUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
   });
 });
