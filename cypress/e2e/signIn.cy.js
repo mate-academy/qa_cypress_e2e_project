@@ -18,9 +18,8 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
+    signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
@@ -28,7 +27,25 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with invalid email', () => {
+    signInPage.visit();
+    const invalidEmail = 'invalide@xamplecom';
 
+    signInPage.emailField.type(invalidEmail);
+    signInPage.passwordField.type(user.password);
+    signInPage.signInBtn.click();
+
+    homePage.modalWindow.should('contain', 'Email must be a valid email.');
+  });
+
+  it('should not provide an ability to log in with invalid password', () => {
+    signInPage.visit();
+    const invalidPassword = 'Test1!';
+
+    signInPage.emailField.type(user.email);
+    signInPage.passwordField.type(invalidPassword);
+    signInPage.signInBtn.click();
+
+    homePage.modalWindow.should('contain', 'Invalid user credentials');
   });
 });
