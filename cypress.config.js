@@ -15,8 +15,27 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            email: faker.internet.email(),
+            password: '12345Qwert!',
+            wrongEmail: faker.name.lastName(),
+            wrongPassword: randomNumber,
+            passwordWithoutCapital: 'qatest1',
+            passwordWithoutLower: 'QATEST1',
+            passwordWith1char: 'Q',
+            passwordWith7char: 'Qatest9',
+            passwordWithoutNum: 'Qatests',
+            passwordWith16char: 'Qatesterengineer',
+            emailWithoutDomain: faker.name.lastName() + '.com',
+            emailWithoutTopDomain: faker.name.lastName() + '@'
+          };
+        },
+        generateTestUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: faker.internet.email(),
+            password: 'Qatest123!',
+            bio: faker.lorem.words()
           };
         },
         generateArticle() {
@@ -25,6 +44,12 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
+          };
+        },
+        loginUser() {
+          return {
+            email: 'qatest098@gmail.com',
+            password: 'Qatest123!'
           };
         },
         'db:clear'() {
