@@ -36,6 +36,15 @@ describe('Sign Up page', () => {
     homePage.assertErrorMassageTitle(`Registration failed!`);
   });
 
+  it('should not provide an ability to sign up with existance Username', () => {
+    signInPage.registerOnly(user.email, user.username, user.password);
+    homePage.assertSignUpLinkAndClick();
+    signUpPage.signUpForTests(user.username, '1' + user.email, user.password);
+
+    signUpPage.assertErrorMassageTitle(`Registration failed!`);
+    signUpPage.assertErrorMassage(`Username already taken.`);
+  });
+
   it('should not provide an ability to sign up with empty Username', () => {
     homePage.assertSignUpLinkAndClick();
     signUpPage.signUpWithEmptyUsername(user.email, user.password);
