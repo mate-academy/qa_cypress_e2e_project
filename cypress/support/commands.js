@@ -32,10 +32,36 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get([placeholder = `${placeholder}`]);
+});
+
+Cypress.Commands.add('register',
+  (email, username, password) => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    }).then((response) => {
+      cy.setCookie('drash_sess', response.body.user.token);
+    });
+  });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
   cy.request('POST', '/users', {
-    email,
-    username,
-    password
+    email: 'riot@qa.team',
+    password: 'Qwerty!23',
+    username: 'usertest1'
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.request('POST', '/articles', {
+      article: {
+        title,
+        description,
+        body,
+        tags: '',
+        author_id: response.body.user.id
+      }
+    });
   });
 });
