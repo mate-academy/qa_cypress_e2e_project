@@ -3,13 +3,20 @@ import PageObject from '../PageObject';
 class HomePageObject extends PageObject {
   url = '/#/';
 
-  get usernameLink() {
-    return cy.getByDataCy('username-link');
+  assertHeaderContainUsername(username) {
+    cy.get('[data-cy="username-link"]').should('contain', username);
   }
 
-  assertHeaderContainUsername(username) {
-    this.usernameLink
-      .should('contain', username);
+  clickOnSettingsIcon() {
+    cy.get('[href="#/settings"]').click();
+  }
+
+  clickOnLogoutBtn() {
+    cy.contains('.btn', 'Or click here to logout').click();
+  }
+
+  clickOnSignUpBtn() {
+    cy.get('[href="#/register"]').click();
   }
 }
 
