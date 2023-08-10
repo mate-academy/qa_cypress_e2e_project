@@ -7,9 +7,9 @@ class HomePageObject extends PageObject {
     return cy.getByDataCy('username-link');
   }
 
-  assertHeaderContainUsername(username) {
-    this.usernameLink.should('contain', username);
-  }
+  assertHeaderContainUsername = (username) => {
+    cy.get('[data-cy="username-link"]').should('contain', username);
+  };
 
   clickNewArticle() {
     cy.get('a.nav-link').contains('New Article').click();

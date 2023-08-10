@@ -25,6 +25,15 @@ class SignInPageObject extends PageObject {
       .type(password);
   }
 
+  fillLoginCredentials(email, password) {
+    if (email) {
+      this.typeEmail(email);
+    }
+    if (password) {
+      this.typePassword(password);
+    }
+  }
+
   clickSignInBtn() {
     this.signInBtn
       .click();

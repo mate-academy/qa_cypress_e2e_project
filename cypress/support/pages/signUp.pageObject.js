@@ -29,6 +29,18 @@ class SignUpPageObject {
     return this.passwordInput.type(password);
   }
 
+  fillForm(name, email, password) {
+    if (name) {
+      this.nameInput.type(name);
+    }
+    if (email) {
+      this.emailInput.type(email);
+    }
+    if (password) {
+      this.passwordInput.type(password);
+    }
+  }
+
   submitSignUpForm() {
     return this.signUpButton.click();
   }

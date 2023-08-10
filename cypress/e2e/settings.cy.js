@@ -4,6 +4,10 @@ import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import SettingsPageObject from '../support/pages/settings.pageObject';
 import faker from 'faker';
+import {
+  updateSuccessMessage,
+  confirmationMessage
+} from '../plugins/alertMessages';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -12,8 +16,11 @@ const settingsPage = new SettingsPageObject();
 describe('Settings page', () => {
   let user;
 
-  beforeEach(() => {
+  before(() => {
     cy.task('db:clear');
+  });
+
+  beforeEach(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
 
@@ -34,8 +41,8 @@ describe('Settings page', () => {
     settingsPage.usernameInput.clear().type(editedUsername);
     settingsPage.submitSettings();
 
-    cy.contains('Update successful!');
-    cy.contains('OK').click();
+    cy.contains(updateSuccessMessage);
+    cy.contains(confirmationMessage).click();
 
     homePage.assertHeaderContainUsername(editedUsername);
     cy.get('input[placeholder="Your username"]')
@@ -47,8 +54,8 @@ describe('Settings page', () => {
     settingsPage.bioInput.clear().type(editedBio);
     settingsPage.submitSettings();
 
-    cy.contains('Update successful!');
-    cy.contains('OK').click();
+    cy.contains(updateSuccessMessage);
+    cy.contains(confirmationMessage).click();
 
     cy.get('textarea[placeholder="Short bio about you"]')
       .should('have.value', editedBio);
@@ -59,19 +66,19 @@ describe('Settings page', () => {
     settingsPage.emailInput.clear().type(editedEmail);
     settingsPage.submitSettings();
 
-    cy.contains('Update successful!');
-    cy.contains('OK').click();
+    cy.contains(updateSuccessMessage);
+    cy.contains(confirmationMessage).click();
 
     cy.get('input[placeholder="Email"]').should('have.value', editedEmail);
   });
 
   it('should provide an ability to update password', () => {
-    const editedPassword = 'Qwer123!';
+    const editedPassword = faker.internet.password();
     settingsPage.passwordInput.type(editedPassword);
     settingsPage.submitSettings();
 
-    cy.contains('Update successful!');
-    cy.contains('OK').click();
+    cy.contains(updateSuccessMessage);
+    cy.contains(confirmationMessage).click();
 
     settingsPage.logOutSettings();
     signInPage.visit();

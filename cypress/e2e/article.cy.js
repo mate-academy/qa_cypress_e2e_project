@@ -4,6 +4,7 @@ import ArticlePage from '../support/pages/article.pageObject';
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import faker from 'faker';
+import '../support/commands';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -17,14 +18,17 @@ describe('Article', () => {
   let content;
   let tags;
 
-  beforeEach(() => {
+  before(() => {
     cy.task('db:clear');
+  });
+
+  beforeEach(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
 
-      signInPage.visit();
-
-      cy.register(user.email, user.username, user.password);
+      cy.visit('/#/login').then(() => {
+        cy.register(user.email, user.username, user.password);
+      });
 
       signInPage.typeEmail(user.email);
       signInPage.typePassword(user.password);
@@ -71,7 +75,7 @@ describe('Article', () => {
   it('should be deleted using Delete button', () => {
     cy.get('button.btn-outline-danger').contains('Delete Article').click();
 
-    cy.contains('a', user.username).click();
-    cy.title().should('not.contain', title);
+    cy.get('a').contains(user.username).click();
+    cy.get('h1').should('not.contain', title);
   });
 });

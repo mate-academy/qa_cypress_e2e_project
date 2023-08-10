@@ -3,69 +3,93 @@
 import SignUpPage from '../support/pages/signUp.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import faker from 'faker';
+import {
+  welcomeMessage,
+  registrationSuccessfulMessage,
+  registrationFailedMessage,
+  usernameEmptyFieldMessage,
+  usernameExistingTakenMessage,
+  emailEmptyFieldMessage,
+  emailExistingTakenMessage,
+  passwordEmptyFieldMessage,
+  confirmationMessage
+} from '../plugins/alertMessages';
 
 describe('Sign Up page', () => {
-  let name;
-  let email;
-  let password;
+  let nameNextUser;
+  let emailNextUser;
+  let passwordNextUser;
+  let user;
   const signUpPage = new SignUpPage();
 
   before(() => {
     cy.task('db:clear');
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+    });
+    nameNextUser = faker.name.firstName();
+    emailNextUser = faker.internet.email();
+    passwordNextUser = faker.internet.password();
   });
 
   beforeEach(() => {
     cy.visit('/#/register');
-    name = faker.name.firstName();
-    email = faker.internet.email();
-    password = faker.internet.password();
   });
 
   it('should create a new user', () => {
-    signUpPage.fillName(name);
-    signUpPage.fillEmail(email);
-    signUpPage.fillPassword(password);
-
+    signUpPage.fillForm(user.username, user.email, user.password);
     signUpPage.submitSignUpForm();
 
-    cy.contains('Welcome!');
-    cy.contains('Your registration was successful!');
-    cy.contains('OK').click();
+    cy.contains(welcomeMessage);
+    cy.contains(registrationSuccessfulMessage);
+    cy.contains(confirmationMessage).click();
 
     const homePage = new HomePageObject();
-    homePage.assertHeaderContainUsername(name);
+    homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should see warning message for empty username field', () => {
-    signUpPage.fillEmail(email);
-    signUpPage.fillPassword(password);
-
+    signUpPage.fillForm('', user.email, user.password);
     signUpPage.submitSignUpForm();
 
-    cy.contains('Registration failed!');
-    cy.contains('Username field required');
-    cy.contains('OK').click();
+    cy.contains(registrationFailedMessage);
+    cy.contains(usernameEmptyFieldMessage);
+    cy.contains(confirmationMessage).click();
+  });
+
+  it('should not allow registration with existing username', () => {
+    signUpPage.fillForm(user.username, emailNextUser, passwordNextUser);
+    signUpPage.submitSignUpForm();
+
+    cy.contains(registrationFailedMessage);
+    cy.contains(usernameExistingTakenMessage);
+    cy.contains(confirmationMessage).click();
   });
 
   it('should see warning message for empty email field', () => {
-    signUpPage.fillName(name);
-    signUpPage.fillPassword(password);
-
+    signUpPage.fillForm(user.username, '', user.password);
     signUpPage.submitSignUpForm();
 
-    cy.contains('Registration failed!');
-    cy.contains('Email field required');
-    cy.contains('OK').click();
+    cy.contains(registrationFailedMessage);
+    cy.contains(emailEmptyFieldMessage);
+    cy.contains(confirmationMessage).click();
+  });
+
+  it('should not allow registration with existing email', () => {
+    signUpPage.fillForm(nameNextUser, user.email, passwordNextUser);
+    signUpPage.submitSignUpForm();
+
+    cy.contains(registrationFailedMessage);
+    cy.contains(emailExistingTakenMessage);
+    cy.contains(confirmationMessage).click();
   });
 
   it('should see warning message for empty password field', () => {
-    signUpPage.fillName(name);
-    signUpPage.fillEmail(email);
-
+    signUpPage.fillForm(user.username, user.email, '');
     signUpPage.submitSignUpForm();
 
-    cy.contains('Registration failed!');
-    cy.contains('Password field required');
-    cy.contains('OK').click();
+    cy.contains(registrationFailedMessage);
+    cy.contains(passwordEmptyFieldMessage);
+    cy.contains(confirmationMessage).click();
   });
 });

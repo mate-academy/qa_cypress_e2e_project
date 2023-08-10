@@ -5,6 +5,7 @@ import SettingsPageObject from '../support/pages/settings.pageObject';
 import SignUpPage from '../support/pages/signUp.pageObject';
 import ArticlePage from '../support/pages/article.pageObject';
 import faker from 'faker';
+import { confirmationMessage } from '../plugins/alertMessages';
 
 const settingsPage = new SettingsPageObject();
 const homePage = new HomePageObject();
@@ -12,33 +13,29 @@ const articlePage = new ArticlePage();
 
 describe('User', () => {
   let user;
-  let name;
-  let email;
-  let password;
   let title;
   let description;
   let content;
   let tags;
+  let nameNextUser;
+  let emailNextUser;
+  let passwordNextUser;
+  let followButtonSelector;
+  let followButtonText;
+  let unfollowButtonSelector;
+  let unfollowButtonText;
   const signUpPage = new SignUpPage();
 
-  beforeEach(() => {
+  before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
 
-      name = faker.name.firstName();
-      email = faker.internet.email();
-      password = faker.internet.password();
-
-      cy.register(user.email, user.username, user.password);
       cy.visit('/#/register');
-
-      signUpPage.fillName(name);
-      signUpPage.fillEmail(email);
-      signUpPage.fillPassword(password);
-
+      signUpPage.fillForm(user.username, user.email, user.password);
       signUpPage.submitSignUpForm();
-      cy.contains('OK').click();
+
+      cy.contains(confirmationMessage).click();
       homePage.clickNewArticle();
 
       title = faker.lorem.words(2);
@@ -55,43 +52,37 @@ describe('User', () => {
       homePage.clickSettings();
       cy.scrollTo('bottom');
       settingsPage.logOutSettings();
-
-      cy.visit('/#/register');
-      signUpPage.fillName('user2');
-      signUpPage.fillEmail('user2@mail.com');
-      signUpPage.fillPassword('User123!');
-      signUpPage.submitSignUpForm();
-
-      cy.contains('OK').click();
     });
   });
 
-  it('should be able to follow the another user', () => {
+  beforeEach(() => {
+    nameNextUser = faker.name.firstName();
+    emailNextUser = faker.internet.email();
+    passwordNextUser = faker.internet.password();
+
+    cy.visit('/#/register');
+    signUpPage.fillForm(nameNextUser, emailNextUser, passwordNextUser);
+    signUpPage.submitSignUpForm(); cy.contains(confirmationMessage).click();
+
     cy.visit('/#/');
     cy.get('li.nav-item a.nav-link').contains('Your Feed').click();
-    cy.contains('a.author', name).click();
-    const followButtonSelector = 'button.btn.btn-sm.btn-outline-secondary' +
-      '.action-btn';
-    const buttonText = 'Follow ' + name;
-    cy.contains(followButtonSelector, buttonText).click();
-    const unfollowButtonSelector = 'button.btn.btn-sm.btn-outline-secondary' +
-      '.action-btn';
-    const buttonText2 = `Unfollow ${name}`;
-    cy.contains(unfollowButtonSelector, buttonText2).should('exist');
+    cy.contains('a.author', user.username).click();
+
+    followButtonSelector = 'button.btn.btn-sm.btn-outline-secondary.action-btn';
+    followButtonText = 'Follow ' + user.username;
+    unfollowButtonSelector = 'button.btn.btn-sm.' +
+      'btn-outline-secondary.action-btn';
+    unfollowButtonText = `Unfollow ${user.username}`;
+  });
+
+  it('should be able to follow the another user', () => {
+    cy.contains(followButtonSelector, followButtonText).click();
+    cy.contains(unfollowButtonSelector, unfollowButtonText).should('exist');
   });
 
   it('should be able to unfollow the another user', () => {
-    cy.visit('/#/');
-    cy.get('li.nav-item a.nav-link').contains('Your Feed').click();
-    cy.contains('a.author', name).click();
-    const followButtonSelector = 'button.btn.btn-sm.btn-outline-secondary' +
-      '.action-btn';
-    const buttonText = 'Follow ' + name;
-    cy.contains(followButtonSelector, buttonText).click();
-    const unfollowButtonSelector = 'button.btn.btn-sm.btn-outline-secondary' +
-      '.action-btn';
-    const buttonText2 = `Unfollow ${name}`;
-    cy.contains(unfollowButtonSelector, buttonText2).click();
-    cy.contains(followButtonSelector, buttonText).should('exist');
+    cy.contains(followButtonSelector, followButtonText).click();
+    cy.contains(unfollowButtonSelector, unfollowButtonText).click();
+    cy.contains(followButtonSelector, followButtonText).should('exist');
   });
 });
