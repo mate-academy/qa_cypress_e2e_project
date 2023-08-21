@@ -18,25 +18,24 @@ describe('Settings page', () => {
 
   before(() => {
     cy.task('db:clear');
-  });
-
-  beforeEach(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
-
-      signInPage.visit();
-
-      cy.register(user.email, user.username, user.password);
-
-      signInPage.typeEmail(user.email);
-      signInPage.typePassword(user.password);
-      signInPage.clickSignInBtn();
-
-      homePage.clickSettings();
+      cy.registerUser(user.email, user.username, user.password);
     });
   });
 
+  beforeEach(() => {
+    signInPage.visit();
+  });
+
+  afterEach(() => {
+    settingsPage.logOutSettings();
+  });
+
   it('should provide an ability to update username', () => {
+    signInPage.login(user.email, user.password);
+    homePage.clickSettings();
+
     const editedUsername = faker.lorem.words(1);
     settingsPage.usernameInput.clear().type(editedUsername);
     settingsPage.submitSettings();
@@ -50,6 +49,9 @@ describe('Settings page', () => {
   });
 
   it('should provide an ability to update bio', () => {
+    signInPage.login(user.email, user.password);
+    homePage.clickSettings();
+
     const editedBio = faker.lorem.words(4);
     settingsPage.bioInput.clear().type(editedBio);
     settingsPage.submitSettings();
@@ -62,6 +64,9 @@ describe('Settings page', () => {
   });
 
   it('should provide an ability to update an email', () => {
+    signInPage.login(user.email, user.password);
+    homePage.clickSettings();
+
     const editedEmail = faker.internet.email().toLowerCase();
     settingsPage.emailInput.clear().type(editedEmail);
     settingsPage.submitSettings();
@@ -73,7 +78,10 @@ describe('Settings page', () => {
   });
 
   it('should provide an ability to update password', () => {
-    const editedPassword = faker.internet.password();
+    signInPage.login(user.email, user.password);
+    homePage.clickSettings();
+
+    const editedPassword = user.password + faker.internet.password();
     settingsPage.passwordInput.type(editedPassword);
     settingsPage.submitSettings();
 
@@ -82,11 +90,9 @@ describe('Settings page', () => {
 
     settingsPage.logOutSettings();
     signInPage.visit();
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(editedPassword);
-    signInPage.clickSignInBtn();
+    signInPage.login(user.email, editedPassword);
 
     homePage.assertHeaderContainUsername(user.username);
+    homePage.clickSettings();
   });
 });

@@ -32,6 +32,12 @@ class SettingsPage {
   logOutSettings() {
     return this.logOutButton.click();
   }
+
+  login(email, password) {
+    this.typeEmail(email);
+    this.typePassword(password);
+    this.clickSignInBtn();
+  }
 }
 
 export default SettingsPage;

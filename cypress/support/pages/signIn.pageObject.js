@@ -16,16 +16,22 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    if (this.emailField) {
+      this.emailField.type(email);
+    } else {
+      throw new Error('Email field is not available.');
+    }
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    if (this.passwordField) {
+      this.passwordField.type(password);
+    } else {
+      throw new Error('Password field is not available.');
+    }
   }
 
-  fillLoginCredentials(email, password) {
+  enterLoginCredentials(email, password) {
     if (email) {
       this.typeEmail(email);
     }
@@ -34,9 +40,18 @@ class SignInPageObject extends PageObject {
     }
   }
 
-  clickSignInBtn() {
+  clickOnSignInButton() {
     this.signInBtn
       .click();
+  }
+
+  login(email, password) {
+    if (!email || !password) {
+      throw new Error('Email and password are required.');
+    }
+    this.typeEmail(email);
+    this.typePassword(password);
+    this.clickOnSignInButton();
   }
 }
 

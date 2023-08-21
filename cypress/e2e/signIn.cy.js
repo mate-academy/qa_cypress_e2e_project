@@ -23,34 +23,48 @@ describe('Sign In page', () => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
       signInPage.visit();
-      cy.register(user.email, user.username, user.password);
+      cy.registerUser(user.email, user.username, user.password);
     });
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.fillLoginCredentials(user.email, user.password);
-    signInPage.clickSignInBtn();
+    signInPage.enterLoginCredentials(user.email, user.password);
+    signInPage.clickOnSignInButton();
 
     homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should not provide an ability to log in with wrong email', () => {
     const userEmail = '77' + user.email;
-    signInPage.fillLoginCredentials(userEmail, user.password);
-    signInPage.clickSignInBtn();
+    signInPage.enterLoginCredentials(userEmail, user.password);
+    signInPage.clickOnSignInButton();
 
-    cy.contains(loginFailedMessage);
-    cy.contains(invalidUserCredentialsMessage);
-    cy.contains(confirmationMessage).click();
+    cy.get('.swal-title')
+      .should('be.visible')
+      .and('contain', loginFailedMessage);
+    cy.get('.swal-text')
+      .should('be.visible')
+      .and('contain', invalidUserCredentialsMessage);
+    cy.get('.swal-button--confirm')
+      .should('be.visible')
+      .and('contain', confirmationMessage)
+      .click();
   });
 
   it('should not provide an ability to log in with wrong password', () => {
     const userPassword = '77' + user.password;
-    signInPage.fillLoginCredentials(user.email, userPassword);
-    signInPage.clickSignInBtn();
+    signInPage.enterLoginCredentials(user.email, userPassword);
+    signInPage.clickOnSignInButton();
 
-    cy.contains(loginFailedMessage);
-    cy.contains(invalidUserCredentialsMessage);
-    cy.contains(confirmationMessage).click();
+    cy.get('.swal-title')
+      .should('be.visible')
+      .and('contain', loginFailedMessage);
+    cy.get('.swal-text')
+      .should('be.visible')
+      .and('contain', invalidUserCredentialsMessage);
+    cy.get('.swal-button--confirm')
+      .should('be.visible')
+      .and('contain', confirmationMessage)
+      .click();
   });
 });

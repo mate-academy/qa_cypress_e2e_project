@@ -10,9 +10,8 @@ const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 const articlePage = new ArticlePage();
 
-describe('Article', () => {
+describe('Article Page', () => {
   let user;
-
   let title;
   let description;
   let content;
@@ -26,25 +25,21 @@ describe('Article', () => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
 
-      cy.visit('/#/login').then(() => {
-        cy.register(user.email, user.username, user.password);
-      });
-
-      signInPage.typeEmail(user.email);
-      signInPage.typePassword(user.password);
-      signInPage.clickSignInBtn();
-
+      cy.registerUser(user.email, user.username, user.password);
+      cy.visit('/#/login');
+      signInPage.login(user.email, user.password);
       homePage.clickNewArticle();
 
       title = faker.lorem.words(2);
       description = faker.lorem.words(3);
       content = faker.lorem.words(4);
-      tags = 'tag1,tag2,tag3';
+      tags = ['tag1', 'tag2', 'tag3'];
+      const tagsString = tags.join(', ');
 
       articlePage.fillTitle(title);
       articlePage.fillDescription(description);
       articlePage.fillContent(content);
-      articlePage.fillTags(tags);
+      articlePage.fillTags(tagsString);
       articlePage.submitArticle();
     });
   });
@@ -60,12 +55,13 @@ describe('Article', () => {
     const editedTitle = faker.lorem.words(2);
     const editedDescription = faker.lorem.words(2);
     const editedContent = faker.lorem.paragraphs(1);
-    const editedTag = ('mag1,mag2');
+    const editedTag = ['mag1', 'mag2'];
+    const editedTagsString = editedTag.join(', ');
 
     articlePage.fillTitle(editedTitle);
     articlePage.fillDescription(editedDescription);
     articlePage.fillContent(editedContent);
-    articlePage.fillTags(editedTag);
+    articlePage.fillTags(editedTagsString);
 
     cy.get('button.btn-primary').contains('Publish Article').click();
     cy.visit(`/#/@${user.username}/`);
@@ -75,7 +71,7 @@ describe('Article', () => {
   it('should be deleted using Delete button', () => {
     cy.get('button.btn-outline-danger').contains('Delete Article').click();
 
-    cy.get('a').contains(user.username).click();
+    homePage.clickUsernameLink(user.username);
     cy.get('h1').should('not.contain', title);
   });
 });

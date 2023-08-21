@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+const faker = require('faker');
 
 addMatchImageSnapshotCommand();
 
@@ -32,10 +33,19 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('registerUser', (email, username,
+  password) =>
   cy.request('POST', '/users', {
     email,
     username,
     password
-  });
+  })
+);
+
+Cypress.Commands.add('generateUser', () => {
+  const email = faker.internet.email();
+  const username = faker.internet.userName();
+  const password = faker.internet.password();
+
+  return { email, username, password };
 });
