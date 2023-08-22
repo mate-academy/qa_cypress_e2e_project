@@ -30,17 +30,17 @@ const faker = require('faker');
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+  return cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('registerUser', (email, username,
-  password) =>
+Cypress.Commands.add('registerUser', (options) => {
+  const { email, username, password } = options;
   cy.request('POST', '/users', {
     email,
     username,
     password
-  })
-);
+  });
+});
 
 Cypress.Commands.add('generateUser', () => {
   const email = faker.internet.email();

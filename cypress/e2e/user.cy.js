@@ -4,6 +4,7 @@ import HomePageObject from '../support/pages/home.pageObject';
 import SettingsPageObject from '../support/pages/settings.pageObject';
 import SignUpPage from '../support/pages/signUp.pageObject';
 import ArticlePage from '../support/pages/article.pageObject';
+import userGenerator from '../plugins/userGenerator';
 import faker from 'faker';
 import { confirmationMessage } from '../plugins/alertMessages';
 
@@ -21,31 +22,27 @@ describe('User', () => {
 
   before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    user = userGenerator.generateUser();
 
-      cy.visit('/#/register');
-      signUpPage.fillForm(user.username, user.email, user.password);
-      signUpPage.submitSignUpForm();
+    cy.visit('/#/register');
+    signUpPage.fillForm(user.username, user.email, user.password);
+    signUpPage.submitSignUpForm();
+    cy.get('.swal-button--confirm').contains(confirmationMessage).click();
+    homePage.clickNewArticle();
 
-      cy.get('.swal-button--confirm').contains(confirmationMessage).click();
-      homePage.clickNewArticle();
+    const title = faker.lorem.words(2);
+    const description = faker.lorem.words(2);
+    const content = faker.lorem.words(2);
+    const tags = 'tag1';
 
-      const title = faker.lorem.words(2);
-      const description = faker.lorem.words(2);
-      const content = faker.lorem.words(2);
-      const tags = 'tag1';
+    articlePage.fillTitle(title);
+    articlePage.fillDescription(description);
+    articlePage.fillContent(content);
+    articlePage.fillTags(tags);
+    articlePage.submitArticle();
 
-      articlePage.fillTitle(title);
-      articlePage.fillDescription(description);
-      articlePage.fillContent(content);
-      articlePage.fillTags(tags);
-      articlePage.submitArticle();
-
-      homePage.clickSettings();
-      cy.scrollTo('bottom');
-      settingsPage.logOutSettings();
-    });
+    homePage.clickSettings();
+    settingsPage.logOutSettings();
   });
 
   beforeEach(() => {
@@ -58,12 +55,12 @@ describe('User', () => {
     signUpPage.submitSignUpForm();
     cy.get('.swal-button--confirm').contains(confirmationMessage).click();
 
-    cy.visit('/#/');
+    cy.get('a.navbar-brand.router-link-active').click();
     cy.get('li.nav-item a.nav-link').contains('Your Feed').click();
     cy.get('a.author').contains(user.username).click();
 
     followButtonSelector = 'button.btn.btn-sm.btn-outline-secondary.action-btn';
-    followButtonText = 'Follow ' + user.username;
+    followButtonText = `Follow ${user.username}`;
     unfollowButtonSelector = 'button.btn.btn-sm.' +
       'btn-outline-secondary.action-btn';
     unfollowButtonText = `Unfollow ${user.username}`;

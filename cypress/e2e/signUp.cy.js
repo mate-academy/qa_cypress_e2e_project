@@ -2,6 +2,7 @@
 /// <reference types='../support' />
 import SignUpPage from '../support/pages/signUp.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import userGenerator from '../plugins/userGenerator';
 import faker from 'faker';
 import {
   welcomeMessage,
@@ -24,9 +25,7 @@ describe('Sign Up page', () => {
 
   before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    user = userGenerator.generateUser();
     nameNextUser = faker.name.firstName();
     emailNextUser = faker.internet.email();
     passwordNextUser = faker.internet.password();

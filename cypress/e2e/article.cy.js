@@ -3,6 +3,7 @@
 import ArticlePage from '../support/pages/article.pageObject';
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import userGenerator from '../plugins/userGenerator';
 import faker from 'faker';
 import '../support/commands';
 
@@ -19,29 +20,30 @@ describe('Article Page', () => {
 
   before(() => {
     cy.task('db:clear');
+    user = userGenerator.generateUser();
+    cy.registerUser({
+      email: user.email,
+      username: user.username,
+      password: user.password
+    });
   });
 
   beforeEach(() => {
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.visit('/#/login');
+    signInPage.performLogin(user.email, user.password);
+    homePage.clickNewArticle();
 
-      cy.registerUser(user.email, user.username, user.password);
-      cy.visit('/#/login');
-      signInPage.login(user.email, user.password);
-      homePage.clickNewArticle();
+    title = faker.lorem.words(2);
+    description = faker.lorem.words(3);
+    content = faker.lorem.words(4);
+    tags = ['tag1', 'tag2', 'tag3'];
+    const tagsString = tags.join(', ');
 
-      title = faker.lorem.words(2);
-      description = faker.lorem.words(3);
-      content = faker.lorem.words(4);
-      tags = ['tag1', 'tag2', 'tag3'];
-      const tagsString = tags.join(', ');
-
-      articlePage.fillTitle(title);
-      articlePage.fillDescription(description);
-      articlePage.fillContent(content);
-      articlePage.fillTags(tagsString);
-      articlePage.submitArticle();
-    });
+    articlePage.fillTitle(title);
+    articlePage.fillDescription(description);
+    articlePage.fillContent(content);
+    articlePage.fillTags(tagsString);
+    articlePage.submitArticle();
   });
 
   it('should be created using New Article form', () => {
@@ -50,6 +52,8 @@ describe('Article Page', () => {
   });
 
   it('should be edited using Edit button', () => {
+    cy.get('.banner h1').should('contain', title);
+    cy.get('.article-content').should('contain', content);
     cy.get('a.btn-outline-secondary span').contains('Edit Article').click();
 
     const editedTitle = faker.lorem.words(2);
@@ -64,6 +68,9 @@ describe('Article Page', () => {
     articlePage.fillTags(editedTagsString);
 
     cy.get('button.btn-primary').contains('Publish Article').click();
+    cy.get('h1').should('contain', editedTitle);
+    cy.get('.col-xs-12').should('contain', editedContent);
+
     cy.visit(`/#/@${user.username}/`);
     cy.get('a.preview-link h1').contains(editedTitle).should('exist');
   });

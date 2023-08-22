@@ -20,7 +20,7 @@ class HomePageObject extends PageObject {
   }
 
   clickUsernameLink(username) {
-    cy.getByDataCy('username-link').contains(username).click();
+    this.usernameLink.contains(username).click();
   }
 }
 

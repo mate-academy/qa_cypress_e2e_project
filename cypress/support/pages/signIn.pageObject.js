@@ -31,7 +31,7 @@ class SignInPageObject extends PageObject {
     }
   }
 
-  enterLoginCredentials(email, password) {
+  typeLoginCredentials(email, password) {
     if (email) {
       this.typeEmail(email);
     }
@@ -45,13 +45,16 @@ class SignInPageObject extends PageObject {
       .click();
   }
 
-  login(email, password) {
-    if (!email || !password) {
-      throw new Error('Email and password are required.');
-    }
+  performLogin(email, password) {
     this.typeEmail(email);
     this.typePassword(password);
     this.clickOnSignInButton();
+  }
+
+  validateEmailAndPassword(email, password) {
+    if (!email || !password) {
+      throw new Error('Email and password are required.');
+    }
   }
 }
 

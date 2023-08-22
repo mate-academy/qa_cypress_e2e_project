@@ -3,6 +3,7 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import userGenerator from '../plugins/userGenerator';
 import {
   loginFailedMessage,
   invalidUserCredentialsMessage,
@@ -20,15 +21,17 @@ describe('Sign In page', () => {
   });
 
   beforeEach(() => {
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-      signInPage.visit();
-      cy.registerUser(user.email, user.username, user.password);
+    user = userGenerator.generateUser();
+    signInPage.visit();
+    cy.registerUser({
+      email: user.email,
+      username: user.username,
+      password: user.password
     });
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.enterLoginCredentials(user.email, user.password);
+    signInPage.typeLoginCredentials(user.email, user.password);
     signInPage.clickOnSignInButton();
 
     homePage.assertHeaderContainUsername(user.username);
@@ -36,7 +39,7 @@ describe('Sign In page', () => {
 
   it('should not provide an ability to log in with wrong email', () => {
     const userEmail = '77' + user.email;
-    signInPage.enterLoginCredentials(userEmail, user.password);
+    signInPage.typeLoginCredentials(userEmail, user.password);
     signInPage.clickOnSignInButton();
 
     cy.get('.swal-title')
@@ -53,7 +56,7 @@ describe('Sign In page', () => {
 
   it('should not provide an ability to log in with wrong password', () => {
     const userPassword = '77' + user.password;
-    signInPage.enterLoginCredentials(user.email, userPassword);
+    signInPage.typeLoginCredentials(user.email, userPassword);
     signInPage.clickOnSignInButton();
 
     cy.get('.swal-title')
