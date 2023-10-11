@@ -16,7 +16,9 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            invalidEmail: 'test' + `${randomNumber}` + 'mail.com',
+            invalidPassword: '12345'
           };
         },
         generateArticle() {
@@ -24,6 +26,7 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
+            newbody: faker.lorem.words(),
             tag: faker.lorem.word()
           };
         },
