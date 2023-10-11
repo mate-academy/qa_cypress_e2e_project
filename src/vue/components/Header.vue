@@ -18,6 +18,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -50,10 +51,11 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="new-article-link"
             active-class="active"
             :to="{
               name: 'article-edit',
-              params: { new: true }
+              params: { new: true },
             }"
           >
             <i class="ion-compose"></i>&nbsp;New Article
@@ -62,6 +64,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="settings-link"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,13 +74,13 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
             :to="{
               name: 'profile',
-              params: { username: user.username }
+              params: { username: user.username },
             }"
           >
             {{ user.username }}
@@ -89,11 +92,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 export default {
-  name: "Header",
+  name: 'Header',
   computed: {
-    ...mapGetters(["user", "is_authenticated"])
-  }
+    ...mapGetters(['user', 'is_authenticated']),
+  },
 };
 </script>

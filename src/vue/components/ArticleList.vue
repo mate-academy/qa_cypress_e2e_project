@@ -2,7 +2,11 @@
   <div>
     <div v-if="is_loading" class="article-preview">Loading articles...</div>
     <div v-else>
-      <div v-if="articles.length === 0" class="article-preview">
+      <div
+        v-if="articles.length === 0"
+        class="article-preview"
+        data-qa="no-articles"
+      >
         No articles are here... yet.
       </div>
       <ArticlePreview
@@ -16,55 +20,51 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import ArticlePreview from "./ArticlePreview.vue";
-import Pagination from "./Pagination.vue";
+import { mapGetters } from 'vuex';
+import ArticlePreview from './ArticlePreview.vue';
+import Pagination from './Pagination.vue';
 export default {
-  name: "ArticleList",
+  name: 'ArticleList',
   components: {
     ArticlePreview,
-    Pagination
+    Pagination,
   },
   props: {
     type: {
       type: String,
       required: false,
-      default: "all"
+      default: 'all',
     },
     author: {
       type: String,
-      required: false
+      required: false,
     },
     tag: {
       type: String,
-      required: false
+      required: false,
     },
     favorited: {
       type: String,
-      required: false
+      required: false,
     },
     itemsPerPage: {
       type: Number,
       required: false,
-      default: 10
-    }
+      default: 10,
+    },
   },
   data() {
     return {
-      currentPage: 1
+      currentPage: 1,
     };
   },
   computed: {
-    ...mapGetters([
-      "articles",
-      "articles_count",
-      "is_loading",
-    ]),
+    ...mapGetters(['articles', 'articles_count', 'is_loading']),
     params() {
       const { type } = this;
       const filters = {
         offset: (this.currentPage - 1) * this.itemsPerPage,
-        limit: this.itemsPerPage
+        limit: this.itemsPerPage,
       };
       if (this.author) {
         filters.author = this.author;
@@ -77,7 +77,7 @@ export default {
       }
       return {
         type,
-        filters
+        filters,
       };
     },
     pages() {
@@ -85,8 +85,8 @@ export default {
         return [];
       }
       return [
-        ...Array(Math.ceil(this.articles_count / this.itemsPerPage)).keys()
-      ].map(e => e + 1);
+        ...Array(Math.ceil(this.articles_count / this.itemsPerPage)).keys(),
+      ].map((e) => e + 1);
     },
   },
   watch: {
@@ -109,19 +109,19 @@ export default {
     favorited() {
       this.resetPagination();
       this.fetchArticles();
-    }
+    },
   },
   mounted() {
     this.fetchArticles();
   },
   methods: {
     fetchArticles() {
-      this.$store.dispatch("fetchArticles", this.params.filters);
+      this.$store.dispatch('fetchArticles', this.params.filters);
     },
     resetPagination() {
       this.params.offset = 0;
       this.currentPage = 1;
-    }
-  }
+    },
+  },
 };
 </script>

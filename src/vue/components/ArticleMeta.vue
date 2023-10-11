@@ -9,6 +9,7 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="author-link"
       >
         {{ authorUsername() }}
       </router-link>
@@ -25,7 +26,7 @@
       @click="toggleFavorite"
       :class="{
         'btn-primary': article && article.favorited,
-        'btn-outline-primary': article && !article.favorited
+        'btn-outline-primary': article && !article.favorited,
       }"
     >
       <i class="ion-heart"></i>
@@ -35,33 +36,30 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import ArticleActions from "@/components/ArticleActions.vue";
+import { mapGetters } from 'vuex';
+import ArticleActions from '@/components/ArticleActions.vue';
 
 export default {
-  name: "ArticleMeta",
+  name: 'ArticleMeta',
   components: {
-    ArticleActions
+    ArticleActions,
   },
   props: {
     article: {
       type: Object,
-      required: false
+      required: false,
     },
     actions: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "user",
-    ])
+    ...mapGetters(['is_authenticated', 'user']),
   },
   mounted() {
-    console.log("ArticleMeta mounted!");
+    console.log('ArticleMeta mounted!');
   },
   methods: {
     authorUsername() {
@@ -82,9 +80,11 @@ export default {
     },
     isCurrentUser() {
       if (
-        (this.user && this.article && this.article.author)
-        && this.user.username
-        && this.article.author.username
+        this.user &&
+        this.article &&
+        this.article.author &&
+        this.user.username &&
+        this.article.author.username
       ) {
         return this.user.username === this.article.author.username;
       }
@@ -92,17 +92,15 @@ export default {
     },
     toggleFavorite() {
       if (!this.is_authenticated) {
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: 'login' });
         return;
       }
-      const action = this.article.favorited
-        ? "unset"
-        : "set";
-      this.$store.dispatch("toggleArticleFavorite", {
+      const action = this.article.favorited ? 'unset' : 'set';
+      this.$store.dispatch('toggleArticleFavorite', {
         slug: this.article.slug,
-        action: action
+        action: action,
       });
-    }
-  }
+    },
+  },
 };
 </script>
