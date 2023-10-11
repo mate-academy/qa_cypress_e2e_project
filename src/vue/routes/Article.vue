@@ -2,7 +2,7 @@
   <div class="article-page">
     <div class="banner">
       <div class="container">
-        <h1>{{ article.title }}</h1>
+        <h1 data-qa="banner-article-title">{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
@@ -10,7 +10,12 @@
       <div class="row article-content">
         <div class="col-xs-12">
           <div v-html="parseMarkdown(article.body)"></div>
-          <ul class="tag-list" v-if="article.tags && article.tags.length !== 1 && !!article.tags[0]">
+          <ul
+            class="tag-list"
+            v-if="
+              article.tags && article.tags.length !== 1 && !!article.tags[0]
+            "
+          >
             <li v-for="(tag, index) of article.tags" :key="tag + index">
               <Tag
                 :name="tag"
@@ -52,40 +57,35 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { store } from "../../public/js/_app.js";
-import marked from "marked";
-import ArticleMeta from "@/components/ArticleMeta.vue";
-import Comment from "@/components/Comment.vue";
-import CommentEditor from "@/components/CommentEditor.vue";
-import Tag from "@/components/Tag.vue";
+import { mapGetters } from 'vuex';
+import { store } from '../../public/js/_app.js';
+import marked from 'marked';
+import ArticleMeta from '@/components/ArticleMeta.vue';
+import Comment from '@/components/Comment.vue';
+import CommentEditor from '@/components/CommentEditor.vue';
+import Tag from '@/components/Tag.vue';
 export default {
-  name: "Article",
+  name: 'Article',
   props: {
     slug: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     ArticleMeta,
     Comment,
     CommentEditor,
-    Tag
+    Tag,
   },
   async beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.$store.dispatch("fetchArticle", to.params.slug);
-      vm.$store.dispatch("fetchArticleComments", to.params.slug);
+      vm.$store.dispatch('fetchArticle', to.params.slug);
+      vm.$store.dispatch('fetchArticleComments', to.params.slug);
     });
   },
   computed: {
-    ...mapGetters([
-      "article",
-      "comments",
-      "is_authenticated",
-      "user"
-    ])
+    ...mapGetters(['article', 'comments', 'is_authenticated', 'user']),
   },
   methods: {
     articleCreatedAt() {
@@ -110,7 +110,7 @@ export default {
       if (content) {
         return marked(content);
       }
-    }
-  }
+    },
+  },
 };
 </script>

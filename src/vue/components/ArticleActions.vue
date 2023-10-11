@@ -1,17 +1,29 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link
+      data-qa="edit-article-link"
+      class="btn btn-sm btn-outline-secondary"
+      :to="editArticleLink"
+    >
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button
+      data-qa="delete-article-btn"
+      class="btn btn-outline-danger btn-sm"
+      @click="deleteArticle"
+    >
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
   <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      data-qa="follow-button"
+      @click="toggleFollow"
+    >
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
       <span v-text="followUserLabel" />
     </button>
@@ -29,64 +41,63 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "ArticleActions",
+  name: 'ArticleActions',
   props: {
     article: { type: Object, required: true },
-    canModify: { type: Boolean, required: true }
+    canModify: { type: Boolean, required: true },
   },
   computed: {
-    ...mapGetters([
-      "profile",
-      "is_authenticated"
-    ]),
+    ...mapGetters(['profile', 'is_authenticated']),
     editArticleLink() {
-      return { name: "article-edit", params: { slug: this.article.slug } };
+      return { name: 'article-edit', params: { slug: this.article.slug } };
     },
     favoriteArticleLabel() {
-      return this.article.favorited ? "Unfavorite Article" : "Favorite Article";
+      return this.article.favorited ? 'Unfavorite Article' : 'Favorite Article';
     },
     favoriteCounter() {
-      return `(${this.article.favoritesCount ? this.article.favoritesCount : 0})`;
+      return `(${
+        this.article.favoritesCount ? this.article.favoritesCount : 0
+      })`;
     },
     followUserLabel() {
       if (this.article && this.article.author) {
-        return `${this.profile.following ? "Unfollow" : "Follow"} ${
+        return `${this.profile.following ? 'Unfollow' : 'Follow'} ${
           this.article.author.username
         }`;
       }
     },
     toggleFavoriteButtonClasses() {
       return {
-        "btn-primary": this.article.favorited,
-        "btn-outline-primary": !this.article.favorited
+        'btn-primary': this.article.favorited,
+        'btn-outline-primary': !this.article.favorited,
       };
     },
   },
   methods: {
     async deleteArticle() {
       try {
-        const result = await this.$store.dispatch("deleteArticle", {
-          article_slug: this.article.slug
+        const result = await this.$store.dispatch('deleteArticle', {
+          article_slug: this.article.slug,
         });
         if (result === true) {
           swal({
-            text: "Deleted the article. Going home...",
+            text: 'Deleted the article. Going home...',
             timer: 1000,
             buttons: false,
           }).then(() => {
-            this.$router.push("/");
-          })
+            this.$router.push('/');
+          });
         } else {
           swal({
-            title: "Oops!",
-            text: "Something went wrong whilst trying to delete the article.",
-            icon: "error"
+            title: 'Oops!',
+            text: 'Something went wrong whilst trying to delete the article.',
+            icon: 'error',
           });
-          console.error("Failed to delete the article:")
-          console.error(result)
+          console.error('Failed to delete the article:');
+          console.error(result);
         }
       } catch (err) {
         console.error(err);
@@ -94,28 +105,26 @@ export default {
     },
     toggleFavorite() {
       if (!this.is_authenticated) {
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: 'login' });
         return;
       }
 
-      const action = this.article.favorited
-        ? "unset"
-        : "set";
-      this.$store.dispatch("toggleArticleFavorite", {
+      const action = this.article.favorited ? 'unset' : 'set';
+      this.$store.dispatch('toggleArticleFavorite', {
         slug: this.article.slug,
-        action: action
+        action: action,
       });
     },
     toggleFollow() {
       if (!this.is_authenticated) {
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: 'login' });
         return;
       }
-      this.$store.dispatch("setFollowProfile", {
+      this.$store.dispatch('setFollowProfile', {
         username: this.profile.username,
-        value: !this.article.following
+        value: !this.article.following,
       });
     },
-  }
+  },
 };
 </script>

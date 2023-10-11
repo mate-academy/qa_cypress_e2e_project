@@ -26,6 +26,7 @@
                   exact
                   class="nav-link"
                   active-class="active"
+                  data-qa="global-feed"
                 >
                   Global Feed
                 </router-link>
@@ -47,8 +48,7 @@
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <Tag v-for="(tag, index) in tags" :name="tag" :key="index">
-              </Tag>
+              <Tag v-for="(tag, index) in tags" :name="tag" :key="index"> </Tag>
             </div>
           </div>
         </div>
@@ -58,25 +58,22 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Tag from "@/components/Tag.vue";
+import { mapGetters } from 'vuex';
+import Tag from '@/components/Tag.vue';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    Tag
+    Tag,
   },
   mounted() {
-    this.$store.dispatch("fetchTags");
+    this.$store.dispatch('fetchTags');
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "tags"
-    ]),
+    ...mapGetters(['is_authenticated', 'tags']),
     tag() {
       return this.$route.params.tag;
-    }
-  }
+    },
+  },
 };
 </script>
