@@ -29,7 +29,6 @@ describe('Sign Up page', () => {
     signUpPage.clickSignUpBtn();
     signUpPage.clickOkBtn();
     homePage.assertHeaderContainUsername(user.username);
-
   });
 
   it('should not provide an ability to sign up with empty username field', () => {
@@ -39,7 +38,6 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent('Registration failed!');
     signUpPage.assertModalContent('Username field required.');
     signUpPage.clickOkBtn();
-
   });
 
   it('should not provide an ability to sign up with empty email field', () => {
@@ -49,7 +47,6 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent(failMessage);
     signUpPage.assertModalContent('Email field required.');
     signUpPage.clickOkBtn();
-
   });
 
   it('should not provide an ability to sign up with empty password field', () => {
@@ -59,7 +56,6 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent(failMessage);
     signUpPage.assertModalContent('Password field required.');
     signUpPage.clickOkBtn();
-
   });
 
   it('should not provide an ability to sign up with invalid email', () => {
@@ -70,7 +66,6 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent(failMessage);
     signUpPage.assertModalContent('Email must be a valid email.');
     signUpPage.clickOkBtn();
-
   });
 
   it('should not provide an ability to sign up with existing email', () => {
@@ -82,7 +77,6 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent(failMessage);
     signUpPage.assertModalContent('Email already taken.');
     signUpPage.clickOkBtn();
-
   });
 
   it('should not provide an ability to sign up with invalid password', () => {
@@ -93,7 +87,5 @@ describe('Sign Up page', () => {
     signUpPage.assertModalContent(failMessage);
     signUpPage.assertModalContent('Password must be 8 characters long');
     signUpPage.clickOkBtn();
-
   });
-
 });

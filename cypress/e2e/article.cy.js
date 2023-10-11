@@ -34,7 +34,6 @@ describe('Article', () => {
 
   it('should be created using New Article form', () => {
     // this test in beforeEach
-
   });
 
   it('should be edited using Edit button', () => {
@@ -42,13 +41,11 @@ describe('Article', () => {
     articlePage.rewriteArticleBody(article.newbody);
     articlePage.clickPublishBtn();
     articlePage.assertArticleBody(article.newbody);
-
   });
 
   it('should be deleted using Delete button', () => {
     const articlePreviewText = 'No articles are here... yet.';
     articlePage.clickDeleteBtn();
     articlePage.assertArticlePreview(articlePreviewText);
-
   });
 });
