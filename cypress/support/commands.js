@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import SignInPageObject from './pages/signIn.pageObject';
 
 addMatchImageSnapshotCommand();
 
@@ -32,10 +33,18 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email = user.email, username = user.username, password = user.password) => {
   cy.request('POST', '/users', {
     email,
     username,
     password
   });
+});
+
+Cypress.Commands.add('login', (email = user.email, password = user.password) => {
+  const signInPage = new SignInPageObject();
+  cy.visit(signInPage.url);
+  signInPage.typeEmail(email);
+  signInPage.typePassword(password);
+  signInPage.clickSignInBtn();
 });
