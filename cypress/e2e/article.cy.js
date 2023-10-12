@@ -16,13 +16,15 @@ describe('Article', () => {
     cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
-
   });
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.wait(500);
     cy.login(user.email, user.username, user.password);
+  });
+
+  it('should be created using New Article form', () => {
     articlePage.visit();
     articlePage.typeArticleTitle(article.title);
     articlePage.typeArticleAbout(article.description);
@@ -32,11 +34,15 @@ describe('Article', () => {
     articlePage.assertArticleBody(article.body);
   });
 
-  it('should be created using New Article form', () => {
-    // this test in beforeEach
-  });
-
   it('should be edited using Edit button', () => {
+    cy.get('@createdUser').then((user) => {
+      cy.createArticle(user.id, article.title, article.description, article.body)
+        .then(response => {
+          const slug = response.body.article.slug;
+          cy.visit(`/#/articles/${slug}`);
+        });
+    });
+
     articlePage.clickEditBtn();
     articlePage.rewriteArticleBody(article.newbody);
     articlePage.clickPublishBtn();
@@ -44,7 +50,15 @@ describe('Article', () => {
   });
 
   it('should be deleted using Delete button', () => {
-    const articlePreviewText = 'No articles are here... yet.';
+    const articlePreviewText = 'No articles are here... yet.';    
+    cy.get('@createdUser').then((user) => {
+      cy.createArticle(user.id, article.title, article.description, article.body)
+        .then(response => {
+          const slug = response.body.article.slug;
+          cy.visit(`/#/articles/${slug}`);
+        });
+    });
+
     articlePage.clickDeleteBtn();
     articlePage.assertArticlePreview(articlePreviewText);
   });

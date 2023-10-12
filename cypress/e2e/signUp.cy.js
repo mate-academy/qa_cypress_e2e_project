@@ -3,10 +3,10 @@
 
 import HomePageObject from '../support/pages/home.pageObject';
 import SignUpPageObject from '../support/pages/signUp.pageObject';
+import * as alertMessage from '../support/alertMessages';
 
 const homePage = new HomePageObject();
 const signUpPage = new SignUpPageObject();
-const failMessage = 'Registration failed!';
 
 describe('Sign Up page', () => {
   let user;
@@ -27,6 +27,7 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
+    signUpPage.assertModalContent(alertMessage.successfulMessage);
     signUpPage.clickOkBtn();
     homePage.assertHeaderContainUsername(user.username);
   });
@@ -35,8 +36,8 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent('Registration failed!');
-    signUpPage.assertModalContent('Username field required.');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.emptyUsernameMessage);
     signUpPage.clickOkBtn();
   });
 
@@ -44,8 +45,8 @@ describe('Sign Up page', () => {
     signUpPage.typeUserName(user.username);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent(failMessage);
-    signUpPage.assertModalContent('Email field required.');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.emptyEmailMessage);
     signUpPage.clickOkBtn();
   });
 
@@ -53,8 +54,8 @@ describe('Sign Up page', () => {
     signUpPage.typeUserName(user.username);
     signUpPage.typeEmail(user.email);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent(failMessage);
-    signUpPage.assertModalContent('Password field required.');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.emptyPasswordMessage);
     signUpPage.clickOkBtn();
   });
 
@@ -63,8 +64,8 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(user.invalidEmail);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent(failMessage);
-    signUpPage.assertModalContent('Email must be a valid email.');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.invalidEmailMessage);
     signUpPage.clickOkBtn();
   });
 
@@ -74,8 +75,8 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent(failMessage);
-    signUpPage.assertModalContent('Email already taken.');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.takenEmailMessage);
     signUpPage.clickOkBtn();
   });
 
@@ -84,8 +85,8 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.invalidPassword);
     signUpPage.clickSignUpBtn();
-    signUpPage.assertModalContent(failMessage);
-    signUpPage.assertModalContent('Password must be 8 characters long');
+    signUpPage.assertModalContent(alertMessage.registrationFailedMessage);
+    signUpPage.assertModalContent(alertMessage.invalidPasswordMessage);
     signUpPage.clickOkBtn();
   });
 });

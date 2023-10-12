@@ -17,7 +17,7 @@ module.exports = defineConfig({
             username: faker.name.firstName() + `${randomNumber}`,
             updatedUsername: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            updatedEmail: 'test' + `${randomNumber}` + '@mail.com',
+            updatedEmail: 'test1' + `${randomNumber}` + '@mail.com',
             password: '12345Qwert!',
             updatedPassword: 'updated12345Qwert!',
             invalidEmail: 'test' + `${randomNumber}` + 'mail.com',

@@ -35,12 +35,12 @@ class SettingsPageObject extends PageObject {
     return cy.getByDataCy('nav-bar-header');
   }
 
-
   typeUserName(username) {
     this.userNameField
       .clear()
       .type(username);
   }
+  
   typeBio(bio) {
     this.bioField
       .clear()
@@ -76,7 +76,7 @@ class SettingsPageObject extends PageObject {
 
   assertUpdatedUsername(username) {
     this.userNameField
-    .should('have.value', username);
+      .should('have.value', username);
   }
 
   assertUpdatedBio(bio) {
@@ -86,11 +86,12 @@ class SettingsPageObject extends PageObject {
 
   assertUpdatedEmail(email) {
     this.emailField
-    .should('have.value', email);
+      .should('have.value', email);
   }
+
   assertHeaderNotContainUsername(username) {
     this.navBar
-    .should('not.contain', username);
+      .should('not.contain', username);
   }
 }
 

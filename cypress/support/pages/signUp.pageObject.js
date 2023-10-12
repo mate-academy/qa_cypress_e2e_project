@@ -51,7 +51,6 @@ class SignUpPageObject extends PageObject {
   assertModalContent(content) {
     cy.get('.swal-modal').should('contain', content);
   }
-
 }
 
 export default SignUpPageObject;

@@ -3,6 +3,7 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import * as alertMessage from '../support/alertMessages';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -30,22 +31,20 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong email', () => {
-    const wrongEmail = `wrong${user.email}`;
-    signInPage.typeEmail(wrongEmail);
+    signInPage.typeEmail(user.updatedEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-    signInPage.assertModalContent('Login failed!');
-    signInPage.assertModalContent('Invalid user credentials.');
+    signInPage.assertModalContent(alertMessage.loginFailedMessage);
+    signInPage.assertModalContent(alertMessage.invalidCredentialsMessage);
     signInPage.clickOkBtn();
   });
 
   it('should not provide an ability to log in with wrong password', () => {
-    const wrongPassword = `wrong${user.password}`;
     signInPage.typeEmail(user.email);
-    signInPage.typePassword(wrongPassword);
+    signInPage.typePassword(user.updatedPassword);
     signInPage.clickSignInBtn();
-    signInPage.assertModalContent('Login failed!');
-    signInPage.assertModalContent('Invalid user credentials.');
+    signInPage.assertModalContent(alertMessage.loginFailedMessage);
+    signInPage.assertModalContent(alertMessage.invalidCredentialsMessage);
     signInPage.clickOkBtn();
   });
 });
