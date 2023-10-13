@@ -13,12 +13,13 @@
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
           <form @submit.prevent="onSubmit">
-            <fieldset class="form-group">
+            <fieldset class="form-group" cy-data="testName">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa="username_register"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="email_register"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa="password_register"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+           <button class="btn btn-lg btn-primary pull-xs-right" data-qa="registerBtn">
               Sign up
             </button>
           </form>
