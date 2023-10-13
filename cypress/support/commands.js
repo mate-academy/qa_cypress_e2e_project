@@ -39,3 +39,13 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
