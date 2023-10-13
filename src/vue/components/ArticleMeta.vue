@@ -1,13 +1,16 @@
 <template>
-  <div class="article-meta">
+  <div 
+  class="article-meta">
     <router-link
       :to="{ name: 'profile', params: { username: authorUsername() } }"
+      data-qa="Author image icon"
     >
       <img :src="authorImage()" />
     </router-link>
     <div class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
+        data-qa="Article author"
         class="author"
       >
         {{ authorUsername() }}

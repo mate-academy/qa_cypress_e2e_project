@@ -2,7 +2,9 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit</h1>
+        <h1 class="logo-font"
+        data-qa="Website banner"
+        >conduit</h1>
         <p>A place to share your knowledge.</p>
       </div>
     </div>
@@ -14,6 +16,7 @@
               <li v-if="is_authenticated" class="nav-item">
                 <router-link
                   :to="{ name: 'home-my-feed' }"
+                  data-qa="Your feed link"
                   class="nav-link"
                   active-class="active"
                 >

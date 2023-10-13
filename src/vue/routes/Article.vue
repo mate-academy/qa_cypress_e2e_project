@@ -1,6 +1,7 @@
 <template>
   <div class="article-page">
-    <div class="banner">
+    <div data-qa="Article title"
+    class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
