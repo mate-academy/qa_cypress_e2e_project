@@ -2,7 +2,6 @@
 /// <reference types='../support' />
 
 import ProfilePage from '../support/pages/profile.pageObject';
-import SignInPage from '../support/pages/signIn.pageObject';
 import HomePage from '../support/pages/home.pageObject';
 import SettingsPage from '../support/pages/settings.pageObject';
 
@@ -11,7 +10,6 @@ const faker = require('faker');
 const profilePage = new ProfilePage();
 const settingsPage = new SettingsPage();
 const homePage = new HomePage();
-const signInPage = new SignInPage();
 
 describe('Settings page', () => {
   let user;
@@ -59,7 +57,7 @@ describe('Settings page', () => {
     settingsPage.allertSuccessfulUpdate();
     settingsPage.assertUpdatedEmailField(newUser.email);
     settingsPage.clickOnLogoutBtn();
-    signInPage.login(newUser.email, user.password);
+    cy.loginSignInPage(newUser.email, user.password);
   });
 
   it('should provide an ability to update password', () => {
@@ -67,8 +65,8 @@ describe('Settings page', () => {
     settingsPage.typeNewPassword(newUser.password);
     settingsPage.clickOnUpdateSettingBtn();
     settingsPage.allertSuccessfulUpdate();
-    signInPage.visit();
-    signInPage.login(user.email, newUser.password);
+
+    cy.loginSignInPage(user.email, newUser.password);
     homePage.assertHeaderContainUsername(user.username);
   });
 
