@@ -41,13 +41,6 @@ class SignInPageObject extends PageObject {
   assertSignInLink() {
     cy.url().should('contain', `/login`);
   }
-
-  login(email, password) {
-    this.visit();
-    this.typeEmail(email);
-    this.typePassword(password);
-    this.clickSignInBtn();
-  }
 }
 
 export default SignInPageObject;
