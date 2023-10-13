@@ -9,10 +9,6 @@ describe('Article', () => {
   let user;
   let article;
   before(() => {
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
-
     cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
@@ -20,8 +16,10 @@ describe('Article', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.wait(500);
-    cy.login(user.email, user.username, user.password);
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+      cy.login(user.email, user.username, user.password);
+    });
   });
 
   it('should be created using New Article form', () => {

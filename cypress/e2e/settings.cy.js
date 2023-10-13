@@ -12,15 +12,15 @@ const settingsPage = new SettingsPageObject();
 describe('Settings page', () => {
   let user;
   before(() => {
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+
   });
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.wait(500);
-    cy.login(user.email, user.username, user.password);
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+      cy.login(user.email, user.username, user.password);
+    });
     settingsPage.visit();
   });
 
