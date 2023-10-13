@@ -14,9 +14,9 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           const userName = faker.name.firstName() + `${randomNumber}`;
-                    return {
+          return {
             username: userName.toLowerCase(),
-            email:  faker.internet.email(),
+            email: faker.internet.email(),
             password: '12345Qwert!',
             bio: faker.random.words(),
             newUserName: userName.toLowerCase() + `${randomNumber}`,
@@ -42,19 +42,18 @@ module.exports = defineConfig({
           seed();
 
           return null;
-      
       },
-      generateSettings() {
-        const randomNumber = Math.ceil(Math.random(1000) * 1000);
-        return {
-          username: faker.name.firstName() + `${randomNumber}`,
-          bio: faker.lorem.words(),
-          email: 'test' + `${randomNumber}` + '@mail.com',
-          password: '12345Qwert!' + randomNumber
-        }
-      } 
-    });
-      addMatchImageSnapshotPlugin(on, config);
+        generateSettings() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'test' + `${randomNumber}` + '@mail.com',
+            password: '12345Qwert!' + randomNumber
+          }
+        }, 
+      });
+        addMatchImageSnapshotPlugin(on, config);
     }
   }
 });
