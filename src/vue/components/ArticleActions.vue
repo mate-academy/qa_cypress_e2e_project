@@ -1,12 +1,12 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
-      <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
+    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink" >
+      <i class="ion-edit"></i> <span data-qa="edit-article">&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
-      <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
+    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle" >
+      <i class="ion-trash-a"></i> <span data-qa="delete-article">&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
