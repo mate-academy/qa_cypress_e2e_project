@@ -29,6 +29,40 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail('randomEmail@mail.com')
+    signInPage.typePassword('testPass21');
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-modal').contains('Invalid user credentials.');
+  });
+
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+
+    signInPage.typeEmail('wrongEmail@mail.com')
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-modal').contains('Invalid user credentials.');
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('wrongPassword');
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-modal').contains('Invalid user credentials.');
+  })
+
+  it('should redirect to the "Sign Up" page', () => {
+    signInPage.visit();
+
+    signInPage.clickRegisterLink();
+
+    cy.url().should('contain', '/#/register');
   });
 });

@@ -25,17 +25,40 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import articlePageObject from '../support/pages/article.pageObject';
+
+const articlePage = new articlePageObject();
 
 addMatchImageSnapshotCommand();
+
+const faker = require('faker');
 
 Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email = faker.internet.email(), username = faker.internet.userName(), password = faker.internet.password()) => {
   cy.request('POST', '/users', {
     email,
     username,
     password
   });
 });
+
+Cypress.Commands.add('login', (email, password) => {
+  cy.visit('http://localhost:1667/#/login');
+
+  cy.getByDataCy('email-sign-in').type(email);
+  cy.getByDataCy('password-sign-in').type(password);
+  cy.getByDataCy('sign-in-btn').click();
+})
+
+Cypress.Commands.add('createArticle', (title, about, body) => {
+  articlePage.clickNewArticle();
+
+  articlePage.typeTitle(title);
+  articlePage.typeAbout(about);
+  articlePage.typeArticle(body);
+
+  articlePage.clickPublishArticle();
+})

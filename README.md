@@ -32,7 +32,7 @@ Go to `e2e` folder and cover listed functionality with e2e tests:
 ### Basics level
 
 1. Clear all data from the database before the test.
-1. Add `data-qa` attributes for all elements you are working with in tests.
+1. Add `data-cy` attributes for all elements you are working with in tests.
 1. Use faker and custom methods to generate a fake data in tests.
 
 ### Advanced level
