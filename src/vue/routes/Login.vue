@@ -66,7 +66,13 @@ export default {
       swal({
           text: "Logging you in... Please wait...",
           buttons: false,
-        });
+    content: {
+      element: "div",
+      attributes: {
+        "data-cy": "swal-modal", // Устанавливаем атрибут data-cy
+      },
+    },
+  });
 
       let response = await this.$store.dispatch("logIn", { email, password });
 

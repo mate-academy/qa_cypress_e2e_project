@@ -8,6 +8,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="home-btn"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -28,6 +29,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-up-btn"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -39,6 +41,7 @@
       <ul v-else class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
+          data-cy="home-btn"
             class="nav-link"
             active-class="active"
             exact
@@ -50,6 +53,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="article-btn"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -62,6 +66,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="settings-btn"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
