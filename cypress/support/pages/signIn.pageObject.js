@@ -16,18 +16,33 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  get dialogWindow(){
+    return cy.get('div[role="dialog"]');
+  }
+
+  assertWrongCredentials(){
+    this.dialogWindow.should('contain', 'Login failed!');
+  }
+
+  assertEmptyEmail(){
+    this.dialogWindow.should('contain', 'Email field required.');
+  }
+
+  userLogin(email, password){
+    this.typeEmail(email);
+    this.typePassword(password);
+    this.clickSignInBtn();
   }
 }
 

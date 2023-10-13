@@ -5,10 +5,10 @@
     >
       <img :src="authorImage()" />
     </router-link>
-    <div class="info">
+    <div class="info" data-cy = "article-author">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
-        class="author"
+        class="author" data-cy = "author-name"
       >
         {{ authorUsername() }}
       </router-link>

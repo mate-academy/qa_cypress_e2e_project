@@ -1,7 +1,7 @@
 <template>
-  <div class="article-preview">
+  <div class="article-preview" data-cy = "articles-list">
     <ArticleMeta :article="article" />
-    <router-link :to="articleLink" class="preview-link">
+    <router-link :to="articleLink" class="preview-link" data-cy = "preview-article">
       <h1 v-text="article.title" />
       <p v-text="article.description" />
       <span>Read more...</span>
