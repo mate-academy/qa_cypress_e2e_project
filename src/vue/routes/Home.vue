@@ -14,6 +14,7 @@
               <li v-if="is_authenticated" class="nav-item">
                 <router-link
                   :to="{ name: 'home-my-feed' }"
+                  data-cy="feed"
                   class="nav-link"
                   active-class="active"
                 >
@@ -46,7 +47,7 @@
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
-            <div class="tag-list">
+            <div data-cy="tags-list" class="tag-list">
               <Tag v-for="(tag, index) in tags" :name="tag" :key="index">
               </Tag>
             </div>

@@ -1,12 +1,19 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-describe('User', () => {
-  before(() => {
+import UserPageObject from '../support/pages/user.pageObject';
 
+const userPage = new UserPageObject();
+
+describe('User', () => {
+  beforeEach(() => {
+    cy.setupUserSession();
+    cy.register();
   });
 
-  it.skip('should be able to follow the another user', () => {
-
+  it('should be able to follow another user', () => {
+    userPage.toUserProfile();
+    userPage.clickFollowUser();
+    userPage.assertUnfollowBtn();
   });
 });
