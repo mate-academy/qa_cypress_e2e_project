@@ -3,8 +3,8 @@
     <div class="user-info">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
-            <img :src="profile.image" class="user-img" />
+          <div class="col-xs-12 col-md-10 offset-md-1" data-qa="userData">
+            <img :src="profile.image" class="user-img" data-qa="userImage"/>
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
@@ -17,7 +17,7 @@
             </div>
             <div v-else>
               <button
-                class="btn btn-sm btn-secondary action-btn"
+                class="btn btn-sm btn-secondary action-btn" data-qa="button-unfollow"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
               >
@@ -25,7 +25,7 @@
                 {{ profile.username }}
               </button>
               <button
-                class="btn btn-sm btn-outline-secondary action-btn"
+                class="btn btn-sm btn-outline-secondary action-btn" data-qa="button-follow"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
