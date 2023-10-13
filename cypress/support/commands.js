@@ -39,3 +39,23 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('login', (username = 'riot', email = 'riot@qa.team', password = '12345Qwert!') => {
+  cy.visit('http://localhost:1667/#/register');
+  cy.getByDataCy('username-sign-up').type(username);
+  cy.getByDataCy('email-sign-up').type(email);
+  cy.getByDataCy('password-sign-up').type(password);
+  cy.getByDataCy('btn-sign-up').click();
+  cy.get('.swal-button').click();
+});
+
