@@ -56,12 +56,14 @@
               params: { new: true }
             }"
           >
-            <i class="ion-compose"></i>&nbsp;New Article
+            <i class="ion-compose" data-cy="new-article"></i>&nbsp;New Article 
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"
+        data-cy="settings">
           <router-link
             class="nav-link"
+            data-cy="profile-settings"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,7 +73,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-cy="navbar-username"
             class="nav-link"
             active-class="active"
             exact
