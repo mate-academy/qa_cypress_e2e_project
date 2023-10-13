@@ -28,22 +28,20 @@ describe('Article', () => {
    
 
   it('should be created using New Article form', () => {
-    
     ArticleEditPage.visit();
     ArticleEditPage.typeTitle(article.title);
     ArticleEditPage.typeDescription(article.description);
     ArticleEditPage.typeBody(article.body);
     ArticleEditPage.clickOnPublish();
-    //cy.wait(2000);
+    
     cy.url().should('include', `articles/${article.title}`);
 
   });
 
   it('should be edited using Edit button', () => {
-    
     cy.createdArticle(article);
+    
     ArticleEditPage.clickOnEditBtn();
-    //cy.wait(2000);
     ArticleEditPage.typeNewTitle(`Testing Conduit`, { force: true });
     ArticleEditPage.clickOnPublish();
     ArticleEditPage.containTitle(`Testing Conduit`);
@@ -52,9 +50,8 @@ describe('Article', () => {
   });
 
   it('should be deleted using Delete button', () => {
-    
     cy.createdArticle(article);
-    //cy.wait(2000);
+    
     ArticleEditPage.deleteArticleBtn();
     homePage.checkArticlesList();
   });

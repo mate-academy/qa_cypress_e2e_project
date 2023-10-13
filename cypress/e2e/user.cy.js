@@ -28,11 +28,10 @@ describe('User', () => {
       followUser.followUserUsername, followUser.followUserPassword);
     cy.register(user.email, user.username, user.password);
     cy.login(user.email, user.password);
+
     cy.visit(`/#/@${followUser.followUserUsername}`);
-    userFlow.followBtn
-      .click();
-    userFlow.followBtn
-      .should('contain', `Unfollow ${followUser.followUserUsername}`);
+    userFlow.followBtn.click();
+    userFlow.followBtn.should('contain', `Unfollow ${followUser.followUserUsername}`);
   });
 
   it('should provide an ability to unfollow the user', () => {
@@ -40,10 +39,9 @@ describe('User', () => {
       followUser.followUserPassword);
     cy.register(user.email, user.username, user.password);
     cy.login(user.email, user.password);
+
     cy.visit(`/#/@${followUser.followUserUsername}`);
-    userFlow.followBtn
-      .click();
-    userFlow.followBtn
-      .should('contain', `Follow ${followUser.followUserUsername}`);
+    userFlow.followBtn.click();
+    userFlow.followBtn.should('contain', `Follow ${followUser.followUserUsername}`);
   });
 });

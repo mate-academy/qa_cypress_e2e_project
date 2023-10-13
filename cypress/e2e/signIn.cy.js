@@ -25,7 +25,6 @@ describe('Sign In page', () => {
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-
     homePage.assertHeaderContainUsername(user.username);
   });
 
@@ -34,8 +33,7 @@ describe('Sign In page', () => {
 
     signInPage.visit();
     signInPage.passwordField.type(user.password);
-    signInPage.signInBtn
-      .click();
+    signInPage.signInBtn.click();
     signInPage.isLoginFailed();
     cy.wait(2000);
     signInPage.isEmailEmpty();
