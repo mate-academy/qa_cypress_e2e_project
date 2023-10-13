@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="user-info">
+    <div data-qa="user-info" class="user-info">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
@@ -17,6 +17,7 @@
             </div>
             <div v-else>
               <button
+                data-qa="unfollow-btn"
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
@@ -25,6 +26,7 @@
                 {{ profile.username }}
               </button>
               <button
+                data-qa="follow-btn"
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
