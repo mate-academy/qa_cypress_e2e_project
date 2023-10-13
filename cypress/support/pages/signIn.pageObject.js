@@ -15,6 +15,7 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +29,15 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertErrorMessage(message) {
+    cy.intercept('POST', '/login', {
+      statusCode: 422,
+      body: {
+        error: message,
+      },
+    })
   }
 }
 

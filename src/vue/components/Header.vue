@@ -19,6 +19,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="signInLink"
             exact
             :to="{ name: 'login' }"
           >
@@ -28,6 +29,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="signUpLink"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -50,6 +52,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="newArticleLink"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -62,6 +65,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="settingsLink"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
