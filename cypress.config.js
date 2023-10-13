@@ -19,11 +19,12 @@ module.exports = defineConfig({
             password: '12345Qwert!'
           };
         },
+
         generateArticle() {
           return {
-            title: faker.lorem.word(),
-            description: faker.lorem.words(),
-            body: faker.lorem.words(),
+            title: faker.lorem.word(2),
+            description: faker.lorem.words(5),
+            body: faker.lorem.words(7),
             tag: faker.lorem.word()
           };
         },
