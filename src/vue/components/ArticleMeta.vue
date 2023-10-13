@@ -8,7 +8,7 @@
     <div class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
-        class="author"
+        data-cy="username-article" class="author"
       >
         {{ authorUsername() }}
       </router-link>
