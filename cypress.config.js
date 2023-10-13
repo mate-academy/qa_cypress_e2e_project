@@ -15,8 +15,14 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            email: 'test' + 'My' + `${randomNumber}` + '@mail.com',
+            password: '12345Qwert!',
+            invalidUsername: '.!@ #$ ><',
+            shortPassword: `${randomNumber}`,
+            invalidEmail: `${randomNumber}`,
+            bio: faker.lorem.lines(),
+            updatePassw: 'Trewq4321!',
+            updateEmail: 'UpdateEmail@g.com'
           };
         },
         generateArticle() {
@@ -24,7 +30,10 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            editedTitle: 'edit' + faker.lorem.word(),
+            editedDescr: 'edit' + faker.lorem.words(),
+            editedBody: 'edit' + faker.lorem.words()
           };
         },
         'db:clear'() {
