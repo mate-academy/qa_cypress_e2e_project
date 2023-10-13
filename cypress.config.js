@@ -8,6 +8,8 @@ const {
 
 module.exports = defineConfig({
   e2e: {
+    viewportHeight: 1080,
+    viewportWidth: 1920,
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
       on('task', {
@@ -20,6 +22,23 @@ module.exports = defineConfig({
           };
         },
         generateArticle() {
+          return {
+            title: faker.lorem.word(),
+            description: faker.lorem.words(),
+            body: faker.lorem.words(),
+            tag: faker.lorem.word()
+          };
+        },
+        generateSettings() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            usernameSettings: faker.lorem.word(),
+            bioSettings: faker.lorem.word(),
+            emailSettings: 'test' + `${randomNumber}` + '@mail.com',
+            passwordSettings: faker.lorem.word()
+          };
+        },
+        updatedArticleData() {
           return {
             title: faker.lorem.word(),
             description: faker.lorem.words(),
