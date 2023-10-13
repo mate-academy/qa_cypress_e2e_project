@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-qa="articles-list">
     <div v-if="is_loading" class="article-preview">Loading articles...</div>
     <div v-else>
       <div v-if="articles.length === 0" class="article-preview">

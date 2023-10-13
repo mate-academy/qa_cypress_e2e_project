@@ -19,6 +19,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="header-signIn"
             exact
             :to="{ name: 'login' }"
           >
@@ -29,6 +30,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="header-signUp"
             exact
             :to="{ name: 'register' }"
           >
@@ -51,6 +53,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="header-newArticle"
             :to="{
               name: 'article-edit',
               params: { new: true }
@@ -71,7 +74,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="header-username"
             class="nav-link"
             active-class="active"
             exact
