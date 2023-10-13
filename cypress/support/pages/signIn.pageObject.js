@@ -4,16 +4,34 @@ class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy('email_sign-in');
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
-  }
+    get passwordField() {
+      return cy.getByDataCy('password_sign-in');
+    }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.contains('button', 'Sign in');
   }
+
+  get failedLoginAlert() {
+    return cy.get('.swal-title');
+  }
+
+  get invalidCredentialsAlert() {
+    return cy.get('.swal-text');
+  }
+
+  isLoginFailed() {
+    this.failedLoginAlert
+      .contains('Login failed!');
+  }
+
+      isEmailEmpty() {
+        this.invalidCredentialsAlert
+          .contains('Email field required.');
+      }
 
   typeEmail(email) {
     this.emailField
@@ -29,6 +47,8 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+ 
 }
 
 export default SignInPageObject;

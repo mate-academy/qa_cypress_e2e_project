@@ -13,10 +13,15 @@ module.exports = defineConfig({
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName = faker.name.firstName() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: userName.toLowerCase(),
+            email: faker.internet.email(),
+            password: '12345Qwert!',
+            bio: faker.random.words(),
+            newUserName: userName.toLowerCase() + `${randomNumber}`,
+            newEmail: `${userName}` + `${randomNumber}` + '@gmail.com',
+            newPassword: `${userName}` + `${randomNumber}`
           };
         },
         generateArticle() {
@@ -24,7 +29,8 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            newTitle: faker.lorem.word()
           };
         },
         'db:clear'() {
@@ -36,9 +42,18 @@ module.exports = defineConfig({
           seed();
 
           return null;
-        }
+      },
+        generateSettings() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            bio: faker.lorem.words(),
+            email: 'test' + `${randomNumber}` + '@mail.com',
+            password: '12345Qwert!' + randomNumber
+          }
+        }, 
       });
-      addMatchImageSnapshotPlugin(on, config);
+        addMatchImageSnapshotPlugin(on, config);
     }
   }
 });
