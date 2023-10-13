@@ -28,7 +28,26 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it.only('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail(user.invalidEmail);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    signInPage.assertErrorMessage('Email must be a valid email.');
+  });
+
+  it.only('should not provide an ability to log in with wrong email', () => {
+    cy.task('db:clear');
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.shortPassword);
+    signInPage.clickSignInBtn();
+
+    signInPage.assertErrorMessage('Invalid user credentials.');
   });
 });
