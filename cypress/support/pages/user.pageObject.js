@@ -19,10 +19,6 @@ class UserPageObject extends PageObject {
     this.unfollowBtn.click();
   }
 
-  visitFollowedUserPage(username) {
-    cy.visit(`/@${username}`);
-  }
-
   assertUnfollowBtnExist() {
     this.unfollowBtn
       .should('exist');
