@@ -3,14 +3,17 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import faker from 'faker';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  const wrongEmail = faker.internet.email().toLowerCase();
+  const wrongPassword = faker.internet.password();
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -28,7 +31,25 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(wrongEmail);
+    signInPage.clickSignInBtn();
+
+    signInPage.assertUnsuccessfulLogin();
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(wrongPassword);
+    signInPage.clickSignInBtn();
+
+    signInPage.assertUnsuccessfulLogin();
   });
 });

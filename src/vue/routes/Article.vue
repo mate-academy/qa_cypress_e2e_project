@@ -1,5 +1,5 @@
 <template>
-  <div class="article-page">
+  <div data-qa="article-page" class="article-page">
     <div class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
