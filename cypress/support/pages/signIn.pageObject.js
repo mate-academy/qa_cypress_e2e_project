@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get registerLink() {
+    return cy.getByDataCy('register-link');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -29,6 +33,11 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
-}
+
+  clickRegisterLink() {
+    this.registerLink
+      .click();
+  }
+} 
 
 export default SignInPageObject;
