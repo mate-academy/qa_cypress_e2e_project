@@ -1,34 +1,49 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 import UserPageObject from '../support/pages/user.pageObject';
+import HomePage from '../support/pages/home.pageObject';
 
 const userPage = new UserPageObject();
+const homePage = new HomePage();
 
 describe('User', () => {
   let user;
   let user2;
+  let article;
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
-      cy.register(user.username, user.email, user.password);
+      cy.login(user.username, user.email, user.password);
     });
+    cy.task('generateArticle').then((generateArticle) => {
+      article = generateArticle;
+    });
+    cy.getRegisterUser().then((user) => {
+      cy.createArticle(user.id, article.body,
+        article.description, article.tags, article.title);
+    });
+
     cy.task('generateUser').then((generateUser) => {
       user2 = generateUser;
-      cy.login(user2.username, user2.email, user2.password);
+      cy.register(user2.username, user2.email, user2.password);
+      cy.loginSignInPage(user2.email, user2.password);
     });
   });
 
   it('should provide an ability to follow user', () => {
-    userPage.visitFollowedUserPage(user.username);
+    homePage.clickGlobalFeed();
+    homePage.visitUserPage();
     userPage.assertFollowBtnExist();
     userPage.clickFollowUserBtn();
     userPage.assertUnfollowBtnExist();
   });
 
   it('should provide an ability to unfollow the user', () => {
-    userPage.visitFollowedUserPage(user.username);
+    homePage.clickGlobalFeed();
+    homePage.visitUserPage();
+    userPage.assertFollowBtnExist();
     userPage.clickFollowUserBtn();
     userPage.clickUnfollowUserBtn();
     userPage.assertFollowBtnExist();
