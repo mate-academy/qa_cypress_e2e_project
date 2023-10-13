@@ -8,14 +8,14 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1668/',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            email: 'test' + `${randomNumber}` + '@gmail.com',
             password: '12345Qwert!'
           };
         },
