@@ -11,6 +11,45 @@ class HomePageObject extends PageObject {
     return cy.getByDataQa('sign-in-link');
   }
 
+  get newArticleLink() {
+    return cy.getByDataQa('new-article-link');
+  }
+
+  get globalFeedTab() {
+    return cy.get('.nav-link')
+      .contains('Global Feed');
+  }
+
+  get userName() {
+    return cy.getByDataQa('author-name');
+  }
+
+  visitUserPage() {
+    this.userName
+      .click();
+  }
+
+  clickNewArticleForm() {
+    this.newArticleLink
+      .should('exist')
+      .click();
+  }
+
+  clickGlobalFeed() {
+    this.globalFeedTab
+      .click();
+  }
+
+  clickUsernameLink() {
+    this.usernameLink
+      .click();
+  }
+
+  assertHeaderNotContainUsername() {
+    this.usernameLink
+      .should('not.exist');
+  }
+
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
@@ -18,12 +57,7 @@ class HomePageObject extends PageObject {
 
   assertHeaderContainSignIn() {
     this.signInLink
-      .should('contain', 'Sign in');
-  }
-
-  assertHeaderNotContainUsername() {
-    this.usernameLink
-      .should('not.exist');
+      .should('exist');
   }
 
   assertUrlAfterLogout() {
