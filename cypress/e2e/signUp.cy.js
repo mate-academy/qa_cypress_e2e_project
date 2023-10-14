@@ -2,7 +2,6 @@
 /// <reference types='../support' />
 import SignUpPage from '../support/pages/signUp.pageObject';
 import HomePage from '../support/pages/home.pageObject';
-const faker = require('faker');
 
 const signUpPage = new SignUpPage();
 const homePage = new HomePage();
@@ -10,19 +9,23 @@ const homePage = new HomePage();
 describe('Sign Up page', () => {
   let user;
   let newUser;
-  const invalidUsername = '    ';
-  const invalidEmail = faker.name.firstName() + 'gmail.com';
-  const randomNumber = faker.random.number({ min: 10, max: 99 }).toString();
-  const invalidPassword = faker.lorem.word(6).toLowerCase() + randomNumber;
+  let testData;
+
+  before(() => {
+    cy.task('generateUser').then((generateUser) => {
+      newUser = generateUser;
+    });
+    cy.task('generateTestData').then((generateTestData) => {
+      testData = generateTestData;
+    });
+  });
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
-    cy.task('generateUser').then((generateUser) => {
-      newUser = generateUser;
-    });
+
     signUpPage.visit();
   });
 
@@ -58,7 +61,7 @@ describe('Sign Up page', () => {
 
   it('Should not provide the ability to sign up with invalid email', () => {
     signUpPage.typeUsername(user.username);
-    signUpPage.typeEmail(invalidEmail);
+    signUpPage.typeEmail(testData.invalidEmail);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
     signUpPage.alertInvalidEmail();
@@ -67,13 +70,13 @@ describe('Sign Up page', () => {
   it('Should not provide the ability to sign up with invalid password', () => {
     signUpPage.typeUsername(user.username);
     signUpPage.typeEmail(user.email);
-    signUpPage.typePassword(invalidPassword);
+    signUpPage.typePassword(testData.invalidPassword);
     signUpPage.clickSignUpBtn();
     signUpPage.alertInvalidPassword();
   });
 
   it('Should not provide the ability to sign up with invalid username', () => {
-    signUpPage.typeUsername(invalidUsername);
+    signUpPage.typeUsername(testData.invalidUsername);
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();

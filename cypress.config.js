@@ -19,11 +19,13 @@ module.exports = defineConfig({
           const username = faker.name.firstName() + randomNumber;
           const email = faker.internet.email();
           const password = `Paswrd${randomNumber}`;
+          const bio = faker.lorem.words();
 
           return {
             username,
             email,
-            password
+            password,
+            bio
           };
         },
         generateArticle() {
@@ -32,6 +34,14 @@ module.exports = defineConfig({
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
+          };
+        },
+        generateTestData() {
+          const number = faker.random.number({ min: 10, max: 99 }).toString();
+          return {
+            invalidUsername: '    ',
+            invalidEmail: faker.name.firstName() + 'gmail.com',
+            invalidPassword: faker.lorem.word(6).toLowerCase() + number
           };
         },
         'db:clear'() {

@@ -5,8 +5,6 @@ import ProfilePage from '../support/pages/profile.pageObject';
 import HomePage from '../support/pages/home.pageObject';
 import SettingsPage from '../support/pages/settings.pageObject';
 
-const faker = require('faker');
-
 const profilePage = new ProfilePage();
 const settingsPage = new SettingsPage();
 const homePage = new HomePage();
@@ -14,16 +12,20 @@ const homePage = new HomePage();
 describe('Settings page', () => {
   let user;
   let newUser;
-  const newBio = faker.lorem.words();
+
+  before(() => {
+    cy.task('generateUser').then((generateUser) => {
+      newUser = generateUser;
+    });
+  });
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
-      cy.login(user.username, user.email, user.password);
-    });
-    cy.task('generateUser').then((generateUser) => {
-      newUser = generateUser;
+
+      cy.register(user.username, user.email, user.password);
+      cy.login(user.email, user.password);
     });
   });
 
@@ -42,12 +44,12 @@ describe('Settings page', () => {
 
   it('should provide an ability to update bio', () => {
     settingsPage.visit();
-    settingsPage.typeNewBio(newBio);
+    settingsPage.typeNewBio(newUser.bio);
     settingsPage.clickOnUpdateSettingBtn();
     settingsPage.allertSuccessfulUpdate();
-    settingsPage.assertUpdatedBioField(newBio);
+    settingsPage.assertUpdatedBioField(newUser.bio);
     profilePage.visit(user.username);
-    profilePage.assertUpdatedProfileInfo(newBio);
+    profilePage.assertUpdatedProfileInfo(newUser.bio);
   });
 
   it('should provide an ability to update an email', () => {

@@ -6,14 +6,13 @@ import NewArticlePage from '../support/pages/newArticle.pageObject';
 import ProfilePage from '../support/pages/profile.pageObject';
 import HomePage from '../support/pages/home.pageObject';
 
-const newArticlePage = new NewArticlePage();
+const newArticleForm = new NewArticlePage();
 const profilePage = new ProfilePage();
 const articlePage = new ArticlePage();
 const homePage = new HomePage();
 
 describe('Article', () => {
   let user;
-  let user2;
   let article;
   let newArticle;
 
@@ -25,75 +24,59 @@ describe('Article', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
+    cy.task('generateArticle').then((generateArticle) => {
+      article = generateArticle;
+    });
 
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
-      cy.register(user.username, user.email, user.password);
-    });
+      cy.createArticle(user.username,
+        user.email,
+        user.password,
+        article.body,
+        article.description,
+        article.tags,
+        article.title);
 
-    cy.task('generateUser').then((generateUser) => {
-      user2 = generateUser;
-      cy.login(user2.username, user2.email, user2.password);
-    });
-
-    cy.task('generateArticle').then((generateArticle) => {
-      article = generateArticle;
+      cy.login(user.email, user.password);
     });
   });
 
   it('should be created using New Article form', () => {
-    cy.loginSignInPage(user.email, user.password);
-    homePage.clickNewArticleForm();
-    newArticlePage.typeTitle(article.title);
-    newArticlePage.typeDescription(article.description);
-    newArticlePage.typeBody(article.body);
-    newArticlePage.typeTags(article.tag);
-    newArticlePage.clickPublishArticleBtn();
+    newArticleForm.visit();
+    newArticleForm.typeTitle(newArticle.title);
+    newArticleForm.typeDescription(newArticle.description);
+    newArticleForm.typeBody(newArticle.body);
+    newArticleForm.typeTags(newArticle.tag);
+    newArticleForm.clickPublishArticleBtn();
 
-    articlePage.assertTitle(article.title);
-    articlePage.assertBody(article.body);
+    articlePage.assertArticleLink(newArticle.title);
+    articlePage.assertTitle(newArticle.title);
+    articlePage.assertBody(newArticle.body);
     articlePage.assertAuthorName(user.username);
 
     homePage.clickUsernameLink();
     profilePage.clickOnMyArticleTab();
-    profilePage.assertArticleInMyArticles(article.title);
+    profilePage.assertArticleInMyArticles(newArticle.title);
   });
 
   it('should be edited using Edit button', () => {
-    cy.getRegisterUser().then((user2) => {
-      cy.createArticle(user2.id, article.body,
-        article.description, article.tags, article.title);
-    });
-    cy.loginSignInPage(user2.email, user2.password);
-
-    homePage.clickUsernameLink();
-    profilePage.clickOnMyArticleTab();
-    profilePage.visitArticlePage(article.title);
-
+    articlePage.visit(article.title);
     articlePage.clickEditArticleBtn();
-    newArticlePage.editTitle(newArticle.title);
-    newArticlePage.editDescription(newArticle.description);
-    newArticlePage.editBody(newArticle.body);
-    newArticlePage.editTags(newArticle.tag);
-    newArticlePage.clickPublishArticleBtn();
+    newArticleForm.editTitle(newArticle.title);
+    newArticleForm.editDescription(newArticle.description);
+    newArticleForm.editBody(newArticle.body);
+    newArticleForm.editTags(newArticle.tag);
+    newArticleForm.clickPublishArticleBtn();
 
     articlePage.assertTitle(newArticle.title);
     articlePage.assertBody(newArticle.body);
   });
 
   it('should be deleted using Delete button ', () => {
-    cy.getRegisterUser().then((user2) => {
-      cy.createArticle(user2.id, article.body,
-        article.description, article.tags, article.title);
-    });
-    cy.loginSignInPage(user2.email, user2.password);
-
-    homePage.clickUsernameLink();
-    profilePage.clickOnMyArticleTab();
-    profilePage.visitArticlePage(article.title);
-
+    articlePage.visit(article.title);
     articlePage.clickDeleteArticleBtn();
-    profilePage.visit(user2.username);
+    profilePage.visit(user.username);
     profilePage.assertArticleDeleted();
   });
 });

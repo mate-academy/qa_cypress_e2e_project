@@ -13,18 +13,19 @@ describe('User', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-      cy.login(user.username, user.email, user.password);
-    });
     cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
-    cy.getRegisterUser().then((user) => {
-      cy.createArticle(user.id, article.body,
-        article.description, article.tags, article.title);
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+      cy.createArticle(user.username,
+        user.email,
+        user.password,
+        article.body,
+        article.description,
+        article.tags,
+        article.title);
     });
-
     cy.task('generateUser').then((generateUser) => {
       user2 = generateUser;
       cy.register(user2.username, user2.email, user2.password);
@@ -34,7 +35,7 @@ describe('User', () => {
 
   it('should provide an ability to follow user', () => {
     homePage.clickGlobalFeed();
-    homePage.visitUserPage();
+    homePage.visitUserPage(user.username);
     userPage.assertFollowBtnExist();
     userPage.clickFollowUserBtn();
     userPage.assertUnfollowBtnExist();

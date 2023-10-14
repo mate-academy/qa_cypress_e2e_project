@@ -55,6 +55,10 @@ class ArticlePageObject extends PageObject {
     this.articleBody
       .should('contain.text', body);
   }
+
+  assertArticleLink(title) {
+    cy.url().should('contain', `/${title}`);
+  }
 }
 
 export default ArticlePageObject;

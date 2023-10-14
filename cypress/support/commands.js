@@ -45,6 +45,48 @@ Cypress.Commands.add('register', (username, email, password) => {
   });
 });
 
+Cypress.Commands.add('login', (email, password) => {
+  cy.request('POST', '/users/login', {
+    user: {
+      email,
+      password
+    }
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle',
+  (username, email, password, body, description, tag, title) => {
+    cy.request('POST', '/users', {
+      username,
+      email,
+      password
+    }).then((response) => {
+      const userId = response.body.user.id;
+      const authToken = response.body.user.token;
+
+      cy.setCookie('drash_sess', authToken);
+
+      cy.request({
+        method: 'POST',
+        url: '/articles',
+        body: {
+          article: {
+            author_id: userId,
+            body,
+            description,
+            tags: tag,
+            title
+          }
+        },
+        headers: {
+          Authorization: authToken
+        }
+      });
+    });
+  });
+
 Cypress.Commands.add('loginSignInPage', (email, password) => {
   const signInPage = new SignInPageObject();
 
@@ -52,40 +94,4 @@ Cypress.Commands.add('loginSignInPage', (email, password) => {
   signInPage.typeEmail(email);
   signInPage.typePassword(password);
   signInPage.clickSignInBtn();
-});
-
-Cypress.Commands.add('login', (username, email, password) => {
-  cy.request('POST', '/users', {
-    username,
-    email,
-    password
-  }).then((response) => {
-    const user = {
-      id: response.body.user.id,
-      username: response.body.user.username,
-      email: response.body.user.email,
-      bio: response.body.user.bio,
-      image: response.body.user.image,
-      token: response.body.user.token
-    };
-    window.localStorage.setItem('user', JSON.stringify(user));
-    cy.setCookie('drash_sess', response.body.user.token);
-  });
-});
-
-Cypress.Commands.add('getRegisterUser', () => {
-  const registerUser = JSON.parse(window.localStorage.getItem('user'));
-  return registerUser;
-});
-
-Cypress.Commands.add('createArticle', (id, body, description, tag, title) => {
-  cy.request('POST', 'articles', {
-    article: {
-      author_id: id,
-      body,
-      description,
-      tags: tag,
-      title
-    }
-  });
 });
