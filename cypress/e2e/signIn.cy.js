@@ -1,34 +1,51 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
-
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
-
 describe('Sign In page', () => {
-  let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    cy.visit('/#/login');
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+    let user;
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
+cy.task('generateUser').then((generateUser) => {
+  user = generateUser;
 
-    homePage.assertHeaderContainUsername(user.username);
+  cy.request('POST', 'http://localhost:1667/users', {
+    email: user.email,
+    username: user.username,
+    password: user.password
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  cy.getByDataCy('login-email-input').type(user.email);
+  cy.getByDataCy('login-password-input').type(user.password);
+  cy.getByDataCy('signin-button').click();
 
-  });
+  cy.getByDataCy('navbar-username').should('contain', user.username);
 });
+});
+
+  it('should not provide an ability to log in with wrong password', () => {
+    let user;
+
+cy.task('generateUser').then((generateUser) => {
+  user = generateUser;
+
+  cy.request('POST', 'http://localhost:1667/users', {
+    email: user.email,
+    username: user.username,
+    password: user.password
+  });
+
+  cy.getByDataCy('login-email-input').type(user.email);
+  cy.getByDataCy('login-password-input').type('Wrongpass123!');
+  cy.getByDataCy('signin-button').click();
+
+  cy.get('.swal-modal').should('contain', 'Login failed!');
+});
+});
+
+  });
