@@ -3,10 +3,10 @@ describe('Article comment', () => {
     async () => {
       // create an article and comment inside the db
       const article = await createTestArticle();
-      const id = typeof article.id === "boolean" ? 0 : Number(article.id);
+      const id = typeof article.id === 'boolean' ? 0 : Number(article.id);
       if (!id) {
         throw new Error(
-          "article.id should be defined, maybe you query to add an article screwed up somewhere",
+          'article.id should be defined, maybe you query to add an article screwed up somewhere',
         );
       }
       await createTestComment({ article_id: id });
@@ -27,9 +27,9 @@ describe('Article comment', () => {
       expect(body.success)
         .toBeTruthy();
       expect(body.data[0].body)
-        .toBe("Test Body");
+        .toBe('Test Body');
       expect(body.data[0].author_username)
-        .toBe("Test Username");
-    }
+        .toBe('Test Username');
+    };
   });
 });

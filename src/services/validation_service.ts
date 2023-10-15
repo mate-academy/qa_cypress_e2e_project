@@ -1,5 +1,5 @@
-import { bcrypt } from "../deps.ts";
-import UserModel from "../models/user_model.ts";
+import { bcrypt } from '../deps.ts';
+import UserModel from '../models/user_model.ts';
 
 export default class ValidationService {
   /**
@@ -14,7 +14,7 @@ export default class ValidationService {
    *       decodes strings.
    */
   static decodeInput(input: string): string | undefined {
-    if ((typeof input) !== "string") {
+    if ((typeof input) !== 'string') {
       return input;
     }
     return decodeURIComponent(input);

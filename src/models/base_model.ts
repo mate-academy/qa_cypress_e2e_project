@@ -1,11 +1,11 @@
-import { Column, Pool, PoolClient } from "../deps.ts";
-import type { QueryResult } from "../deps.ts";
+import { Column, Pool, PoolClient } from '../deps.ts';
+import type { QueryResult } from '../deps.ts';
 
 export const dbPool = new Pool({
-  user: "user",
-  password: "userpassword",
-  database: "realworld",
-  hostname: "realworld_postgres",
+  user: 'user',
+  password: 'userpassword',
+  database: 'realworld',
+  hostname: 'realworld_postgres',
   port: 5432,
 }, 50);
 
@@ -88,7 +88,7 @@ export default abstract class BaseModel {
       const value = fields[field];
       clauses.push(`${field} = '${value}'`);
     }
-    query += clauses.join(" AND ");
+    query += clauses.join(' AND ');
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
@@ -126,7 +126,7 @@ export default abstract class BaseModel {
 
     const query = `SELECT * FROM ${table} ` +
       ` WHERE ${data.column} ` +
-      ` IN (${data.values.join(",")})`;
+      ` IN (${data.values.join(',')})`;
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
@@ -168,16 +168,16 @@ export default abstract class BaseModel {
       return query;
     }
     // First create an array item for each placeholder
-    const occurrences = query.split("?");
-    if (occurrences[occurrences.length - 1] === "") { // for when last item is ""
+    const occurrences = query.split('?');
+    if (occurrences[occurrences.length - 1] === '') { // for when last item is ""
       occurrences.splice(occurrences.length - 1);
     }
     // Replace each item with itself but passed in data instead of the placeholder
     data.forEach((val, i) => {
-      occurrences[i] = occurrences[i] + "'" + data[i] + "'";
+      occurrences[i] = occurrences[i] + '\'' + data[i] + '\'';
     });
     // re construct the string
-    let prepared = "";
+    let prepared = '';
     occurrences.forEach((val, i) => {
       prepared += occurrences[i];
     });

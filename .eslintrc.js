@@ -6,12 +6,14 @@ module.exports = {
   },
   extends: [
     'plugin:cypress/recommended',
-    'standard-with-typescript'
+    'standard-with-typescript',
+    'plugin:@typescript-eslint/recommended'
   ],
   overrides: [
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    project: './tsconfig.json'
   },
   plugins: [
     'vue',

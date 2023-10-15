@@ -1,5 +1,5 @@
-import BaseModel from "./base_model.ts";
-import type { ArticleModel } from "./article_model.ts";
+import BaseModel from './base_model.ts';
+import type { ArticleModel } from './article_model.ts';
 
 export type ArticleCommentEntity = {
   created_at: number;
@@ -119,8 +119,8 @@ export class ArticleCommentsModel extends BaseModel {
     authorUsername: string,
     createdAt: number = Date.now(),
     updatedAt: number = Date.now(),
-    id: number = -1,
-    slug: string = "",
+    id = -1,
+    slug = '',
   ) {
     super();
     this.id = id;
@@ -176,9 +176,9 @@ export class ArticleCommentsModel extends BaseModel {
     //   return this.update();
     // }
 
-    let query = "INSERT INTO article_comments " +
-      " (article_id, author_image, author_id, author_username, body, created_at, updated_at)" +
-      " VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?));";
+    let query = 'INSERT INTO article_comments ' +
+      ' (article_id, author_image, author_id, author_username, body, created_at, updated_at)' +
+      ' VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?));';
     query = this.prepareQuery(
       query,
       [
@@ -243,7 +243,7 @@ export class ArticleCommentsModel extends BaseModel {
    * @return Promise<ArticleMode[]|[]>
    */
   static async all(filters: Filters): Promise<ArticleCommentsModel[] | []> {
-    let query = "SELECT * FROM article_comments ";
+    let query = 'SELECT * FROM article_comments ';
     if (filters.article) {
       query += ` WHERE article_id = '${filters.article.id}' `;
     }
@@ -272,7 +272,7 @@ export class ArticleCommentsModel extends BaseModel {
   static async where(
     fields: { [key: string]: string | number },
   ): Promise<ArticleCommentsModel[] | []> {
-    const results = await BaseModel.Where("article_comments", fields);
+    const results = await BaseModel.Where('article_comments', fields);
 
     if (results.length <= 0) {
       return [];
@@ -294,7 +294,7 @@ export class ArticleCommentsModel extends BaseModel {
     column: string,
     values: Array<string | number>,
   ): Promise<ArticleCommentsModel[] | []> {
-    const results = await BaseModel.WhereIn("article_comments", {
+    const results = await BaseModel.WhereIn('article_comments', {
       column,
       values,
     });
@@ -339,8 +339,8 @@ export class ArticleCommentsModel extends BaseModel {
    */
   protected createSlug(title: string): string {
     return title.toLowerCase()
-      .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/\s/g, "-");
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s/g, '-');
   }
 
   protected static constructArticleComments(
@@ -349,23 +349,23 @@ export class ArticleCommentsModel extends BaseModel {
     const articleComments: Array<ArticleCommentsModel> = [];
     results.forEach((result) => {
       const entity: ArticleCommentEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        updated_at: typeof result.updated_at === "number"
+        updated_at: typeof result.updated_at === 'number'
           ? result.updated_at
           : 0,
-        article_id: typeof result.article_id === "number" ? result.article_id
+        article_id: typeof result.article_id === 'number' ? result.article_id
         : 0,
-        author_username: typeof result.author_username === "string"
+        author_username: typeof result.author_username === 'string'
           ? result.author_username
-          : "",
-        author_image: typeof result.author_image === "string"
+          : '',
+        author_image: typeof result.author_image === 'string'
           ? result.author_image
-          : "",
+          : '',
       };
       articleComments.push(createArticleCommentsModelObject(entity));
     });
