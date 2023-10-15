@@ -25,7 +25,7 @@
                 {{ profile.username }}
               </button>
               <button
-                class="btn btn-sm btn-outline-secondary action-btn"
+                class="btn btn-sm btn-outline-secondary action-btn" data-cy="follow-button"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >

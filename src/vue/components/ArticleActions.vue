@@ -7,7 +7,7 @@
     </router-link>
     <span>&nbsp;&nbsp;</span>
     <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
-      <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
+      <i class="ion-trash-a" data-cy="delete-article-btn"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->

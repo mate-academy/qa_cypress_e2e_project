@@ -22,7 +22,7 @@ cy.task('generateUser').then((generateUser) => {
 
   cy.getByDataCy('login-email-input').type(user.email);
   cy.getByDataCy('login-password-input').type(user.password);
-  cy.getByDataCy('signin button').click();
+  cy.getByDataCy('signin-button').click();
 
   cy.getByDataCy('navbar-username').should('contain', user.username);
 });
@@ -42,7 +42,7 @@ cy.task('generateUser').then((generateUser) => {
 
   cy.getByDataCy('login-email-input').type(user.email);
   cy.getByDataCy('login-password-input').type('Wrongpass123!');
-  cy.getByDataCy('signin button').click();
+  cy.getByDataCy('signin-button').click();
 
   cy.get('.swal-modal').should('contain', 'Login failed!');
 });
