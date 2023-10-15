@@ -4,12 +4,25 @@ class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataCy('username-link');
+    return cy.getByDataQa('username-link');
   }
 
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
+  }
+
+  get yourFeed() {
+    return cy.getByDataQa('your-feed');
+  }
+
+  clickYourFeedLink() {
+    this.yourFeed.click();
+  }
+
+  assertUsernameLinkDoesNotExist() {
+    this.usernameLink
+      .should('not.exist');
   }
 }
 
