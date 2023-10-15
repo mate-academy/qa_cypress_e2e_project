@@ -3,10 +3,11 @@
 
 describe('User', () => {
   before(() => {
-
+    cy.task('db:clear');
+    cy.visit('/#/register');
   });
 
-  it.skip('should be able to follow the another user', () => {
-
+  it('should be able to follow another user', () => {
+    cy.registerAndFollowUsers();
   });
 });
