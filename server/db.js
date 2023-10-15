@@ -10,10 +10,10 @@ async function clear() {
   const t = await sequilize.transaction();
 
   try {
-    await sequilize.query('DELETE FROM articles;')
-    await sequilize.query('DELETE FROM article_comments;')
-    await sequilize.query('DELETE FROM sessions;')
-    await sequilize.query('DELETE FROM users;')
+    await sequilize.query('DELETE FROM articles;');
+    await sequilize.query('DELETE FROM article_comments;');
+    await sequilize.query('DELETE FROM sessions;');
+    await sequilize.query('DELETE FROM users;');
 
     await t.commit();
 

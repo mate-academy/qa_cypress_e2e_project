@@ -1,6 +1,6 @@
-import BaseModel from "./base_model.ts";
-import type { UserEntity, UserModel } from "./user_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts';
+import type { UserEntity, UserModel } from './user_model.ts';
+import type { QueryResult } from '../deps.ts';
 
 export type ArticleEntity = {
   author?: UserEntity | null;
@@ -151,11 +151,11 @@ export class ArticleModel extends BaseModel {
     title: string,
     description: string,
     body: string,
-    tags: string = "",
-    slug: string = "",
+    tags = '',
+    slug = '',
     createdAt: number = Date.now(),
     updatedAt: number = Date.now(),
-    id: number = -1,
+    id = -1,
   ) {
     super();
     this.id = id;
@@ -213,9 +213,9 @@ export class ArticleModel extends BaseModel {
     }
 
     // TODO(ebebbington) Dont allow duplicate aerticles, because the slug is just the article name
-    let query = "INSERT INTO articles " +
-      " (author_id, title, description, body, slug, created_at, updated_at, tags)" +
-      " VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?), ?);";
+    let query = 'INSERT INTO articles ' +
+      ' (author_id, title, description, body, slug, created_at, updated_at, tags)' +
+      ' VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?), ?);';
     query = this.prepareQuery(
       query,
       [
@@ -251,8 +251,8 @@ export class ArticleModel extends BaseModel {
    * @return Promise<ArticleModel|[]> The updated article, else [] if it failed to update
    */
   public async update(): Promise<ArticleModel | []> {
-    let query = "UPDATE articles SET " +
-      "title = ?, description = ?, body = ?, updated_at = to_timestamp(?), tags = ? " +
+    let query = 'UPDATE articles SET ' +
+      'title = ?, description = ?, body = ?, updated_at = to_timestamp(?), tags = ? ' +
       `WHERE id = '${this.id}';`;
     query = this.prepareQuery(
       query,
@@ -291,7 +291,7 @@ export class ArticleModel extends BaseModel {
    * @return Promise<ArticleMode[]|[]>
    */
   static async all(filters: Filters): Promise<ArticleModel[] | []> {
-    let query = "SELECT * FROM articles ";
+    let query = 'SELECT * FROM articles ';
     if (filters.author) {
       query += ` WHERE author_id = '${filters.author.id}' `;
     }
@@ -316,26 +316,26 @@ export class ArticleModel extends BaseModel {
     const articles: Array<ArticleModel> = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number' ? result.updated_at
         : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : '',
       };
       articles.push(createArticleModelObject(entity));
     });
@@ -353,7 +353,7 @@ export class ArticleModel extends BaseModel {
   static async where(
     fields: { [key: string]: string | number },
   ): Promise<ArticleModel[] | []> {
-    const results = await BaseModel.Where("articles", fields);
+    const results = await BaseModel.Where('articles', fields);
 
     if (results.length <= 0) {
       return [];
@@ -362,26 +362,26 @@ export class ArticleModel extends BaseModel {
     const articles: Array<ArticleModel> = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number' ? result.updated_at
         : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : '',
       };
       articles.push(createArticleModelObject(entity));
     });
@@ -401,7 +401,7 @@ export class ArticleModel extends BaseModel {
     column: string,
     values: string[] | number[],
   ): Promise<ArticleModel[] | []> {
-    const results = await BaseModel.WhereIn("articles", {
+    const results = await BaseModel.WhereIn('articles', {
       column,
       values,
     });
@@ -413,26 +413,26 @@ export class ArticleModel extends BaseModel {
     const articles: Array<ArticleModel> = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number' ? result.updated_at
         : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : '',
       };
       articles.push(createArticleModelObject(entity));
     });
@@ -475,7 +475,7 @@ export class ArticleModel extends BaseModel {
    */
   protected createSlug(title: string): string {
     return title.toLowerCase()
-      .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/\s/g, "-");
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s/g, '-');
   }
 }

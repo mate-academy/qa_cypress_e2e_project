@@ -1,5 +1,5 @@
-import BaseModel from "./base_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts';
+import type { QueryResult } from '../deps.ts';
 
 export type UserEntity = {
   bio?: string;
@@ -108,9 +108,9 @@ export class UserModel extends BaseModel {
     username: string,
     password: string,
     email: string,
-    bio: string = "",
-    image: string = "https://static.productionready.io/images/smiley-cyrus.jpg",
-    id: number = -1,
+    bio = '',
+    image = 'https://static.productionready.io/images/smiley-cyrus.jpg',
+    id = -1,
   ) {
     super();
     this.id = id;
@@ -164,9 +164,9 @@ export class UserModel extends BaseModel {
       return this.update();
     }
 
-    let query = "INSERT INTO users " +
-      " (username, email, password, bio, image)" +
-      " VALUES (?, ?, ?, ?, ?);";
+    let query = 'INSERT INTO users ' +
+      ' (username, email, password, bio, image)' +
+      ' VALUES (?, ?, ?, ?, ?);';
     query = this.prepareQuery(
       query,
       [
@@ -199,8 +199,8 @@ export class UserModel extends BaseModel {
    * @return Promise<UserModel|null> False if no results were found
    */
   public async update(): Promise<UserModel | null> {
-    let query = "UPDATE users SET " +
-      "username = ?, password = ?, email = ?, bio = ?, image = ? " +
+    let query = 'UPDATE users SET ' +
+      'username = ?, password = ?, email = ?, bio = ?, image = ? ' +
       `WHERE id = '${this.id}';`;
     query = this.prepareQuery(
       query,
@@ -241,7 +241,7 @@ export class UserModel extends BaseModel {
   static async where(
     fields: { [key: string]: string | number },
   ): Promise<UserModel[] | []> {
-    const results = await BaseModel.Where("users", fields);
+    const results = await BaseModel.Where('users', fields);
 
     if (results.length <= 0) {
       return [];
@@ -267,7 +267,7 @@ export class UserModel extends BaseModel {
     column: string,
     values: string[] | number[],
   ): Promise<UserModel[] | []> {
-    const results = await BaseModel.WhereIn("users", {
+    const results = await BaseModel.WhereIn('users', {
       column,
       values,
     });

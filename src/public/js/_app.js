@@ -1,33 +1,33 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 //
 // Axios
 //
 
-import axios from "axios";
-import VueAxios from "vue-axios";
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = "http://localhost:1667";
+Vue.axios.defaults.baseURL = 'http://localhost:1667';
 
 //
 // Vue filters
 //
 
-import DateFilter from "@/common/date.filter.js";
-import ErrorFilter from "@/common/error.filter.js";
+import DateFilter from '@/common/date.filter.js';
+import ErrorFilter from '@/common/error.filter.js';
 
 Vue.config.productionTip = false;
-Vue.filter("date", DateFilter);
-Vue.filter("error", ErrorFilter);
+Vue.filter('date', DateFilter);
+Vue.filter('error', ErrorFilter);
 
 //
 // Vuex
 //
 
-import Vuex from "vuex";
+import Vuex from 'vuex';
 Vue.use(Vuex);
 
-import module from "@/store/module.js";
+import module from '@/store/module.js';
 
 const store = new Vuex.Store({
   modules: {
@@ -41,94 +41,94 @@ Vue.prototype.$store = Vuex;
 // Vue Router
 //
 
-import VueRouter from "vue-router";
+import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-import Home from "@/routes/Home.vue";
-import HomeGlobal from "@/routes/HomeGlobal.vue";
-import HomeMyFeed from "@/routes/HomeMyFeed.vue";
-import HomeTag from "@/routes/HomeTag.vue";
-import Login from "@/routes/Login.vue";
-import Register from "@/routes/Register.vue";
-import Settings from "@/routes/Settings.vue";
-import Profile from "@/routes/Profile.vue";
-import ProfileArticles from "@/routes/ProfileArticles.vue";
-import ProfileFavorited from "@/routes/ProfileFavorited.vue";
-import Article from "@/routes/Article.vue";
-import ArticleEdit from "@/routes/ArticleEdit.vue";
-import NotFound from "@/routes/404.vue";
+import Home from '@/routes/Home.vue';
+import HomeGlobal from '@/routes/HomeGlobal.vue';
+import HomeMyFeed from '@/routes/HomeMyFeed.vue';
+import HomeTag from '@/routes/HomeTag.vue';
+import Login from '@/routes/Login.vue';
+import Register from '@/routes/Register.vue';
+import Settings from '@/routes/Settings.vue';
+import Profile from '@/routes/Profile.vue';
+import ProfileArticles from '@/routes/ProfileArticles.vue';
+import ProfileFavorited from '@/routes/ProfileFavorited.vue';
+import Article from '@/routes/Article.vue';
+import ArticleEdit from '@/routes/ArticleEdit.vue';
+import NotFound from '@/routes/404.vue';
 
 const router = new VueRouter({
   routes: [
     {
-      path: "/",
+      path: '/',
       component: Home,
       children: [
         {
-          path: "",
-          name: "home",
+          path: '',
+          name: 'home',
           component: HomeGlobal,
         },
         {
-          path: "my-feed",
-          name: "home-my-feed",
+          path: 'my-feed',
+          name: 'home-my-feed',
           component: HomeMyFeed,
         },
         {
-          path: "tag/:tag",
-          name: "home-tag",
+          path: 'tag/:tag',
+          name: 'home-tag',
           component: HomeTag,
         },
       ],
     },
     {
-      name: "login",
-      path: "/login",
+      name: 'login',
+      path: '/login',
       component: Login,
     },
     {
-      name: "register",
-      path: "/register",
+      name: 'register',
+      path: '/register',
       component: Register,
     },
     {
-      name: "settings",
-      path: "/settings",
+      name: 'settings',
+      path: '/settings',
       component: Settings,
     },
     // Handle child routes with a default, by giving the name to the
     // child.
     // SO: https://github.com/vuejs/vue-router/issues/777
     {
-      path: "/@:username",
+      path: '/@:username',
       component: Profile,
       children: [
         {
-          path: "",
-          name: "profile",
+          path: '',
+          name: 'profile',
           component: ProfileArticles,
         },
         {
-          name: "profile-favorites",
-          path: "favorites",
+          name: 'profile-favorites',
+          path: 'favorites',
           component: ProfileFavorited,
         },
       ],
     },
     {
-      name: "article",
-      path: "/articles/:slug",
+      name: 'article',
+      path: '/articles/:slug',
       component: Article,
       props: true,
     },
     {
-      name: "article-edit",
-      path: "/editor/:slug?",
+      name: 'article-edit',
+      path: '/editor/:slug?',
       props: true,
       component: ArticleEdit,
     },
     {
-      path: "*",
+      path: '*',
       component: NotFound,
     },
   ],
@@ -145,10 +145,10 @@ const router = new VueRouter({
 
 // Ensure we checked auth before each page load.
 router.beforeEach(async (to, from, next) => {
-  if (to.path !== "/login" && to.path !== "/register" && to.path !== "/") {
-    const result = await store.dispatch("checkIfUserIsAuthenticated");
+  if (to.path !== '/login' && to.path !== '/register' && to.path !== '/') {
+    const result = await store.dispatch('checkIfUserIsAuthenticated');
     if (!result) {
-      router.push("/login");
+      router.push('/login');
     }
     next();
   } else {
@@ -160,18 +160,18 @@ router.beforeEach(async (to, from, next) => {
 // Vue app initialization
 //
 
-import App from "@/components/App.vue";
+import App from '@/components/App.vue';
 
 window.app = new Vue({
-  el: "#app",
-  template: "<App/>",
+  el: '#app',
+  template: '<App/>',
   components: {
     App,
   },
   router,
   store,
   mounted() {
-    console.log("Vue mounted!");
+    console.log('Vue mounted!');
   },
 });
 

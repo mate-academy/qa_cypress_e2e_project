@@ -1,5 +1,5 @@
-import BaseModel from "./base_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts';
+import type { QueryResult } from '../deps.ts';
 
 interface SessionModelEntity {
   session_one: string;
@@ -74,7 +74,7 @@ export class SessionModel extends BaseModel {
     sessionOne: string,
     sessionTwo: string,
     userId: number,
-    id: number = -1,
+    id = -1,
   ) {
     super();
     this.session_one = sessionOne;
@@ -101,9 +101,9 @@ export class SessionModel extends BaseModel {
     sessionOne: string,
     sessionTwo: string,
   ): Promise<SessionModel | null> {
-    const query = "SELECT * FROM sessions " +
+    const query = 'SELECT * FROM sessions ' +
       `WHERE session_one = '${sessionOne}' AND session_two = '${sessionTwo}' ` +
-      "LIMIT 1;";
+      'LIMIT 1;';
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
     if (dbResult.rowCount! < 1) {
@@ -119,14 +119,14 @@ export class SessionModel extends BaseModel {
       // (ebebbington) Because we currently dont have a way to assign the entity type to `session` (and it work,
       // as it would error because that type isn't the return value of `formatResults`)
       const sessionEntity: SessionModelEntity = {
-        session_one: typeof session.session_one === "string"
+        session_one: typeof session.session_one === 'string'
           ? session.session_one
-          : "",
-        session_two: typeof session.session_two === "string"
+          : '',
+        session_two: typeof session.session_two === 'string'
           ? session.session_two
-          : "",
-        id: typeof session.id === "number" ? session.id : 0,
-        user_id: typeof session.user_id === "number" ? session.user_id : 0,
+          : '',
+        id: typeof session.id === 'number' ? session.id : 0,
+        user_id: typeof session.user_id === 'number' ? session.user_id : 0,
       };
       return createSessionModel(sessionEntity);
     }
@@ -144,12 +144,12 @@ export class SessionModel extends BaseModel {
    */
   public async save(): Promise<SessionModel | null> {
     if (this.id != -1) {
-      throw new Error("Session record already exists.");
+      throw new Error('Session record already exists.');
     }
 
-    let query = "INSERT INTO sessions " +
-      " (user_id, session_one, session_two)" +
-      " VALUES (?, ?, ?);";
+    let query = 'INSERT INTO sessions ' +
+      ' (user_id, session_one, session_two)' +
+      ' VALUES (?, ?, ?);';
     query = this.prepareQuery(
       query,
       [

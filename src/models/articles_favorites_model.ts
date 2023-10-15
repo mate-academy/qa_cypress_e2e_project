@@ -1,5 +1,5 @@
-import BaseModel from "./base_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts';
+import type { QueryResult } from '../deps.ts';
 
 export type ArticlesFavoritesEntity = {
   article_id: number;
@@ -65,7 +65,7 @@ export class ArticlesFavoritesModel extends BaseModel {
   /**
    * TODO(ebebbington) What is this property used for?
    */
-  public query = "";
+  public query = '';
 
   //////////////////////////////////////////////////////////////////////////////
   // FILE MARKER - CONSTRUCTOR /////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export class ArticlesFavoritesModel extends BaseModel {
     articleId: number,
     authorId: number,
     value: boolean,
-    id: number = -1,
+    id = -1,
   ) {
     super();
     this.article_id = articleId;
@@ -133,9 +133,9 @@ export class ArticlesFavoritesModel extends BaseModel {
       return this.update();
     }
 
-    let query = "INSERT INTO articles_favorites " +
-      " (article_id, user_id, value)" +
-      " VALUES (?, ?, ?);";
+    let query = 'INSERT INTO articles_favorites ' +
+      ' (article_id, user_id, value)' +
+      ' VALUES (?, ?, ?);';
     query = this.prepareQuery(
       query,
       [
@@ -167,8 +167,8 @@ export class ArticlesFavoritesModel extends BaseModel {
    * @return Promise<ArticlesFavoritesModel|null> Null if the query failed to update
    */
   public async update(): Promise<ArticlesFavoritesModel | null> {
-    let query = "UPDATE articles_favorites SET " +
-      "value = ? " +
+    let query = 'UPDATE articles_favorites SET ' +
+      'value = ? ' +
       `WHERE id = '${this.id}';`;
     query = this.prepareQuery(
       query,
@@ -210,7 +210,7 @@ export class ArticlesFavoritesModel extends BaseModel {
   static async where(
     fields: { [key: string]: string | number },
   ): Promise<ArticlesFavoritesModel[] | []> {
-    const results = await BaseModel.Where("articles_favorites", fields);
+    const results = await BaseModel.Where('articles_favorites', fields);
 
     if (results.length <= 0) {
       return [];
@@ -221,12 +221,12 @@ export class ArticlesFavoritesModel extends BaseModel {
     const articleFavorites: Array<ArticlesFavoritesModel> = [];
     results.forEach((result) => {
       const entity: ArticlesFavoritesEntity = {
-        article_id: typeof result.article_id === "number"
+        article_id: typeof result.article_id === 'number'
           ? result.article_id
           : 0,
-        id: typeof result.id === "number" ? result.id : 0,
-        user_id: typeof result.user_id === "number" ? result.user_id : 0,
-        value: typeof result.value === "boolean" ? result.value : false,
+        id: typeof result.id === 'number' ? result.id : 0,
+        user_id: typeof result.user_id === 'number' ? result.user_id : 0,
+        value: typeof result.value === 'boolean' ? result.value : false,
       };
       articleFavorites.push(createArticlesFavoritesModelObject(entity));
     });
@@ -246,7 +246,7 @@ export class ArticlesFavoritesModel extends BaseModel {
     column: string,
     values: Array<number | string>,
   ): Promise<ArticlesFavoritesModel[] | []> {
-    const results = await BaseModel.WhereIn("articles_favorites", {
+    const results = await BaseModel.WhereIn('articles_favorites', {
       column,
       values,
     });
@@ -258,12 +258,12 @@ export class ArticlesFavoritesModel extends BaseModel {
     const articles: Array<ArticlesFavoritesModel> = [];
     results.forEach((result) => {
       const entity: ArticlesFavoritesEntity = {
-        article_id: typeof result.article_id === "number"
+        article_id: typeof result.article_id === 'number'
           ? result.article_id
           : 0,
-        user_id: typeof result.user_id === "number" ? result.user_id : 0,
-        value: typeof result.value === "boolean" ? result.value : false,
-        id: typeof result.id === "number" ? result.id : 0,
+        user_id: typeof result.user_id === 'number' ? result.user_id : 0,
+        value: typeof result.value === 'boolean' ? result.value : false,
+        id: typeof result.id === 'number' ? result.id : 0,
       };
       articles.push(createArticlesFavoritesModelObject(entity));
     });

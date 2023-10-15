@@ -1,18 +1,18 @@
-import type { Drash } from "../deps.ts";
-import BaseResource from "./base_resource.ts";
+import type { Drash } from '../deps.ts';
+import BaseResource from './base_resource.ts';
 import {
   ArticleEntity,
   ArticleModel,
   Filters as ArticleFilters,
-} from "../models/article_model.ts";
-import { ArticlesFavoritesModel } from "../models/articles_favorites_model.ts";
-import UserModel from "../models/user_model.ts";
+} from '../models/article_model.ts';
+import { ArticlesFavoritesModel } from '../models/articles_favorites_model.ts';
+import UserModel from '../models/user_model.ts';
 
 class ArticlesResource extends BaseResource {
   static paths = [
-    "/articles",
-    "/articles/:slug",
-    "/articles/:slug/favorite",
+    '/articles',
+    '/articles/:slug',
+    '/articles/:slug/favorite',
   ];
 
   //////////////////////////////////////////////////////////////////////////////
@@ -20,9 +20,9 @@ class ArticlesResource extends BaseResource {
   //////////////////////////////////////////////////////////////////////////////
 
   public async GET(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource GET.");
+    console.log('Handling ArticlesResource GET.');
 
-    if (this.request.getPathParam("slug")) {
+    if (this.request.getPathParam('slug')) {
       return await this.getArticle();
     }
 
@@ -30,9 +30,9 @@ class ArticlesResource extends BaseResource {
   }
 
   public async POST(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource POST.");
+    console.log('Handling ArticlesResource POST.');
 
-    if (this.request.url_path.includes("/favorite")) {
+    if (this.request.url_path.includes('/favorite')) {
       return await this.toggleFavorite();
     }
 
@@ -40,13 +40,13 @@ class ArticlesResource extends BaseResource {
   }
 
   public async PUT(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource PUT");
+    console.log('Handling ArticlesResource PUT');
 
     return await this.updateArticle();
   }
 
   public async DELETE(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource DELETE");
+    console.log('Handling ArticlesResource DELETE');
 
     return await this.deleteArticle();
   }
@@ -68,7 +68,7 @@ class ArticlesResource extends BaseResource {
     authorIds: number[],
     entities: ArticleEntity[],
   ): Promise<ArticleEntity[]> {
-    const authors: UserModel[] = await UserModel.whereIn("id", authorIds);
+    const authors: UserModel[] = await UserModel.whereIn('id', authorIds);
 
     entities.map((entity: ArticleEntity) => {
       authors.forEach((user: UserModel) => {
@@ -101,7 +101,7 @@ class ArticlesResource extends BaseResource {
     }
 
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
     entities = entities.map((entity: ArticleEntity) => {
       favs.forEach((favorite: ArticlesFavoritesModel) => {
@@ -131,7 +131,7 @@ class ArticlesResource extends BaseResource {
     entities: ArticleEntity[],
   ): Promise<ArticleEntity[]> {
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
     entities.map((entity: ArticleEntity) => {
       favs.forEach((favorite: ArticlesFavoritesModel) => {
@@ -164,12 +164,12 @@ class ArticlesResource extends BaseResource {
    */
   protected async updateArticle(): Promise<Drash.Http.Response> {
     const inputArticle: ArticleEntity | null =
-      this.request.getBodyParam("article")
-        ? (this.request.getBodyParam("article") as ArticleEntity)
+      this.request.getBodyParam('article')
+        ? (this.request.getBodyParam('article') as ArticleEntity)
         : null;
 
     if (inputArticle === null) {
-      return this.errorResponse(400, "Article parameter must be passed in");
+      return this.errorResponse(400, 'Article parameter must be passed in');
     }
 
     const article: ArticleModel = new ArticleModel(
@@ -186,7 +186,7 @@ class ArticlesResource extends BaseResource {
     await article.save();
 
     if (!article) {
-      return this.errorResponse(500, "Article could not be saved.");
+      return this.errorResponse(500, 'Article could not be saved.');
     }
 
     this.response.body = {
@@ -203,10 +203,10 @@ class ArticlesResource extends BaseResource {
    * @return Promise<Drash.Http.Response>
    */
   protected async deleteArticle(): Promise<Drash.Http.Response> {
-    const articleSlug = this.request.getPathParam("slug");
+    const articleSlug = this.request.getPathParam('slug');
 
     if (!articleSlug) {
-      return this.errorResponse(400, "No article slug was passed in");
+      return this.errorResponse(400, 'No article slug was passed in');
     }
 
     const articleResult: ArticleModel[] | [] = await ArticleModel.where(
@@ -215,7 +215,7 @@ class ArticlesResource extends BaseResource {
     if (!articleResult.length) {
       return this.errorResponse(
         500,
-        "Failed to fetch the article by slug: " + articleSlug,
+        'Failed to fetch the article by slug: ' + articleSlug,
       );
     }
 
@@ -224,7 +224,7 @@ class ArticlesResource extends BaseResource {
     if (deleted === false) {
       return this.errorResponse(
         500,
-        "Failed to delete the article of slug: " + articleSlug,
+        'Failed to delete the article of slug: ' + articleSlug,
       );
     }
 
@@ -251,25 +251,25 @@ class ArticlesResource extends BaseResource {
    */
   protected async createArticle(): Promise<Drash.Http.Response> {
     const inputArticle: ArticleEntity =
-      (this.request.getBodyParam("article") as ArticleEntity);
+      (this.request.getBodyParam('article') as ArticleEntity);
 
     if (!inputArticle.title) {
-      return this.errorResponse(400, "You must set the article title.");
+      return this.errorResponse(400, 'You must set the article title.');
     }
 
     const article: ArticleModel = new ArticleModel(
       inputArticle.author_id,
       inputArticle.title,
-      inputArticle.description || "",
-      inputArticle.body || "",
-      inputArticle.tags || "",
+      inputArticle.description || '',
+      inputArticle.body || '',
+      inputArticle.tags || '',
     );
-    console.log("article to save:");
+    console.log('article to save:');
     console.log(article);
     await article.save();
 
     if (!article) {
-      return this.errorResponse(500, "Article could not be saved.");
+      return this.errorResponse(500, 'Article could not be saved.');
     }
 
     this.response.body = {
@@ -287,17 +287,17 @@ class ArticlesResource extends BaseResource {
     if (!currentUser) {
       return this.errorResponse(
         400,
-        "`user_id` field is required.",
+        '`user_id` field is required.',
       );
     }
 
-    const slug = this.request.getPathParam("slug") || "";
+    const slug = this.request.getPathParam('slug') || '';
     const articleResult = await ArticleModel.where({ slug: slug });
 
     if (articleResult.length <= 0) {
       return this.errorResponse(
         404,
-        "Article not found.",
+        'Article not found.',
       );
     }
 
@@ -307,7 +307,7 @@ class ArticlesResource extends BaseResource {
     if (userResult.length <= 0) {
       return this.errorResponse(
         400,
-        "Unable to determine the article's author.",
+        'Unable to determine the article\'s author.',
       );
     }
 
@@ -396,9 +396,9 @@ class ArticlesResource extends BaseResource {
     entities: ArticleEntity[],
   ): Promise<ArticleEntity[]> {
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
-    const username = this.request.getUrlQueryParam("favorited_by");
+    const username = this.request.getUrlQueryParam('favorited_by');
     if (!username) {
       return entities;
     }
@@ -436,8 +436,8 @@ class ArticlesResource extends BaseResource {
    * @return Promise<ArticleFilters>
    */
   protected async getQueryFilters(): Promise<ArticleFilters> {
-    const author = this.request.getUrlQueryParam("author");
-    const offset = this.request.getUrlQueryParam("offset");
+    const author = this.request.getUrlQueryParam('author');
+    const offset = this.request.getUrlQueryParam('offset');
 
     const filters: ArticleFilters = {};
 
@@ -456,16 +456,16 @@ class ArticlesResource extends BaseResource {
    *     Returns the updated article in the response.
    */
   protected async toggleFavorite(): Promise<Drash.Http.Response> {
-    console.log("Handling action: toggleFavorite.");
+    console.log('Handling action: toggleFavorite.');
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       return this.errorResponse(
         400,
-        "`user_id` field is required.",
+        '`user_id` field is required.',
       );
     }
 
-    const slug = this.request.getPathParam("slug") || "";
+    const slug = this.request.getPathParam('slug') || '';
 
     const result = await ArticleModel.where({ slug: slug });
     if (result.length <= 0) {
@@ -476,9 +476,9 @@ class ArticlesResource extends BaseResource {
 
     let favorite;
 
-    const action = this.request.getBodyParam("action");
+    const action = this.request.getBodyParam('action');
     switch (action) {
-      case "set":
+      case 'set':
         // Check if the user already has a record in the db before creating a
         // new one. If the user has a record, then we just update the record.
         favorite = await ArticlesFavoritesModel.where({
@@ -497,7 +497,7 @@ class ArticlesResource extends BaseResource {
           await favorite.save();
         }
         break;
-      case "unset":
+      case 'unset':
         favorite = await ArticlesFavoritesModel.where({
           article_id: article.id,
           user_id: currentUser.id,
@@ -505,7 +505,7 @@ class ArticlesResource extends BaseResource {
         if (!favorite) {
           return this.errorResponse(
             404,
-            "Can't unset favorite on article that doesn't have any favorites.",
+            'Can\'t unset favorite on article that doesn\'t have any favorites.',
           );
         }
         favorite[0].value = false;

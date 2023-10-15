@@ -1,9 +1,9 @@
-import { Rhum } from "../deps.ts";
-import { clearTestUsers, createTestUser } from "./utils.ts";
-import { server } from "../../server.ts";
+import { Rhum } from '../deps.ts';
+import { clearTestUsers, createTestUser } from './utils.ts';
+import { server } from '../../server.ts';
 
-Rhum.testPlan("integration/users_login_resource_test.ts", () => {
-  Rhum.testSuite("POST /users/login", () => {
+Rhum.testPlan('integration/users_login_resource_test.ts', () => {
+  Rhum.testSuite('POST /users/login', () => {
     // TODO(any) Not completing for the v1 release as it isn't needed, but nice to have
     // Rhum.testCase("Responds with 200 if the user is already logged and `action` is to check", () => {
     //   // TODO(any Assert response status and body
@@ -32,18 +32,18 @@ Rhum.testPlan("integration/users_login_resource_test.ts", () => {
     // Rhum.testCase("Responds with 422 if request password does not match the users", () => {
     //   // TODO(any Assert response status and body
     // })
-    Rhum.testCase("Responds with 200 on a successful POST", async () => {
+    Rhum.testCase('Responds with 200 on a successful POST', async () => {
       await createTestUser();
 
-      const res = await fetch(server.address + "/users/login", {
-        method: "POST",
+      const res = await fetch(server.address + '/users/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           user: {
-            email: "test@hotmail.com",
-            password: "TestPassword1",
+            email: 'test@hotmail.com',
+            password: 'TestPassword1',
           },
         }),
       });
