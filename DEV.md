@@ -33,7 +33,7 @@ Pre-setup:
       docker-compose -f docker-compose.m1.yml build && docker-compose -f docker-compose.m1.yml up
     ```
 
-Navigate to [http://localhost:1667](http://localhost:1667)
+Navigate to [http://localhost:1668](http://localhost:1668)
 
 ## Run with `make` commands
 

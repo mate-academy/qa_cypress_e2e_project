@@ -1,34 +1,33 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
-
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
-
 describe('Sign In page', () => {
-  let user;
-
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    cy.visit('/#/login');
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
+    cy.task('generateUser').then((generateUser) => {
+      cy.createUserAndSignIn(generateUser);
+      cy.getByDataCy('username-link').should('contain', generateUser.username);
+    });
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with the wrong password', () => {
+    const wrongPass = 'Wrongpass123!';
 
+    cy.task('generateUser').then((generateUser) => {
+      cy.createUserAndSignIn(generateUser);
+  
+      cy.getByDataCy('profile-settings').click();
+      cy.getByDataCy('logout-button').click();
+      
+      cy.visit('/#/login');
+      cy.getByDataCy('email-sign-in').type(generateUser.email);
+      cy.getByDataCy('password-sign-in').type(wrongPass);
+      cy.getByDataCy('sign-in-btn').click();
+      cy.get('.swal-modal').should('contain', 'Login failed!');
+    });
   });
 });

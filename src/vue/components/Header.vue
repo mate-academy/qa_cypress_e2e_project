@@ -50,6 +50,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="new-article"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -62,6 +63,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="profile-settings"
             active-class="active"
             exact
             :to="{ name: 'settings' }"

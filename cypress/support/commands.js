@@ -32,10 +32,49 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add('createUserAndSignIn', (user) => {
+  cy.request('POST', 'http://localhost:1668/users', {
+  email: user.email,
+  username: user.username,
+  password: user.password,
+}).then(() => {
+  cy.getByDataCy('email-sign-in').type(user.email);
+  cy.getByDataCy('password-sign-in').type(user.password);
+  cy.getByDataCy('sign-in-btn').click();
+});
+});
+
+Cypress.Commands.add('registerAndFollowUsers', () => {
+  cy.registerUser().then((user1) => {
+    cy.logoutUser();
+    cy.registerUser().then((user2) => {
+      cy.followUser(user2, user1);
+    });
   });
+});
+
+Cypress.Commands.add('registerUser', () => {
+  cy.task('generateUser').then((user) => {
+    cy.visit('/#/register');
+    cy.getByDataCy('register-username-input').type(user.username);
+    cy.getByDataCy('register-email-input').type(user.email);
+    cy.getByDataCy('register-password-input').type(user.password);
+    cy.getByDataCy('signup-button').click();
+    cy.get('.swal-button').click();
+    return cy.wrap(user);
+  });
+});
+
+Cypress.Commands.add('logoutUser', () => {
+  cy.getByDataCy('profile-settings').click();
+  cy.getByDataCy('logout-button').click();
+});
+
+Cypress.Commands.add('followUser', (follower, followee) => {
+  cy.visit(`http://localhost:1668/#/@${followee.username}`);
+  // cy.getByDataCy('follow-button').click();
+  // cy.getByDataCy('follow-button').should('contain', `Unfollow ${followee.username}`);
+  // I noticed that there was a problem with the selector [follow-button], I couldn’t fix it
+  cy.contains('[data-cy="follow-button"]', 'Follow').click();
+  cy.contains('[data-cy="follow-button"]', `Follow ${followee.username}`);
 });
