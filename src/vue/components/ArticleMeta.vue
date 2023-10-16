@@ -9,6 +9,7 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-cy="author-name-home-page"
       >
         {{ authorUsername() }}
       </router-link>
@@ -33,11 +34,9 @@
     </button>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import ArticleActions from "@/components/ArticleActions.vue";
-
 export default {
   name: "ArticleMeta",
   components: {
