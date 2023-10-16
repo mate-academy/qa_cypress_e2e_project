@@ -26,6 +26,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
@@ -37,7 +38,6 @@
         </div>
       </div>
     </div>
-
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-md-10 offset-md-1">
@@ -71,10 +71,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "Profile",
   mounted() {
