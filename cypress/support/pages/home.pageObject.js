@@ -1,16 +1,23 @@
-import PageObject from '../PageObject';
+import PageObject from "../PageObject";
 
 class HomePageObject extends PageObject {
-  url = '/#/';
+	url = "/#/";
 
-  get usernameLink() {
-    return cy.getByDataCy('username-link');
-  }
+	get usernameLink() {
+		return cy.getByDataCy("username-link");
+	}
 
-  assertHeaderContainUsername(username) {
-    this.usernameLink
-      .should('contain', username);
-  }
+	get authorLink() {
+		return cy.getByDataCy("author-name-link");
+	}
+
+	assertHeaderContainUsername(username) {
+		this.usernameLink.should("contain", username);
+	}
+
+	clickOnAuthorLink() {
+		this.authorLink.click();
+	}
 }
 
 export default HomePageObject;
