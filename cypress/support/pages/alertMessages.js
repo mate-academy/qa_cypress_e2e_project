@@ -1,0 +1,10 @@
+export const registrationFailedMessage = "Registration failed!";
+export const emptyUsernameMessage = "Username field required.";
+export const emptyEmailMessage = "Email field required.";
+export const emptyPasswordMessage = "Password field required.";
+export const invalidEmailMessage = "Email must be a valid email.";
+export const takenEmailMessage = "Email already taken.";
+export const invalidPasswordMessage = "Password must be 8 characters long";
+export const successfulMessage = "Your registration was successful!";
+export const loginFailedMessage = "Login failed!";
+export const invalidCredentialsMessage = "Invalid user credentials.";
