@@ -29,6 +29,11 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  assertInvalidLogin() {
+    cy.get('.swal-title')
+      .should('contain', 'Login failed!');
+  }
 }
 
 export default SignInPageObject;
