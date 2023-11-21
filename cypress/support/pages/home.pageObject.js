@@ -19,8 +19,12 @@ class HomePageObject extends PageObject {
     return cy.get('.article-preview');
   }
 
-  checkArticlesList() {
-    cy.get('.article-preview').should('contain', 'No articles');
+  get followBtn() {
+    return cy.getByDataCy('user/followBtn');
+  }
+
+  assertNoArticles() {
+    this.articlePreview().should('contain', 'No articles');
   }
 
   assertHeaderContainUsername(username) {

@@ -1,9 +1,9 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 import faker from 'faker';
-import UserFlowPageObject from '../support/pages/userFlow.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
-const userFlow = new UserFlowPageObject();
+const homePage = new HomePageObject();
 describe('User', () => {
   let user;
   const randomNumber = Math.ceil(Math.random(1000) * 1000);
@@ -25,9 +25,9 @@ describe('User', () => {
     cy.register(user.email, user.username, user.password);
     cy.login(user.email, user.password);
     cy.visit(`/#/@${followUser.followUserUsername}`);
-    userFlow.followBtn
+    homePage.followBtn
       .click();
-    userFlow.followBtn
+    homePage.followBtn
       .should('contain', `Unfollow ${followUser.followUserUsername}`);
   });
 
@@ -37,9 +37,9 @@ describe('User', () => {
     cy.register(user.email, user.username, user.password);
     cy.login(user.email, user.password);
     cy.visit(`/#/@${followUser.followUserUsername}`);
-    userFlow.followBtn
+    homePage.followBtn
       .click();
-    userFlow.followBtn
+    homePage.followBtn
       .should('contain', `Follow ${followUser.followUserUsername}`);
   });
 });
