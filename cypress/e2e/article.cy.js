@@ -1,17 +1,29 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
+import ArticlePageObject from "../support/pages/article.pageObject";
+import SignInPageObject from "../support/pages/signIn.pageObject";
+
+const articlePage = new ArticlePageObject();
+const signInPage = new SignInPageObject();
+
 describe('Article', () => {
-  before(() => {
-
-  });
-
+  let user;
+  let article;
   beforeEach(() => {
     cy.task('db:clear');
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+    });
+    cy.task('generateArticle').then((generateArticle) => {
+      article = generateArticle;
+    });
   });
 
-  it('should be created using New Article form', () => {
-
+  it.only('should be created using New Article form', () => {
+    cy.register(user.email, user.username, user.password);
+    articlePage.visit();
+    articlePage.typeTitle(article.title);
   });
 
   it('should be edited using Edit button', () => {

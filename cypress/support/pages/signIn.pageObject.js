@@ -29,6 +29,7 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+  
 }
 
 export default SignInPageObject;
