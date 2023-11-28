@@ -20,10 +20,11 @@ describe('Article', () => {
     });
   });
 
-  it.only('should be created using New Article form', () => {
-    cy.register(user.email, user.username, user.password);
+  it('should be created using New Article form', () => {
+    cy.login(user.username, user.email, user.password);
     articlePage.visit();
     articlePage.typeTitle(article.title);
+   
   });
 
   it('should be edited using Edit button', () => {
