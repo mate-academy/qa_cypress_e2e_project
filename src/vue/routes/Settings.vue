@@ -20,6 +20,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-cy="username-update-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +29,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-cy="username-update-field"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +38,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-cy="email-update-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,16 +47,24 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-cy="password-update-field"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button
+                class="btn btn-lg btn-primary pull-xs-right"
+                data-cy="update-btn"
+              >
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button
+            @click="logout"
+            class="btn btn-outline-danger"
+            data-cy="logout-btn"
+          >
             Or click here to logout.
           </button>
         </div>
@@ -68,9 +79,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Settings",
   computed: {
-    ...mapGetters([
-      "user",
-    ])
+    ...mapGetters(["user"]),
   },
   mounted() {
     console.log("Settings.vue mounted!");
@@ -78,10 +87,10 @@ export default {
   methods: {
     updateSettings() {
       swal({
-          text: "Updating your information... Please wait...",
-          timer: 500,
-          buttons: false,
-        })
+        text: "Updating your information... Please wait...",
+        timer: 500,
+        buttons: false,
+      })
         .then(async () => {
           return await this.$store.dispatch("updateUser", this.user);
         })
@@ -89,7 +98,7 @@ export default {
           if (response === true) {
             return swal({
               title: "Update successful!",
-              icon: "success"
+              icon: "success",
             });
           }
           let error = "";
@@ -99,7 +108,7 @@ export default {
           swal({
             title: "Update failed!",
             text: error,
-            icon: "error"
+            icon: "error",
           });
         });
     },
@@ -107,11 +116,10 @@ export default {
       console.log("Settings.vue mounted!");
     },
     logout() {
-      this.$store.dispatch("logOut")
-        .then(() => {
-          this.$router.push({ name: "home" });
-        });
-    }
-  }
+      this.$store.dispatch("logOut").then(() => {
+        this.$router.push({ name: "home" });
+      });
+    },
+  },
 };
 </script>
