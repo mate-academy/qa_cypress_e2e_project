@@ -8,15 +8,27 @@ const {
 
 module.exports = defineConfig({
   e2e: {
+    viewportHeight: 1100,
+    viewportWidth: 1320,
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          let userName = faker.name.firstName() + `${randomNumber}`
+          const usernameDraft = randomNumber + faker.name.lastName();
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: userName.toLowerCase(),
+            email: 'cool' + `${randomNumber}` + '@mail.com',
+            password: 'Cooljob!' + randomNumber,
+            invalidEmail: 'cool' + `${randomNumber}` + '@',
+            invalidPassword: faker.random.word(),
+            newEmail: 'wrong' + `${randomNumber}` + '@mail.com',
+            newPassword: 'bad.' + randomNumber,
+            updateUsername: usernameDraft.toLowerCase(),
+            bio: faker.lorem.words(),
+            updatedEmail: faker.internet.email(),
+            updatedPassword: randomNumber + 'Newpass!'
           };
         },
         generateArticle() {
@@ -24,7 +36,10 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            updatedTitle: faker.name.firstName(),
+            updatedDescription: faker.lorem.words(7),
+            updatedBody: faker.lorem.words(12)
           };
         },
         'db:clear'() {
