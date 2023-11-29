@@ -28,6 +28,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-cy="follow-button-profile"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}

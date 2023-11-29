@@ -25,6 +25,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import SignInPageObject from './pages/signIn.pageObject';
+
+const signInPage = new SignInPageObject();
 
 addMatchImageSnapshotCommand();
 
@@ -37,5 +40,38 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     email,
     username,
     password
+  });
+});
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  signInPage.visit();
+
+  signInPage.typeEmail(email);
+  signInPage.typePassword(password);
+  signInPage.clickSignInBtn();
+
+  cy.contains('Global Feed');
+});
+
+Cypress.Commands.add('createArticle', (username, email, password, title, description, body, tag) => {
+  cy.request('POST', '/users', {
+    username,
+    email,
+    password
+  }).then((response) => {
+    expect(response.status).to.equal(200);
+
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+
+    cy.request('POST', '/articles', {
+      article: {
+        title,
+        description,
+        body,
+        author_id: authorId,
+        tags: tag
+      }
+    });
   });
 });
