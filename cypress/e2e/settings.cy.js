@@ -1,68 +1,98 @@
-/// <reference types="cypress" />
-/// <reference types="../support" />
-
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import homePageObject from '../support/pages/home.pageObject';
-import SettingsPageObject from '../support/pages/settings.pageObject';
+/// <reference types='cypress' />
+/// <reference types='../support' />
 const faker = require("faker");
 
-const signInPage = new SignInPageObject();
-const homePage = new homePageObject();
-const settingsPage = new SettingsPageObject();
-
 describe('Settings page', () => {
-  let user;
-  
+  let user; 
+
   beforeEach(() => {
     cy.task('db:clear')
-    cy.task('generateUser').then((generateUser) => {
+    cy.task('generateUser').then(generateUser => {
       user = generateUser;
-    cy.login(user.email, user.username, user.password);
-      settingsPage.visit();
-    });
+       });
   });
 
   it('should provide an ability to update username', () => {
     const newUsername = faker.name.firstName().toLowerCase();
-    settingsPage.fillUsernameField(newUsername);
-    settingsPage.clickUpdateBtn();
-    homePage.assertUsernameLink(newUsername);
-  });
+    const sucUpdateTitle = 'Update successful!';
+
+    cy.login(user.email, user.username, user.password);
+    cy.visit('/#/settings');
+    cy.getByDataCy('username-field')
+      .type(newUsername);
+    cy.getByDataCy('update-btn')
+      .click();
+
+    cy.get('.swal-title')
+      .should('have.text', sucUpdateTitle);
+
+    cy.get('.swal-button')
+      .contains('OK')
+      .click();
+
+    cy.getByDataCy('username-link')
+      .should('contain', newUsername);
+
+
+
+});
 
   it('should provide an ability to update bio', () => {
     const newBio = faker.lorem.words();
-    settingsPage.fillBioField(newBio);
-    settingsPage.clickUpdateBtn();
-    settingsPage.assertUpdatedBio(newBio);
+    const sucUpdateTitle = 'Update successful!';
+    cy.login(user.email, user.username, user.password);
+    cy.visit('/#/settings');
+    cy.getByDataCy('bio-field')
+      .type(newBio);
+    cy.getByDataCy('update-btn')
+      .click();
+
+    cy.get('.swal-title')
+      .should('have.text', sucUpdateTitle);
   });
 
   it('should provide an ability to update an email', () => {
-    const newEmail = faker.internet.email().toLowerCase();
-    settingsPage.fillEmailField(newEmail);
-    settingsPage.clickUpdateBtn();
-    settingsPage.visit();
-    settingsPage.assertEmailField(newEmail);
+    const randomNumber = Math.ceil(Math.random(1000) * 1000);
+    const newEmail = faker.name.firstName() + `${randomNumber}` + '@mail.com'.toLowerCase();
+    const sucUpdateTitle = 'Update successful!';
+    
+
+    cy.login(user.email, user.username, user.password);
+    cy.visit('/#/settings');
+    cy.getByDataCy('email-field')
+      .clear()
+      .type(newEmail);
+    cy.getByDataCy('update-btn')
+      .click();
+
+    cy.get('.swal-title')
+      .should('have.text', sucUpdateTitle);
   });
 
   it('should provide an ability to update password', () => {
-    const newPassword = 'Qwer1234@'
+    const newPassword = '123!Qwerty';
+    const sucUpdateTitle = 'Update successful!';
 
-    settingsPage.fillPasswordField(newPassword);
-    settingsPage.clickUpdateBtn();
-   
-    
-    cy.clearCookies();
+    cy.login(user.email, user.username, user.password);
+    cy.visit('/#/settings');
+    cy.getByDataCy('password-field')
+      .type(newPassword);
+    cy.getByDataCy('update-btn')
+      .click();
 
-    signInPage.visit();
-    signInPage.emailField.type(user.email);
-    signInPage.passwordField.type(newPassword);
-    signInPage.signInBtn.click();
-
-    homePage.assertUsernameLink(user.username)
+    cy.get('.swal-title')
+      .should('have.text', sucUpdateTitle);
   });
 
   it('should provide an ability to log out', () => {
-    settingsPage.clickLogoutBtn();
-    homePage.assertUserIsNotLoggedIn();
-  });
+    cy.login(user.email, user.username, user.password);
+    cy.visit('/#/settings');
+    cy.getByDataCy('logout-btn')
+      .click();
+
+    cy.getByDataCy('sign-up-link')
+      .should('exist');
+    cy.getByDataCy('sign-in-link')
+      .should('exist');
+     });
 });

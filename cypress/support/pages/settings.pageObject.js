@@ -1,74 +1,87 @@
 import PageObject from '../PageObject';
 
 class SettingsPageObject extends PageObject {
-  url = '/settings';
+  url = '/#/settings';
 
-  get passwordField() {
-    return cy.getByDataCy('password-update-field');
-  }
-
-  get usernameField() {
-    return cy.getByDataCy('username-update-field');
-  }  
-    
-  get emailField() {
-    return cy.getByDataCy('email-update-field');  
-  }
-    
-  get bioField() {
-    return cy.getByDataCy('bio-update-field');  
-  }  
-
-  get updateBtn() {
-    return cy.getByDataCy('update-btn');
+  get username() {
+    return cy.getByDataQa('username');
   }
 
-  get logoutBtn() {
-    return cy.getByDataCy('logout-btn');
-  }  
-
- 
-  fillPasswordField(password) {
-    this.passwordField.type(password);
+  get bio() {
+    return cy.getByDataQa('bio');
   }
 
-  fillUsernameField(username) {
-    this.usernameField.clear()
-    .type(username);
-  }
-    
-  fillEmailField(email) {
-    this.emailField.clear()
-    .type(email);
-  }
- 
-  fillBioField(bio) {
-    this.bioField.clear()
-    .type(bio);
-  }
-    
-  assertUpdatedBio(bio) {
-    this.bioField.should('contain', bio);
+  get email() {
+    return cy.getByDataQa('email');
   }
 
-  assertContainNewUsername(username) {
-    this.userNameField
-      .should('have.value', username);
+  get password() {
+    return cy.getByDataQa('password');
   }
 
-   assertEmailField(email) {
-    this.emailField
-      .should('have.value', email);
-   }
-  
-  clickUpdateBtn(){
-    this.updateBtn.click();
+  get submitButton() {
+    return cy.getByDataQa('submit');
   }
 
-   clickLogoutBtn(){
-    this.logoutBtn.click();
+  get logoutButton() {
+    return cy.contains('.btn', 'Or click here to logout.');
   }
- 
+
+  clearUsername() {
+    this.username.clear();
+  }
+
+  typeUsername(username) {
+    this.username.type(username);
+  }
+
+  clearBio() {
+    this.bio.clear();
+  }
+
+  typeBio(bio) {
+    this.bio.type(bio);
+  }
+
+  clearEmail() {
+    this.email.clear();
+  }
+
+  typeEmail(email) {
+    this.email.type(email);
+  }
+
+  clearPassword() {
+    this.password.clear();
+  }
+
+  typePassword(password) {
+    this.password.type(password);
+  }
+
+  clickSubmit() {
+    this.submitButton.click();
+  }
+
+  assertUsername(nameToCompare) {
+    this.username.should('have.value', nameToCompare);
+  }
+
+  assertBio(bioToCompare) {
+    this.bio.should('have.value', bioToCompare);
+  }
+
+  assertEmail(emailToCompare) {
+    this.email.should('have.value', emailToCompare);
+  }
+
+  assertPassword(passwordToCompare) {
+    this.password.should('have.value', passwordToCompare);
+  }
+
+  logout() {
+    this.logoutButton.click();
+  }
 }
 
 export default SettingsPageObject;

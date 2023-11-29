@@ -1,54 +1,55 @@
 <template>
-  <div class="editor-page">
+  <div class="article-page">
+    <div class="banner">
+      <div data-cy="article-title" class="container">
+        <h1>{{ article.title }}</h1>
+        <ArticleMeta :article="article" :actions="true"></ArticleMeta>
+      </div>
+    </div>
     <div class="container page">
+      <div data-cy="article-body" class="row article-content">
+        <div class="col-xs-12">
+          <div v-html="parseMarkdown(article.body)"></div>
+          <ul
+            class="tag-list"
+            v-if="
+              article.tags && article.tags.length !== 1 && !!article.tags[0]
+            "
+          >
+            <li v-for="(tag, index) of article.tags" :key="tag + index">
+              <Tag
+                :name="tag"
+                className="tag-default tag-pill tag-outline"
+              ></Tag>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <div class="article-actions">
+        <ArticleMeta :article="article" :actions="true"></ArticleMeta>
+      </div>
       <div class="row">
-        <div class="col-md-10 offset-md-1 col-xs-12">
-          <ListErrors :errors="errors" />
-          <form @submit.prevent="onPublish(article.slug)">
-            <fieldset :disabled="publishing_article">
-              <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control form-control-lg"
-                  v-model="article.title"
-                  placeholder="Article Title"
-                />
-              </fieldset>
-              <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="article.description"
-                  placeholder="What's this article about?"
-                />
-              </fieldset>
-              <fieldset class="form-group">
-                <textarea
-                  class="form-control"
-                  rows="8"
-                  v-model="article.body"
-                  placeholder="Write your article (in markdown)"
-                >
-                </textarea>
-              </fieldset>
-              <fieldset class="form-group">
-                <vue-tags-input
-                  placeholder="Enter tags"
-                  class="form-control"
-                  v-model="tag"
-                  :tags="tags"
-                  @tags-changed="newTags => tags = newTags"
-                />
-              </fieldset>
-            </fieldset>
-            <button
-              :disabled="publishing_article"
-              class="btn btn-lg pull-xs-right btn-primary"
-              type="submit"
-            >
-              Publish Article
-            </button>
-          </form>
+        <div class="col-xs-12 col-md-8 offset-md-2">
+          <CommentEditor
+            v-if="is_authenticated"
+            :slug="slug"
+            :userImage="user.image"
+          >
+          </CommentEditor>
+          <p v-else>
+            <router-link :to="{ name: 'login' }">Sign in</router-link>
+            or
+            <router-link :to="{ name: 'register' }">sign up</router-link>
+            to add comments on this article.
+          </p>
+          <Comment
+            v-for="(comment, index) in comments"
+            :slug="slug"
+            :comment="comment"
+            :key="index"
+          >
+          </Comment>
         </div>
       </div>
     </div>
@@ -58,112 +59,58 @@
 <script>
 import { mapGetters } from "vuex";
 import { store } from "../../public/js/_app.js";
-import ListErrors from "@/components/ListErrors.vue";
-import VueTagsInput from '@johmun/vue-tags-input';
+import marked from "marked";
+import ArticleMeta from "@/components/ArticleMeta.vue";
+import Comment from "@/components/Comment.vue";
+import CommentEditor from "@/components/CommentEditor.vue";
+import Tag from "@/components/Tag.vue";
 export default {
-  name: "ArticleEdit",
-  components: {
-    ListErrors,
-    VueTagsInput
-  },
+  name: "Article",
   props: {
-    previousArticle: {
-      type: Object,
-      required: false
-    }
+    slug: {
+      type: String,
+      required: true,
+    },
   },
-  data() {
-    return {
-      tag: "",
-      tags: [],
-      publishing_article: false,
-      errors: {}
-    };
-  },
-  computed: {
-    ...mapGetters([
-      "article",
-    ])
+  components: {
+    ArticleMeta,
+    Comment,
+    CommentEditor,
+    Tag,
   },
   async beforeRouteEnter(to, from, next) {
     next((vm) => {
-      // Unset the article if creating a new one
-      if (to.params.new && to.params.new === true) {
-        vm.$store.commit("setArticle", {})
-        vm.$store.commit("setTags", [])
-      } else { // set the tags for the article
-        const article = store.getters.article
-        const tags = article.tags
-        if (tags && tags !== "" && tags.length) {
-          vm.tags = tags
-        }
-      }
-    })
+      vm.$store.dispatch("fetchArticle", to.params.slug);
+      vm.$store.dispatch("fetchArticleComments", to.params.slug);
+    });
+  },
+  computed: {
+    ...mapGetters(["article", "comments", "is_authenticated", "user"]),
   },
   methods: {
-    onPublish(slug) {
-      // If the article has a slug, then it already exists in the database; and
-      // that means we're updating the article--not creating a new one.
-      let action = slug ? "updateArticle" : "createArticle";
-      swal({
-        text: "Please wait...",
-        buttons: false,
-      });
-      let tags = this.tags.length ? this.tags.map(tag => tag.text) : []
-
-      // Prep for sending to the Drash backend, that accepts a string
-      if (tags.length) {
-        tags = tags.join(",")
-      } else {
-        tags = ""
+    articleCreatedAt() {
+      if (this.article && this.article.created_at) {
+        return this.article.created_at;
       }
-
-      this.article.tags = tags
-      this.publishing_article = true;
-      this.$store.dispatch(action, this.article)
-        .then((response) => {
-          swal.close();
-          console.log(response);
-          this.publishing_article = false;
-          this.$store.dispatch("unsetArticle");
-          this.tag = ""
-          this.tags = [];
-          if (response.data.article) {
-            this.$store.dispatch("setArticle", response.data.article)
-            this.$router.push({
-              name: "article",
-              params: { slug: response.data.article.slug }
-            });
-            return;
-          }
-          let error = "";
-          for (let key in response.errors) {
-            error += `${response.errors[key]} `;
-          }
-          console.log(error);
-          swal({
-            title: "Oops!",
-            text: error,
-            icon: "error"
-          });
-        });
+      return null;
     },
-  }
+    authorUsername() {
+      if (this.article && this.article.author) {
+        return this.article.author.username;
+      }
+      return null;
+    },
+    authorImage() {
+      if (this.article && this.article.author && this.article.author.image) {
+        return article.author.image;
+      }
+      return null;
+    },
+    parseMarkdown(content) {
+      if (content) {
+        return marked(content);
+      }
+    },
+  },
 };
 </script>
-<style lang="scss">
-  /**
-   * Override some styling with the vue-tags component,
-   * to keep it consistent with the overall design of the form
-   */
-  form fieldset div.vue-tags-input.form-control {
-    max-width: none; /* Use bootstraps "form-control" style */
-  }
-  .vue-tags-input div.ti-input {
-    border: none; /* Border for input is already covered by botstraps "form-control" */
-    padding: 0; /* Same as above */
-  }
-  .vue-tags-input div.ti-input ul.ti-tags > li.ti-tag {
-    background-color: #5cb85c; /* Use conduits color instead of the blue that vue tags uses for the BG of each tag */
-  }
-</style>

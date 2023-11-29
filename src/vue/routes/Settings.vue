@@ -20,7 +20,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
-                  data-cy="username-update-field"
+                  data-cy="username-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -29,7 +29,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
-                  data-cy="username-update-field"
+                  data-cy="bio-field"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -38,7 +38,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
-                  data-cy="email-update-field"
+                  data-cy="email-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -47,7 +47,7 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
-                  data-cy="password-update-field"
+                  data-cy="password-field"
                 />
               </fieldset>
               <button

@@ -28,11 +28,13 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
 
+const faker = require("faker");
+
 Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
     username,
@@ -40,24 +42,46 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
   });
 });
 
-Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/api/users', {
-    user: {
-      email,
-      username,
-      password
-    }
-  }).then(response => {
-    const user = {
-      bio: response.body.user.bio,
-      effectiveImage: "https://static.productionready.io/images/smiley-cyrus.jpg",
-      email: response.body.user.email,
-      image: response.body.user.image,
-      token: response.body.user.token,
-      username: response.body.user.username,
-    };
-    window.localStorage.setItem('user', JSON.stringify(user));
-    cy.setCookie('auth', response.body.user.token);
+Cypress.Commands.add('registerFollowUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
   });
 });
 
+
+Cypress.Commands.add('login', (email, username, password) => {
+  cy.request({
+      url: 'http://localhost:1667/users',
+      method: 'POST',
+      body: {
+          email,
+          username,
+          password
+      }
+  }).then(response => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle', (title, description, body) => {  
+  cy.request('POST', '/users', {
+    email: faker.internet.email(),
+    username: faker.random.word(),
+    password: 'Qwerty+123'
+  }).then(response => {     
+    cy.setCookie('drash_sess', response.body.user.token);         
+    cy.request('POST', '/articles', {        
+      article: {         
+        title,         
+        description,         
+        body,         
+        tags: faker.lorem.word(),        
+        author_id: response.body.user.id    
+      }
+    });
+  });
+});
