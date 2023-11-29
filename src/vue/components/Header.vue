@@ -49,6 +49,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="newArticle-link"
             class="nav-link"
             active-class="active"
             :to="{
