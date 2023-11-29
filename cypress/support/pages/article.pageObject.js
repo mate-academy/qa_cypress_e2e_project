@@ -30,7 +30,7 @@ class ArticlePageObject extends PageObject {
   }
 
   typeArticleTitle(title) {
-    this.articleTitle.type(title);
+    this.articleTitle.type('{selectAll}' + title);
   }
 
   get articleDescription() {
@@ -38,14 +38,14 @@ class ArticlePageObject extends PageObject {
   }
 
   typeArticleDescription(description) {
-    this.articleDescription.type(description);
+    this.articleDescription.type('{selectAll}' + description);
   }
   get articleBody() {
     return cy.getByDataQa("body");
   }
 
   typeArticleBody(body) {
-    this.articleBody.type(body);
+    this.articleBody.type('{selectAll}' + body);
   }
 
   get articleTag() {
@@ -53,7 +53,7 @@ class ArticlePageObject extends PageObject {
   }
 
   typeArticleTag(tag) {
-    this.articleTag.type(tag);
+    this.articleTag.type('{selectAll}' + tag);
   }
 }
 

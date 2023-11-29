@@ -53,22 +53,16 @@ describe("Article", () => {
     cy.wait(5000);
     articlePage.clickEditArticleBtn();
 
-    articlePage.articleTitle.clear();
-    articlePage.articleTitle.type(newTitle);
-    articlePage.articleDescription.clear();
-    articlePage.articleDescription.type(newDescription);
-    articlePage.articleBody.clear();
-    articlePage.articleBody.type(newBody);
-    articlePage.articleBody.clear();
-    articlePage.articleBody.type(newBody);
-    articlePage.articleTag.clear();
-    articlePage.articleTag.type(newTags);
+    articlePage.typeArticleTitle(newTitle);
+    articlePage.typeArticleDescription(newDescription);
+    articlePage.typeArticleBody(newBody);
+    articlePage.typeArticleTag(newTags);
     articlePage.clickPublishBtn();
 
     homePage.assertEditArticlePageUrl();
   });
 
-  it("should be deleted using Delete button", () => {
+  it.only("should be deleted using Delete button", () => {
     cy.login();
     cy.createArticle();
 

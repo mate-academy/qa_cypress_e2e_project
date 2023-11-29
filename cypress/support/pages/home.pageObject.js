@@ -30,8 +30,7 @@ class HomePageObject extends PageObject {
   get errorModalSignUp() {
     return cy.get(".swal-modal");
   }
-  assertErro;
-  rModalSignUp() {
+  assertErrorModalSignUp() {
     this.errorModalSignUp.should("contain", "Registration failed!");
   }
 

@@ -47,7 +47,7 @@ describe("Settings page", () => {
     homePage.assertHeaderContainUsername(updateUsername);
   });
 
-  it.only("should provide an ability to update bio", () => {
+  it("should provide an ability to update bio", () => {
     const newBio = faker.lorem.words();
 
     settingsPage.visit();

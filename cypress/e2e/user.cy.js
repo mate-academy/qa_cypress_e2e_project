@@ -29,7 +29,7 @@ describe("User", () => {
     cy.register(user.email, user.username, user.password);
   });
 
-  it.only("should be able to follow the another user", () => {
+  it("should be able to follow the another user", () => {
     cy.login();
     cy.createArticle();
 

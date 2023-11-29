@@ -29,7 +29,7 @@ describe("Sign Up page", () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it.only("should not provide an ability to registered with wrong credentials", () => {
+  it("should not provide an ability to registered with wrong credentials", () => {
     const wrongEmail = faker.lorem.word();
 
     signUpPage.visit();
