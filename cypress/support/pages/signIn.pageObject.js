@@ -1,5 +1,4 @@
 import PageObject from '../PageObject';
-
 class SignInPageObject extends PageObject {
   url = '/#/login';
 
@@ -20,14 +19,32 @@ class SignInPageObject extends PageObject {
       .type(email);
   }
 
+  clearEmail() {
+    this.emailField.clear();
+  }
+
   typePassword(password) {
     this.passwordField
       .type(password);
   }
 
+  clearPassword() {
+    this.passwordField.clear();
+  }
+
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  login(email, password) {
+    this.typeEmail(email);
+    this.typePassword(password);
+    this.clickSignInBtn();
+  }
+
+  assertPageContainsCredsErrorMessage() {
+    this.errorText.should('contain.text', 'Invalid user credentials.');
   }
 }
 

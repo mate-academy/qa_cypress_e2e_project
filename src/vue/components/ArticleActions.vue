@@ -1,11 +1,19 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link
+      data-cy="edit-btn"
+      class="btn btn-sm btn-outline-secondary"
+      :to="editArticleLink"
+    >
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button
+      data-cy="delete-btn"
+      class="btn btn-outline-danger btn-sm"
+      @click="deleteArticle"
+    >
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
@@ -35,13 +43,10 @@ export default {
   name: "ArticleActions",
   props: {
     article: { type: Object, required: true },
-    canModify: { type: Boolean, required: true }
+    canModify: { type: Boolean, required: true },
   },
   computed: {
-    ...mapGetters([
-      "profile",
-      "is_authenticated"
-    ]),
+    ...mapGetters(["profile", "is_authenticated"]),
     editArticleLink() {
       return { name: "article-edit", params: { slug: this.article.slug } };
     },
@@ -49,7 +54,9 @@ export default {
       return this.article.favorited ? "Unfavorite Article" : "Favorite Article";
     },
     favoriteCounter() {
-      return `(${this.article.favoritesCount ? this.article.favoritesCount : 0})`;
+      return `(${
+        this.article.favoritesCount ? this.article.favoritesCount : 0
+      })`;
     },
     followUserLabel() {
       if (this.article && this.article.author) {
@@ -61,7 +68,7 @@ export default {
     toggleFavoriteButtonClasses() {
       return {
         "btn-primary": this.article.favorited,
-        "btn-outline-primary": !this.article.favorited
+        "btn-outline-primary": !this.article.favorited,
       };
     },
   },
@@ -69,7 +76,7 @@ export default {
     async deleteArticle() {
       try {
         const result = await this.$store.dispatch("deleteArticle", {
-          article_slug: this.article.slug
+          article_slug: this.article.slug,
         });
         if (result === true) {
           swal({
@@ -78,15 +85,15 @@ export default {
             buttons: false,
           }).then(() => {
             this.$router.push("/");
-          })
+          });
         } else {
           swal({
             title: "Oops!",
             text: "Something went wrong whilst trying to delete the article.",
-            icon: "error"
+            icon: "error",
           });
-          console.error("Failed to delete the article:")
-          console.error(result)
+          console.error("Failed to delete the article:");
+          console.error(result);
         }
       } catch (err) {
         console.error(err);
@@ -98,12 +105,10 @@ export default {
         return;
       }
 
-      const action = this.article.favorited
-        ? "unset"
-        : "set";
+      const action = this.article.favorited ? "unset" : "set";
       this.$store.dispatch("toggleArticleFavorite", {
         slug: this.article.slug,
-        action: action
+        action: action,
       });
     },
     toggleFollow() {
@@ -113,9 +118,9 @@ export default {
       }
       this.$store.dispatch("setFollowProfile", {
         username: this.profile.username,
-        value: !this.article.following
+        value: !this.article.following,
       });
     },
-  }
+  },
 };
 </script>

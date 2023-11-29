@@ -18,6 +18,7 @@
             <div v-else>
               <button
                 class="btn btn-sm btn-secondary action-btn"
+                data-cy="unfollow-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
               >
@@ -26,6 +27,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
@@ -48,7 +50,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile',
+                    params: { username: profile.username },
+                  }"
                 >
                   My Articles
                 </router-link>
@@ -58,7 +63,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile-favorites', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile-favorites',
+                    params: { username: profile.username },
+                  }"
                 >
                   Favorited Articles
                 </router-link>
@@ -81,11 +89,7 @@ export default {
     this.$store.dispatch("fetchProfile", this.$route.params);
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "profile",
-      "user",
-    ])
+    ...mapGetters(["is_authenticated", "profile", "user"]),
   },
   methods: {
     isCurrentUser() {
@@ -100,14 +104,14 @@ export default {
     },
     unfollow() {
       this.$store.dispatch("setFollowProfile", this.$route.params);
-    }
+    },
   },
   watch: {
     $route(to) {
       if (to.params && to.params.username) {
         this.$store.dispatch("fetchProfile", to.params);
       }
-    }
-  }
+    },
+  },
 };
 </script>

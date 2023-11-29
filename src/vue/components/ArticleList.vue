@@ -6,6 +6,7 @@
         No articles are here... yet.
       </div>
       <ArticlePreview
+        data-qa="no-articles"
         v-for="(article, index) in articles"
         :article="article"
         :key="article.title + index"
@@ -23,48 +24,44 @@ export default {
   name: "ArticleList",
   components: {
     ArticlePreview,
-    Pagination
+    Pagination,
   },
   props: {
     type: {
       type: String,
       required: false,
-      default: "all"
+      default: "all",
     },
     author: {
       type: String,
-      required: false
+      required: false,
     },
     tag: {
       type: String,
-      required: false
+      required: false,
     },
     favorited: {
       type: String,
-      required: false
+      required: false,
     },
     itemsPerPage: {
       type: Number,
       required: false,
-      default: 10
-    }
+      default: 10,
+    },
   },
   data() {
     return {
-      currentPage: 1
+      currentPage: 1,
     };
   },
   computed: {
-    ...mapGetters([
-      "articles",
-      "articles_count",
-      "is_loading",
-    ]),
+    ...mapGetters(["articles", "articles_count", "is_loading"]),
     params() {
       const { type } = this;
       const filters = {
         offset: (this.currentPage - 1) * this.itemsPerPage,
-        limit: this.itemsPerPage
+        limit: this.itemsPerPage,
       };
       if (this.author) {
         filters.author = this.author;
@@ -77,7 +74,7 @@ export default {
       }
       return {
         type,
-        filters
+        filters,
       };
     },
     pages() {
@@ -85,8 +82,8 @@ export default {
         return [];
       }
       return [
-        ...Array(Math.ceil(this.articles_count / this.itemsPerPage)).keys()
-      ].map(e => e + 1);
+        ...Array(Math.ceil(this.articles_count / this.itemsPerPage)).keys(),
+      ].map((e) => e + 1);
     },
   },
   watch: {
@@ -109,7 +106,7 @@ export default {
     favorited() {
       this.resetPagination();
       this.fetchArticles();
-    }
+    },
   },
   mounted() {
     this.fetchArticles();
@@ -121,7 +118,7 @@ export default {
     resetPagination() {
       this.params.offset = 0;
       this.currentPage = 1;
-    }
-  }
+    },
+  },
 };
 </script>
