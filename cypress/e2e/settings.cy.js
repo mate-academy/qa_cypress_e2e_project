@@ -15,7 +15,7 @@ const signInPage = new SignInPageObject();
 describe('Settings page', () => {
   let user;
   const newUsername = faker.random.word();
-  const newPassword = 'Q' + faker.random.alphaNumeric(8);
+  const newPassword = 'T' + faker.random.alphaNumeric(8);
   const newBio = faker.random.words(3);
   const newEmail = faker.internet.email();
 
