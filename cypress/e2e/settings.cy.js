@@ -41,12 +41,6 @@ describe('Settings page', () => {
     settingsPage.clickUpdateBtn();
 
     settingsPage.assertSuccessfulUpdateModal();
-
-    cy.contains('.swal-button.swal-button--confirm', 'OK')
-      .click();
-    cy.contains('a', user.username)
-      .click();
-
     profilePage.assertProfileBio(newBio);
   });
 
@@ -55,9 +49,7 @@ describe('Settings page', () => {
     settingsPage.clickUpdateBtn();
 
     settingsPage.assertSuccessfulUpdateModal();
-    cy.contains('.swal-button.swal-button--confirm', 'OK')
-      .click();
-
+    
     cy.clearCookies();
     settingsPage.clickLogOutBtn();
     signInPage.visit();
@@ -73,8 +65,6 @@ describe('Settings page', () => {
     settingsPage.clickUpdateBtn();
 
     settingsPage.assertSuccessfulUpdateModal();
-    cy.contains('.swal-button.swal-button--confirm', 'OK')
-      .click();
 
     cy.clearCookies();
     signInPage.visit();
