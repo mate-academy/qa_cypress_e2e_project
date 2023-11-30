@@ -29,6 +29,21 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  assertInvalidCredentialsModal() {
+    cy.contains('.swal-modal', 'Invalid user credentials.')
+      .should('be.visible');
+  }
+
+  assertEmailRequiredModal() {
+    cy.contains('.swal-modal', 'Email field required.')
+      .should('be.visible');
+  }
+
+  assertPasswordRequiredModal() {
+    cy.contains('.swal-modal', 'Password field required.')
+      .should('be.visible');
+  }
 }
 
 export default SignInPageObject;
