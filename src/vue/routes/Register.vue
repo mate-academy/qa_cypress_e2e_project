@@ -16,6 +16,7 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="username-register-field"
                 type="text"
                 v-model="username"
                 placeholder="Username"
@@ -24,6 +25,7 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="email-register-field"
                 type="text"
                 v-model="email"
                 placeholder="Email"
@@ -32,12 +34,13 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="password-register-field"
                 type="password"
                 v-model="password"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-up-btn">
               Sign up
             </button>
           </form>
