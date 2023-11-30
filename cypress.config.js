@@ -22,9 +22,9 @@ module.exports = defineConfig({
         generateArticle() {
           return {
             title: faker.lorem.word(),
-            description: faker.lorem.words(),
-            body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            description: faker.lorem.words(2),
+            body: faker.lorem.words(5),
+            tag: faker.lorem.word(1)
           };
         },
         'db:clear'() {
