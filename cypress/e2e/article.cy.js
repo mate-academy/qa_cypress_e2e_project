@@ -1,14 +1,14 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import ArticlePageObject from "../support/pages/article.pageObject";
-import HomePageObject from "../support/pages/home.pageObject";
+import ArticlePageObject from '../support/pages/article.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const articlePage = new ArticlePageObject();
 const homePage = new HomePageObject();
-const faker = require("faker");
+const faker = require('faker');
 
-describe("Article", () => {
+describe('Article', () => {
   const newTitle = faker.lorem.word();
   const newDescription = faker.lorem.words();
   const newBody = faker.lorem.words();
@@ -17,20 +17,20 @@ describe("Article", () => {
   let user;
 
   before(() => {
-    cy.task("generateUser").then((generateUser) => {
+    cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
-    cy.task("generateArticle").then((generateArticle) => {
+    cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
   });
 
   beforeEach(() => {
-    cy.task("db:clear");
+    cy.task('db:clear');
     cy.register(user.email, user.username, user.password);
   });
 
-  it("should be created using New Article form", () => {
+  it('should be created using New Article form', () => {
     cy.login();
 
     articlePage.visit();
@@ -43,10 +43,10 @@ describe("Article", () => {
 
     articlePage.clickPublishBtn();
 
-    homePage.assertArticlePageUrl(article.title);
+    homePage.assertArticlePageUrl();
   });
 
-  it("should be edited using Edit button", () => {
+  it('should be edited using Edit button', () => {
     cy.login();
     cy.createArticle();
 
@@ -62,7 +62,7 @@ describe("Article", () => {
     homePage.assertEditArticlePageUrl();
   });
 
-  it.only("should be deleted using Delete button", () => {
+  it('should be deleted using Delete button', () => {
     cy.login();
     cy.createArticle();
 

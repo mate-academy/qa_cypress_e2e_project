@@ -1,36 +1,36 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import UserPageObject from "../support/pages/user.pageObject";
-import SignUpPageObject from "../support/pages/signUp.pageObject";
-import HomePageObject from "../support/pages/home.pageObject";
+import UserPageObject from '../support/pages/user.pageObject';
+import SignUpPageObject from '../support/pages/signUp.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const signUpPage = new SignUpPageObject();
 const userPage = new UserPageObject();
 const homePage = new HomePageObject();
-const faker = require("faker");
+const faker = require('faker');
 const anotherUserUsername = faker.lorem.word();
 const anotherUserEmail = faker.internet.email();
 
-describe("User", () => {
+describe('User', () => {
   let article;
   let user;
 
   before(() => {
-    cy.task("generateUser").then((generateUser) => {
+    cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
-    cy.task("generateArticle").then((generateArticle) => {
+    cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
   });
   beforeEach(() => {
-    cy.task("db:clear");
+    cy.task('db:clear');
     cy.register(user.email, user.username, user.password);
+    cy.login();
   });
 
-  it("should be able to follow the another user", () => {
-    cy.login();
+  it('should be able to follow the another user', () => {
     cy.createArticle();
 
     cy.clearCookies();
@@ -50,8 +50,7 @@ describe("User", () => {
     userPage.clickFollowBtn();
   });
 
-  it("should be able to unfollow the another user", () => {
-    cy.login();
+  it('should be able to unfollow the another user', () => {
     cy.createArticle();
 
     cy.clearCookies();

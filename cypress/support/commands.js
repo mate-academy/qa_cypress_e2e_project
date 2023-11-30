@@ -73,3 +73,6 @@ Cypress.Commands.add('login',
     });
   }
 )
+
+// sorry for the many submits, I didn't notice some mistakes right away due to inattention :(
+//   this is the last one

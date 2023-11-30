@@ -1,10 +1,10 @@
-import PageObject from "../PageObject";
+import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
-  url = "/#/editor";
+  url = '/#/editor';
 
   get publishBtn() {
-    return cy.getByDataQa("publish-btn");
+    return cy.getByDataQa('publish-btn');
   }
 
   clickPublishBtn() {
@@ -12,21 +12,21 @@ class ArticlePageObject extends PageObject {
   }
 
   get editArticleBtn() {
-    return cy.getByDataQa("edit-btn");
+    return cy.getByDataQa('edit-btn');
   }
   clickEditArticleBtn() {
     this.editArticleBtn.eq(0).click();
   }
 
   get deleteArticleBtn() {
-    return cy.getByDataQa("delete-btn");
+    return cy.getByDataQa('delete-btn');
   }
   clickDeleteBtn() {
     this.deleteArticleBtn.eq(0).click();
   }
 
   get articleTitle() {
-    return cy.getByDataQa("title");
+    return cy.getByDataQa('title');
   }
 
   typeArticleTitle(title) {
@@ -34,14 +34,14 @@ class ArticlePageObject extends PageObject {
   }
 
   get articleDescription() {
-    return cy.getByDataQa("description");
+    return cy.getByDataQa('description');
   }
 
   typeArticleDescription(description) {
     this.articleDescription.type('{selectAll}' + description);
   }
   get articleBody() {
-    return cy.getByDataQa("body");
+    return cy.getByDataQa('body');
   }
 
   typeArticleBody(body) {
@@ -49,7 +49,7 @@ class ArticlePageObject extends PageObject {
   }
 
   get articleTag() {
-    return cy.get(".ti-input");
+    return cy.get('.ti-input');
   }
 
   typeArticleTag(tag) {

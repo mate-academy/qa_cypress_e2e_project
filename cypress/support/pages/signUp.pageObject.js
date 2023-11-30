@@ -1,22 +1,22 @@
-import PageObject from "../PageObject";
+import PageObject from '../PageObject';
 
 class SignUpPageObject extends PageObject {
-  url = "/#/register";
+  url = '/#/register';
 
   get usernameField() {
-    return cy.getByDataQa("username-sign-up");
+    return cy.getByDataQa('username-sign-up');
   }
 
   get emailField() {
-    return cy.getByDataQa("email-sign-up");
+    return cy.getByDataQa('email-sign-up');
   }
 
   get passwordField() {
-    return cy.getByDataQa("password-sign-up");
+    return cy.getByDataQa('password-sign-up');
   }
 
   get signUpBtn() {
-    return cy.getByDataQa("sign-up-btn");
+    return cy.getByDataQa('sign-up-btn');
   }
 
   typeUsername(username) {

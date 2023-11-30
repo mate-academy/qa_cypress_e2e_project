@@ -1,24 +1,24 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignUpPageObject from "../support/pages/signUp.pageObject";
-import HomePageObject from "../support/pages/home.pageObject";
+import SignUpPageObject from '../support/pages/signUp.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 
 const signUpPage = new SignUpPageObject();
 const homePage = new HomePageObject();
-const faker = require("faker");
+const faker = require('faker');
 
-describe("Sign Up page", () => {
+describe('Sign Up page', () => {
   let user;
 
   before(() => {
-    cy.task("db:clear");
-    cy.task("generateUser").then((generateUser) => {
+    cy.task('db:clear');
+    cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
   });
 
-  it("should provide an ability to registered user", () => {
+  it('should provide an ability to registered user', () => {
     signUpPage.visit();
 
     signUpPage.typeUsername(user.username);
@@ -29,7 +29,7 @@ describe("Sign Up page", () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it("should not provide an ability to registered with wrong credentials", () => {
+  it('should not provide an ability to registered with wrong credentials', () => {
     const wrongEmail = faker.lorem.word();
 
     signUpPage.visit();

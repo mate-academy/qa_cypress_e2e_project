@@ -1,33 +1,33 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SettingsPageObject from "../support/pages/settings.pageObject";
-import HomePageObject from "../support/pages/home.pageObject";
-import SignInPageObject from "../support/pages/signIn.pageObject";
-import UserPageObject from "../support/pages/user.pageObject";
+import SettingsPageObject from '../support/pages/settings.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import UserPageObject from '../support/pages/user.pageObject';
 
 const settingsPage = new SettingsPageObject();
 const homePage = new HomePageObject();
 const signInPage = new SignInPageObject();
 const userPage = new UserPageObject();
-const faker = require("faker");
+const faker = require('faker');
 
-describe("Settings page", () => {
+describe('Settings page', () => {
   let user;
 
   before(() => {
-    cy.task("generateUser").then((generateUser) => {
+    cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
   });
 
   beforeEach(() => {
-    cy.task("db:clear");
+    cy.task('db:clear');
     cy.register(user.email, user.username, user.password);
     cy.login();
   });
 
-  it("should provide an ability to update username", () => {
+  it('should provide an ability to update username', () => {
     const updateUsername = faker.lorem.word();
 
     settingsPage.visit();
@@ -47,7 +47,7 @@ describe("Settings page", () => {
     homePage.assertHeaderContainUsername(updateUsername);
   });
 
-  it("should provide an ability to update bio", () => {
+  it('should provide an ability to update bio', () => {
     const newBio = faker.lorem.words();
 
     settingsPage.visit();
@@ -55,11 +55,11 @@ describe("Settings page", () => {
     settingsPage.clickuUdateBtn();
     homePage.clickSuccessfullBtn();
 
-    cy.visit("/#/@riot/");
-    userPage.updateBio.should("include", newBio);
+    cy.visit('/#/@riot/');
+    userPage.updateBio.should('include', newBio);
   });
 
-  it("should provide an ability to update an email", () => {
+  it('should provide an ability to update an email', () => {
     const updateEmail = faker.internet.email();
 
     settingsPage.visit();
@@ -79,7 +79,7 @@ describe("Settings page", () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it("should provide an ability to update password", () => {
+  it('should provide an ability to update password', () => {
     const updatePassword = faker.internet.password();
 
     settingsPage.visit();
@@ -92,16 +92,14 @@ describe("Settings page", () => {
 
     signInPage.visit();
 
-    signInPage.emailField.type(user.emaill);
+    signInPage.emailField.type(user.email);
     signInPage.passwordField.type(updatePassword);
     signInPage.clickSignInBtn();
 
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it("should provide an ability to log out", () => {
-    cy.login();
-
+  it('should provide an ability to log out', () => {
     settingsPage.visit();
     settingsPage.clickLogoutBtn();
 

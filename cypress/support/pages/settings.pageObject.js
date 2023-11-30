@@ -1,30 +1,30 @@
-import PageObject from "../PageObject";
+import PageObject from '../PageObject';
 
 class SettingsPageObject extends PageObject {
-  url = "/#/settings";
+  url = '/#/settings';
 
   get editUsername() {
-    return cy.getByDataQa("edit-username");
+    return cy.getByDataQa('edit-username');
   }
 
   get editEmail() {
-    return cy.getByDataQa("edit-email");
+    return cy.getByDataQa('edit-email');
   }
 
   get editPassword() {
-    return cy.getByDataQa("edit-password");
+    return cy.getByDataQa('edit-password');
   }
 
   get editBio() {
-    return cy.getByDataQa("bio");
+    return cy.getByDataQa('bio');
   }
 
   get updateBtn() {
-    return cy.getByDataQa("update-btn");
+    return cy.getByDataQa('update-btn');
   }
 
   get logoutBtn() {
-    return cy.getByDataQa("logout-btn");
+    return cy.getByDataQa('logout-btn');
   }
 
   typeEditUsername(username) {
