@@ -8,7 +8,9 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
+    viewportHeight: 1500,
+    viewportWidth: 1300,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
@@ -16,7 +18,7 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: 'Qwert12345!'
           };
         },
         generateArticle() {
