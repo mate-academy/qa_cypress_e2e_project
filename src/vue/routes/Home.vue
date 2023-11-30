@@ -15,6 +15,7 @@
                 <router-link
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
+                  data-qa="my-articles-page"
                   active-class="active"
                 >
                   Your Feed
