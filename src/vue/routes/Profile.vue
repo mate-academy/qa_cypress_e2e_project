@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="user-info">
+    <div class="user-info" data-qa="user-profile">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
