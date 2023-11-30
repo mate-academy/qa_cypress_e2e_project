@@ -8,6 +8,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="header-home"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -18,6 +19,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="header-sign-in"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +30,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="header-sign-up"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -50,6 +53,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="header-new-article"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -62,6 +66,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="header-settings"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,7 +76,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="header-username"
             class="nav-link"
             active-class="active"
             exact
