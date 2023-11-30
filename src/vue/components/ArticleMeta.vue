@@ -8,7 +8,7 @@
     <div class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
-        class="author"
+        class="author" data-qa="author-name"
       >
         {{ authorUsername() }}
       </router-link>
