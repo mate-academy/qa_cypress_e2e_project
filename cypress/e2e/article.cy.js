@@ -59,6 +59,5 @@ describe('Article', () => {
 
     HomePage.clickOnYourFeed();
     HomePage.assertYourFeedArticle(article.title);
-
   });
 });
