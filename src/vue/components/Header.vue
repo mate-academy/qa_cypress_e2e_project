@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="sign-in-link"
             class="nav-link"
             active-class="active"
             exact
@@ -27,6 +28,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="sign-up-link"
             class="nav-link"
             active-class="active"
             exact
@@ -49,6 +51,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="new-article-link"
             class="nav-link"
             active-class="active"
             :to="{
@@ -61,6 +64,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="settings-link"
             class="nav-link"
             active-class="active"
             exact
@@ -71,7 +75,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
