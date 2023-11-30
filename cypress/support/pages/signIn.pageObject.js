@@ -15,19 +15,24 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get modalTitle() {
+    return cy.get('.swal-title');
+  }
+
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  verifyWrongLogin() {
+    this.modalTitle.should('contain', 'Welcome');
   }
 }
 
