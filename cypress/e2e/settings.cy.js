@@ -19,7 +19,7 @@ describe('Settings page', () => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
-      cy.register(user.email, user.username, user.password);
+      cy.register(user.username, user.email, user.password);
     });
   });
 
