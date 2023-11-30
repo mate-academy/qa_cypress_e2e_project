@@ -1,18 +1,22 @@
 import PageObject from '../PageObject';
 
-class SignInPageObject extends PageObject {
-  url = '/#/login';
+class SignUpPageObject extends PageObject {
+  url = '/#/register';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy('email-sign-up');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataCy('password-sign-up');
+  }
+
+  get usernameField() {
+    return cy.getByDataCy('username-sign-up');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataCy('sign-up-btn');
   }
 
   get modalTitle() {
@@ -29,15 +33,20 @@ class SignInPageObject extends PageObject {
       .type(password);
   }
 
+  typeUsername(username) {
+    this.usernameField
+      .type(username);
+  }
+
   clickSignInBtn() {
     this.signInBtn
       .click();
     }
-    wrongLogin(text) {
+    wrongRegistration(text) {
       console.log(this.modalTitle);
       this.modalTitle
         .should('contain', text);
     }
   }
 
-export default SignInPageObject;
+export default SignUpPageObject;
