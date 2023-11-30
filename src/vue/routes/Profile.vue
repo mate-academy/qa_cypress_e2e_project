@@ -1,7 +1,7 @@
 <template>
   <div class="profile-page">
     <div class="user-info">
-      <div class="container">
+      <div data-qa="profile-info" class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
