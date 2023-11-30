@@ -17,6 +17,7 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="username-update-field"
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
@@ -25,6 +26,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control form-control-lg"
+                  data-cy="bio-update-field"
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
@@ -33,6 +35,7 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="email-update-field"
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
@@ -41,12 +44,13 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="password-update-field"
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button data-cy="update-settings-btn" class="btn btn-lg btn-primary pull-xs-right">
                 Update Settings
               </button>
             </fieldset>
