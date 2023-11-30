@@ -32,10 +32,75 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
+// eslint-disable-next-line max-len
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
   });
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('registerFollowUser', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+// eslint-disable-next-line max-len
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    const user = {
+      id: response.body.user.id,
+      username: response.body.user.username,
+      email: response.body.user.email,
+      bio: response.body.user.bio,
+      image: response.body.user.image,
+      token: response.body.user.token
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle', (title, description, body, tags) => {
+  cy.request({
+    method: 'POST',
+    url: '/users',
+    body: {
+      username: 'riot',
+      email: 'riot@qa.team',
+      password: '12345Qwerty!'
+    }
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+
+    cy.request({
+      method: 'POST',
+      url: '/articles',
+      body: {
+        article: {
+          title,
+          description,
+          body,
+          tags,
+          author_id: authorId
+        }
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
 });
