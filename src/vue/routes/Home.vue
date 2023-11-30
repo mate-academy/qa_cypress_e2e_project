@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit</h1>
+        <h1 class="logo-font" data-cy="logo-conduit">conduit</h1>
         <p>A place to share your knowledge.</p>
       </div>
     </div>
@@ -16,6 +16,7 @@
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
                   active-class="active"
+                  data-cy="your-feed"
                 >
                   Your Feed
                 </router-link>
