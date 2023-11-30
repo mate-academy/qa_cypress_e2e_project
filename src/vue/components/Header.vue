@@ -71,8 +71,8 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
             class="nav-link"
+            data-qa="username-link"
             active-class="active"
             exact
             :to="{
