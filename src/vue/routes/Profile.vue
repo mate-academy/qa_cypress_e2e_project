@@ -3,7 +3,10 @@
     <div class="user-info">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
+          <div 
+            class="col-xs-12 col-md-10 offset-md-1"
+            data-qa="profile-user-info"
+          >
             <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>

@@ -1,0 +1,57 @@
+import PageObject from '../PageObject';
+
+export class NewArticlePageObject extends PageObject {
+  url = '/editor';
+
+  get titileField() {
+    return cy.getByDataQa('article-title-field');
+  }
+
+  get descriptionField() {
+    return cy.getByDataQa('article-description-field');
+  }
+
+  get bodyField() {
+    return cy.getByDataQa('article-body-field');
+  }
+
+  get tagField() {
+    return cy.getByDataQa('article-tags-field');
+  }
+
+  get publishBtn() {
+    return cy.getByDataQa('article-publish-button');
+  }
+
+  typeTitle(title) {
+    this.titileField.type(title);
+  }
+
+  typeDescription(description) {
+    this.descriptionField.type(description);
+  }
+
+  typeBody(body) {
+    this.bodyField.type(body);
+  }
+
+  typeTag(tag) {
+    this.tagField.type(tag);
+  }
+
+  typeUpdatedTitle(title) {
+    this.titileField.clear().type(title);
+  }
+
+  typeUpdatedDescription(description) {
+    this.descriptionField.clear().type(description);
+  }
+
+  typeUpdatedBody(body) {
+    this.bodyField.clear().type(body);
+  }
+
+  clickPublishBtn() {
+    this.publishBtn.click();
+  }
+}

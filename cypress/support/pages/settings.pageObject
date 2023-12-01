@@ -1,0 +1,85 @@
+import PageObject from '../PageObject';
+
+export class SettingsPageObject extends PageObject {
+  url = '/settings';
+
+  get passwordField() {
+    return cy.getByDataCy('update-password-field');
+  }
+
+  get usernameField() {
+    return cy.getByDataCy('update-username-field');
+  }
+
+  get bioField() {
+    return cy.getByDataCy('update-bio-field');
+  }
+
+  get emailField() {
+    return cy.getByDataCy('update-email-field');
+  }
+
+  get updateBtn() {
+    return cy.getByDataCy('update-submit-btn');
+  }
+
+  get logoutBtn() {
+    return cy.getByDataCy('logout-btn');
+  }
+
+  get userInfo() {
+    return cy.getByDataCy('user-info');
+  }
+
+  get modalMessage() {
+    return cy.get('.swal-text');
+  }
+
+  assertUpdateMessage() {
+    this.modalMessage.should('contain', 'Update successful!');
+  }
+
+  typePassword(password) {
+    this.passwordField.clear().type(password);
+  }
+
+  typeUsername(username) {
+    this.usernameField.clear().type(username);
+  }
+
+  typeBio(bio) {
+    this.bioField.clear().type(bio);
+  }
+
+  typeEmail(email) {
+    this.emailField.clear().type(email);
+  }
+
+  clickUpdateBtn() {
+    this.updateBtn.click();
+  }
+
+  clickLogoutBtn() {
+    this.logoutBtn.click();
+  }
+
+  clickUserInfo() {
+    this.userInfo.click();
+  }
+
+  assertUpdatedUsername(username) {
+    this.userInfo.should('contain', username);
+  }
+
+  assertUpdatedBio(bio) {
+    this.bioField.should('contain', bio);
+  }
+
+  assertUpdatedEmail(email) {
+    this.emailField.should('contain', email);
+  }
+
+  assertUserInfo(userInfo) {
+    this.userInfo.should('contain', userInfo);
+  }
+}
