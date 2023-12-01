@@ -1,34 +1,37 @@
 import PageObject from '../PageObject';
 
-class SignInPageObject extends PageObject {
-  url = '/#/login';
+export class SignInPageObject extends PageObject {
+  url = '/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataQa('sign-in-email-field');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataQa('sign-in-password-field');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataQa('sign-in-btn');
+  }
+
+  get modalMessage() {
+    return cy.get('.swal-text');
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  assertInvalidCredentials() {
+    this.modalMessage.should('contain', 'Invalid user credentials.');
   }
 }
-
-export default SignInPageObject;

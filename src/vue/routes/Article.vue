@@ -1,5 +1,8 @@
 <template>
-  <div class="article-page">
+  <div 
+    class="article-page"
+    data-qa="article-page"
+  >
     <div class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
