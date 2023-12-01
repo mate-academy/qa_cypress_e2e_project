@@ -18,6 +18,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 v-model="username"
+                data-cy="username-sign-up"
                 placeholder="Username"
               />
             </fieldset>
@@ -26,6 +27,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
+                data-cy="email-sign-up"
                 placeholder="Email"
               />
             </fieldset>
@@ -34,10 +36,14 @@
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
+                data-cy="password-sign-up"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button 
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-cy="sign-up-btn"
+            >
               Sign up
             </button>
           </form>
