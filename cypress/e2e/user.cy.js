@@ -1,5 +1,3 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
 import HomePageObject from '../support/pages/home.pageObject';
 import faker from 'faker';
 

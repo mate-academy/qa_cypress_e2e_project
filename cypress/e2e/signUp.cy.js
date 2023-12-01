@@ -1,5 +1,3 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 
 const signUpPage = new SignUpPageObject();

@@ -18,9 +18,9 @@
             <div v-else>
               <button
                 class="btn btn-sm btn-secondary action-btn"
-                data-cy="unfollow-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-cy="unfollow-btn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}

@@ -1,6 +1,3 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
-
 import EditorPageObject from '../support/pages/editor.pageObject';
 import faker from 'faker';
 
