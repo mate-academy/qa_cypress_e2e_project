@@ -1,7 +1,8 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
+/// <reference types="../support" />
 
 describe('Sign Up page', () => {
+
   before(() => {
 
   });
