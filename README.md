@@ -6,7 +6,7 @@
 1. Clone **your** forked repository.
 1. Run `npm i`.
 1. Create a new branch `git checkout -b e2e_testing`.
-1. Run the [app](./DEV.md).
+1. Run the [app](./DEV.adoc) (Local development with SQLite).
 1. Resolve tasks.
 1. Check yourself before submitting the task with a [Cypress checklist](https://mate-academy.github.io/qa-program/checklists/cypress.html).
 1. Create a pull request.

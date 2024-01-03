@@ -1,0 +1,320 @@
+= Node.js + Express.js + Sequelize + SQLite/PostgreSQL + Next.js fullstack static/SSR/SSG/ISG Example Realworld App
+
+This is an implementation of https://github.com/gothinkster/realworld
+
+== Local development with SQLite
+
+Run the app:
+
+....
+npm install
+npm run dev
+....
+
+You can now visit http://localhost:3000[] to view the website. Both API and pages are served from that single server.
+
+You might also want to generate some test data as mentioned at: <<generate-demo-data>>.
+
+The SQLite database is located at `db.sqlite3`.
+
+The Node.js and NPM versions this was tested with are specified at link:package.json[] `engines:` entry, which is what the <<heroku-deployment>> uses https://devcenter.heroku.com/articles/nodejs-support#specifying-a-node-js-version[as mentioned here]. You should of course try to use those exact versions for reproducibility. The best way to install a custom node and NPM version is to use NVM as mentioned here: https://stackoverflow.com/questions/16898001/how-to-install-a-specific-version-of-node-on-ubuntu/47376491#47376491[].
+
+== Local optimized frontend
+
+....
+npm install
+npm run build-dev
+npm run start-dev
+....
+
+If you make any changes to the code, at least code under `/pages` for sure, you have to rebuild before they take effect in this mode, as Next.js appears to also run server-only code such as `getStaticPaths` from one of the webpack bundles.
+
+Running `next build` is one very important test of the code, as it builds many of the most important pages of the website, and runs checks such as TypeScript type checking. You should basically run it after every single commit that touches the frontend.
+
+If you look into what `npm run start-dev` does in the `package.json`, you will see the following environment variables, which are custom to this project and not defined by Next.js itself:
+
+* `NEXT_PUBLIC_NODE_ENV=development`: sets everything to be development by default.
++
+If this variable not given, `NODE_ENV` is used instead.
++
+Just like `NODE_ENV`, this variable affects the following aspects of the application:
++
+** if the Next.js server will run in development or production mode. From the Next.js CLI, this determination is done with `next dev` vs `next start`. But we use a custom server where both dev and prod are run from `./app`, and so we determine that from environment variables.
+** if the database will be SQLite (default development DB) or PostgreSQL (default production DB)
+** in browser effects, e.g. turns off Google Analytics
++
+We cannot use `NODE_ENV` here directly as we would like because and Next.js forces `process.env.NODE_ENV` to match the server's dev vs production mode. But we want a production mode server, and no Google analytics in this case.
+* `NODE_ENV_NEXT_SERVER_ONLY=production`: determines is the Next.js server will run in development or production mode.
++
+This variable only affects the Next.js server dev vs prod aspect of the application, and not any other aspects such as the database used and in browser effects such as having Google Analytics or not.
++
+If given, this variable overrides all others in making that determination, including `NEXT_PUBLIC_NODE_ENV`. If not given, `NODE_ENV` is used as usual.
++
+If this variable is not given, `NEXT_PUBLIC_NODE_ENV` is given instead.
+
+=== Local run as identical to deployment as possible
+
+Here we use PostgreSQL instead of SQLite with the prebuilt static frontend. Note that optimized frontend is also used on the SQLite setup described at <<local-optimized-frontend>>).
+
+For when you really need to debug some deployment stuff locally
+
+Setup:
+
+....
+sudo apt install postgresql
+
+# Become able to run psql command without sudo.
+sudo -u postgres createuser -s "$(whoami)"
+createdb "$(whoami)"
+
+createdb realworld_next
+psql -c "CREATE ROLE realworld_next_user with login password 'a'"
+psql -c 'GRANT ALL PRIVILEGES ON DATABASE realworld_next TO realworld_next_user'
+echo "SECRET=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 256)" >> .env
+....
+
+Run:
+
+....
+npm run build-prod
+npm run start-prod
+....
+
+then visit the running website at: http://localhost:3000/
+
+To <<generate-demo-data>> for this instance run:
+
+....
+npm run seed-prod
+....
+
+=== Development run in PostgreSQL
+
+If you want to debug a PostgreSQL specific issue interactively on the browser, you can run a development Next.js server on PostgreSQL.
+
+This is similar to <<local-run-as-identical-to-deployment-as-possible>>, but running the development server is more convenient for development as you won't have to `npmr run build-prod` on every frontend change.
+
+First setup the PostgreSQL database as in <<local-run-as-identical-to-deployment-as-possible>>.
+
+Then start the server with:
+
+....
+npm run dev-pg
+....
+
+To run other database related commands on PostgreSQL you can export the `REALWORLD_PG=true` environment variable manually as in:
+
+....
+REALWORLD_PG=true ./bin/sync-db.js
+REALWORLD_PG=true ./bin/generate-demo-data.js
+....
+
+If you need to inspect the database manually you can use:
+
+....
+psql realworld_next
+....
+
+=== `devDependencies` vs `dependencies`
+
+Note that any dependencies required only for the build e.g. typescript are put under `devDependencies`.
+
+Our current <<heroku-deployment>> setup installs both `dependencies` and `devDependencies`, builds, and then removes `devDependencies` from the deployed code to make it smaller.
+
+=== Demo mode
+
+Activated with `NEXT_PUBLID_DEMO=true` or:
+
+....
+npm run dev-demo
+....
+
+This has the following effects:
+
+* block posts with tags given at `blacklistTags` of `config.js` The initial motivation for this was to block automated "Cypress Automation" spam that is likely setup by some bastard on all published implementations via the backend, example: https://archive.ph/wip/n4Jlx[], and might be taking up a good part of our Heroku dynos, to be confirmed.
++
+We've logged their IP as 31.183.168.37, let's see if it changes with time. That IP is from Poland, which is consistent with Google Analytics results, which are overwhelmingly from Poland, suggesting a bot within that country, which also does GET on the web UI.
+* whenever a new object is created, such as article, comment or user, if we already have 1000 objects of that type, delete the oldest object of that type, so as to keep the database size limited. TODO implement for Tags, Follows and Likes.
+* "Source code for this website" banner on top with link to this repository
+* clearer tags input message "Press Enter, Tab or Comma to add a tag"
+
+== Keyboard shortcuts
+
+Ctrl + Enter submits articles.
+
+=== Generate demo data
+
+Note that this will first erase any data present in the database:
+
+....
+./bin/generate-demo-data.js
+....
+
+You can then login with users such as:
+
+* `user0@mail.com`
+* `user1@mail.com`
+
+and password `asdf`.
+
+Test data size can be configured with CLI parameters, e.g.:
+
+....
+./bin/generate-demo-data.js --n-users 5 --n-articles-per-user 8 --n-follows-per-user 3
+....
+
+If you just want to truncate the database with empty data use:
+
+....
+./bin/generate-demo-data.js --empty
+....
+
+== Linting
+
+The following lint checks are run automatically as part of:
+
+....
+npm run build-dev
+....
+
+from <<local-optimized-frontend>>, but it can be good to isolate the command to speed up the development loop.
+
+Run typescript type checks:
+
+....
+npm run tsc
+....
+
+Run eslint checks:
+
+....
+npm run lint
+....
+
+These lint checks include both:
+
+* https://github.com/prettier/prettier[prettier] checks, which do style checking. Since it is just style checks, any problems with those can be fixed automatically by prettier's auto-refactoring functionality with:
++
+....
+npm run format
+....
+* more functional checks, including important checks such as those provided by eslint-config-react-hooks  as opposed to more functional thing 
+
+Rationale for some rules we've disabled:
+
+* `@next/next/no-img-element`: Next insist that you whitelist servers, which is only possible if we implement profile picture upload: https://github.com/cirosantilli/node-express-sequelize-nextjs-realworld-example-app/issues/16 We will actually do this at some point.
+* `import/no-anonymous-default-export`: what's the point??? It just duplicates module names as pointed in comments. https://stackoverflow.com/questions/64729264/how-can-i-get-rid-of-the-warning-import-no-anonymous-default-export-in-react
+
+== Testing
+
+When running:
+
+....
+NODE_ENV=test npm run dev
+....
+
+the server runs on a temporary in-memory database when using the default SQLite database.
+
+It has no effect on <<development-run-in-postgresql,PostreSQL>>, as we don't know of any reasonable alternatives unfortunately. We could grant a create database privilege to our PostgreSQL test user... but Sequelize does not seem to support database creation there: https://stackoverflow.com/questions/31294562/sequelize-create-database/32212001[].
+
+One implication of this is that it is not currently possible to run <<test-js>> in parallel mode for PostgreSQL.
+
+=== test.js
+
+Our tests are all located inside link:test.js[].
+
+They can be run with:
+
+....
+npm test
+....
+
+Run just a single test:
+
+....
+npm test -- -g 'substring of test title'
+....
+
+Show all queries done in the tests:
+
+....
+DEBUG='sequelize:sql:*' npm run test
+....
+
+To run those tests on PostgreSQL intead, first setup as in <<local-run-as-identical-to-deployment-as-possible>>, and then:
+
+....
+npm run test-pg
+....
+
+Note that this will erase all data present in the database used. In order to point to a custom database use:
+
+....
+DATABASE_URL_TEST=postgres://realworld_next_user:a@localhost:5432/realworld_next_test npm run test-pg
+....
+
+We don't use `DATABASE_URL` when running tests as a safegard to reduce the likelyhood of accidentaly nuking the production database.
+
+The tests include two broad classes of tests:
+
+* API tests: launch the server on a random port, and run API commands, thus testing the entire backend. These are similar to the <<realworld-api-tests>>, but don't require postman JSON insanity, and start and close a clean server for every single test
+* smaller unit tests that only call certain functions directly
+* TODO: frontend tests: https://github.com/cirosantilli/node-express-sequelize-nextjs-realworld-example-app/issues/11
+
+==== Next.js tests
+
+By default <<test-js>> does not run any tests on Next.js, only on the API routes, because Next.js would make tests too slow:
+
+* Next.js startup is slow
+* we must run in production mode because development mode is too lenient, e.g. it does not raise 500 errors. Therefore we have to build before every run.
+
+To also run tests that hit Next.js run:
+
+....
+npm run test-next
+....
+
+or for Postgres:
+
+....
+npm run test-pg-next
+....
+
+=== Realworld API tests
+
+These tests are part of https://github.com/gothinkster/realworld which we track here as a submodule.
+
+Test test method uses Postman, but we feel that it is not a very good way to do the testing, as it uses JSON formats everywhere with embedded JavaScript, presumably to be edited in some dedicated editor like Jupyter does. It would be much better to just have a pure JavaScript setup instead.
+
+They test the JSON REST API without the frontend.
+
+First start the backend server in a terminal:
+
+....
+npm run back-test
+....
+
+`npm run back-test` will make our server use a clean one-off in-memory database instead of using the default in-disk development `./db.sqlite3` as done for `npm run back`.
+
+Then on another terminal:
+
+....
+npm run test-api
+....
+
+Run a single test called `Register` instead:
+
+....
+npm run test-api -- --folder Register
+....
+
+TODO: many tests depend on previous steps, notably register. But we weren't able to make it run just given specific tests e.g. with:
+
+....
+npmr test-api -- --folder 'Register' --folder 'Login and Remember Token' --folder 'Create Article'
+....
+
+only the last `--folder` is used. Some threads say that multiple ones can be used in newer Newman, but even after updating it to latest v5 we couldn't get it to work: 
+
+* https://stackoverflow.com/questions/60057009/how-to-run-single-request-from-the-collection-in-newman
+* https://stackoverflow.com/questions/52519415/how-to-read-two-folder-with-newman
