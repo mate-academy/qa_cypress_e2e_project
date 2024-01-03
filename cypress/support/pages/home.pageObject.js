@@ -4,7 +4,7 @@ class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataCy('profile-link');
+    return cy.getByDataCy('username-link');
   }
 
   assertHeaderContainUsername(username) {
