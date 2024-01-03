@@ -56,6 +56,7 @@ const LoginForm = ({ register = false }) => {
           {register && (
             <fieldset className="form-group">
               <input
+                data-qa='username_field'
                 className="form-control form-control-lg"
                 type="text"
                 placeholder="Username"
