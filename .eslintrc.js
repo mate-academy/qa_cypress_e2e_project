@@ -5,7 +5,8 @@ module.exports = {
     'cypress/globals': true
   },
   extends: [
-    'plugin:cypress/recommended'
+    'plugin:cypress/recommended',
+    'standard-with-typescript'
   ],
   overrides: [
   ],
@@ -13,6 +14,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   plugins: [
+    'vue',
     'cypress'
   ],
   rules: {

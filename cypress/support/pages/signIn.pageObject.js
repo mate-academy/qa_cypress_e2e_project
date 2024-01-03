@@ -1,7 +1,7 @@
 import PageObject from '../PageObject';
 
 class SignInPageObject extends PageObject {
-  url = '/user/login';
+  url = '/#/login';
 
   get emailField() {
     return cy.getByDataCy('email-sign-in');
@@ -16,15 +16,18 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField.type(email);
+    this.emailField
+      .type(email);
   }
 
   typePassword(password) {
-    this.passwordField.type(password);
+    this.passwordField
+      .type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn.click();
+    this.signInBtn
+      .click();
   }
 }
 
