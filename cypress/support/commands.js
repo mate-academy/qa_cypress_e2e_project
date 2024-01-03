@@ -35,29 +35,28 @@ Cypress.Commands.add('getByDataQa', (selector) => {
 Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
-    username,
-    password
+    password,
+    username
   });
 });
-Cypress.Commands.add('login', (email, username, password) => {
-  cy.request('POST', '/api/users', {
+Cypress.Commands.add('login', (email, password) => {
+  cy.request('POST', '/users/login', {
     user: {
       email,
-      username,
       password
     }
   }).then((response) => {
     const user = {
+      username: response.body.user.username,
+      email: response.body.user.email,
       bio: response.body.user.bio,
       effectiveImage:
         'https://static.productionready.io/images/smiley-cyrus.jpg',
-      email: response.body.user.email,
       image: response.body.user.image,
-      token: response.body.user.token,
-      username: response.body.user.username
+      token: response.body.user.token
     };
     window.localStorage.setItem('user', JSON.stringify(user));
-    cy.setCookie('auth', response.body.user.token);
+    cy.setCookie('drash_sess', response.body.user.token);
   });
 });
 
@@ -86,4 +85,9 @@ Cypress.Commands.add('createArticle', (title, description, body) => {
       cy.wrap(createdArticle).as('article');
     });
   });
+});
+Cypress.Commands.add('loginUsingUI', (email, password) => {
+  cy.getByDataQa("email-sign-in").type(email);
+  cy.getByDataQa("password-sign-in").type(password);
+  cy.getByDataQa("sign-in-btn").click();
 });
