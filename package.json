@@ -1,30 +1,93 @@
 {
+  "name": "conduit-node",
+  "version": "1.0.0",
+  "description": "conduit on node",
+  "main": "app.js",
   "scripts": {
     "prepare": "husky install",
-    "lint": "eslint ."
+    "back-test": "NODE_ENV=test npm run dev",
+    "build": "./bin/sync-db.js && next build",
+    "build-dev": "./bin/sync-db.js && NEXT_PUBLIC_NODE_ENV=development npm run build",
+    "build-prod": "./prod.sh ./bin/sync-db.js && ./prod.sh npm run build",
+    "deploy": "npm run test-next && npm run test-pg-next && git push -f heroku-next next:master && git push && git push origin next:deploy",
+    "dev": "cross-env NODE_OPTIONS='--unhandled-rejections=strict' nodemon ./app.js",
+    "dev-demo": "NEXT_PUBLIC_DEMO=true npm run dev",
+    "dev-pg": "REALWORLD_PG=true npm run dev",
+    "format": "prettier --ignore-path .prettierignore --write .",
+    "lint": "next lint",
+    "seed-prod": "./prod.sh ./bin/generate-demo-data.js --force-production",
+    "start": "node --unhandled-rejections=strict ./app.js",
+    "start-dev": "NEXT_PUBLIC_NODE_ENV=development NODE_ENV_NEXT_SERVER_ONLY=production node --unhandled-rejections=strict ./app.js",
+    "start-prod": "./prod.sh npm start",
+    "test": "NODE_ENV=test mocha test --ignore-leaks test.js",
+    "test-api": "./realworld/api/run-api-tests.sh",
+    "test-next": "npm run build-dev && npm run test-next-nobuild",
+    "test-next-nobuild": "NODE_ENV_NEXT_SERVER_ONLY=production REALWORLD_TEST_NEXT=true npm test -- --timeout 100000",
+    "test-pg": "REALWORLD_PG=true npm test --",
+    "test-pg-next": "npm run build-dev && REALWORLD_PG=true NODE_ENV_NEXT_SERVER_ONLY=production REALWORLD_TEST_NEXT=true npm test -- --timeout 100000",
+    "tsc": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gothinkster/productionready-node-api.git"
+  },
+  "license": "ISC",
   "dependencies": {
+    "axios": "0.19.2",
+    "body-parser": "1.15.0",
+    "commander": "6.2.1",
+    "cors": "2.7.1",
+    "cross-env": "^7.0.3",
     "cypress-image-snapshot": "^4.0.1",
-    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-cypress": "^2.13.3",
+    "express": "4.13.4",
+    "express-jwt": "3.3.0",
+    "express-session": "1.13.0",
     "faker": "^5.5.3",
-    "pg": "^8.9.0",
-    "sequelize": "^6.21.2",
-    "sequelize-cli": "^6.4.1"
+    "ionicons": "2.0.1",
+    "jsonwebtoken": "7.1.9",
+    "marked": "1.1.1",
+    "method-override": "2.3.5",
+    "morgan": "1.7.0",
+    "next": "12.0.7",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0",
+    "pg": "8.5.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "request": "2.69.0",
+    "sequelize": "6.5.1",
+    "sequelize-cli": "^6.4.1",
+    "slug": "0.9.1",
+    "swr": "0.3.0",
+    "termit": "0.4.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "@fontsource/source-sans-pro": "4.5.0",
+    "@fontsource/source-serif-pro": "4.5.0",
+    "@fontsource/titillium-web": "4.5.0",
+    "@next/eslint-plugin-next": "12.0.7",
     "@types/cypress": "latest",
+    "@types/gtag.js": "0.0.7",
+    "@types/node": "14.0.27",
+    "@types/react": "17.0.38",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
     "cypress": "^12.13.0",
-    "eslint": "^8.34.0",
-    "eslint-config-standard-with-typescript": "^34.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-vue": "^9.9.0",
+    "eslint": "8.5.0",
+    "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-prettier": "4.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "typescript": "^4.9.5"
+    "mocha": "6.2.2",
+    "newman": "5.2.3",
+    "nodemon": "1.11.0",
+    "prettier": "2.5.1",
+    "sass": "1.34.0",
+    "sequelize-cli": "6.2.0",
+    "sqlite3": "5.0.2",
+    "typescript": "4.5.4"
   },
   "husky": {
     "hooks": {
@@ -33,5 +96,17 @@
   },
   "lint-staged": {
     "*.js": "eslint --max-warnings=0"
-  }
+  },
+  "engines": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true
+  },
+  "cacheDirectories": [
+    "node_modules"
+  ]
 }

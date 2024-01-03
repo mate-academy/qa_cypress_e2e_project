@@ -1,5 +1,5 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
+/// <reference types="../support" />
 
 describe('Settings page', () => {
   before(() => {
