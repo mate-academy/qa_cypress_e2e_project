@@ -12,6 +12,9 @@ describe('Sign In page', () => {
 
   before(() => {
     cy.task('db:clear');
+  });
+
+  beforeEach(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
@@ -28,7 +31,47 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail(user.email + 'WRONG!');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    signInPage.errorLoginMessage();
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password + 'WRONG!');
+    signInPage.clickSignInBtn();
+
+    signInPage.errorLoginMessage();
+  });
+
+  it('should not provide an ability to log in with empty email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail('{backspace}');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    signInPage.errorLoginMessage();
+  });
+
+  it('should not provide an ability to log in with empty password', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('{backspace}');
+    signInPage.clickSignInBtn();
+
+    signInPage.errorLoginMessage();
   });
 });
