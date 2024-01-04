@@ -4,7 +4,7 @@ class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataQa('username-link');
+    return cy.getByDataCy('username-link');
   }
 
   get yourFeedSection() {

@@ -11,10 +11,9 @@ describe('Sign Up page', () => {
   });
   beforeEach(() => {
     signUpPage.visit();
-    cy.task('generateUser')
-      .then((newUser) => {
-        user = newUser;
-      });
+    cy.task('generateUser').then((newUser) => {
+      user = newUser;
+    });
   });
 
   it('should register with valid credentials', () => {
@@ -23,12 +22,9 @@ describe('Sign Up page', () => {
       user.email,
       Cypress.env('password').valid
     );
-    cy.get('.swal-text')
-      .should('contain', 'Your registration was successful!');
-    cy.get('.swal-button')
-      .click();
-    cy.getByDataCy('username-link')
-      .should('contain', user.username);
+    cy.get('.swal-text').should('contain', 'Your registration was successful!');
+    cy.get('.swal-button').click();
+    cy.getByDataCy('username-link').should('contain', user.username);
   });
   it('should not register with too short password', () => {
     signUpPage.fullyRegister(
@@ -102,7 +98,7 @@ describe('Sign Up page', () => {
     );
     signUpPage.assertIfRegistrationFailed();
   });
-  it.only('should not register with empty username', () => {
+  it('should not register with empty username', () => {
     signUpPage.fullyRegister(
       Cypress.env('username').empty,
       user.email,
