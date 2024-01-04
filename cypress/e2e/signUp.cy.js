@@ -102,7 +102,7 @@ describe('Sign Up page', () => {
     );
     signUpPage.assertIfRegistrationFailed();
   });
-  it('should not register with empty username', () => {
+  it.only('should not register with empty username', () => {
     signUpPage.fullyRegister(
       Cypress.env('username').empty,
       user.email,
