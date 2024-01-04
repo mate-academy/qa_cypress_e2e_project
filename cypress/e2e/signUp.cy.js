@@ -86,4 +86,28 @@ describe('Sign Up page', () => {
     );
     signUpPage.assertIfRegistrationFailed();
   });
+  it('should not register with too short username', () => {
+    signUpPage.fullyRegister(
+      Cypress.env('username').oneLetter,
+      user.email,
+      user.password
+    );
+    signUpPage.assertIfRegistrationFailed();
+  });
+  it('should not register with space in username', () => {
+    signUpPage.fullyRegister(
+      Cypress.env('username').withspace,
+      user.email,
+      user.password
+    );
+    signUpPage.assertIfRegistrationFailed();
+  });
+  it('should not register with empty username', () => {
+    signUpPage.fullyRegister(
+      Cypress.env('username').empty,
+      user.email,
+      user.password
+    );
+    signUpPage.assertIfRegistrationFailed();
+  });
 });
