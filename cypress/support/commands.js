@@ -40,11 +40,32 @@ Cypress.Commands.add('register', (username, email, password) => {
   });
 });
 
-Cypress.Commands.add('login', (email, password) => {
+Cypress.Commands.add('login', (username, email, password) => {
   cy.request('POST', '/users', {
+    username,
     email,
     password
   }).then((response) => {
     cy.setCookie('drash_sess', response.body.user.token);
   });
 });
+
+Cypress.Commands.add('createArticle',
+  (username, email, password, title, description, body, tag) => {
+    cy.request('POST', '/users', {
+      username,
+      email,
+      password
+    }).then((response) => {
+      cy.setCookie('drash_sess', response.body.user.token);
+      cy.request('POST', '/articles', {
+        article: {
+          title,
+          description,
+          body,
+          author_id: response.body.user.id,
+          tags: tag
+        }
+      });
+    });
+  });

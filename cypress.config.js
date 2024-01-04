@@ -12,7 +12,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random(10000) * 10000);
           return {
             username: (faker.lorem.word() + randomNumber).toLowerCase(),
             email: faker.lorem.word().toLowerCase() +
@@ -31,7 +31,8 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            updateTitle: faker.lorem.words()
           };
         },
         'db:clear'() {
