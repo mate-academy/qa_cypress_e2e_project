@@ -8,23 +8,23 @@ class HomePageObject extends PageObject {
   }
 
   get yourFeedSection() {
-    return cy.getByDataCy('your-feed-section');
+    return cy.getByDataQa('your-feed-section');
   }
 
   get articlePreview() {
-    return cy.getByDataCy('article-preview');
+    return cy.getByDataQa('article-preview');
   }
 
   get authorName() {
-    return cy.getByDataCy('author-name');
+    return cy.getByDataQa('author-name');
   }
 
   get SignInLink() {
-    return cy.getByDataCy('link-sign-in');
+    return cy.getByDataQa('link-sign-in');
   }
 
   get signUpLink() {
-    return cy.getByDataCy('link-sign-up');
+    return cy.getByDataQa('link-sign-up');
   }
 
   clickOnauthorName() {
