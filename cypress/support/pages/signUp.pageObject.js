@@ -50,8 +50,7 @@ class SignUpPageObject extends PageObject {
   assertInvalidPassword() {
     this.modalMessage.should(
       'contain',
-      `Password must be 8 characters long and include 1 number, 
-      1 uppercase letter, and 1 lowercase letter.`
+      `Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.`
     );
   }
 }
