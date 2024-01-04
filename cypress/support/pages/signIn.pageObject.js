@@ -30,9 +30,9 @@ class SignInPageObject extends PageObject {
       .click();
   }
 
-  errorLoginMessage() {
+  errorLoginMessage(message) {
     cy.get('.swal-title').should('contain', 'Login failed!');
-    cy.get('.swal-text').should('contain', 'Invalid user credentials.');
+    cy.get('.swal-text').should('contain', `${message}`);
     cy.get('.swal-button').click();
   }
 }

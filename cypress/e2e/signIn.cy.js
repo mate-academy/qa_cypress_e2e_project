@@ -39,7 +39,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    signInPage.errorLoginMessage();
+    signInPage.errorLoginMessage('Invalid user credentials.');
   });
 
   it('should not provide an ability to log in with wrong password', () => {
@@ -50,7 +50,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(user.password + 'WRONG!');
     signInPage.clickSignInBtn();
 
-    signInPage.errorLoginMessage();
+    signInPage.errorLoginMessage('Invalid user credentials.');
   });
 
   it('should not provide an ability to log in with empty email', () => {
@@ -61,7 +61,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    signInPage.errorLoginMessage();
+    signInPage.errorLoginMessage('Email field required.');
   });
 
   it('should not provide an ability to log in with empty password', () => {
@@ -72,6 +72,6 @@ describe('Sign In page', () => {
     signInPage.typePassword('{backspace}');
     signInPage.clickSignInBtn();
 
-    signInPage.errorLoginMessage();
+    signInPage.errorLoginMessage('Password field required.');
   });
 });

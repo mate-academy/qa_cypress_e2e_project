@@ -4,27 +4,27 @@ class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataQa('username-link');
+    return cy.getByDataCy('username-link');
   }
 
   get yourFeedSection() {
-    return cy.getByDataQa('your-feed-section');
+    return cy.getByDataCy('your-feed-section');
   }
 
   get articlePreview() {
-    return cy.getByDataQa('article-preview');
+    return cy.getByDataCy('article-preview');
   }
 
   get authorName() {
-    return cy.getByDataQa('author-name');
+    return cy.getByDataCy('author-name');
   }
 
   get SignInLink() {
-    return cy.getByDataQa('link-sign-in');
+    return cy.getByDataCy('link-sign-in');
   }
 
   get signUpLink() {
-    return cy.getByDataQa('link-sign-up');
+    return cy.getByDataCy('link-sign-up');
   }
 
   clickOnauthorName() {
