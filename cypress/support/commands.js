@@ -86,3 +86,8 @@ Cypress.Commands.add('createArticle', (title, description, body) => {
     });
   });
 });
+Cypress.Commands.add('loginUsingUI', (email, password) => {
+  cy.getByDataQa("email-sign-in").type(email);
+  cy.getByDataQa("password-sign-in").type(password);
+  cy.getByDataQa("sign-in-btn").click();
+});
