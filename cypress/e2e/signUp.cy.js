@@ -16,7 +16,7 @@ describe('Sign Up page', () => {
 
   it('should register the user with all vilid data', () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the Register From
@@ -38,12 +38,13 @@ describe('Sign Up page', () => {
 
   it(`the username field should not accept empty username`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with empty username
     cy.getByDataQa('email_field').type(user.email);
     cy.getByDataQa('password_field').type(user.password);
+    cy.get('button').contains('Sign up').click();
     // Assertions
     cy.get('.swal-modal').should('contain.text', 'Registration failed!');
   });
@@ -51,11 +52,11 @@ describe('Sign Up page', () => {
   it(`the username field should not accept space symbol 
   at the beginning of the username`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, username starts with space symbol
-    cy.getByDataCy('username_field').type(` ${user.username}`);
+    cy.getByDataQa('username_field').type(` ${user.username}`);
     cy.getByDataQa('email_field').type(user.email);
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -66,11 +67,11 @@ describe('Sign Up page', () => {
   it(`the username field should not accept space symbol 
   inside the username`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, space symbol inside the username
-    cy.getByDataCy('username_field').type(`${user.username} spaceBeforeMe`);
+    cy.getByDataQa('username_field').type(`${user.username} spaceBeforeMe`);
     cy.getByDataQa('email_field').type(user.email);
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -81,11 +82,11 @@ describe('Sign Up page', () => {
   it(`the username field should not accept space symbol 
   at the end of the username`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, space symbol at the end of the username
-    cy.getByDataCy('username_field').type(user.username + ' ');
+    cy.getByDataQa('username_field').type(user.username + ' ');
     cy.getByDataQa('email_field').type(user.email);
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -97,11 +98,11 @@ describe('Sign Up page', () => {
 
   it(`the email field should not be empty`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with empty email
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
     // Assertions
@@ -110,11 +111,11 @@ describe('Sign Up page', () => {
 
   it(`the email should contain '@' symbol before the domain name`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with valid email
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('email_field').type(user.username + 'gmail.com');
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -125,11 +126,11 @@ describe('Sign Up page', () => {
 
   it(`the email should contain '.' symbol in the domain name`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with valid email
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('email_field').type(user.username + '@gmailcom');
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -140,11 +141,11 @@ describe('Sign Up page', () => {
 
   it(`the email should contain the name part`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with valid email
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('email_field').type('@gmailcom');
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -155,11 +156,11 @@ describe('Sign Up page', () => {
 
   it(`the email should contain the name part`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with valid email
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('email_field').type('@gmailcom');
     cy.getByDataQa('password_field').type(user.password);
     cy.get('button').contains('Sign up').click();
@@ -172,11 +173,11 @@ describe('Sign Up page', () => {
 
   it(`the password field should not be empty`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with empty password
-    cy.getByDataCy('username_field').type(user.username);
+    cy.getByDataQa('username_field').type(user.username);
     cy.getByDataQa('email_field').type(user.email);
     cy.get('button').contains('Sign up').click();
     // Assertions
@@ -186,12 +187,12 @@ describe('Sign Up page', () => {
 
   it(`the password must be 8 characters long`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with invalid password
-    cy.getByDataCy('username_field').type(user.username);
-    cy.getByDataCy('email_field').type(user.email);
+    cy.getByDataQa('username_field').type(user.username);
+    cy.getByDataQa('email_field').type(user.email);
     // Type password with 7 characters
     cy.getByDataQa('password_field').type('Test11!');
     cy.get('button').contains('Sign up').click();
@@ -202,12 +203,12 @@ describe('Sign Up page', () => {
 
   it(`the password should include one number`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with invalid password
-    cy.getByDataCy('username_field').type(user.username);
-    cy.getByDataCy('email_field').type(user.email);
+    cy.getByDataQa('username_field').type(user.username);
+    cy.getByDataQa('email_field').type(user.email);
     // Type password with with no number
     cy.getByDataQa('password_field').type('Testing!');
     cy.get('button').contains('Sign up').click();
@@ -218,12 +219,12 @@ describe('Sign Up page', () => {
 
   it(`the password should include one uppercase letter`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with invalid password
-    cy.getByDataCy('username_field').type(user.username);
-    cy.getByDataCy('email_field').type(user.email);
+    cy.getByDataQa('username_field').type(user.username);
+    cy.getByDataQa('email_field').type(user.email);
     // Type password with with no uppercase letter
     cy.getByDataQa('password_field').type('testing1!');
     cy.get('button').contains('Sign up').click();
@@ -234,12 +235,12 @@ describe('Sign Up page', () => {
 
   it(`the password should include one lowercase letter`, () => {
     // Go to the Home Page
-    cy.visit('/#/');
+    cy.visit('#/');
     // Go to the Sign up Page
     cy.get('a').contains('Sign up').click();
     // Fill in the form, with invalid password
-    cy.getByDataCy('username_field').type(user.username);
-    cy.getByDataCy('email_field').type(user.email);
+    cy.getByDataQa('username_field').type(user.username);
+    cy.getByDataQa('email_field').type(user.email);
     // Type password with with no lowercase letter
     cy.getByDataQa('password_field').type('TESTING1!');
     cy.get('button').contains('Sign up').click();
