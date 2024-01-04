@@ -8,6 +8,10 @@ Cypress.Commands.add('getByDataQa', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
 });
 
+Cypress.Commands.add('getByDataCy', (selector) => {
+  cy.get(`[data-cy="${selector}"]`);
+});
+
 Cypress.Commands.add('register2', (user) => {
   cy.request('POST', '/users', {
     username: user.username,
