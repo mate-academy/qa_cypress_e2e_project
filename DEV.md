@@ -24,8 +24,7 @@ Pre-setup:
     If case of `"docker-compose" command not found`, use this command
 
     ```bash
-      docker compose build && docker compose up
-    ```
+      docker compose build && docker compose up   ```
 
 1. Apple silicon chips (M1, M2)
 
