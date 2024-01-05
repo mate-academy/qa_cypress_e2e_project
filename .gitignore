@@ -2,4 +2,3 @@
 .idea
 node_modules/
 src/public/js/app.js
-package-lock.json
