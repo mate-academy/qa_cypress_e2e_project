@@ -29,6 +29,7 @@ class SettingsPageObject extends PageObject {
 
   clickOnButton(dataText) {
     cy.get(`[data-cy="${dataText}"]`).click();
+  }
 
   get bioTextarea() {
     return cy.getByDataCy('bio');

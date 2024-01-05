@@ -12,4 +12,13 @@ function generatePassword() {
   return faker.internet.password();
 }
 
-module.exports = { generateUsername, generateEmail, generatePassword };
+function generateBio() {
+  return faker.person.bio();
+}
+
+module.exports = {
+  generateUsername,
+  generateEmail,
+  generatePassword,
+  generateBio
+};

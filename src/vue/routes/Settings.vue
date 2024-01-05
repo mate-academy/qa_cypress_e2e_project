@@ -50,7 +50,7 @@
                   data-cy="edit-password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn btn-cy">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn">
                 Update Settings
               </button>
             </fieldset>
