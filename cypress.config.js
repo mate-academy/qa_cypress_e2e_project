@@ -1,5 +1,4 @@
 /* eslint-disable comma-dangle */
-
 const faker = require('faker');
 const { defineConfig } = require('cypress');
 const { clear } = require('./server/db');
@@ -22,7 +21,6 @@ module.exports = defineConfig({
             username: userName,
             email: userName + '@mail.com',
             password: '12345Qwert!',
-
             // bio: faker.person.bio()
           };
         },
