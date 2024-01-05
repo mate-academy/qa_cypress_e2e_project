@@ -1,3 +1,6 @@
+
+/* eslint-disable comma-dangle */
+
 /* eslint-disable camelcase */
 // ***********************************************
 // This example commands.js shows you how to
@@ -37,9 +40,14 @@ Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
     password,
-    username
+
+    username,
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user.id).as('userID');
   });
 });
+
 Cypress.Commands.add('login', (email, password) => {
   cy.request('POST', '/users/login', {
     user: {
@@ -55,13 +63,15 @@ Cypress.Commands.add('login', (email, password) => {
         'https://static.productionready.io/images/smiley-cyrus.jpg',
       image: response.body.user.image,
       token: response.body.user.token,
-      userId: response.body.user.id
+
     };
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
     cy.wrap(response.body.user.id).as('userID');
+
   });
 });
+
 Cypress.Commands.add('createArticle', (title, description, body, author_id) => {
   cy.getCookie('drash_sess').then((token) => {
     const authToken = token.value;
@@ -83,4 +93,9 @@ Cypress.Commands.add('createArticle', (title, description, body, author_id) => {
       }
     });
   });
+});
+Cypress.Commands.add('loginUsingUI', (email, password) => {
+  cy.getByDataQa("email-sign-in").type(email);
+  cy.getByDataQa("password-sign-in").type(password);
+  cy.getByDataQa("sign-in-btn").click();
 });
