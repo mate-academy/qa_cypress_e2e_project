@@ -2,7 +2,7 @@
   <div class="article-page">
     <div class="banner">
       <div class="container">
-        <h1>{{ article.title }}</h1>
+        <h1 data-qa="banner-main">{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <hr />
-      <div class="article-actions">
+      <div class="article-actions" data-qa="edit-article-btn">
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
       <div class="row">
