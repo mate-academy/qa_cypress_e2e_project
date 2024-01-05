@@ -23,12 +23,12 @@ describe('Settings page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
+    signInPage.visit();
     cy.request('POST', '/users', {
       email: `${generateNewEmail}`,
       username: `${username}`,
       password: `${password}`
     });
-    signInPage.visit();
     signInPage.typeEmail(generateNewEmail);
     signInPage.typePassword(password);
     signInPage.clickSignInBtn();
@@ -51,7 +51,7 @@ describe('Settings page', () => {
   it('should provide an ability to update bio', () => {
     cy.url().should('include', '/#/settings');
     bio = generateBio();
-    homePage.assertHeaderContainUsername(username);
+    cy.getByDataCy('username-link').should('contain', username);
     settingsPage.bioTextarea.should('exist');
     settingsPage.updateSettingsBtn.should('exist');
     settingsPage.typeBio(bio);
