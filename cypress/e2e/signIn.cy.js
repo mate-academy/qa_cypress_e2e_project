@@ -18,10 +18,6 @@ describe('Sign In page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    // cy.task('generateUser').then((generateUser) => {
-    //   user = generateUser;
-    // cy.register(user.username, user.email, user.password);
-    // });
     signInPage.visit();
   });
 
@@ -35,18 +31,18 @@ describe('Sign In page', () => {
   });
 
   it('should not provide the ability to log in with wrong email', () => {
-    cy.register(user.username, user.email, user.password);
-    signInPage.typeEmail(user.otherEmail);
+    // cy.register(user.username, user.email, user.password);
+    signInPage.typeEmail(user.invalidEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-    signInPage.assertInvalid();
+    signInPage.assertInvalidEmail();
   });
 
   it('should not provide the ability to log in with wrong password', () => {
-    cy.register(user.username, user.email, user.password);
+    // cy.register(user.username, user.email, user.password);
     signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.otherPassword);
+    signInPage.typePassword(user.invalidPassword);
     signInPage.clickSignInBtn();
-    signInPage.assertInvalid();
+    signInPage.assertInvalidPassword();
   });
 });

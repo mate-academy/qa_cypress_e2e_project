@@ -21,7 +21,8 @@ module.exports = defineConfig({
             bio: faker.lorem.words(),
             otherUsername: (faker.lorem.word() + randomNumber).toLowerCase(),
             otherEmail: faker.lorem.word() + randomNumber + '@ymail.com',
-            otherPassword: faker.lorem.word() + randomNumber,
+            otherPassword: faker.lorem.word() + randomNumber + 'A!',
+            otherBio: faker.lorem.words(),
             invalidEmail: faker.lorem.word() + randomNumber + 'ymail.com',
             invalidPassword: faker.random.word()
           };

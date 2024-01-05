@@ -3,10 +3,10 @@
     <div class="user-info">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
-            <img :src="profile.image" class="user-img" />
-            <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+          <div class="col-xs-12 col-md-10 offset-md-1" data-qa="user-info">
+            <img :src="profile.image" class="user-img" data-qa="profile-image"/>
+            <h4 data-qa="user-name">{{ profile.username }}</h4>
+            <p data-qa="user-bio">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"

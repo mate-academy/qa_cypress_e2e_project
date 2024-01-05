@@ -34,9 +34,14 @@ class SignInPageObject extends PageObject {
       .click();
   }
 
-  assertInvalid() {
+  assertInvalidPassword() {
     this.modalMsg
       .should('contain', 'Invalid user credentials.');
+  }
+
+  assertInvalidEmail() {
+    this.modalMsg
+      .should('contain', 'Email must be a valid email.');
   }
 }
 

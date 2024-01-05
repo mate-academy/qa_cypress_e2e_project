@@ -22,6 +22,10 @@ class HomePageObject extends PageObject {
       .and('not.contain', description)
       .and('not.contain', tag);
   }
+
+  get userInfo() {
+    return cy.getByDataQa('user-info');
+  }
 }
 
 export default HomePageObject;
