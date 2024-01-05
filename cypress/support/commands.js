@@ -1,4 +1,6 @@
+
 /* eslint-disable comma-dangle */
+
 /* eslint-disable camelcase */
 // ***********************************************
 // This example commands.js shows you how to
@@ -31,13 +33,14 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataQa', (selector) => {
-  cy.get(`[data-qa="${selector}"]`);
+  cy.get(`[data-qa^="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
     password,
+
     username,
   }).then((response) => {
     cy.setCookie('drash_sess', response.body.user.token);
@@ -60,6 +63,7 @@ Cypress.Commands.add('login', (email, password) => {
         'https://static.productionready.io/images/smiley-cyrus.jpg',
       image: response.body.user.image,
       token: response.body.user.token,
+
     };
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);

@@ -18,9 +18,11 @@ module.exports = defineConfig({
           const userName =
             faker.name.firstName().toLowerCase() + `${randomNumber}`;
           return {
+
             username: userName,
             email: userName + '@mail.com',
             password: '12345Qwert!',
+
             // bio: faker.person.bio()
           };
         },
