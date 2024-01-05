@@ -12,6 +12,7 @@
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
+                  data-qa="article-title"
                 />
               </fieldset>
               <fieldset class="form-group">
