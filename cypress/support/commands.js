@@ -1,3 +1,7 @@
+
+/* eslint-disable comma-dangle */
+
+/* eslint-disable camelcase */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -29,16 +33,20 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataQa', (selector) => {
-  cy.get(`[data-qa="${selector}"]`);
+  cy.get(`[data-qa^="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
     password,
-    username
+    username,
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user.id).as('userID');
   });
 });
+
 Cypress.Commands.add('login', (email, password) => {
   cy.request('POST', '/users/login', {
     user: {
@@ -53,36 +61,34 @@ Cypress.Commands.add('login', (email, password) => {
       effectiveImage:
         'https://static.productionready.io/images/smiley-cyrus.jpg',
       image: response.body.user.image,
-      token: response.body.user.token
+      token: response.body.user.token,
     };
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user.id).as('userID');
+
   });
 });
 
-Cypress.Commands.add('createArticle', (title, description, body) => {
-  cy.getCookie('auth').then((token) => {
+Cypress.Commands.add('createArticle', (title, description, body, author_id) => {
+  cy.getCookie('drash_sess').then((token) => {
     const authToken = token.value;
 
     cy.request({
       method: 'POST',
-      url: '/api/articles',
+      url: '/articles',
       body: {
         article: {
           title,
           description,
           body,
-          tagList: []
+          tags: '',
+          author_id
         }
       },
       headers: {
-        Authorization: `Token ${authToken}`
+        Authorization: `drash_sess=${authToken}`
       }
-    }).then((response) => {
-      const createdArticle = {
-        slug: response.body.article.slug
-      };
-      cy.wrap(createdArticle).as('article');
     });
   });
 });
