@@ -1,4 +1,6 @@
+
 /* eslint-disable comma-dangle */
+
 /* eslint-disable camelcase */
 // ***********************************************
 // This example commands.js shows you how to
@@ -31,7 +33,7 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataQa', (selector) => {
-  cy.get(`[data-qa="${selector}"]`);
+  cy.get(`[data-qa^="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email, username, password) => {
