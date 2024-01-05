@@ -1,4 +1,5 @@
 /* eslint-disable comma-dangle */
+
 const faker = require('faker');
 const { defineConfig } = require('cypress');
 const { clear } = require('./server/db');
