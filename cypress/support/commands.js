@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -29,61 +30,57 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataQa', (selector) => {
-  cy.get(`[data-qa="${selector}"]`);
+  cy.get(`[data-qa^="${selector}"]`);
 });
 
 Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
-    username,
-    password
+    password,
+    username
   });
 });
-Cypress.Commands.add('login', (email, username, password) => {
-  cy.request('POST', '/api/users', {
+Cypress.Commands.add('login', (email, password) => {
+  cy.request('POST', '/users/login', {
     user: {
       email,
-      username,
       password
     }
   }).then((response) => {
     const user = {
+      username: response.body.user.username,
+      email: response.body.user.email,
       bio: response.body.user.bio,
       effectiveImage:
         'https://static.productionready.io/images/smiley-cyrus.jpg',
-      email: response.body.user.email,
       image: response.body.user.image,
       token: response.body.user.token,
-      username: response.body.user.username
+      userId: response.body.user.id
     };
     window.localStorage.setItem('user', JSON.stringify(user));
-    cy.setCookie('auth', response.body.user.token);
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user.id).as('userID');
   });
 });
-
-Cypress.Commands.add('createArticle', (title, description, body) => {
-  cy.getCookie('auth').then((token) => {
+Cypress.Commands.add('createArticle', (title, description, body, author_id) => {
+  cy.getCookie('drash_sess').then((token) => {
     const authToken = token.value;
 
     cy.request({
       method: 'POST',
-      url: '/api/articles',
+      url: '/articles',
       body: {
         article: {
           title,
           description,
           body,
-          tagList: []
+          tags: '',
+          author_id
         }
       },
       headers: {
-        Authorization: `Token ${authToken}`
+        Authorization: `drash_sess=${authToken}`
       }
-    }).then((response) => {
-      const createdArticle = {
-        slug: response.body.article.slug
-      };
-      cy.wrap(createdArticle).as('article');
     });
   });
 });
