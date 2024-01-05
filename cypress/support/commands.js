@@ -49,8 +49,8 @@ Cypress.Commands.add('login', (email, password) => {
   cy.request('POST', '/users/login', {
     user: {
       email,
-      password,
-    },
+      password
+    }
   }).then((response) => {
     const user = {
       username: response.body.user.username,
@@ -64,6 +64,7 @@ Cypress.Commands.add('login', (email, password) => {
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
     cy.wrap(response.body.user.id).as('userID');
+
   });
 });
 
@@ -88,4 +89,9 @@ Cypress.Commands.add('createArticle', (title, description, body, author_id) => {
       }
     });
   });
+});
+Cypress.Commands.add('loginUsingUI', (email, password) => {
+  cy.getByDataQa("email-sign-in").type(email);
+  cy.getByDataQa("password-sign-in").type(password);
+  cy.getByDataQa("sign-in-btn").click();
 });
