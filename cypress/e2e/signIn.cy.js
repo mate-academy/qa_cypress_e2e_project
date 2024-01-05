@@ -22,7 +22,7 @@ describe('Sign In page', () => {
   });
 
   it('should provide the ability to log in with existing credentials', () => {
-    cy.register(user.username, user.email, user.password);
+    cy.register(user.email, user.username, user.password);
     signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -31,7 +31,6 @@ describe('Sign In page', () => {
   });
 
   it('should not provide the ability to log in with wrong email', () => {
-    // cy.register(user.username, user.email, user.password);
     signInPage.typeEmail(user.invalidEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
@@ -39,7 +38,6 @@ describe('Sign In page', () => {
   });
 
   it('should not provide the ability to log in with wrong password', () => {
-    // cy.register(user.username, user.email, user.password);
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.invalidPassword);
     signInPage.clickSignInBtn();

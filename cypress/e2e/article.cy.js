@@ -27,7 +27,8 @@ describe('Article', () => {
   });
 
   it('should be created using New Article form', () => {
-    cy.login(user.username, user.email, user.password);
+    cy.register(user.email, user.username, user.password);
+    cy.login(user.email, user.password);
     newArticlePage.visit();
     newArticlePage.typeTitle(article.title);
     newArticlePage.typeDescription(article.description);

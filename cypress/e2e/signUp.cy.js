@@ -18,10 +18,6 @@ describe('Sign Up page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
-    // cy.task('generateUser').then((generateUser) => {
-    //   user = generateUser;
-    // cy.register(user.username, user.email, user.password);
-    // });
     signUpPage.visit();
   });
 
