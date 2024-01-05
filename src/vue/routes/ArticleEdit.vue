@@ -9,10 +9,10 @@
               <fieldset class="form-group">
                 <input
                   type="text"
+                  data-qa="article-title"
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
-                  data-qa="article-title"
                 />
               </fieldset>
               <fieldset class="form-group">
