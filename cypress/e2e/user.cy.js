@@ -25,7 +25,7 @@ describe('User', () => {
     });
   });
   // Katrina
-  it.only('should be able to follow the another user', () => {
+  it('should be able to follow the another user', () => {
     cy.register(user.email, user.username, user.password).then((userID) => {
       cy.createArticle(
         article.title,
@@ -42,7 +42,22 @@ describe('User', () => {
     cy.getByDataQa('unfollow_button').should('exist');
   });
 
-  it.skip('should be able to unfollow the followed user', () => {
-    // Impossible to carry out due to non-functioning to enable "follow button"
+  // Katrina
+  it('should be able to unfollow the followed user', () => {
+    cy.register(user.email, user.username, user.password).then((userID) => {
+      cy.createArticle(
+        article.title,
+        article.description,
+        article.body,
+        userID
+      );
+      cy.register(user2.email, user2.username, user2.password);
+      cy.login(user2.email, user2.password);
+      cy.visit(`/#/@${user.username}`);
+      cy.getByDataQa('follow_button').click();
+      cy.visit(`/#/@${user.username}`);
+      cy.getByDataQa('unfollow_button').click();
+    });
+    cy.getByDataQa('follow_button').should('exist');
   });
 });
