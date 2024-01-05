@@ -27,6 +27,7 @@
                 <textarea
                   class="form-control form-control-lg"
                   rows="8"
+                  data-cy="bio"
                   v-model="user.bio"
                   placeholder="Short bio about you"
                 ></textarea>
@@ -49,7 +50,7 @@
                   data-cy="edit-password"
                 />
               </fieldset>
-              <button data-cy="btn-cy" class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn btn-cy">
                 Update Settings
               </button>
             </fieldset>
