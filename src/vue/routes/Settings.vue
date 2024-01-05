@@ -26,6 +26,7 @@
                 <textarea
                   class="form-control form-control-lg"
                   rows="8"
+                  data-cy="bio"
                   v-model="user.bio"
                   placeholder="Short bio about you"
                 ></textarea>
@@ -46,7 +47,7 @@
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn">
                 Update Settings
               </button>
             </fieldset>
