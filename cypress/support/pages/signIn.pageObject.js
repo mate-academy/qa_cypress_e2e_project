@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get failAlert() {
+    return cy.get('.swal-modal');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +32,21 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertLoginFailed() {
+    this.failAlert.should('contain', 'Login failed!')
+      .and('contain', 'Invalid user credentials.');
+  }
+
+  assertLoginEmptyEmail() {
+    this.failAlert.should('contain', 'Login failed!')
+      .and('contain', 'Email field required.');
+  }
+
+  assertLoginEmptyPassword() {
+    this.failAlert.should('contain', 'Login failed!')
+      .and('contain', 'Password field required.');
   }
 }
 
