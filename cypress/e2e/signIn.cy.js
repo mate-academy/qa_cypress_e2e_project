@@ -47,4 +47,18 @@ describe('Sign In page', () => {
     signInPage.clickSignInBtn();
     signInPage.assertLoginFailed();
   });
+
+  it('should not provide an ability to log in with empty email', () => {
+    signInPage.visit();
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertLoginEmptyEmail();
+  });
+
+  it('should not provide an ability to log in with empty password', () => {
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.clickSignInBtn();
+    signInPage.assertLoginEmptyPassword();
+  });
 });
