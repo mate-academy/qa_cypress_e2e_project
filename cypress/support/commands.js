@@ -40,7 +40,6 @@ Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', {
     email,
     password,
-
     username,
   }).then((response) => {
     cy.setCookie('drash_sess', response.body.user.token);
@@ -63,7 +62,6 @@ Cypress.Commands.add('login', (email, password) => {
         'https://static.productionready.io/images/smiley-cyrus.jpg',
       image: response.body.user.image,
       token: response.body.user.token,
-
     };
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
