@@ -14,7 +14,25 @@ describe('Sign Up page', () => {
 
   // Positive Tests
 
-  it('should register the user with all vilid data', () => {
+  it('should register the user with valid data, data is set', () => {
+    // Go to the Home Page
+    cy.visit('#/');
+    // Go to the Sign up Page
+    cy.get('a').contains('Sign up').click();
+    // Fill in the Register From
+    cy.getByDataQa('username_field').type('testuser12');
+    cy.getByDataQa('email_field').type('testuser12@test.com');
+    cy.getByDataQa('password_field').type('Testing123!');
+    cy.get('button').contains('Sign up').click();
+    // Assertions
+    cy.get('.swal-text')
+      .should('contain.text', 'Your registration was successful!');
+    cy.get('.nav-item').should('contain.text', 'Settings');
+    cy.get('.nav-item').should('contain.text', 'New Article');
+    cy.get('.nav-item').should('contain.text', user.username);
+  });
+
+  it('should register the user with all valid data', () => {
     // Go to the Home Page
     cy.visit('#/');
     // Go to the Sign up Page
