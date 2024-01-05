@@ -45,6 +45,6 @@ describe('Sign In page', () => {
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.newPassword);
     signInPage.clickSignInBtn();
-    // signInPage.clickOkBtn();
+    signInPage.assertLoginFailed();
   });
 });
