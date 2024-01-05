@@ -35,7 +35,7 @@ describe('Sign In page', () => {
 
   it('should not provide an ability to log in with wrong email', () => {
     signInPage.visit();
-    signInPage.typeEmail(user.newEmail);
+    signInPage.typeEmail(user.differentEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
     signInPage.assertLoginFailed();
@@ -43,7 +43,7 @@ describe('Sign In page', () => {
 
   it('should not provide an ability to log in with wrong password', () => {
     signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.newPassword);
+    signInPage.typePassword(user.differentPassword);
     signInPage.clickSignInBtn();
     signInPage.assertLoginFailed();
   });
