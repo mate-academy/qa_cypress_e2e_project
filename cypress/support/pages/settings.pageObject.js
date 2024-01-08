@@ -89,7 +89,7 @@ class SettingsPageObject extends PageObject {
       .should('contain', bio);
   }
 
-  assertUpdatedEmail(email) {
+  assertFailedEmailUpdate(email) {
     this.emailField
       .should('contain', email);
   }

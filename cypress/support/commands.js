@@ -35,6 +35,7 @@ Cypress.Commands.add('getByDataQa', (selector) => {
 Cypress.Commands.add('register', (email, username, password) => {
   cy.request('POST', '/users', { email, password, username });
 });
+
 Cypress.Commands.add('login', (email, password) => {
   cy.request('POST', '/users/login', { user: { email, password } }).then(
     (response) => {

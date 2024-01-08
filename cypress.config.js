@@ -18,11 +18,11 @@ module.exports = defineConfig({
             username: (faker.lorem.word() + randomNumber).toLowerCase(),
             email: faker.lorem.word().toLowerCase() +
             randomNumber + '@ymail.com',
-            password: faker.lorem.word() + randomNumber + 'A!',
+            password: faker.lorem.word(8) + randomNumber + 'A!',
             bio: faker.lorem.words(),
             otherUsername: (faker.lorem.word() + randomNumber).toLowerCase(),
             otherEmail: faker.lorem.word() + randomNumber + '@ymail.com',
-            otherPassword: faker.lorem.word() + randomNumber + 'A!',
+            otherPassword: faker.lorem.word(8) + randomNumber + 'A!',
             otherBio: faker.lorem.words(),
             invalidEmail: faker.lorem.word() + randomNumber + 'ymail.com',
             invalidPassword: faker.random.word()

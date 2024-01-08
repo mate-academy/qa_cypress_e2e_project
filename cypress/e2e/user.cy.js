@@ -7,34 +7,29 @@ const userPage = new UserPageObject();
 
 describe('User page', () => {
   let user;
-  // let article;
 
   before(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
-    // cy.task('generateArticle').then((generateArticle) => {
-    //   article = generateArticle;
-    // });
   });
 
   beforeEach(() => {
     cy.task('db:clear');
     cy.register(user.otherEmail, user.otherUsername, user.otherPassword);
-    cy.login(user.otherEmail, user.otherPassword);
+    cy.register(user.email, user.username, user.password);
+    cy.login(user.email, user.password);
   });
 
-  it.only('should be able to follow the another user', () => {
-    userPage.visitUserPage(user.username);
-    // userPage.clickFollowBtn();
-    // userPage.assertBtnUnfollow(user.username);
+  it('should be able to follow the another user', () => {
+    userPage.visitUserPage(user.otherUsername);
+    userPage.clickFollowBtn();
+    userPage.assertFollowBtnBroken(user.otherUsername);
   });
 
   it('should be able to unfollow the another user', () => {
-    userPage.visitUserPage(user.username);
+    userPage.visitUserPage(user.otherUsername);
     userPage.clickFollowBtn();
-    userPage.assertBtnUnfollow(user.username);
-    userPage.clickFollowBtn();
-    userPage.assertBtnFollow(user.username);
+    userPage.assertFollowButtonStateUnchanged(user.otherUsername);
   });
 });

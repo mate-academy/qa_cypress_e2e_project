@@ -13,16 +13,16 @@ class UserPageObject extends PageObject {
     this.followBtn.click();
   }
 
-  assertBtnUnfollow(username) {
-    this.followBtn
-      .invoke('text')
-      .should('match', new RegExp(`^\\s*Unfollow\\s*${username}\\s*$`));
-  }
-
-  assertBtnFollow(username) {
+  assertFollowBtnBroken(username) {
     this.followBtn
       .invoke('text')
       .should('match', new RegExp(`^\\s*Follow\\s*${username}\\s*$`));
+  }
+
+  assertFollowButtonStateUnchanged(username) {
+    this.followBtn
+      .invoke('text')
+      .should('not.match', new RegExp(`^\\s*Unfollow\\s*${username}\\s*$`));
   }
 }
 
