@@ -2,9 +2,6 @@ const { defineConfig } = require('cypress');
 const faker = require('faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
-const {
-  addMatchImageSnapshotPlugin
-} = require('cypress-image-snapshot/plugin');
 
 module.exports = defineConfig({
   e2e: {
@@ -38,7 +35,6 @@ module.exports = defineConfig({
           return null;
         }
       });
-      addMatchImageSnapshotPlugin(on, config);
     }
   }
 });

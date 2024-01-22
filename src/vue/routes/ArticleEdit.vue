@@ -44,6 +44,7 @@
             <button
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
+              data-qa="publish-btn"
               type="submit"
             >
               Publish Article
