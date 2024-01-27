@@ -9,7 +9,6 @@ describe('Article', () => {
   let article;
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateArticle').then((generatedArticle) => {
       article = generatedArticle;
     });
