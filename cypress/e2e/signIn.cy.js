@@ -11,10 +11,13 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
     });
+  });
+
+  beforeEach(() => {
+    cy.task('db:clear');
   });
 
   it('should provide an ability to log in with existing credentials', () => {
