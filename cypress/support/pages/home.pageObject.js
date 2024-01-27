@@ -11,6 +11,14 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+    
+
+
+
+
+
+
 }
 
 export default HomePageObject;
