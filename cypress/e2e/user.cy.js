@@ -10,7 +10,6 @@ describe('User', () => {
   let anotherUser;
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
     });
