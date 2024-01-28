@@ -2,8 +2,10 @@
 /// <reference types='../support' />
 
 import SettingsPageObject from '../support/pages/settings.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const settingsPage = new SettingsPageObject();
+const signInPage = new SignInPageObject();
 
 describe('Settings page', () => {
   let user;
@@ -16,6 +18,10 @@ describe('Settings page', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
   });
 
   it('should provide an ability to update username', () => {
