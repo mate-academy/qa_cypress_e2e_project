@@ -2,8 +2,10 @@
 /// <reference types='../support' />
 
 import UserPageObject from '../support/pages/user.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const userPage = new UserPageObject();
+const signInPage = new SignInPageObject();
 
 describe('User', () => {
   let user;
@@ -20,6 +22,10 @@ describe('User', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
   });
 
   it('should be able to follow another user', () => {
