@@ -39,4 +39,14 @@ describe('Sign Up page', () => {
 
     signUpPage.assertSignUpFailed();
   });
+
+  it('should not provide an ability to sign up with invalid email', () => {
+    signUpPage.visit();
+    signUpPage.typeEmail('invalidEmail');
+    signUpPage.typeUsername(user.username);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    signUpPage.assertSignUpFailed();
+  });
 });
