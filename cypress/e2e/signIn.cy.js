@@ -37,4 +37,13 @@ describe('Sign In page', () => {
 
     signInPage.assertLoginFailed();
   });
+
+  it('should not provide an ability to log in with non-existing user', () => {
+    signInPage.visit();
+    signInPage.typeEmail('nonexisting@example.com');
+    signInPage.typePassword('password');
+    signInPage.clickSignInBtn();
+
+    signInPage.assertLoginFailed();
+  });
 });
