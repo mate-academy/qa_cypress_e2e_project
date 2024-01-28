@@ -2,13 +2,19 @@
 /// <reference types='../support' />
 
 import ArticlePageObject from '../support/pages/article.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const articlePage = new ArticlePageObject();
+const signInPage = new SignInPageObject();
 
 describe('Article', () => {
+  let user;
   let article;
 
   before(() => {
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
+    });
     cy.task('generateArticle').then((generatedArticle) => {
       article = generatedArticle;
     });
@@ -16,6 +22,10 @@ describe('Article', () => {
 
   beforeEach(() => {
     cy.task('db:clear');
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
   });
 
   it('should be created using New Article form', () => {
