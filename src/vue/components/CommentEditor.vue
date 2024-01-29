@@ -7,13 +7,14 @@
           class="form-control"
           v-model="comment"
           placeholder="Write a comment..."
+          data-cy="comment-area"
           rows="3"
         >
         </textarea>
       </div>
-      <div class="card-footer">
+      <div class="card-footer"> 
         <img :src="userImage" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <button class="btn btn-sm btn-primary" data-cy="postComment-button">Post Comment</button>
       </div>
     </form>
   </div>

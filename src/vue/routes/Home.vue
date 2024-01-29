@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit</h1>
+        <h1 class="logo-font" data-cy="homeConduit-logo">conduit</h1>
         <p>A place to share your knowledge.</p>
       </div>
     </div>
@@ -13,6 +13,7 @@
             <ul class="nav nav-pills outline-active">
               <li v-if="is_authenticated" class="nav-item">
                 <router-link
+                data-cy="homeYourFeed-link"
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
                   active-class="active"
@@ -22,9 +23,10 @@
               </li>
               <li class="nav-item">
                 <router-link
+                data-cy="homeGlobalFeed-link"
                   :to="{ name: 'home' }"
                   exact
-                  class="nav-link"
+                  class="nav-linkdata-c"
                   active-class="active"
                 >
                   Global Feed
