@@ -8,15 +8,24 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
+    viewportWidth: 1300,
+    viewportHeight: 900,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            email: 'test' + `${randomNumber}` + '@gmail.com',
+            password: '12345Qwert!',
+
+            newUserName: faker.name.firstName() + `${randomNumber}`,
+            newBio: faker.lorem.lines(),
+            newEmail: 'updatedtest' + `${randomNumber}` + '@gmail.com',
+            newPassword: 'nataNata123!',
+            invalidEmail: 'natanata' + `${randomNumber}` + '@',
+            invalidPassword: faker.random.word()
           };
         },
         generateArticle() {

@@ -1,13 +1,12 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
-
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
+import { SignInPageObject } from '../support/pages/signIn.pageObject';
+import { HomePageObject } from '../support/pages/home.pageObject';
 
 describe('Sign In page', () => {
+  const signInPage = new SignInPageObject();
+  const homePage = new HomePageObject();
   let user;
 
   before(() => {
@@ -18,8 +17,9 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
     cy.register(user.email, user.username, user.password);
+
+    signInPage.visit();
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -28,7 +28,15 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  // eslint-disable-next-line max-len
+  it('should not provide an ability to log in with wrong password', () => {
+    cy.register();
+    signInPage.visit();
 
+    const wrongpassword = 'blablaBla';
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(wrongpassword);
+    signInPage.clickSignInBtn();
+    signInPage.assertAlertErrorMessage();
   });
 });
