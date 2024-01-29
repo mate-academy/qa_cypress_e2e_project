@@ -5,18 +5,40 @@ const { seed } = require('./server/db');
 const {
   addMatchImageSnapshotPlugin
 } = require('cypress-image-snapshot/plugin');
-
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
+    viewportHeight: 1200,
+    viewportWeight: 1920,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            email: faker.internet.email(),
+            password: 'AnnaMahda1!',
+            invalidEmail: 'a' + faker.internet.email(),
+            invalidPassword: 'Annamh1m',
+            passwordWithoutCapital: 'annamahda1',
+            passwordWithoutLower: 'ANNAMAHDA1',
+            passwordWith1char: 'A',
+            passwordWith7char: 'Annamh1',
+            passwordWithoutNum: 'Annamhda',
+            passwordWith16char: 'Annamahdateamqa1',
+            invalidRegEmail: faker.name.firstName(),
+            emailWithoutAt: 'anna1234gmail.com',
+            emailWithoutTopLvl: 'anna1234@gmail',
+            emailWithoutDomain: 'anna1234@.com'
+          };
+        },
+        generateNewUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: faker.internet.email(),
+            password: 'Annamahda123s!',
+            bio: faker.lorem.words()
           };
         },
         generateArticle() {
@@ -29,12 +51,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
