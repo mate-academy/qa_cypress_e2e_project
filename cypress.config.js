@@ -16,7 +16,11 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            newUsername: faker.name.firstName() + `${randomNumber}`,
+            newEmail: 'new'+`${randomNumber}`+'@mail.com',
+            newPassword: '!12345Qwert',
+            bio: faker.lorem.words()
           };
         },
         generateArticle() {
@@ -24,7 +28,11 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            newTitle: 'new' + faker.lorem.word(),
+            newDescription: 'new' + faker.lorem.words(),
+            newBody: 'new' + faker.lorem.words(),
+            newTag: 'new' + faker.lorem.word(),
           };
         },
         'db:clear'() {
