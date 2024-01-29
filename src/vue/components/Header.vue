@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-light">
-    <div class="container">
-      <router-link class="navbar-brand" :to="{ name: 'home' }">
+    <div class="container" data-qa="header-container">
+      <router-link class="navbar-brand" data-qa="conduit-link" exact :to="{ name: 'home' }">
         conduit
       </router-link>
       <ul v-if="!is_authenticated" class="nav navbar-nav pull-xs-right">
