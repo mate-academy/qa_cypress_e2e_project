@@ -1,7 +1,7 @@
 <template>
   <div class="article-page">
     <div class="banner">
-      <div class="container">
+      <div class="container" data-cy="title-header">
         <h1>{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
