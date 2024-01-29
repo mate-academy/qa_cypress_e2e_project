@@ -37,9 +37,11 @@ describe('User', () => {
     userPage.assertUserInfo(user2.username);
     userPage.assertUserInfo(user2.username);
 
+    userPage.assertFollowUserButton();
+
     userPage.clickFollowUserButton();
 
-    userPage.assertFollowTheUser();
+    userPage.assertFollowUser();
 
     // This is a bug. The user is not followed
   });
