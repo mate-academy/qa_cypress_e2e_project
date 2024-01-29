@@ -20,6 +20,7 @@
                 v-model="email"
                 placeholder="Email"
                 data-cy="email-sign-in"
+                data-qa="email-sign-in"
               />
             </fieldset>
             <fieldset class="form-group">
