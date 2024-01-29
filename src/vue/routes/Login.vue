@@ -31,7 +31,7 @@
                 data-cy="password-sign-in"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-button">
               Sign in
             </button>
           </form>
