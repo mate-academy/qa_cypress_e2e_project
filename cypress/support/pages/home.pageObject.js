@@ -1,10 +1,10 @@
-import PageObject from '../PageObject';
+import { PageObject } from '../PageObject';
 
-class HomePageObject extends PageObject {
+export class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataCy('username-link');
+    return cy.getByDataCy('username-link1');
   }
 
   assertHeaderContainUsername(username) {

@@ -1,6 +1,6 @@
-import PageObject from '../PageObject';
+import { PageObject } from '../PageObject';
 
-class SignInPageObject extends PageObject {
+export class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
@@ -29,6 +29,16 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
-}
 
-export default SignInPageObject;
+  get alert() {
+    return cy.get('.swal-modal');
+  }
+
+  assertAlertEmailError() {
+    this.alert.should('contain', 'Email must be a valid email.');
+  }
+
+  assertAlertErrorMessage() {
+    this.alert.should('contain', 'Invalid user credentials');
+  }
+}

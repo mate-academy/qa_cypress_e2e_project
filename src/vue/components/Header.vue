@@ -71,7 +71,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-cy="username-link1"
             class="nav-link"
             active-class="active"
             exact

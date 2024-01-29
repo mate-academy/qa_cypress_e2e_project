@@ -1,7 +1,9 @@
-class PageObject {
+export class PageObject {
   visit(url) {
     cy.visit(url || this.url);
   }
-}
 
-export default PageObject;
+  assertUrlNotInclude(url) {
+    cy.url().should('not.include', url);
+  }
+}
