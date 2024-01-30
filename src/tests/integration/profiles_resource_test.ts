@@ -24,7 +24,7 @@ Rhum.testPlan("integration/profiles_resource_test.ts", () => {
       await clearTestUsers();
 
       Rhum.asserts.assertEquals(res.status, 200);
-      Rhum.asserts.assertEquals(body.profile.username, "testUsername");
+      Rhum.asserts.assertEquals(body.profile.username, "testusername");
     });
   });
 });

@@ -38,7 +38,7 @@ Rhum.testPlan("integration/users_resource_test.ts", () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: "testUsername",
+            username: "testusername",
             email: "abc@hotmail.com",
             password: "TestPassword1",
           }),
@@ -47,7 +47,7 @@ Rhum.testPlan("integration/users_resource_test.ts", () => {
 
         // TODO(any) assert user was correctly saved in db, along with the session
 
-        await clearTestUsers("testUsername");
+        await clearTestUsers("testusername");
 
         Rhum.asserts.assertEquals(res.status, 200);
         // TODO(any) Assert res `body`

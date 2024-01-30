@@ -8,7 +8,7 @@ Rhum.testPlan("integration/users_resource_test.ts", () => {
     Rhum.testCase("Responds with 200 and returns the user", async () => {
       await createTestUser();
 
-      const res = await fetch(server.address + "/user/testUsername");
+      const res = await fetch(server.address + "/user/testusername");
       await res.json();
 
       await clearTestUsers();

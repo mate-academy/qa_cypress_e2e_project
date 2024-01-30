@@ -35,7 +35,7 @@ class RegisterResource extends BaseResource {
 
     // Validate
     if (!username) {
-      return this.errorResponse(422, "Username field required.");
+      return this.errorResponse(422, "username field required.");
     }
     if (!email) {
       return this.errorResponse(422, "Email field required.");

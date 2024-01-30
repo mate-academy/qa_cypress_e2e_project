@@ -16,7 +16,7 @@ class ProfilesResource extends BaseResource {
       this.response.status_code = 422;
       this.response.body = {
         errors: {
-          username: ["Username path param is required."],
+          username: ["username path param is required."],
         },
       };
       // TODO(ebebbington) Return response
