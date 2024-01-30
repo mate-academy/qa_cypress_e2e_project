@@ -1,34 +1,39 @@
 import PageObject from '../PageObject';
 
-class SignInPageObject extends PageObject {
-  url = '/#/login';
+class SignUpPageObject extends PageObject {
+  url = '/#/register';
 
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
+  enterUsername(username) {
+    cy.findByPlaceholder('Username').type(username);
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+  enterEmail(email) {
+    cy.findByPlaceholder('Email').type(email);
   }
 
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  enterPassword(password) {
+    cy.findByPlaceholder('Password').type(password);
   }
 
-  typeEmail(email) {
-    this.emailField
-      .type(email);
+  clickSignUpBtn() {
+    cy.contains('.btn', 'Sign up').click();
   }
 
-  typePassword(password) {
-    this.passwordField
-      .type(password);
+  assertSuccessfulRegistr() {
+    cy.get('.swal-modal')
+      .should('contain', 'Your registration was successful!');
   }
 
-  clickSignInBtn() {
-    this.signInBtn
-      .click();
+  assertEmptyUsernameMessage() {
+    cy.get('.swal-modal')
+      .should('contain', 'Username field required.');
   }
-}
 
-export default SignInPageObject;
+  assertInvalidPasswordMessage() {
+    cy.get('.swal-modal')
+      // eslint-disable-next-line max-len
+      .should('contain', 'Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.');
+  }
+};
+
+export default SignUpPageObject;
