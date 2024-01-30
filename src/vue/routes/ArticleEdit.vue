@@ -43,6 +43,7 @@
             </fieldset>
             <button
               :disabled="publishing_article"
+              data-qa="PublishButton"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
             >

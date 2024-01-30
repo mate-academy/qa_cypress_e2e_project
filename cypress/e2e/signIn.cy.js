@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
@@ -9,18 +10,25 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  let newUser;
 
   before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.task('generateUser').then((resp) => {
+      newUser = resp;
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+  beforeEach(() => {
+    cy.task('db:clear');
 
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+      cy.register(user.email, user.username, user.password);
+    });
+    signInPage.visit();
+  });
+
+  it('should provide an ability to log in with existing credentials', () => {
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
@@ -29,6 +37,11 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.typeEmail(newUser.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
 
+    signInPage.assertAllertMessage('Invalid user credentials.');
+    homePage.assertNavbarDoesntContain(user.username);
   });
 });
