@@ -41,7 +41,7 @@ Rhum.testPlan("integration/article_comments_resource_test.ts", () => {
         Rhum.asserts.assertEquals(body.data[0].body, "Test Body");
         Rhum.asserts.assertEquals(
           body.data[0].author_username,
-          "Test Username",
+          "Test username",
         );
       },
     );

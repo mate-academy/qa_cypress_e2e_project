@@ -50,7 +50,7 @@ export async function createTestComment(overrides: {
       ? overrides!.author_image
       : "https://static.productionready.io/images/smiley-cyrus.jpg",
     overrides!.author_id ? overrides!.author_id : 1,
-    overrides!.author_username ? overrides!.author_username : "Test Username",
+    overrides!.author_username ? overrides!.author_username : "Test username",
     overrides!.body ? overrides!.body : "Test Body",
     Date.now(),
     Date.now(),
@@ -106,7 +106,7 @@ export async function createTestUser(overrides: {
     `INSERT INTO users (username, password, email, created_on, last_login, image, bio) VALUES ($1, $2, $3, to_timestamp($4), to_timestamp($5), $6, $7);`;
   await BaseModel.query(
     query,
-    overrides && overrides.username ? overrides.username : "testUsername",
+    overrides && overrides.username ? overrides.username : "testusername",
     overrides && overrides.password
       ? await bcrypt.hash(overrides.password)
       : await bcrypt.hash("TestPassword1"),
@@ -119,7 +119,7 @@ export async function createTestUser(overrides: {
   );
   const username = overrides && overrides.username
     ? overrides.username
-    : "testUsername";
+    : "testusername";
   const result = await BaseModel.query(
     `SELECT * FROM users WHERE username = '${username}' LIMIT 1;`,
   );
@@ -127,7 +127,7 @@ export async function createTestUser(overrides: {
 }
 
 export async function clearTestUsers(username?: string) {
-  username = username ? username : "testUsername";
+  username = username ? username : "testusername";
   let query = `SELECT * FROM users WHERE username = '${username}'`;
   const result = await BaseModel.query(query);
   const id = result.rows.length ? result.rows[0]["id"] : 0;

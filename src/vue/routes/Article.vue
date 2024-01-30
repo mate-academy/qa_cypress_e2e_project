@@ -94,7 +94,7 @@ export default {
       }
       return null;
     },
-    authorUsername() {
+    authorusername() {
       if (this.article && this.article.author) {
         return this.article.author.username;
       }

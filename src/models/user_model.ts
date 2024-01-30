@@ -88,7 +88,7 @@ export class UserModel extends BaseModel {
   /**
    * @var string
    *
-   * Username for the user
+   * username for the user
    */
   public username: string;
 

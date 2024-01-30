@@ -1,16 +1,16 @@
 <template>
   <div class="article-meta">
     <router-link
-      :to="{ name: 'profile', params: { username: authorUsername() } }"
+      :to="{ name: 'profile', params: { username: authorusername() } }"
     >
       <img :src="authorImage()" />
     </router-link>
     <div class="info">
       <router-link
-        :to="{ name: 'profile', params: { username: authorUsername() } }"
+        :to="{ name: 'profile', params: { username: authorusername() } }"
         class="author"
       >
-        {{ authorUsername() }}
+        {{ authorusername() }}
       </router-link>
       <span class="date">{{ articleCreatedAt() | date }}</span>
     </div>
@@ -64,7 +64,7 @@ export default {
     console.log("ArticleMeta mounted!");
   },
   methods: {
-    authorUsername() {
+    authorusername() {
       if (this.article && this.article.author) {
         return this.article.author.username;
       }

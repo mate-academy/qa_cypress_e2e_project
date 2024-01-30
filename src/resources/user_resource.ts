@@ -23,7 +23,7 @@ export default class UserResource extends BaseResource {
     if (!this.response.body) {
       return this.errorResponse(
         400,
-        "Username must exist in the uri",
+        "username must exist in the uri",
       );
     }
     return this.response;
@@ -80,7 +80,7 @@ export default class UserResource extends BaseResource {
     // Validate
     console.log("Validating inputs.");
     if (!username) {
-      return this.errorResponse(422, "Username field required.");
+      return this.errorResponse(422, "username field required.");
     }
     if (!image) {
       return this.errorResponse(422, "Image field required.");

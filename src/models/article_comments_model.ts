@@ -83,7 +83,7 @@ export class ArticleCommentsModel extends BaseModel {
   /**
    * @var string
    *
-   * Username of the author who created the comment
+   * username of the author who created the comment
    */
   public author_username: string;
 
@@ -107,7 +107,7 @@ export class ArticleCommentsModel extends BaseModel {
    * @param number articleId
    * @param string comment
    * @param number authorId
-   * @param string authorUsername
+   * @param string authorusername
    * @param number createdAt=Date
    * @param number updatedAt=Date
    */
@@ -116,7 +116,7 @@ export class ArticleCommentsModel extends BaseModel {
     body: string,
     authorImage: string,
     authorId: number,
-    authorUsername: string,
+    authorusername: string,
     createdAt: number = Date.now(),
     updatedAt: number = Date.now(),
     id: number = -1,
@@ -128,7 +128,7 @@ export class ArticleCommentsModel extends BaseModel {
     this.body = body;
     this.author_id = authorId;
     this.author_image = authorImage;
-    this.author_username = authorUsername;
+    this.author_username = authorusername;
     this.created_at = createdAt;
     this.updated_at = updatedAt;
     this.slug = this.id == -1
