@@ -11,6 +11,7 @@
                   class="form-control"
                   type="text"
                   v-model="user.image"
+                  data-cy = "url"
                   placeholder="URL of profile picture"
                 />
               </fieldset>
@@ -19,14 +20,16 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.username"
+                  data-cy = "username"
                   placeholder="Your username"
                 />
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" >
                 <textarea
                   class="form-control form-control-lg"
                   rows="8"
                   v-model="user.bio"
+                  data-cy = "bio"
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
@@ -35,6 +38,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.email"
+                  data-cy = "userEmail"
                   placeholder="Email"
                 />
               </fieldset>
@@ -43,17 +47,18 @@
                   class="form-control form-control-lg"
                   type="password"
                   v-model="user.password"
+                  data-cy = "userPassword"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy = "btn-update">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-cy = "btn-logOut">
             Or click here to logout.
           </button>
         </div>
