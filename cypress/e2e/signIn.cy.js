@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -29,6 +29,12 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    cy.getByDataCy('email-sign-in').type(user.email);
+    cy.getByDataCy('password-sign-in').type(user.password);
+    signInPage.clickSignInBtn();
 
+    cy.get('.swal-modal')
+      .should('contain', 'Login failed!Invalid user credentials.');
   });
 });
