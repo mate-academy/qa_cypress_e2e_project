@@ -4,7 +4,9 @@
       <router-link class="navbar-brand" :to="{ name: 'home' }">
         conduit
       </router-link>
-      <ul v-if="!is_authenticated" class="nav navbar-nav pull-xs-right">
+      <ul v-if="!is_authenticated" 
+      data-qa="navBar"
+      class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
             class="nav-link"
@@ -36,7 +38,9 @@
           </router-link>
         </li>
       </ul>
-      <ul v-else class="nav navbar-nav pull-xs-right">
+      <ul v-else 
+      data-qa="NavBar"
+      class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
             class="nav-link"
@@ -61,6 +65,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="Settings"
             class="nav-link"
             active-class="active"
             exact
@@ -71,7 +76,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
