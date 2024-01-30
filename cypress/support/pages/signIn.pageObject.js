@@ -29,6 +29,14 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+  get alert() {
+    return cy.get('.swal-modal')
+  }
+
+  assertAlertContainMessage() {
+  this.alert.should('contain', 'Email must be a valid email.')
+  }
+
 }
 
 export default SignInPageObject;
