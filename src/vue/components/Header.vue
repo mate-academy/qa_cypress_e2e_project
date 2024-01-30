@@ -18,6 +18,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="header-sign-in"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +29,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="header-sign-up"
             active-class="active"
             exact
             :to="{ name: 'register' }"
