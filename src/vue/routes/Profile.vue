@@ -16,7 +16,7 @@
               </router-link>
             </div>
             <div v-else>
-              <button
+              <button data-cy="unfollow-user"
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
@@ -24,7 +24,7 @@
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
               </button>
-              <button
+              <button data-cy="follow-user"
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"

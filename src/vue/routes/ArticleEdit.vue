@@ -8,7 +8,7 @@
             <fieldset :disabled="publishing_article">
               <fieldset class="form-group">
                 <input
-                  type="text"
+                  type="text" data-cy="article-title"
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
@@ -16,14 +16,14 @@
               </fieldset>
               <fieldset class="form-group">
                 <input
-                  type="text"
+                  type="text" data-cy="article-description"
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
                 />
               </fieldset>
               <fieldset class="form-group">
-                <textarea
+                <textarea data-cy="article-body"
                   class="form-control"
                   rows="8"
                   v-model="article.body"
@@ -32,7 +32,7 @@
                 </textarea>
               </fieldset>
               <fieldset class="form-group">
-                <vue-tags-input
+                <vue-tags-input data-cy="tags"
                   placeholder="Enter tags"
                   class="form-control"
                   v-model="tag"
@@ -41,7 +41,7 @@
                 />
               </fieldset>
             </fieldset>
-            <button
+            <button data-cy="submit"
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
