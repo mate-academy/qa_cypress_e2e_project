@@ -1,5 +1,6 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/* eslint-disable no-unused-vars */
+/// <reference types="cypress" />
+/// <reference types="../support" />
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
@@ -29,6 +30,14 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    cy.register();
+    signInPage.visit();
 
+    const Password = 'qwerty';
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(Password);
+    signInPage.clickSignInBtn();
+    homePage.warmMessageTextContain('Login failed!Invalid user credentials.');
+    homePage.warmMessageClickOk();
   });
 });
