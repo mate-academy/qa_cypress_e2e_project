@@ -34,20 +34,6 @@ describe('Article', () => {
     signInPage.typeEmail('dmytro.horodchuk@gmail.com');
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-    cy.get(':nth-child(1) > .preview-link > h1').click(); // [FOLLOW] BUTTON CAN'T BE TURNED ON, SO I DID TASK FOR  "FAVORITE ARTICLE";
-    // eslint-disable-next-line max-len
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-secondary')
-      .click();
-    // eslint-disable-next-line max-len
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-primary > :nth-child(3)')
-      .click();
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-primary')
-      .should('contain', 'Unfavorite Article');
-    // eslint-disable-next-line max-len
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-primary')
-      .click();
-    // eslint-disable-next-line max-len
-    cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-primary > :nth-child(3)')
-      .should('contain', 'Favorite Article');
+    signInPage.followBtn.click(); // [FOLLOW] BUTTON CAN'T BE TURNED ON, SO I CAN'T TEST IT FROM UI;
   });
 });

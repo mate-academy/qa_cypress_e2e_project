@@ -23,12 +23,10 @@ export class ArticlePageObject extends PageObject {
   }
 
   get editButton() {
-    // eslint-disable-next-line max-len
-    return cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary > [data-qa="edit-button"]');
+    return cy.getByDataQa('edit-button').first();
   }
 
   get deleteButton() {
-    // eslint-disable-next-line max-len
-    return cy.get('.container > .article-meta > :nth-child(3) > [data-qa="delete-button"] > span');
+    return cy.getByDataQa('delete-button').last();
   }
 };

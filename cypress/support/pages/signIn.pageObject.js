@@ -19,8 +19,8 @@ class SignInPageObject extends PageObject {
     return cy.getByDataQa('sign-in-btn');
   }
 
-  get signUpBtn() {
-    return cy.getByDataQa('sign-up-btn');
+  get followBtn() {
+    return cy.get(':nth-child(1) > .preview-link > h1');
   }
 
   typeusername(username) {
@@ -40,11 +40,6 @@ class SignInPageObject extends PageObject {
 
   clickSignInBtn() {
     this.signInBtn
-      .click();
-  }
-
-  clickSignUpBtn() {
-    this.signUpBtn
       .click();
   }
 }

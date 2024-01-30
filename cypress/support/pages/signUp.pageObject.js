@@ -4,15 +4,15 @@ class SignUpPageObject extends PageObject {
   url = '/#/register';
 
   get emailField() {
-    return cy.getByDataQa('email-sign-in');
+    return cy.getByDataQa('email-sign-up');
   }
 
   get passwordField() {
-    return cy.getByDataQa('password-sign-in');
+    return cy.getByDataQa('password-sign-up');
   }
 
   get usernameField() {
-    return cy.getByDataQa('username-sign-in');
+    return cy.getByDataQa('username-sign-up');
   }
 
   get signUpBtn() {
