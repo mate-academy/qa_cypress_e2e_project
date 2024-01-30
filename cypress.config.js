@@ -16,9 +16,25 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            invalidPassword1: 'Qwert!',
+            invalidPassword2: '12345qwert!',
+            invalidPassword3: '12345QWERT!',
+            invalidEmail: faker.name.firstName(),
+            invalidEmail1: 'testQAgmail.com',
+            invalidEmail2: 'testQA@gmail'
           };
         },
+        generateSecondUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: 'test' + `${randomNumber}` + '@mail.com',
+            password: 'AnyPass12345!',
+            bio: faker.lorem.words()
+          };
+        },
+
         generateArticle() {
           return {
             title: faker.lorem.word(),
