@@ -12,7 +12,7 @@
       >
         {{ authorUsername() }}
       </router-link>
-      <span class="date">{{ articleCreatedAt() | date }}</span>
+      <span class="date" >{{ articleCreatedAt() | date }}</span>
     </div>
     <article-actions
       v-if="actions"

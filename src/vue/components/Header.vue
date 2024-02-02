@@ -8,6 +8,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="headerHome-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -18,6 +19,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="headerSignIn-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +30,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="headerSignUp-link"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -49,6 +52,7 @@
         </li>
         <li class="nav-item">
           <router-link
+          data-cy="newArticle-link"
             class="nav-link"
             active-class="active"
             :to="{
@@ -56,11 +60,12 @@
               params: { new: true }
             }"
           >
-            <i class="ion-compose"></i>&nbsp;New Article
+            <i class="ion-compose"></i>&nbsp;New Article 
           </router-link>
         </li>
         <li class="nav-item">
           <router-link
+          data-cy="settings-link"
             class="nav-link"
             active-class="active"
             exact

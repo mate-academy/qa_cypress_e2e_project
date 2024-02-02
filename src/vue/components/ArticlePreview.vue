@@ -1,9 +1,10 @@
 <template>
   <div class="article-preview">
     <ArticleMeta :article="article" />
-    <router-link :to="articleLink" class="preview-link">
+    <router-link :to="articleLink" data-cy="articleTitle-link" class="preview-link">
       <h1 v-text="article.title" />
-      <p v-text="article.description" />
+      
+      <p data-cy="articleDescription-text" v-text="article.description" />
       <span>Read more...</span>
       <TagList :tags="article.tags" />
     </router-link>
