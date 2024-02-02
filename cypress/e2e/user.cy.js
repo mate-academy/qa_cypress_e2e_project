@@ -28,14 +28,14 @@ describe('User', () => {
     });
   });
 
-  it.only('should be able to follow the another user', () => {
+  it('should be able to follow the another user', () => {
     cy.visit(`/#/articles/` + slug2);
     cy.get('[data-cy="followuser-button"]').first().click();
     cy.get('[data-cy="followuser-button"]')
       .should('contain', 'Follow ' + user.username);
   });
 
-  it.only('should be able to unfollow the another user', () => {
+  it('should be able to unfollow the another user', () => {
     cy.visit(`/#/articles/` + slug2);
     cy.get('[data-cy="followuser-button"]')
       .should('contain', 'Follow ' + user.username);
