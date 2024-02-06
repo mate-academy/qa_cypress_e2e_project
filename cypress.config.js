@@ -8,15 +8,24 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
+    failOnStatusCode: false,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random(10000) * 10000);
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: (faker.lorem.word() + randomNumber).toLowerCase(),
+            email: faker.lorem.word().toLowerCase() +
+            randomNumber + '@ymail.com',
+            password: faker.lorem.word(8) + randomNumber + 'A!',
+            bio: faker.lorem.words(),
+            otherUsername: (faker.lorem.word() + randomNumber).toLowerCase(),
+            otherEmail: faker.lorem.word() + randomNumber + '@ymail.com',
+            otherPassword: faker.lorem.word(8) + randomNumber + 'A!',
+            otherBio: faker.lorem.words(),
+            invalidEmail: faker.lorem.word() + randomNumber + 'ymail.com',
+            invalidPassword: faker.random.word()
           };
         },
         generateArticle() {
@@ -24,7 +33,8 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            updateTitle: faker.lorem.words()
           };
         },
         'db:clear'() {

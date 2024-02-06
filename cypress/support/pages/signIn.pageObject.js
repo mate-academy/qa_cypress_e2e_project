@@ -4,15 +4,19 @@ class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataQa('email-sign-in');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataQa('password-sign-in');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataQa('sign-in-btn');
+  }
+
+  get modalMsg() {
+    return cy.get('.swal-text');
   }
 
   typeEmail(email) {
@@ -28,6 +32,16 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertInvalidPassword() {
+    this.modalMsg
+      .should('contain', 'Invalid user credentials.');
+  }
+
+  assertInvalidEmail() {
+    this.modalMsg
+      .should('contain', 'Email must be a valid email.');
   }
 }
 
