@@ -8,15 +8,24 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667/#/',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName = faker.name.firstName() + `${randomNumber}`;
+          const newUsername = 'new' + faker.name.firstName() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: userName.toLowerCase(),
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            newUsername: newUsername.toLowerCase(),
+            newEmail: newUsername.toLowerCase() + '@mail.com',
+            wrongEmail: newUsername.toLowerCase() + 'mail.com',
+            bio: faker.lorem.words(),
+            newPassword: 'Qwert!12345',
+            fakePassword: '11111qwert',
+            wrongPassword: 'Qwer111'
           };
         },
         generateArticle() {
@@ -24,7 +33,11 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            newTitle: faker.lorem.word(),
+            newDescription: faker.lorem.words(),
+            newBody: faker.lorem.words(),
+            newTag: faker.lorem.word()
           };
         },
         'db:clear'() {
