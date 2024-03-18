@@ -1,5 +1,4 @@
 import PageObject from '../PageObject';
-
 class SignInPageObject extends PageObject {
   url = '/#/login';
 
@@ -28,6 +27,10 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  clickSignOutBtn() {
+    cy.get('.btn-outline-danger').click();
   }
 }
 

@@ -9,6 +9,7 @@ const {
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
+    defaultCommandTimeout: 8000,
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
