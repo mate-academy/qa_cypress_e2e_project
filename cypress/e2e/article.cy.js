@@ -25,7 +25,7 @@ describe('Article', () => {
       signUpPage.typeEmail(email);
       signUpPage.typePassword(password);
       signUpPage.clickSignUpButton();
-      signUpPage.clickSomeButton();
+      signUpPage.clickOkButton();
     });
   });
 
@@ -35,17 +35,23 @@ describe('Article', () => {
     articlePage.typeTitle('Your Title');
     articlePage.typeDescription('Your Description');
     articlePage.typeBody('Your Body');
-    articlePage.clickPublishButton();
+    articlePage.clickArticlePublishButton();
+    cy.url()
+      .should('contain', '/articles');
   });
 
   it('should be edited using Edit button', () => {
     articlePage.visit();
     articlePage.clickEditButton();
-    articlePage.clickSomeButton();
+    articlePage.clickArticlePublishButton();
+    cy.url()
+      .should('contain', '/articles');
   });
 
   it('should be deleted using Delete button', () => {
     articlePage.visit();
-    articlePage.clickDangerButton();
+    articlePage.clickDeleteButton();
+    cy.url()
+      .should('contain', '/#');
   });
 });

@@ -78,3 +78,24 @@ Cypress.Commands.add('createArticle', (authorId, title, description, body) => {
     }
   });
 });
+
+Cypress.Commands.add('editArticle', (articleId, title, description, body) => {
+  cy.request({
+    method: 'PUT',
+    url: `/articles/${articleId}`,
+    body: {
+      article: {
+        title,
+        description,
+        body
+      }
+    }
+  });
+});
+
+Cypress.Commands.add('deleteArticle', (articleId) => {
+  cy.request({
+    method: 'DELETE',
+    url: `/articles/${articleId}`
+  });
+});

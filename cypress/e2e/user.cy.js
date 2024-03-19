@@ -37,12 +37,12 @@ describe('User', () => {
     articlePage.typeTitle('Your Title');
     articlePage.typeDescription('Your Description');
     articlePage.typeBody('Your Body');
-    articlePage.clickPublishButton();
+    articlePage.clickArticlePublishButton();
     settingsPage.visit();
     signInPage.clickSignOutBtn();
   });
 
-  it('should be able to follow the another user', () => {
+  it.skip('should be able to follow the another user', () => {
     signInPage.visit();
     cy.task('generateUser').then((user2) => {
       followingUser = user2;

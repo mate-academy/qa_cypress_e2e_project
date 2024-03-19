@@ -28,7 +28,7 @@ describe('Settings page', () => {
         signUpPage.typeEmail(email);
         signUpPage.typePassword(password);
         signUpPage.clickSignUpButton();
-        signUpPage.clickSomeButton();
+        signUpPage.clickOkButton();
         settingsPage.visit();
       });
     });

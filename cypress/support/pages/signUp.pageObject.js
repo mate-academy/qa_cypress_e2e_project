@@ -19,7 +19,7 @@ class SignUpPageObject extends PageObject {
     cy.get('.btn').click();
   }
 
-  clickSomeButton() {
+  clickOkButton() {
     cy.get('.swal-button').click();
   }
 }

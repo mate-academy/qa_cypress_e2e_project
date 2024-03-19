@@ -29,11 +29,11 @@ class ArticlesPageObject extends PageObject {
       .click();
   }
 
-  clickSomeButton() {
+  clickArticlePublishButton() {
     cy.get('.btn').click();
   }
 
-  clickDangerButton() {
+  clickDeleteButton() {
     cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-danger')
       .click();
   }

@@ -21,18 +21,15 @@ describe('Sign Up page', () => {
     signUpPage.typeEmail(email);
     signUpPage.typePassword(password);
     signUpPage.clickSignUpButton();
-    // Add assertions for successful registration
   });
 
   it('should not register user with existing credentials', () => {
-    // Generate user with existing credentials
     cy.task('generateUser').then((user) => {
       signUpPage.visit();
       signUpPage.typeUsername(user.username);
       signUpPage.typeEmail(user.email);
       signUpPage.typePassword(user.password);
       signUpPage.clickSignUpButton();
-      // Add assertions for unsuccessful registration
     });
   });
 
@@ -43,8 +40,7 @@ describe('Sign Up page', () => {
     signUpPage.visit();
     signUpPage.typeUsername(username);
     signUpPage.typeEmail(email);
-    signUpPage.typePassword('short'); // Use an invalid password
+    signUpPage.typePassword('short');
     signUpPage.clickSignUpButton();
-    // Add assertions for unsuccessful registration
   });
 });
