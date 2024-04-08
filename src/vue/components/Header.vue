@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+						data-cy="login-link"
             class="nav-link"
             active-class="active"
             exact
@@ -27,6 +28,7 @@
         </li>
         <li class="nav-item">
           <router-link
+						data-cy="registration-link"
             class="nav-link"
             active-class="active"
             exact
@@ -39,6 +41,7 @@
       <ul v-else class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
+						data-cy="home-link"
             class="nav-link"
             active-class="active"
             exact
@@ -49,6 +52,7 @@
         </li>
         <li class="nav-item">
           <router-link
+						data-cy="newarticle-link"
             class="nav-link"
             active-class="active"
             :to="{
@@ -61,6 +65,7 @@
         </li>
         <li class="nav-item">
           <router-link
+						data-cy="settings-link"
             class="nav-link"
             active-class="active"
             exact
