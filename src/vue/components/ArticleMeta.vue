@@ -9,6 +9,7 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="article-page-username"
       >
         {{ authorUsername() }}
       </router-link>
