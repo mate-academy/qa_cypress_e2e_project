@@ -7,6 +7,8 @@ const {
 } = require('cypress-image-snapshot/plugin');
 
 module.exports = defineConfig({
+  viewportHeight: 1440,
+  viewportWidth: 1920,
   e2e: {
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
