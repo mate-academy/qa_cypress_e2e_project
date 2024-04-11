@@ -29,6 +29,14 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  get modalTitle() {
+    return cy.get('.swal-title');
+  }
+
+  assertLoginFailed(text) {
+    this.modalTitle.should('contain.text', text);
+  }
 }
 
 export default SignInPageObject;
