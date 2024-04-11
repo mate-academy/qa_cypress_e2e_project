@@ -25,7 +25,7 @@
             <i class="ion-compose"></i>Sign in
           </router-link>
         </li>
-        <li class="nav-item">
+        <li data-cy="signUpLink" class="nav-item">
           <router-link
             class="nav-link"
             active-class="active"
@@ -48,7 +48,7 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link
+          <router-link data-cy="new-article"
             class="nav-link"
             active-class="active"
             :to="{

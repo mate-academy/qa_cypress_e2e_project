@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="container page">
-      <div class="row article-content">
+      <div data-cy="article-content" class="row article-content">
         <div class="col-xs-12">
           <div v-html="parseMarkdown(article.body)"></div>
           <ul class="tag-list" v-if="article.tags && article.tags.length !== 1 && !!article.tags[0]">
