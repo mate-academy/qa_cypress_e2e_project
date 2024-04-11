@@ -8,6 +8,7 @@
             <fieldset>
               <fieldset class="form-group">
                 <input
+                  data-cy="image-field"
                   class="form-control"
                   type="text"
                   v-model="user.image"
@@ -16,6 +17,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <input
+                  data-cy="username-field"
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.username"
@@ -24,6 +26,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <textarea
+                  data-cy="bio-field"
                   class="form-control form-control-lg"
                   rows="8"
                   v-model="user.bio"
@@ -32,6 +35,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <input
+                  data-cy="email-field"
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.email"
@@ -40,20 +44,21 @@
               </fieldset>
               <fieldset class="form-group">
                 <input
+                  data-cy="password-field"
                   class="form-control form-control-lg"
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button data-cy="update-btn" class="btn btn-lg btn-primary pull-xs-right">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button data-cy="logout-btn" @click="logout" class="btn btn-outline-danger">
             Or click here to logout.
           </button>
         </div>
