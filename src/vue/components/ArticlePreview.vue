@@ -3,7 +3,7 @@
     <ArticleMeta :article="article" />
     <router-link :to="articleLink" class="preview-link">
       <h1 v-text="article.title" />
-      <p v-text="article.description" />
+      <p data-qa="profile-page-article-description" v-text="article.description" />
       <span>Read more...</span>
       <TagList :tags="article.tags" />
     </router-link>
