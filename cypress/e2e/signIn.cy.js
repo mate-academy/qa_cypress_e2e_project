@@ -29,6 +29,16 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    cy.register();
+    signInPage.visit();
+    
+    const Password = 'qwerty';
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(Password);
+    signInPage.clickSignInBtn();
+    homePage.warmMesageTextContain('Login failed!Invalid user credentials.')
+    homePage.warmMesageClickOk(); 
+
 
   });
 });
