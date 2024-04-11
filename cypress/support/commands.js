@@ -39,3 +39,27 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    window.localStorage.setItem('userId', JSON.stringify(response.body.user.id));
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('addArticle', (title = 'titleTest', description = 'Recusandae Placeat', body = 'Qui alias asperiores', tags = '', authorId) => {
+  cy.request('POST', '/articles', {
+    article:
+  {
+    title,
+    description,
+    body,
+    tags,
+    authorId
+  } }
+  );
+});

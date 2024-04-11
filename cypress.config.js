@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -8,15 +8,26 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const username = faker.person.firstName() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username,
+            email: 'test' + username + '@mail.com',
+            password: '12345Qwert!',
+            wrongEmail: 'wrong' + username + '@mail.com',
+            wrongPassword: '12345Qwerts!'
+          };
+        },
+        generateUpdatedSettings() {
+          return {
+            newUsername: faker.person.firstName().toLowerCase() + 'test',
+            newBio: faker.lorem.sentence(),
+            newEmail: faker.internet.email().toLowerCase(),
+            newPassword: faker.internet.password({ length: 10, prefix: 'Te!1' })
           };
         },
         generateArticle() {
