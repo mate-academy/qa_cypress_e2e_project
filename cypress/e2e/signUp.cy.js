@@ -6,7 +6,7 @@ describe('Sign Up page', () => {
 
   });
 
-  it('should ...', () => {
+  it('should login with valid data', () => {
 
   });
 });
