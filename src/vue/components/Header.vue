@@ -49,6 +49,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-qa="new-article-button"
             class="nav-link"
             active-class="active"
             :to="{
@@ -56,7 +57,7 @@
               params: { new: true }
             }"
           >
-            <i class="ion-compose"></i>&nbsp;New Article
+            <i data-qa="settins-button" class="ion-compose"></i>&nbsp;New Article
           </router-link>
         </li>
         <li class="nav-item">
@@ -71,7 +72,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact

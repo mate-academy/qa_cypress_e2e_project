@@ -4,30 +4,43 @@ class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataQa('email-sign-in');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataQa('password-sign-in');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataQa('sign-in-button');
+  }
+
+  get modalError() {
+    return cy.get('[class=swal-title]');
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
+  }
+
+  typeWrongEmail(email) {
+    this.emailField.type(`wrong${email}`);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
-  clickSignInBtn() {
-    this.signInBtn
-      .click();
+  typeWrongPassword(password) {
+    this.passwordField.type(`wrong${password}`);
+  }
+
+  clickSignInButton() {
+    this.signInBtn.click();
+  }
+
+  assertModalContainsError() {
+    this.modalError.should('contain.text', 'Login failed!');
   }
 }
 
