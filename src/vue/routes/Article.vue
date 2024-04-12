@@ -1,12 +1,16 @@
 <template>
   <div class="article-page">
     <div class="banner">
-      <div class="container">
+      <div class="container"
+      data-cy="created-article-banner"
+      >
         <h1>{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
-    <div class="container page">
+    <div class="container page"
+    data-cy="created-article-container"
+    >
       <div class="row article-content">
         <div class="col-xs-12">
           <div v-html="parseMarkdown(article.body)"></div>
