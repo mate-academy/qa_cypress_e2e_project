@@ -51,7 +51,7 @@ Cypress.Commands.add('login', (email = 'riot@qa.team', username = 'riot', passwo
   });
 });
 
-Cypress.Commands.add('addArticle', (title = 'titleTest', description = 'Recusandae Placeat', body = 'Qui alias asperiores', tags = '', authorId) => {
+Cypress.Commands.add('addArticle', (title = 'titleTest', description = 'Recusandae Placeat', body = 'Qui alias asperiores', tags = '', author_id) => {
   cy.request('POST', '/articles', {
     article:
   {
@@ -59,7 +59,7 @@ Cypress.Commands.add('addArticle', (title = 'titleTest', description = 'Recusand
     description,
     body,
     tags,
-    authorId
+    author_id
   } }
   );
 });
