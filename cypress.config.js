@@ -1,43 +1,47 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const faker = require('faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
   addMatchImageSnapshotPlugin
 } = require('cypress-image-snapshot/plugin');
-
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
-      on('task', {
-        generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
-          return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
-          };
+    on('task', {
+    generateUser() {
+         const randomNumber = Math.ceil(Math.random(1000) * 1000);
+         let userName = faker.name.firstName() + `${randomNumber}`;
+         return {
+
+          username: userName.toLowerCase(),
+          newUserName: userName.toLowerCase() + `${randomNumber}`,
+          bio: faker.random.words(),
+          email: 'test'+`${randomNumber}`+'@mail.com',
+          newEmail: `${userName}`+`${randomNumber}`+'@mail.com',
+          password: '12345Qwert!',
+          newPassword: `${userName}`+`${randomNumber}`
+        };
         },
-        generateArticle() {
+          generateArticle() {
           return {
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
             tag: faker.lorem.word()
-          };
-        },
+            };
+            },
         'db:clear'() {
-          clear();
-
+        clear();
           return null;
         },
         'db:seed'() {
-          seed();
-
-          return null;
+         seed();
+         return null;
         }
       });
+      
       addMatchImageSnapshotPlugin(on, config);
     }
   }
