@@ -4,6 +4,9 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = (envVars) => {
   return {
+    watchOptions: {
+      poll: true
+  },
     entry: {
       app: path.resolve(__dirname, "public/js/_app.js"),
     },

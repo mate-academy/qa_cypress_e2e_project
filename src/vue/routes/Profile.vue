@@ -20,6 +20,7 @@
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-qa="user/unfollowBtn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
@@ -28,6 +29,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-qa="user/FollowBtn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}

@@ -6,11 +6,20 @@ class HomePageObject extends PageObject {
   get usernameLink() {
     return cy.getByDataCy('username-link');
   }
-
-  assertHeaderContainUsername(username) {
-    this.usernameLink
-      .should('contain', username);
+  get modalWindow() {
+    return cy.get('.swal-modal');
   }
+  get navbar() {
+    return cy.get('.navbar');
+  }
+  get articlePreview() {
+    return cy.get('.article-preview');
+  }
+
+  checkArticlesList() {
+    cy.get('.article-preview').should('contain', 'No articles');
+  }
+
 }
 
 export default HomePageObject;
