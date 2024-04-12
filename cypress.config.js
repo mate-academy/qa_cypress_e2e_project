@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const faker = require('faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -22,9 +22,13 @@ module.exports = defineConfig({
         generateArticle() {
           return {
             title: faker.lorem.word(),
+            newTitle: faker.lorem.word(),
             description: faker.lorem.words(),
+            newDescription: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            newBody: faker.lorem.words(),
+            tag: faker.lorem.word(),
+            newTag: faker.lorem.word()
           };
         },
         'db:clear'() {
