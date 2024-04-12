@@ -29,7 +29,8 @@
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
-                <i class="ion-plus-round"></i> &nbsp;Follow
+                <i class="ion-plus-round"
+                ></i> &nbsp;Follow
                 {{ profile.username }}
               </button>
             </div>
