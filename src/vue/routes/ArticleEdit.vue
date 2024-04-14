@@ -12,6 +12,7 @@
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
+                  data-qa="ArticleTitle"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
+                  data-qa="ArticleDescr"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +30,7 @@
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
+                  data-qa="ArticleBody"
                 >
                 </textarea>
               </fieldset>
@@ -36,6 +39,7 @@
                   placeholder="Enter tags"
                   class="form-control"
                   v-model="tag"
+                  data-qa="ArticleTag"
                   :tags="tags"
                   @tags-changed="newTags => tags = newTags"
                 />
@@ -45,6 +49,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-qa="ArticleSubmit"
             >
               Publish Article
             </button>
