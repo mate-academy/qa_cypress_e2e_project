@@ -17,6 +17,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="SignInLink"
             class="nav-link"
             active-class="active"
             exact
@@ -27,6 +28,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="signUpLink"
             class="nav-link"
             active-class="active"
             exact
@@ -50,6 +52,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="navNewArticle"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -61,6 +64,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="SettingsNavLink"
             class="nav-link"
             active-class="active"
             exact

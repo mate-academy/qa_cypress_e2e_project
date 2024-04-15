@@ -10,8 +10,8 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
-    cy.task('db:clear');
+  beforeEach(() => {
+    //cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
@@ -28,7 +28,23 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong email', () => {
+    const randomNumber = Math.random().toString().slice(4, 8);
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(user.email + randomNumber);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertModalHaveText();
+  });
 
+  it('should not provide an ability to log in with wrong password', () => {
+    const randomNumber = Math.random().toString().slice(4, 8);
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password + randomNumber);
+    signInPage.clickSignInBtn();
+    signInPage.assertModalHaveText();
   });
 });
