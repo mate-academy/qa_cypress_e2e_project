@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -14,8 +14,8 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            username: faker.person.firstName() + `${randomNumber}`,
+            email: `${randomNumber}` + faker.internet.email(),
             password: '12345Qwert!'
           };
         },
@@ -24,7 +24,8 @@ module.exports = defineConfig({
             title: faker.lorem.word(),
             description: faker.lorem.words(),
             body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            tag: faker.lorem.word(),
+            //author_id: Math.floor(Math.random()*1000)
           };
         },
         'db:clear'() {
