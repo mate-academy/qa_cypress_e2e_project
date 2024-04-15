@@ -19,19 +19,18 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
-                data-cy="email-sign-in"
+                data-qa="email-field"
               />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
+	@@ -28,10 +28,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="password-field"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="sign-in-btn">
               Sign in
             </button>
           </form>
@@ -40,11 +39,9 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import swal from "sweetalert";
-
 export default {
   name: "Login",
   data() {
@@ -67,14 +64,11 @@ export default {
           text: "Logging you in... Please wait...",
           buttons: false,
         });
-
       let response = await this.$store.dispatch("logIn", { email, password });
-
       if (response === true) {
         swal.close();
         return this.$router.push({ name: "home" });
       }
-
       swal({
         title: "Login failed!",
         text: response.errors.body.join(" "),

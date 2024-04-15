@@ -1,17 +1,17 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link data-qa="edit-btn" class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button data-qa="delete-btn"class="btn btn-outline-danger btn-sm" @click="deleteArticle">
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
   <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+    <button data-qa="edit-btn"class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
       <span v-text="followUserLabel" />
     </button>
@@ -27,10 +27,8 @@
     </button>
   </span>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "ArticleActions",
   props: {
@@ -75,47 +73,3 @@ export default {
           swal({
             text: "Deleted the article. Going home...",
             timer: 1000,
-            buttons: false,
-          }).then(() => {
-            this.$router.push("/");
-          })
-        } else {
-          swal({
-            title: "Oops!",
-            text: "Something went wrong whilst trying to delete the article.",
-            icon: "error"
-          });
-          console.error("Failed to delete the article:")
-          console.error(result)
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    toggleFavorite() {
-      if (!this.is_authenticated) {
-        this.$router.push({ name: "login" });
-        return;
-      }
-
-      const action = this.article.favorited
-        ? "unset"
-        : "set";
-      this.$store.dispatch("toggleArticleFavorite", {
-        slug: this.article.slug,
-        action: action
-      });
-    },
-    toggleFollow() {
-      if (!this.is_authenticated) {
-        this.$router.push({ name: "login" });
-        return;
-      }
-      this.$store.dispatch("setFollowProfile", {
-        username: this.profile.username,
-        value: !this.article.following
-      });
-    },
-  }
-};
-</script>

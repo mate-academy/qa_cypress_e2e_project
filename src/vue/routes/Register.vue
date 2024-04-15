@@ -18,6 +18,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 v-model="username"
+                data-qa="username-field"
                 placeholder="Username"
               />
             </fieldset>
@@ -26,6 +27,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
+                data-qa="email-field"
                 placeholder="Email"
               />
             </fieldset>
@@ -34,10 +36,11 @@
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
+                data-qa="password-field"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-qa="sign-up-btn" class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
@@ -46,10 +49,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "Register",
   data() {
