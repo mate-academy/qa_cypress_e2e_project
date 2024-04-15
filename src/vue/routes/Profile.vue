@@ -24,7 +24,7 @@
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
               </button>
-              <button
+              data-qa="follow-button"      
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
