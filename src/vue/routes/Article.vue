@@ -1,6 +1,7 @@
 <template>
   <div class="article-page">
-    <div class="banner">
+    <div data-qa="article-title-banner"
+    class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
@@ -50,7 +51,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import { store } from "../../public/js/_app.js";

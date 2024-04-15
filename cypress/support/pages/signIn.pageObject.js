@@ -1,14 +1,14 @@
 import PageObject from '../PageObject';
 
 class SignInPageObject extends PageObject {
-  url = '/#/login';
+  url = '#/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy('email-field');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataCy('password-field');
   }
 
   get signInBtn() {
@@ -28,6 +28,14 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  get modalWindow() {
+    return cy.get('.swal-modal');
+  }
+
+  assertModalWindow(message) {
+    this.modalWindow.should('contain', message);
   }
 }
 
