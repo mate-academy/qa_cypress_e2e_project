@@ -1,5 +1,7 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
+import UserPageObject from '../support/pages/userProfile.pageObject';
+const userPage = new UserPageObject();
 let user;
 let user2;
 let article;
@@ -18,7 +20,8 @@ describe('User', () => {
   });
 
   it('should be able to follow the another user', () => {
-    cy.addArticleWithDefinedUser(
+    const btnText = 'Unfollow';
+    userPage.addArticleWithDefinedUser(
       article.title,
       article.description,
       article.body,
@@ -27,9 +30,9 @@ describe('User', () => {
       user2.username,
       user2.password
     );
-    cy.login(user.email, user.username, user.password);
-    cy.visit(`#/@${user2.username}`);
-    cy.getByDataCy('followBtn').click();
-    cy.getByDataCy('followBtn').should('contain.text', 'Unfollow');
+    userPage.loginAnotherUser(user.email, user.username, user.password);
+    userPage.visitDefinedUserPage(user2.username);
+    userPage.clickFollowBtn();
+    userPage.assertFollowBtn(btnText);
   });
 });

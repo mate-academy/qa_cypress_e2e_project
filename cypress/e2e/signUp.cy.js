@@ -1,7 +1,7 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
-import SignUpPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import SignUpPageObject from '../support/pages/signUp.pageObject';
 
 const signUpPage = new SignUpPageObject();
 const homePage = new HomePageObject();
@@ -18,7 +18,7 @@ describe('Sign Up page', () => {
   it('should login with valid data', () => {
     const registrationSuccessful = 'Your registration was successful!';
     homePage.clickSignUpLink;
-    signUpPage.typeUsername(user.username);
+    signUpPage.writeUsername(user.username);
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();
@@ -31,7 +31,7 @@ describe('Sign Up page', () => {
     const regFailed = 'Registration failed!';
     const emailMustBeValid = 'Email must be a valid email.';
     homePage.clickSignUpLink;
-    signUpPage.typeUsername(user.username);
+    signUpPage.writeUsername(user.username);
     signUpPage.typeEmail(user.username + faker.internet.domainName());
     signUpPage.typePassword(user.password);
     signUpPage.clickSignUpBtn();

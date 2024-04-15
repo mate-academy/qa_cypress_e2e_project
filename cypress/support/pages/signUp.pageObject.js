@@ -1,6 +1,4 @@
 import PageObject from '../PageObject';
-import HomePageObject from './home.pageObject';
-const homePage = new HomePageObject();
 class SignUpPageObject extends PageObject {
   url = '#/register';
 
@@ -32,13 +30,9 @@ class SignUpPageObject extends PageObject {
     return cy.get('.swal-button.swal-button--confirm');
   }
 
-  typeUsername(name) {
+  writeUsername(name) {
     this.usernameField.type(name);
   }
-
-  //   typeUsername(username) {
-  //     this.usernameField.type(username);
-  //   }
 
   typeEmail(email) {
     this.emailField.type(email);
