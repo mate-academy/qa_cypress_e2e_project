@@ -11,6 +11,10 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  assertUserLogout() {
+    cy.get('.navbar').should('not.contain.text', 'Settings');
+  }
 }
 
 export default HomePageObject;
