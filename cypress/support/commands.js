@@ -32,10 +32,36 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
+// eslint-disable-next-line max-len
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
   });
+});
+
+Cypress.Commands.add('signIn', (Email, Password) => {
+  cy.get('[data-cy="email-sign-in"]').type('riot@qa.team');
+  cy.get('[data-cy="password-sign-in"]').type('12345Qwert!');
+  cy.get('[data-cy="sign-in-btn"]').click();
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
+});
+
+Cypress.Commands.add('newArticle', (article) => {
+  cy.visit('/#/editor');
+
+  cy.findByPlaceholder('Article Title').type(article.title);
+
+  // eslint-disable-next-line max-len
+  cy.get('[placeholder="What\'s this article about?"]').type(article.description);
+
+  cy.findByPlaceholder('Write your article (in markdown)').type(article.body);
+
+  cy.findByPlaceholder('Enter tags').type(article.tag);
+
+  cy.contains('.btn', 'Publish Article').click();
 });
