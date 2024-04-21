@@ -29,6 +29,15 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  assertErrorMessage(message) {
+    cy.intercept('POST', '/login', {
+      statusCode: 422,
+      body: {
+        error: message,
+      },
+    })
+  }
 }
 
 export default SignInPageObject;
