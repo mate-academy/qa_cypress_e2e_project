@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -19,7 +19,7 @@ describe('Sign In page', () => {
 
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+    cy.register(user.username, user.email, user.password);
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -28,7 +28,54 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with non registered email', () => {
+    const nonValidData = {
+      email: 'nonregistered@gmail.com',
+      password: '1245Qwert!'
+    }
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(nonValidData.email)
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessage('Login failed! Invalid user credentials.')
+  });
 
+  it('should not provide an ability to log in with wrong password', () => {
+    const nonValidData = {
+      email: 'nonregistered@gmail.com',
+      password: '1245Qwert!'
+    }
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(user.email)
+    signInPage.typePassword(nonValidData.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessage('Login failed! Invalid user credentials.')
+
+  });
+
+  it('should not provide an ability to log in with empty email field', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessage('Login failed! Email field required.')
+
+  });
+
+  it('should not provide an ability to log in with empty password field', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(user.email)
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessage('Login failed! Invalid user credentials.')
+  });
+
+  it('should not provide an ability to log in with empty fields', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessage('Login failed! Email field required.')
   });
 });
