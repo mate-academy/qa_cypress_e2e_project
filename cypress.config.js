@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -12,11 +12,12 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random(10000) * 10000);
+          const userName = faker.person.firstName() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: userName.toLowerCase(),
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!' + randomNumber
           };
         },
         generateArticle() {

@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable max-len */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -37,5 +39,63 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     email,
     username,
     password
+  });
+});
+
+Cypress.Commands.add('loginAndRegister', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    const user = {
+      bio: response.body.user.bio,
+      effectiveImage: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+      email: response.body.user.email,
+      image: response.body.user.image,
+      token: response.body.user.token,
+      username: response.body.user.username,
+      id: response.body.user.id
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', response.body.user.token);
+    return cy.wrap(user).as('newUser');
+  });
+});
+
+Cypress.Commands.add('login', (email, password = '12345Qwert!') => {
+  cy.request('POST', '/users/login', {
+    user: {
+      email,
+      password
+    }
+  }).then((response) => {
+    const user = {
+      bio: response.body.user.bio,
+      effectiveImage: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+      email: response.body.user.email,
+      image: response.body.user.image,
+      token: response.body.user.token,
+      username: response.body.user.username,
+      id: response.body.user.id
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('createArticle', (userId, title, description, body) => {
+  cy.request({
+    method: 'POST',
+    url: '/articles',
+    body: {
+      article: {
+        author_id: userId,
+        title,
+        description,
+        body,
+        tags: ''
+      }
+    }
   });
 });

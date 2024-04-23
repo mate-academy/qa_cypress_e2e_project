@@ -9,7 +9,7 @@
               Have an account?
             </router-link>
           </p>
-          <ul v-if="errors" class="error-messages">
+          <ul v-if="errors" class="error-messages" data-cy="error-sign-up">
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
           <form @submit.prevent="onSubmit">
@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-cy="username-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-cy="email-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-cy="password-sign-up"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="submit-sign-up">
               Sign up
             </button>
           </form>
