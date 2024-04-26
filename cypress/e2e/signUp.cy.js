@@ -1,12 +1,94 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-describe('Sign Up page', () => {
-  before(() => {
+import HomePageObject from '../support/pages/home.pageObject';
+import SignUpPageObject from '../support/pages/signUp.pageObject';
 
+const homePage = new HomePageObject();
+const signUpPage = new SignUpPageObject();
+
+describe('Sign Up page', () => {
+  let user;
+
+  before(() => {
+    cy.task('generateUser')
+      .then((generateUser) => {
+        user = generateUser;
+      });
   });
 
-  it('should ...', () => {
+  beforeEach(() => {
+    cy.task('db:clear');
 
+    signUpPage.visit();
+  });
+
+  it('should provide an ability to register with valid data', () => {
+    signUpPage
+      .typeUsername(user.username);
+
+    signUpPage
+      .typeEmail(user.email);
+
+    signUpPage
+      .typePassword(user.password);
+
+    signUpPage
+      .clickSignUpBtn();
+
+    signUpPage
+      .assertSuccessMessage();
+
+    cy.get('.swal-button')
+      .click();
+
+    homePage
+      .assertHeaderContainUsername(user.username);
+  });
+
+  it('should not provide an ability to register with invalid email', () => {
+    signUpPage
+      .typeUsername(user.username);
+
+    signUpPage
+      .typeEmail('email.com');
+
+    signUpPage
+      .typePassword(user.password);
+
+    signUpPage
+      .clickSignUpBtn();
+
+    signUpPage
+      .assertErrorMessage();
+
+    cy.get('.swal-button')
+      .click();
+
+    homePage
+      .assertUsernameNotExist();
+  });
+
+  it('should not provide an ability to register with invalid password', () => {
+    signUpPage
+      .typeUsername(user.username);
+
+    signUpPage
+      .typeEmail(user.email);
+
+    signUpPage
+      .typePassword('pass');
+
+    signUpPage
+      .clickSignUpBtn();
+
+    signUpPage
+      .assertErrorMessage();
+
+    cy.get('.swal-button')
+      .click();
+
+    homePage
+      .assertUsernameNotExist();
   });
 });

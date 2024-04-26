@@ -7,17 +7,13 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('email-sign-in');
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
-  }
-
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
-  }
-
   typeEmail(email) {
     this.emailField
       .type(email);
+  }
+
+  get passwordField() {
+    return cy.getByDataCy('password-sign-in');
   }
 
   typePassword(password) {
@@ -25,9 +21,17 @@ class SignInPageObject extends PageObject {
       .type(password);
   }
 
+  get signInBtn() {
+    return cy.getByDataCy('sign-in-btn');
+  }
+
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertErrorMessage() {
+    return cy.contains('.swal-text', 'Invalid user credentials.');
   }
 }
 

@@ -11,6 +11,19 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  checkNotAuthorized() {
+    cy.getCookie('drash_sess')
+      .then((cookie) => {
+        expect(cookie)
+          .to.have.property('value', 'null');
+      });
+  }
+
+  assertUsernameNotExist() {
+    this.usernameLink
+      .should('not.exist');
+  }
 }
 
 export default HomePageObject;
