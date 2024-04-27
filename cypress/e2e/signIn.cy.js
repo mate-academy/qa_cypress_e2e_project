@@ -12,23 +12,43 @@ describe('Sign In page', () => {
 
   before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+
+    cy.task('generateUser')
+      .then((generateUser) => {
+        user = generateUser;
+        cy.register(user.email, user.username, user.password);
+      });
+  });
+
+  beforeEach(() => {
+    signInPage.visit();
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+    signInPage
+      .typeEmail(user.email);
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
+    signInPage
+      .typePassword(user.password);
 
-    homePage.assertHeaderContainUsername(user.username);
+    signInPage
+      .clickSignInBtn();
+
+    homePage
+      .assertHeaderContainUsername(user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage
+      .typeEmail('hacker123@gmail.com');
 
+    signInPage
+      .typePassword('securepass123');
+
+    signInPage
+      .clickSignInBtn();
+
+    signInPage
+      .assertErrorMessage();
   });
 });
