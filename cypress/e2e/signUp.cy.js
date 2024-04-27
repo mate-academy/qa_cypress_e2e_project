@@ -39,8 +39,8 @@ describe('Sign Up page', () => {
     signUpPage
       .assertSuccessMessage();
 
-    cy.get('.swal-button')
-      .click();
+    signUpPage
+      .clickOkBtn();
 
     homePage
       .assertHeaderContainUsername(user.username);
@@ -62,8 +62,8 @@ describe('Sign Up page', () => {
     signUpPage
       .assertErrorMessage();
 
-    cy.get('.swal-button')
-      .click();
+    signUpPage
+      .clickOkBtn();
 
     homePage
       .assertUsernameNotExist();
@@ -85,8 +85,8 @@ describe('Sign Up page', () => {
     signUpPage
       .assertErrorMessage();
 
-    cy.get('.swal-button')
-      .click();
+    signUpPage
+      .clickOkBtn();
 
     homePage
       .assertUsernameNotExist();

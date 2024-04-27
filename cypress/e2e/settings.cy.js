@@ -45,8 +45,8 @@ describe('Settings page', () => {
     settingsPage
       .clickUpdateBtn();
 
-    cy.get('.swal-button')
-      .click();
+    settingsPage
+      .clickOkBtn();
 
     homePage
       .assertHeaderContainUsername(newUser.username);
@@ -59,8 +59,8 @@ describe('Settings page', () => {
     settingsPage
       .clickUpdateBtn();
 
-    cy.get('.swal-button')
-      .click();
+    settingsPage
+      .clickOkBtn();
 
     homePage.usernameLink
       .click();
@@ -76,8 +76,8 @@ describe('Settings page', () => {
     settingsPage
       .clickUpdateBtn();
 
-    cy.get('.swal-button')
-      .click();
+    settingsPage
+      .clickOkBtn();
 
     settingsPage
       .clickLogoutBtn();
@@ -92,8 +92,8 @@ describe('Settings page', () => {
     settingsPage
       .clickUpdateBtn();
 
-    cy.get('.swal-button')
-      .click();
+    settingsPage
+      .clickOkBtn();
 
     settingsPage
       .clickLogoutBtn();

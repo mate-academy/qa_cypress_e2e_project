@@ -56,6 +56,15 @@ class SettingsPageObject extends PageObject {
     this.logoutBtn
       .click();
   }
+
+  get OkBtn() {
+    return cy.get('.swal-button');
+  }
+
+  clickOkBtn() {
+    this.OkBtn
+      .click();
+  }
 }
 
 export default SettingsPageObject;

@@ -39,6 +39,15 @@ class SignUpPageObject extends PageObject {
       .click();
   }
 
+  get OkBtn() {
+    return cy.get('.swal-button');
+  }
+
+  clickOkBtn() {
+    this.OkBtn
+      .click();
+  }
+
   assertSuccessMessage() {
     return cy.contains('.swal-text', 'Your registration was successful!');
   }
