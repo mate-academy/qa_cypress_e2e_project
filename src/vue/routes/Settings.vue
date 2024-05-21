@@ -36,6 +36,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-qa="email-sign-in"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,9 +45,10 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-qa="password-sign-in"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-in">
                 Update Settings
               </button>
             </fieldset>

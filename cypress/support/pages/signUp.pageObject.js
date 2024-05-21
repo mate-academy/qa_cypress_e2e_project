@@ -16,7 +16,7 @@ class SignUpPageObject extends PageObject {
   }
 
   get signInBtn() {
-    return cy.get('[data-cy="sign-in-btn"]').contains('Sign up');
+    return cy.get('[data-cy="btn-sign-in"]').contains('Sign up');
   }
 
   typeUserName(username) {
@@ -32,7 +32,7 @@ class SignUpPageObject extends PageObject {
   }
 
   clickSignUpBtn() {
-    cy.get('[data-cy="sign-in-btn"]').contains('Sign up').click();
+    cy.get('[data-cy="btn-sign-in"]').contains('Sign up').click();
   }
 }
 
