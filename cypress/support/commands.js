@@ -36,14 +36,14 @@ Cypress.Commands.add('findByPlaceholder', (placeholder) => {
   return cy.get(`[placeholder^="${placeholder}"]`);// Explicitly return the chainable
 });
 
-Cypress.Commands.add('register',
-  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-    cy.request('POST', '/users', {
-      email,
-      username,
-      password
-    });
+Cypress.Commands.add('register', (email = 'riot@qa.team',
+  username = 'riot', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
   });
+});
 
 Cypress.Commands.add('login', (email, password) => {
   cy.request({
@@ -89,4 +89,8 @@ Cypress.Commands.add('createArticle', (title, description, body) => {
       }
     });
   });
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
+  cy.get(`${tag}[placeholder="${placeholder}"]`);
 });
