@@ -28,6 +28,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="SignUp"
             active-class="active"
             exact
             :to="{ name: 'register' }"
