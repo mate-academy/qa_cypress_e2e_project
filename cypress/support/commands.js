@@ -32,10 +32,6 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('getByDataQa', (selector) => {
-  cy.get(`[data-qa="${selector}"]`);
-});
-
 Cypress.Commands.add('register', (email = 'riot@qa.team',
   username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
@@ -43,4 +39,8 @@ Cypress.Commands.add('register', (email = 'riot@qa.team',
     username,
     password
   });
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
+  cy.get(`${tag}[placeholder="${placeholder}"]`);
 });
