@@ -28,6 +28,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="SignUp"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -72,6 +73,7 @@
         <li class="nav-item" v-if="user.username">
           <router-link
             data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
