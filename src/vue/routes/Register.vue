@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa="usernamefield"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="emailField"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,13 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa="passwordField"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-qa="SignUpbtn" class="btn btn-lg btn-primary pull-xs-right">
+              />
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-in" data-cy="btn-sign-in">
               Sign up
             </button>
           </form>

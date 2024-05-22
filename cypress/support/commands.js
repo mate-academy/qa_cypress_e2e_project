@@ -28,8 +28,12 @@
 
 // addMatchImageSnapshotCommand();
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('getByDataQa', (selector) => {
+  cy.get(`[data-qa="${selector}"]`);
+});
+
+Cypress.Commands.add('getByDataQa', (selector) => {
+  cy.get(`[data-qa="${selector}"]`);
 });
 
 Cypress.Commands.add('findByPlaceholder', (placeholder) => {
