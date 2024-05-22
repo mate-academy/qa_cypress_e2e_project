@@ -22,5 +22,9 @@ class SignUpPageObject extends PageObject {
   get fillPasswordField() {
     return cy.getByDataQa('passwordField').type('SuperSafePassword123');
   }
+
+  get fillUsernameInvalid() {
+    return cy.getByDataQa('usernamefield');
+  }
 }
 export default SignUpPageObject;
