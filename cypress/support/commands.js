@@ -24,16 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
-});
-
 Cypress.Commands.add('getByDataQa', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
-});
-
-Cypress.Commands.add('findByPlaceholder', (placeholder) => {
-  return cy.get(`[placeholder^="${placeholder}"]`);// Explicitly return the chainable
 });
 
 Cypress.Commands.add('register', (email = 'riot@qa.team',
