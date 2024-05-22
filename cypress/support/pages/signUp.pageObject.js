@@ -27,5 +27,4 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataQa('usernamefield');
   }
 }
-
 export default SignUpPageObject;
