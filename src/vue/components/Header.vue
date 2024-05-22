@@ -8,6 +8,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="Home"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -18,6 +19,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="SignIn"
             active-class="active"
             exact
             :to="{ name: 'login' }"
