@@ -15,12 +15,12 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataQa('emailField').type('Kelly112@mail.com');
   }
 
-  get fillPasswordField() {
-    return cy.getByDataQa('passwordField').type('SuperSafePassword123');
-  }
-
   clickSignUpBtn() {
     return cy.getByDataQa('SignUpbtn').click();
+  }
+
+  get fillPasswordField() {
+    return cy.getByDataQa('passwordField').type('SuperSafePassword123');
   }
 }
 
