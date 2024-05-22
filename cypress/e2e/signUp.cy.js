@@ -12,8 +12,8 @@ describe('Sign Up page', () => {
 
   it('should allow user to create new account', () => {
     cy.visit('/#/register/');
-    SignUppage.fillUserNameField();
-    SignUppage.fillMailField();
-    SignUppage.fillPasswordField();
+    SignUppage.typeUserName();
+    SignUppage.typeEmail();
+    SignUppage.typePassword();
   });
 });

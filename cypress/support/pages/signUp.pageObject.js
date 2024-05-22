@@ -1,17 +1,17 @@
 import PageObject from '../PageObject';
 
 class SignUpPageObject extends PageObject {
-  url = '/user/register';
+  url = '/#/register';
 
-  get fillUserNameField() {
+  get userNameField() {
     return cy.getByDataCy('username-sign-in').type('HectorAntonia123');
   }
 
-  get fillMailField() {
+  get emailField() {
     return cy.getByDataCy('email-sign-in').type('Kelly112@mail.com');
   }
 
-  get fillPasswordField() {
+  get passwordField() {
     return cy.getByDataCy('password-sign-in').type('SuperSafePassword123');
   }
 
