@@ -18,4 +18,8 @@ describe('Sign Up page', () => {
     SignUppage.fillPasswordField();
     SignUppage.clickSignUpBtn();
   });
+  it('should not allow user to create accout with invlid username', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+  });
 });

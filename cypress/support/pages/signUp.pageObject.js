@@ -7,7 +7,6 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataQa('SignUp').click();
   }
 
-
   get fillUserNameField() {
     return cy.getByDataQa('usernamefield').type('HectorAntonia123');
   }
@@ -20,10 +19,12 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataQa('SignUpbtn').click();
   }
 
-
   get fillPasswordField() {
     return cy.getByDataQa('passwordField').type('SuperSafePassword123');
+  }
 
+  get fillUsernameInvalid() {
+    return cy.getByDataQa('usernamefield');
   }
 }
 
