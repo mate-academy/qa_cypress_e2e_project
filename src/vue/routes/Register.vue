@@ -19,6 +19,12 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+
+                data-qa="usernamefield"
+
+                data-cy="username-sign-in"
+                data-qa="username-sign-in"
+
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +33,12 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+
+                data-qa="emailField"
+
+                data-cy="email-sign-in"
+                data-qa="email-sign-in"
+
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +47,18 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+
+                data-qa="passwordField"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-qa="SignUpbtn" class="btn btn-lg btn-primary pull-xs-right">
+
+                data-cy="password-sign-in"
+                data-qa="password-sign-in"
+              />
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-in" data-cy="btn-sign-in">
+
               Sign up
             </button>
           </form>
