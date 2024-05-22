@@ -11,9 +11,11 @@ describe('Sign Up page', () => {
   });
 
   it('should allow user to create new account', () => {
-    cy.visit('/#/register/');
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
     SignUppage.fillUserNameField();
     SignUppage.fillMailField();
     SignUppage.fillPasswordField();
+    SignUppage.clickSignUpBtn();
   });
 });
