@@ -1,27 +1,79 @@
+const user = {
+  username: 'tester',
+  email: 'tester@tester.pl',
+  password: 'Qwer123!'
+};
+
+const article = {
+  title: 'Test Article',
+  description: 'This is a test article description',
+  body: 'This is the body of the test article'
+};
+
 class ArticlePage {
   // visit() {
   //   cy.visit('/');
   // }
-  url = '/#/editor';
+  // url = '/#/editor';
 
   login(email, password) {
-    cy.visit('user/login');
-    cy.findByPlaceholder('Email').type(email);
-    cy.findByPlaceholder('Password').type(`${password}{enter}`);
-    cy.get(':nth-child(4) > .nav-link').should('contain', 'tester');
+    cy.visit('/#/login');
+    cy.findByPlaceholder('Email').type(user.email);
+    cy.findByPlaceholder('Password').type(`${user.password}{enter}`);
+    cy.on('window:confirm', (str) => {
+      expect(str).to.equal('Logging you in... Please wait...');
+      return true;
+    });
+    cy.get(':nth-child(4) > .nav-link').should('contain', user.username);
   }
 
   goToNewArticle() {
-    cy.reload().contains('.nav-link', 'New Article').click();
+    cy.contains('.nav-link', 'New Article').click();
+  }
+
+  get titleField() {
+    return cy.findByPlaceholder('Article Title');
+  }
+
+  typeTitleField() {
+    this.titleField.type(article.title);
+  }
+
+  get aboutField() {
+    return cy.findByPlaceholder('What\'s this article about?');
+  }
+
+  typeAboutField() {
+    this.aboutField.type(article.description);
+  }
+
+  get articleBodyField() {
+    return cy.findByPlaceholder('Write your article (in markdown)');
+  }
+
+  typeArticleBodyField() {
+    this.articleBodyField.type(article.description);
+  }
+
+  get publishArticleBtn() {
+    return cy.contains('Publish Article');
+  }
+
+  clickPublishArticleBtn() {
+    this.publishArticleBtn.click();
+  }
+
+  get publishArticleConfirm() {
+    return cy.url().should('include', '/articles/');
   }
 
   createArticle(title, description, body) {
     this.goToNewArticle();
-    cy.findByPlaceholder('Article Title').type(title);
-    cy.findByPlaceholder('What\'s this article about?').type(description);
-    cy.findByPlaceholder('Write your article (in markdown)').type(body);
-    cy.contains('Publish Article').click();
-    cy.url().should('include', '/article/');
+    this.typeTitleField();
+    this.typeAboutField();
+    this.typeArticleBodyField();
+    this.clickPublishArticleBtn();
+    cy.url().should('include', '/articles/');
   }
 
   deleteArticle(slug) {
