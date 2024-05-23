@@ -1,15 +1,17 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import { faker } from '@faker-js/faker';
 import SettingsPageObject from '../support/pages/settings.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
 
 const settingsPage = new SettingsPageObject();
 const homePage = new HomePageObject();
+const signInPage = new SignInPageObject();
 
 describe('Settings page', () => {
   let user;
+  let newUser;
 
   beforeEach(() => {
     cy.task('db:clear');
@@ -19,42 +21,51 @@ describe('Settings page', () => {
         cy.login(user.email, user.password);
       });
     });
+    cy.task('generateNewUser').then((generateNewUser) => {
+      newUser = generateNewUser;
+    });
+    settingsPage.visit();
   });
 
   it('should provide an ability to update username', () => {
-    const userName = faker.name.firstName().toLowerCase();
-    settingsPage.visit();
-    settingsPage.typeUsername(userName);
+    settingsPage.typeUsername(newUser.username);
     settingsPage.clickOnUpdateSettingsButton();
     settingsPage.assertUpdate();
+    settingsPage.clickOnSuccessfulButton();
+    settingsPage.usernameLink.should('contain', newUser.username);
   });
 
   it('should provide an ability to update bio', () => {
-    const bio = faker.lorem.paragraph().toLowerCase();
-    settingsPage.visit();
-    settingsPage.typeBio(bio);
+    settingsPage.typeBio(newUser.bio);
     settingsPage.clickOnUpdateSettingsButton();
     settingsPage.assertUpdate();
+    settingsPage.clickOnSuccessfulButton();
+    settingsPage.clickOnUsernameLink();
+    settingsPage.paragraph.should('contain', newUser.bio);
   });
 
   it('should provide an ability to update an email', () => {
-    const email = faker.internet.email().toLowerCase();
-    settingsPage.visit();
-    settingsPage.typeEmail(email);
+    settingsPage.typeEmail(newUser.email);
     settingsPage.clickOnUpdateSettingsButton();
     settingsPage.assertUpdate();
+    settingsPage.clickOnSuccessfulButton();
+    settingsPage.emailField.should('contain', newUser.email);
   });
 
   it('should provide an ability to update password', () => {
-    const password = faker.internet.password();
-    settingsPage.visit();
-    settingsPage.typePassword(password);
+    settingsPage.typePassword(newUser.password);
     settingsPage.clickOnUpdateSettingsButton();
     settingsPage.assertUpdate();
+    settingsPage.clickOnSuccessfulButton();
+    settingsPage.clickOnLogoutButton();
+    settingsPage.visit('/#/login');
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(newUser.password);
+    signInPage.clickSignInBtn();
+    settingsPage.usernameLink.should('exist');
   });
 
   it('should provide an ability to log out', () => {
-    settingsPage.visit();
     settingsPage.clickOnLogoutButton();
     homePage.usernameLink.should('not.exist');
   });

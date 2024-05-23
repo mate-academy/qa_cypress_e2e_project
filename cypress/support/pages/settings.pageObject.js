@@ -28,11 +28,19 @@ class SettingsPageObject extends PageObject {
   }
 
   get usernameLink() {
-    return cy.getByDataQa('profile-link');
+    return cy.get('[data-cy="username-link"]');
   }
 
   get updateWindow() {
     return cy.contains('Update successful!');
+  }
+
+  get successfulButton() {
+    return cy.get('.swal-button');
+  }
+
+  get paragraph() {
+    return cy.get('p');
   }
 
   typeUsername(username) {
@@ -61,6 +69,14 @@ class SettingsPageObject extends PageObject {
 
   clickOnLogoutButton() {
     this.logoutButton.click();
+  }
+
+  clickOnSuccessfulButton() {
+    this.successfulButton.click();
+  }
+
+  clickOnUsernameLink() {
+    this.usernameLink.click();
   }
 
   assertUpdate() {
