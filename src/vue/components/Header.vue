@@ -50,6 +50,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="article-newArticle"
             active-class="active"
             :to="{
               name: 'article-edit',

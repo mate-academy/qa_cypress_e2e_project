@@ -1,7 +1,10 @@
 const { defineConfig } = require('cypress');
+const { clear } = require('./server/db');
 const { faker } = require('@faker-js/faker');
-const { clear, seed } = require('./server/db');
-const { addMatchImageSnapshotPlugin } = require('cypress-image-snapshot/plugin');
+const { seed } = require('./server/db');
+const {
+  addMatchImageSnapshotPlugin
+} = require('cypress-image-snapshot/plugin');
 
 module.exports = defineConfig({
   e2e: {
@@ -9,11 +12,27 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random() * 1000);
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName =
+            faker.name.firstName().toLowerCase() + `${randomNumber}`;
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            username: userName,
+            email: userName + '@mail.com',
             password: '12345Qwert!'
+          };
+        },
+        generateNewUser() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName =
+            faker.name.firstName().toLowerCase() + `${randomNumber}`;
+          const newBio = faker.lorem.paragraph().toLocaleLowerCase();
+          const newEmail = faker.internet.email().toLowerCase();
+          const newPassword = faker.internet.password();
+          return {
+            username: userName,
+            email: newEmail,
+            password: newPassword,
+            bio: newBio
           };
         },
         generateArticle() {
