@@ -45,12 +45,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
