@@ -28,7 +28,7 @@ class SettingsPageObject extends PageObject {
   }
 
   get usernameLink() {
-    return cy.get('[data-cy="username-link"]');
+    return cy.getByDataQa('username-link');
   }
 
   get updateWindow() {
