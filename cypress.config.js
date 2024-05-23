@@ -1,6 +1,6 @@
 const { defineConfig } = require('cypress');
-const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
+const { faker } = require('@faker-js/faker');
 const { seed } = require('./server/db');
 const {
   addMatchImageSnapshotPlugin
