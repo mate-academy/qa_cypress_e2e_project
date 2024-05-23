@@ -72,7 +72,7 @@ class SettingsPageObject extends PageObject {
   }
 
   typeUserName(username) {
-    this.userNameField.type(username);
+    this.userNameField.clear().type(username);
   }
 
   typeEmail(email) {

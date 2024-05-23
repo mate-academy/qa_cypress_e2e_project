@@ -12,10 +12,12 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           const userName =
             faker.name.firstName().toLowerCase() + `${randomNumber}`;
+          const Bio = faker.lorem.paragraph().toLocaleLowerCase();
           return {
             username: userName,
             email: userName + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            bio: Bio
           };
         },
         generateArticle() {
