@@ -84,8 +84,11 @@ Cypress.Commands.add('createArticle', (title, description, body) => {
 });
 
 Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
-  cy.get(`${tag}[placeholder="${placeholder}"]`);
+  cy.get(`[placeholder="${placeholder}"]`);
 });
+// Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
+//   cy.get(`${tag}[placeholder="${placeholder}"]`);
+// });
 
 Cypress.Commands.add('login', (
   email = 'riot@qa.team',

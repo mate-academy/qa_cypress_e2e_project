@@ -76,6 +76,14 @@ class ArticlePage {
     cy.url().should('include', '/articles/');
   }
 
+  get createdActicleTitle() {
+    return cy.get('h1');
+  }
+
+  get createdActicleAbout() {
+    return cy.get('p');
+  }
+
   deleteArticle(slug) {
     cy.visit(`/article/${slug}`);
     cy.url().should('include', `/article/${slug}`);

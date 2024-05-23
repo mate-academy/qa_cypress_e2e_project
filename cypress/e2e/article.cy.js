@@ -3,6 +3,7 @@
 
 // import SignInPageObject from '../support/pages/signIn.pageObject';
 // import SignUpPageObject from '../support/pages/signUp.pageObject';
+// import PageObject from '../support/PageObject';
 import ArticlePage from '../support/pages/article.pageObject';
 // import SettingsPageObject from '../support/pages/settings.pageObject';
 
@@ -10,7 +11,7 @@ import ArticlePage from '../support/pages/article.pageObject';
 // const signInPage = new SignInPageObject();
 // const signUpPage = new SignUpPageObject();
 const articlePage = new ArticlePage();
-// new SettingsPageObject();
+// const page = new PageObject();
 
 // const article = {
 //   title: 'Test Article',
@@ -90,6 +91,7 @@ describe('Article page', () => {
   });
 
   it('should be able to create an article', () => {
+    cy.login(user.email, user.password);
     articlePage.login(user.email, user.password);
     articlePage.goToNewArticle();
     articlePage.typeTitleField(article.title);
@@ -114,30 +116,44 @@ describe('Article page', () => {
       expect(str).to.equal('Please wait...');
       return true;
     });
-    // articlePage.publishArticleConfirm();
+    articlePage.createdActicleTitle.should('contain', article.title);
+    articlePage.createdActicleAbout.should('contain', article.description);
     cy.url().should('include', '/articles/');
   });
 
-  it('should be able to delete an article', () => {
+  it.only('should be able to delete an article', () => {
+    // const response
+    cy.login(user.email, user.password);
     articlePage.login(user.email, user.password);
-    articlePage.createArticle(article.title, article.description, article.body);
-    cy.createArticle('title', 'description', 'body').then((response) => {
-      const slug = response.body.article.slug;
-      cy.visit(`/article/${slug}`);
-      cy.url().should('include', `/article/${slug}`);
-      cy.get('.article-actions').contains('Delete Article').click();
-      cy.on('window:confirm', (str) => {
-        expect(str).to.equal('Do you really want to delete it?');
-        return true;
-      });
+    articlePage.goToNewArticle();
+    articlePage.typeTitleField(article.title);
+    articlePage.typeAboutField(article.description);
+    articlePage.typeArticleBodyField(article.body);
+    articlePage.clickPublishArticleBtn();
+    //   cy.intercept('POST', '/#/login').as('loginRequest'); // Zakładając, że logowanie wysyła żądanie POST do /api/users/login
+    // cy.get(':nth-child(4) > .nav-link').should('contain', user.username);
+    // cy.wait('@loginRequest').then((interception) => {
+    //   response = interception.response.body;
+    //   authToken = response.user.token;
+    // articlePage.createArticle(article.title, article.description, article.body);
+    // cy.createArticle(article.title, article.description, article.body).then((response) => {
+    //   const slug = response.body.article.slug;
+    //   cy.visit(`/article/${slug}`);
+    //   cy.url().should('include', `/article/${slug}`);
+    //   cy.get('.article-actions').contains('Delete Article').click();
+    //   cy.on('window:confirm', (str) => {
+    //     expect(str).to.equal('Do you really want to delete it?');
+    //     return true;
+    //   });
     //   cy.visit(`/article/${slug}`);
     //   cy.reload();// I trired to reload page but it doesn't work.
     //   cy.visit(`/article/${slug}`, { failOnStatusCode: false });
     //   // cy.get('h2').contains('This page could not be found.').should('exist'); // I tried also this but it doesn't work.
     //   cy.contains(`This page could not be found.`).should('exist');
-    });
-    afterEach(() => {
-      cy.task('db:clear');
-    });
+    // });
+  });
+
+  afterEach(() => {
+    cy.task('db:clear');
   });
 });
