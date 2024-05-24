@@ -17,7 +17,9 @@ module.exports = defineConfig({
             username: userName,
             email: userName + '@mail.com',
             password: '12345Qwert!',
-            bio: Bio
+            bio: Bio,
+            wrongEmail: 'wrong' + userName + '@mail.com',
+            wrongPassword: 'wrongpassword'
           };
         },
         generateArticle() {
@@ -30,12 +32,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
