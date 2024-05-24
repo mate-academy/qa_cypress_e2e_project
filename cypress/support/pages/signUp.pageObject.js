@@ -8,11 +8,11 @@ class SignUpPageObject extends PageObject {
   }
 
   get fillUserNameField() {
-    return cy.getByDataQa('usernamefield').type('HectorAntonia123');
+    return cy.getByDataQa('usernamefield').type('validusername123');
   }
 
   get fillMailField() {
-    return cy.getByDataQa('emailField').type('Kelly112@mail.com');
+    return cy.getByDataQa('emailField').type('validEmail@mail.com');
   }
 
   clickSignUpBtn() {
@@ -20,11 +20,20 @@ class SignUpPageObject extends PageObject {
   }
 
   get fillPasswordField() {
-    return cy.getByDataQa('passwordField').type('SuperSafePassword123');
+    return cy.getByDataQa('passwordField').type('validPassword123');
   }
 
   get fillUsernameInvalid() {
-    return cy.getByDataQa('usernamefield');
+    return cy.getByDataQa('usernamefield')
+      .type('Thisusernameisexactly41charactersleght123');
+  }
+
+  get fillMailInvalid() {
+    return cy.getByDataQa('emailField').type('invalidEmail');
+  }
+
+  get fillPasswordInvalid() {
+    return cy.getByDataQa('passwordField').type('password');
   }
 }
 export default SignUpPageObject;
