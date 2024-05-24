@@ -44,3 +44,5 @@ Use PageObject pattern for your tests:
 
 Observe an example in `cypress`/`e2e`/`signIn.cy.js`.  
 Find and additinoanl about Page Object in the [Cypress](https://mate.academy/learn/javascript-testing/cypress#/theory) topic.
+
+https://github.com/Kryspinox/project_cypress_team
