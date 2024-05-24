@@ -9,12 +9,15 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.floor(Math.random() * 1000);
-          const userName = faker.name.firstName().toLowerCase() + `${randomNumber}`;
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const userName =
+            faker.name.firstName().toLowerCase() + `${randomNumber}`;
+          const Bio = faker.lorem.paragraph().toLocaleLowerCase();
           return {
             username: userName,
             email: userName + '@mail.com',
             password: '12345Qwert!',
+            bio: Bio,
             wrongEmail: 'wrong' + userName + '@mail.com',
             wrongPassword: 'wrongpassword'
           };

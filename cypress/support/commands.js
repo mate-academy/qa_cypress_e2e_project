@@ -84,8 +84,11 @@ Cypress.Commands.add('createArticle', (title, description, body) => {
 });
 
 Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
-  cy.get(`${tag}[placeholder="${placeholder}"]`);
+  cy.get(`[placeholder="${placeholder}"]`);
 });
+// Cypress.Commands.add('findByPlaceholder', (placeholder, tag = 'input') => {
+//   cy.get(`${tag}[placeholder="${placeholder}"]`);
+// });
 
 Cypress.Commands.add('login', (
   email = 'riot@qa.team',
@@ -108,5 +111,45 @@ Cypress.Commands.add('login', (
     };
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('login', (email, password) => {
+  cy.request('POST', '/users/login', {
+    user: {
+      email,
+      password
+    }
+  }).then((response) => {
+    const user = {
+      username: response.body.user.username,
+      email: response.body.user.email,
+      bio: response.body.user.bio,
+      effectiveImage:
+        'https://static.productionready.io/images/smiley-cyrus.jpg',
+      image: response.body.user.image,
+      token: response.body.user.token,
+      userId: response.body.user.id
+
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user.id).as('userID');
+  });
+});
+
+Cypress.Commands.add('followUser', (username) => {
+  return cy.request({
+    method: 'POST',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
+  });
+});
+
+Cypress.Commands.add('unfollowUser', (username) => {
+  return cy.request({
+    method: 'DELETE',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
   });
 });

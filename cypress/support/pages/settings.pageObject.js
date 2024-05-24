@@ -1,7 +1,11 @@
 import PageObject from '../PageObject';
 
 class SettingsPageObject extends PageObject {
-  url = '/user/settings';
+  url = '/#/settings';
+
+  get userNameLink() {
+    return cy.getByDataQa('username-link');
+  }
 
   get userNameRegisterField() {
     return cy.getByDataQa('username-sign-in');
@@ -24,19 +28,35 @@ class SettingsPageObject extends PageObject {
   }
 
   get emailField() {
-    return cy.getByDataCy('email-settings');
+    return cy.getByDataQa('settings-email');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-settings');
+    return cy.getByDataQa('settings-password');
   }
 
   get bioField() {
-    return cy.getByDataCy('bio-settings');
+    return cy.getByDataQa('settings-bio');
   }
 
-  get updateBtn() {
-    return cy.getByDataCy('btn-settings');
+  get updateWindow() {
+    return cy.contains('Update successful!');
+  }
+
+  get swalBtn() {
+    return cy.get('.swal-button');
+  }
+
+  assertUserName(username) {
+    this.userNameLink.should('contain', username);
+  }
+
+  assertNotExistUserName() {
+    this.userNameLink.should('not.exist');
+  }
+
+  assertAlert() {
+    this.updateWindow.should('contain', 'Update successful!');
   }
 
   typeRegisterUserName(username) {
@@ -51,16 +71,12 @@ class SettingsPageObject extends PageObject {
     this.passwordRegisterField.type(password);
   }
 
-  clickSignUpBtn() {
-    this.signUpBtn.click();
-  }
-
   typeUserName(username) {
-    this.userNameField.type(username);
+    this.userNameField.clear().type(username);
   }
 
   typeEmail(email) {
-    this.emailField.type(email);
+    this.emailField.clear().type(email);
   }
 
   typePassword(password) {
@@ -71,12 +87,16 @@ class SettingsPageObject extends PageObject {
     this.bioField.type(bio);
   }
 
-  clickUpdateBtn() {
-    this.updateBtn.click();
+  clickSignUpBtn() {
+    this.signUpBtn.click();
   }
 
   clickLogoutBtn() {
-    cy.get('[data-cy="btn-logout"]').click();
+    cy.getByDataQa('btn-logout').click();
+  }
+
+  clickSwalBtn() {
+    this.swalBtn.click();
   }
 }
 
