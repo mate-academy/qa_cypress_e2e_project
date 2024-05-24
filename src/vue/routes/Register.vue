@@ -54,7 +54,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Register",
+  name: "RegisterView",
   data() {
     return {
       username: "",
