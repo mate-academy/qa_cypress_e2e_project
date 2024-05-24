@@ -41,9 +41,6 @@
               />
             </fieldset>
             <button data-qa="SignUpbtn" class="btn btn-lg btn-primary pull-xs-right">
-              />
-            </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-in" data-cy="btn-sign-in">
               Sign up
             </button>
           </form>
