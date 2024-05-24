@@ -137,3 +137,19 @@ Cypress.Commands.add('login', (email, password) => {
     cy.wrap(response.body.user.id).as('userID');
   });
 });
+
+Cypress.Commands.add('followUser', (username) => {
+  return cy.request({
+    method: 'POST',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
+  });
+});
+
+Cypress.Commands.add('unfollowUser', (username) => {
+  return cy.request({
+    method: 'DELETE',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
+  });
+});
