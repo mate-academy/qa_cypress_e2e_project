@@ -18,8 +18,55 @@ describe('Sign Up page', () => {
     SignUppage.fillPasswordField();
     SignUppage.clickSignUpBtn();
   });
+
   it('should not allow user to create accout with invlid username', () => {
     cy.visit('/#/');
     SignUppage.SignUpLinkbtn();
+    SignUppage.fillUsernameInvalid();
+    SignUppage.fillMailField();
+    SignUppage.fillPasswordField();
+    SignUppage.clickSignUpBtn();
+  });
+
+  it('should not allow user to create account with invalid email', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+    SignUppage.fillUserNameField();
+    SignUppage.fillMailInvalid();
+    SignUppage.fillPasswordField();
+    SignUppage.clickSignUpBtn();
+  });
+
+  it('should not allow user to create account with invalid password', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+    SignUppage.fillUserNameField();
+    SignUppage.fillMailField();
+    SignUppage.fillPasswordInvalid();
+    SignUppage.clickSignUpBtn();
+  });
+
+  it('should not allow user to create account without filling password', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+    SignUppage.fillUserNameField();
+    SignUppage.fillMailField();
+    SignUppage.clickSignUpBtn();
+  });
+
+  it('should not allow user to create account without filling Email', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+    SignUppage.fillUserNameField();
+    SignUppage.fillPasswordField();
+    SignUppage.clickSignUpBtn();
+  });
+
+  it('should not allow user to create account without filling username', () => {
+    cy.visit('/#/');
+    SignUppage.SignUpLinkbtn();
+    SignUppage.fillMailField();
+    SignUppage.fillPasswordField();
+    SignUppage.clickSignUpBtn();
   });
 });

@@ -37,29 +37,29 @@ Cypress.Commands.add('register', (email = 'riot@qa.team',
   });
 });
 
-Cypress.Commands.add('login', (email, password) => {
-  cy.request({
-    method: 'POST',
-    url: '/api/users/login',
-    body: {
-      user: {
-        email,
-        password
-      }
-    }
-  }).then((response) => {
-    const user = {
-      bio: response.body.user.bio,
-      effectiveImage: response.body.user.image,
-      email: response.body.user.email,
-      image: response.body.user.image,
-      token: response.body.user.token,
-      username: response.body.user.username
-    };
-    window.localStorage.setItem('user', JSON.stringify(user));// Correctly set key as a string
-    cy.setCookie('auth', response.body.user.token);
-  });
-});
+// Cypress.Commands.add('login', (email, password) => {
+//   cy.request({
+//     method: 'POST',
+//     url: '/api/users/login',
+//     body: {
+//       user: {
+//         email,
+//         password
+//       }
+//     }
+//   }).then((response) => {
+//     const user = {
+//       bio: response.body.user.bio,
+//       effectiveImage: response.body.user.image,
+//       email: response.body.user.email,
+//       image: response.body.user.image,
+//       token: response.body.user.token,
+//       username: response.body.user.username
+//     };
+//     window.localStorage.setItem('user', JSON.stringify(user));// Correctly set key as a string
+//     cy.setCookie('auth', response.body.user.token);
+//   });
+// });
 
 Cypress.Commands.add('createArticle', (title, description, body) => {
   return cy.getCookie('auth').then((token) => {
