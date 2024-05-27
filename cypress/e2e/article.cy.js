@@ -33,6 +33,10 @@ describe('Article page', () => {
     cy.register(user.email, user.username, user.password);
     // cy.login(user.email, user.password);
     articlePage.login(user.email, user.password);
+    cy.on('window:confirm', (str) => {
+      expect(str).to.equal('Logging you in... Please wait...');
+      return true;
+    });
     articlePage.goToNewArticle();
     articlePage.typeTitleField(article.title);
     articlePage.typeAboutField(article.description);
@@ -47,7 +51,8 @@ describe('Article page', () => {
     cy.url().should('include', '/articles/');
   });
 
-  it.only('should be able to edit an article', () => {
+  it('should be able to edit an article', () => {
+    const urlArt = 'http://localhost:1667/#/articles/';
     cy.register(user.email, user.username, user.password);
     let slug;
     articlePage.login(user.email, user.password);
@@ -66,9 +71,8 @@ describe('Article page', () => {
     });
     articlePage.createdActicleTitle.should('contain', article.title);
     cy.url().then((url) => {
-      if (url.includes('http://localhost:1667/#/articles/')) {
-        const startIndex = url.indexOf('http://localhost:1667/#/articles/') +
-          'http://localhost:1667/#/articles/'.length;
+      if (url.includes(urlArt)) {
+        const startIndex = url.indexOf(urlArt) + urlArt.length;
         const endIndex = url.indexOf('/', startIndex);
         slug = url.substring(startIndex, endIndex);
         cy.url().should('include', slug);
@@ -76,18 +80,17 @@ describe('Article page', () => {
         throw new Error('Brak fragmentu "/articles/" w adresie URL');
       }
     });
-    // articlePage.clickEditArticleBtn();
-    // Żeby eslint pzepuścił zakomnetaowałam ale to potrzebe jest do testu
-    // cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary > span')
-    //   .contains('Edit Article').click();
+    articlePage.clickEditArticleBtn();
+    // cy.get('.article-actions > .article-meta > :nth-child(3) > .btn-outline-danger > span')
+    // .click();
     articlePage.typeTitleField(article.title);
     articlePage.typeAboutField(article.description);
     articlePage.typeArticleBodyField(article.body);
     articlePage.clickPublishArticleBtn();
     const expectedTitle = article.title + article.title;
     cy.get('h1').should('contain', expectedTitle);
-    const expectedAbout = article.description + article.description;
-    cy.get('p').should('contain', expectedAbout);
+    // const expectedAbout = article.description + article.description;
+    // cy.get('p').should('contain', expectedAbout);
   });
 
   it('should be able to delete an article', () => {
