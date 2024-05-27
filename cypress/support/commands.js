@@ -30,7 +30,7 @@ Cypress.Commands.add('getByDataQa', (selector) => {
 
 Cypress.Commands.add('register', (email = 'riot@qa.team',
   username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
+  cy.request('POST', 'users/', {
     email,
     username,
     password
@@ -135,5 +135,21 @@ Cypress.Commands.add('login', (email, password) => {
     window.localStorage.setItem('user', JSON.stringify(user));
     cy.setCookie('drash_sess', response.body.user.token);
     cy.wrap(response.body.user.id).as('userID');
+  });
+});
+
+Cypress.Commands.add('followUser', (username) => {
+  return cy.request({
+    method: 'POST',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
+  });
+});
+
+Cypress.Commands.add('unfollowUser', (username) => {
+  return cy.request({
+    method: 'DELETE',
+    url: `/api/profiles/${username}/follow`,
+    failOnStatusCode: false
   });
 });
