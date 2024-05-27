@@ -32,7 +32,7 @@ class ArticlePage {
   }
 
   get titleField() {
-    return cy.findByPlaceholder('Article Title');
+    return cy.getByDataQa('article-title-field');
   }
 
   typeTitleField() {
@@ -40,7 +40,7 @@ class ArticlePage {
   }
 
   get aboutField() {
-    return cy.findByPlaceholder('What\'s this article about?');
+    return cy.getByDataQa('article-description-field');
   }
 
   typeAboutField() {
@@ -48,7 +48,7 @@ class ArticlePage {
   }
 
   get articleBodyField() {
-    return cy.findByPlaceholder('Write your article (in markdown)');
+    return cy.getByDataQa('article-body-field');
   }
 
   typeArticleBodyField() {
@@ -65,6 +65,19 @@ class ArticlePage {
 
   get publishArticleConfirm() {
     return cy.url().should('include', '/articles/');
+  }
+
+  // get editArticleBtn() {
+  //   return cy.getByDataQa('edit-article-field2');
+  // }
+
+  // Zakomentowanie odznaczyć do testu
+  // get editArticleBtn() {
+  //   return cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary > [data-qa="edit-article-field"]');
+  // }
+
+  clickEditArticleBtn() {
+    this.editArticleBtn.click();
   }
 
   createArticle(title, description, body) {
