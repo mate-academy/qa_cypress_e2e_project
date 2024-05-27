@@ -33,10 +33,10 @@ Cypress.Commands.add('getByDataCy', (selector) => {
 });
 
 Cypress.Commands.add('register',
-  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+  (username = 'riot', email = 'riot@qa.team', password = '12345Qwert!') => {
     cy.request('POST', '/users', {
-      email,
       username,
+      email,
       password
     });
   });
