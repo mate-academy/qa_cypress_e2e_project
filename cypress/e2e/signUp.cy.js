@@ -39,21 +39,41 @@ describe('Sign Up page', () => {
       .should('contain.text', 'Welcome!');
   });
 
-  it('should not provide an ability to sign up in with invalid data', () => {
-    cy.visit('/register');
-    cy.get('input[placeholder="Username"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.username);
-    cy.get('input[placeholder="Email"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.username);
-    cy.get('input[placeholder="Password"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.username);
-    cy.get('button.btn.btn-lg.btn-primary.pull-xs-right')
-      .contains('Sign up')
-      .should('be.visible')
-      .click();
-    cy.get('.swal-title').should('contain.text', 'Registration failed!');
-  });
+  it('should not provide an ability to sign up in with invalid data - email',
+    () => {
+      cy.visit('/register');
+      cy.get('input[placeholder="Username"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.username);
+      cy.get('input[placeholder="Email"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.username);
+      cy.get('input[placeholder="Password"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.password);
+      cy.get('button.btn.btn-lg.btn-primary.pull-xs-right')
+        .contains('Sign up')
+        .should('be.visible')
+        .click();
+      cy.get('.swal-title').should('contain.text', 'Registration failed!');
+    });
+
+  it('should not provide an ability to sign up in with invalid data - username',
+    () => {
+      cy.visit('/register');
+      cy.get('input[placeholder="Username"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.email);
+      cy.get('input[placeholder="Email"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.email);
+      cy.get('input[placeholder="Password"].form-control.form-control-lg')
+        .should('be.visible')
+        .type(user.password);
+      cy.get('button.btn.btn-lg.btn-primary.pull-xs-right')
+        .contains('Sign up')
+        .should('be.visible')
+        .click();
+      cy.get('.swal-title').should('contain.text', 'Registration failed!');
+    });
 });
