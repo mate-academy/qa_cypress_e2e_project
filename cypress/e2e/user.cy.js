@@ -26,7 +26,7 @@ describe('User', () => {
 
   it('should be able to follow another user', () => {
     cy.login(user.email, user.password);
-    cy.visit('profile/riot2');
+    cy.visit('/#/@riot2');
     userPage.followBtn().should('be.visible').click();
     userPage.assertUnfollowButtonVisible();
   });

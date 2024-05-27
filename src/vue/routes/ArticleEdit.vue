@@ -44,7 +44,7 @@
                 />
               </fieldset>
             </fieldset>
-            <button
+            <button           
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
