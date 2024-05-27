@@ -1,7 +1,7 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink" data-qa="edit-article-field2>
       <i class="ion-edit"></i> <span data-qa="edit-article-field">&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>

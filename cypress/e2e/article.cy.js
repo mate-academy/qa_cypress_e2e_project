@@ -19,6 +19,7 @@ describe('Article page', () => {
     email: 'tester@tester.pl',
     password: 'Qwer123!'
   };
+
   const article = {
     title: 'Test Article',
     description: 'This is a test article description',

@@ -67,9 +67,14 @@ class ArticlePage {
     return cy.url().should('include', '/articles/');
   }
 
-  get editArticleBtn() {
-    return cy.getByDataQa('edit-article-field');
-  }
+  // get editArticleBtn() {
+  //   return cy.getByDataQa('edit-article-field2');
+  // }
+
+  // Zakomentowanie odznaczyć do testu
+  // get editArticleBtn() {
+  //   return cy.get('.container > .article-meta > :nth-child(3) > .btn-outline-secondary > [data-qa="edit-article-field"]');
+  // }
 
   clickEditArticleBtn() {
     this.editArticleBtn.click();
