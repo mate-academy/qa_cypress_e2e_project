@@ -28,6 +28,10 @@ Cypress.Commands.add('getByDataQa', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
 });
 
+Cypress.Commands.add('getByDataCy', (selector) => {
+  return cy.get(`[data-cy="${selector}"]`);
+});
+
 Cypress.Commands.add('register', (email = 'riot@qa.team',
   username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', 'users/', {
