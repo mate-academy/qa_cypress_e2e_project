@@ -2,7 +2,6 @@
 /// <reference types='../support' />
 
 import ArticlePageObject from '../support/pages/article.pageObject';
-import 'cypress-network-idle';
 
 const articlePage = new ArticlePageObject();
 
