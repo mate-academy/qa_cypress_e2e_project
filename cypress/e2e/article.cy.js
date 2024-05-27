@@ -32,7 +32,7 @@ describe('Article page', () => {
 
   it('should be able to create an article', () => {
     cy.register(user.email, user.username, user.password);
-    // cy.login(user.email, user.password);
+    // cy.login(userData.email, userData.password);
     articlePage.login(user.email, user.password);
     cy.on('window:confirm', (str) => {
       expect(str).to.equal('Logging you in... Please wait...');
@@ -96,7 +96,7 @@ describe('Article page', () => {
 
   it('should be able to delete an article', () => {
     cy.register(user.email, user.username, user.password);
-    let slug;
+    // let slug;
     articlePage.login(user.email, user.password);
     cy.on('window:confirm', (str) => {
       expect(str).to.equal('Logging you in... Please wait...');
@@ -113,11 +113,11 @@ describe('Article page', () => {
     });
     articlePage.createdActicleTitle.should('contain', article.title);
     cy.url().then((url) => {
-      if (url.includes('http://localhost:1667/#/articles/')) {
-        const startIndex = url.indexOf('http://localhost:1667/#/articles/') +
-          'http://localhost:1667/#/articles/'.length;
+      const urlArt = 'http://localhost:1667/#/articles/';
+      if (url.includes(urlArt)) {
+        const startIndex = url.indexOf(urlArt) + urlArt.length;
         const endIndex = url.indexOf('/', startIndex);
-        slug = url.substring(startIndex, endIndex);
+        const slug = url.substring(startIndex, endIndex);
         cy.url().should('include', slug);
       } else {
         throw new Error('Brak fragmentu "/articles/" w adresie URL');
