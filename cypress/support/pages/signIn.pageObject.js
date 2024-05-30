@@ -17,7 +17,7 @@ class SignInPageObject extends PageObject {
 
   typeEmail(email) {
     this.emailField
-      .type(email);
+      .type(email, { force: true });
   }
 
   typePassword(password) {
