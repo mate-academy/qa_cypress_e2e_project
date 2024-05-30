@@ -1,13 +1,16 @@
 <template>
   <nav class="navbar navbar-light">
-    <div class="container">
-      <router-link class="navbar-brand" :to="{ name: 'home' }">
+   <div class="container" data-qa="header-container">
+      <router-link class="navbar-brand" data-qa="conduit-link"
+      exact
+      :to="{ name: 'home' }">
         conduit
       </router-link>
       <ul v-if="!is_authenticated" class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="home-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -18,6 +21,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +32,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="sign-up-link"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -40,6 +45,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="home-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -50,7 +56,9 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="new-article-link"
             active-class="active"
+            exact
             :to="{
               name: 'article-edit',
               params: { new: true }
@@ -62,6 +70,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="settings-link"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,7 +80,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
