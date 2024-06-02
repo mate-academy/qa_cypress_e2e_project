@@ -1,60 +1,63 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import HomePageObject from '../support/pages/home.pageObject';
+import SettingsPageObject from '../support/pages/settings.pageObject';
+import SignUpPageObject from '../support/pages/signUp.pageObject';
 
-/// <reference types='cypress' />
-/// <reference types='../support' />
+const homePage = new HomePageObject();
+const signUpPage = new SignUpPageObject();
+const settingsPage = new SettingsPageObject();
 
 describe('Sign Up page', () => {
   let user;
 
-  beforeEach(() => {
+  before(() => {
+    cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
-  });
-
-  before(() => {
-    cy.task('db:clear');
+    signUpPage.visit();
   });
 
   it('should provide an ability to register with valid data', () => {
-    cy.visit('#/register');
-    cy.get('a.nav-link[href="#/register"]')
-      .should('be.visible')
-      .click();
-    cy.get('input[placeholder="Username"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.username);
-    cy.get('input[placeholder="Email"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.email);
-    cy.get('input[placeholder="Password"].form-control.form-control-lg')
-      .should('be.visible')
-      .type(user.password);
-    cy.get('button.btn.btn-lg.btn-primary.pull-xs-right')
-      .contains('Sign up')
-      .should('be.visible')
-      .click();
-    cy.get('.swal-title')
-      .should('contain.text', 'Welcome!');
+    signUpPage.typeUserName(user.username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+    signUpPage.assertSuccessModal();
+    homePage.assertHeaderContainUsername(user.username);
+    signUpPage.assertSignedUp();
   });
 
   it('should not provide an ability to sign up in with invalid data - email',
     () => {
-      cy.visit('#/register');
-      cy.get('input[placeholder="Username"].form-control.form-control-lg')
-        .should('be.visible')
-        .type(user.username);
-      cy.get('input[placeholder="Email"].form-control.form-control-lg')
-        .should('be.visible')
-        .type(user.username);
-      cy.get('input[placeholder="Password"].form-control.form-control-lg')
-        .should('be.visible')
-        .type(user.password);
-      cy.get('button.btn.btn-lg.btn-primary.pull-xs-right')
-        .contains('Sign up')
-        .should('be.visible')
-        .click();
-      cy.get('.swal-title').should('contain.text', 'Registration failed!');
+      signUpPage.typeUserName(user.username);
+      signUpPage.typePassword(user.password);
+      signUpPage.clickSignUpBtn();
+      signUpPage.assertUnSuccessModal('Email');
+    });
+
+  it('should not provide an ability to register without password', () => {
+    signUpPage.typeUserName(user.username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.clickSignUpBtn();
+    signUpPage.assertUnSuccessModal('Password');
+  });
+
+  it('should not provide an ability to Sign Up with allready exist username',
+    () => {
+      signUpPage.typeUserName(user.username);
+      signUpPage.typeEmail(user.email);
+      signUpPage.typePassword(user.password);
+      signUpPage.clickSignUpBtn();
+      signUpPage.assertSuccessModal();
+      homePage.assertHeaderContainUsername(user.username);
+      signUpPage.assertSignedUp();
+      settingsPage.visit();
+      settingsPage.clickLogoutBtn();
+      signUpPage.visit();
+      signUpPage.typeUserName(user.username);
+      signUpPage.typeEmail(user.email);
+      signUpPage.typePassword(user.password);
+      signUpPage.clickSignUpBtn();
+      signUpPage.assertUnSuccessEmail();
     });
 });

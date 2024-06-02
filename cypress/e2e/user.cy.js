@@ -1,5 +1,3 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
 import HomePageObject from '../support/pages/home.pageObject';
 import UserPageObject from '../support/pages/user.pageObject';
 
@@ -9,7 +7,7 @@ const homePage = new HomePageObject();
 describe('User', () => {
   let user;
   let userFollow;
-  beforeEach(() => {
+  before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -21,7 +19,6 @@ describe('User', () => {
 
   it('should be able to follow the another user', () => {
     cy.login(user.email, user.username, user.password);
-    cy.register(userFollow.email, userFollow.username, userFollow.password);
     userPage.visitUserPage(userFollow.username);
     homePage.assertHeaderContainUsername(user.username);
     userPage.assertCanFollowUser();
@@ -31,7 +28,6 @@ describe('User', () => {
 
   it('should allow to unfollow the another user', () => {
     cy.login(user.email, user.username, user.password);
-    cy.register(userFollow.email, userFollow.username, userFollow.password);
     userPage.visitUserPage(userFollow.username);
     userPage.assertCanFollowUser();
     userPage.clickFollowBtn();

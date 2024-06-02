@@ -21,8 +21,8 @@
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
+                  data-qa="about-article-field"
                 />
-                data-qa="about-article-field"
               </fieldset>
               <fieldset class="form-group">
                 <textarea

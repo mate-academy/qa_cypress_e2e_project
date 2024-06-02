@@ -1,66 +1,71 @@
 import PageObject from '../PageObject';
+
 class SettingsPageObject extends PageObject {
-  url = '#/settings';
+  url = '/settings';
 
   get usernameField() {
-    return cy.getByDataQa('username-settings-field');
+    return cy.getByDataCy('username-field');
   }
 
   get bioField() {
-    return cy.getByDataQa('bio-field');
+    return cy.getByDataCy('bio-field');
   }
 
   get emailField() {
-    return cy.getByDataQa('email-settings-field');
+    return cy.getByDataCy('email-field');
   }
 
-  get passwordField() {
-    return cy.getByDataQa('new-password-field');
+  get newPasswordField() {
+    return cy.getByDataCy('password-field');
   }
 
-  get updateSettingsBtn() {
-    return cy.getByDataQa('submit-settings-btn');
+  get updateSettingBtn() {
+    return cy.getByDataCy('update-btn');
   }
 
-  get logoutBtn() {
-    return cy.getByDataQa('logout-button');
+  get logOutBtn() {
+    return cy.getByDataCy('logout-btn');
   }
 
-  get modalWindow() {
-    return cy.get('.swal-modal');
+  clickUpdateSettingBtn() {
+    this.updateSettingBtn.click();
   }
 
-  typeUsername(username) {
-    this.usernameField.clear().type(username);
+  clickLogOutButton() {
+    this.logOutBtn.click();
   }
 
-  typeBioField(bio) {
-    this.bioField.clear().type(bio);
+  typeNewUsername(newUsername) {
+    this.usernameField.clear();
+    this.usernameField.type(newUsername);
   }
 
-  typeEmailField(email) {
-    this.emailField.clear().type(email);
+  typeNewBio(bio) {
+    this.bioField.type(bio);
   }
 
-  typePasswordField(password) {
-    this.passwordField.clear().type(password);
+  typeNewEmail(newEmail) {
+    this.emailField.clear();
+    this.emailField.type(newEmail);
   }
 
-  clickUpdateSettings() {
-    this.updateSettingsBtn.click();
+  assertNewEmail(newEmail) {
+    this.emailField
+      .should('have.value', newEmail);
   }
 
-  clickLogoutBtn() {
-    this.logoutBtn.click();
+  typeNewPassword(newPassword) {
+    this.newPasswordField.type(newPassword);
   }
 
-  assertNewEmail(email) {
-    this.emailField.should('contain', email);
+  assertSwalSucces() {
+    cy.contains('Update successful!').should('be.visible');
+    cy.get('.swal-button--confirm').click();
   }
 
-  assertSuccessNewData() {
-    this.modalWindow.should('contain', 'Update successful!')
-      .find('.swal-button').click();
+  login(email, username, password) {
+    cy.login(email, username, password);
   }
 }
+
 export default SettingsPageObject;

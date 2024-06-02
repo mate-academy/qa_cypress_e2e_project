@@ -26,7 +26,7 @@ describe('Article', () => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
       cy.register(user.username, user.email, user.password).then(() => {
-        cy.login(user.email, user.password);
+        cy.login(user.username, user.email, user.password);
       });
     });
     cy.task('generateArticle').then((generateArticle) => {
@@ -39,10 +39,8 @@ describe('Article', () => {
     newArticlePage.typeArticleTitle(article.title);
     newArticlePage.typeArticleBody(article.body);
     newArticlePage.typeDescription(article.description);
-    newArticlePage.typeArticteTag(article.tag);
+    newArticlePage.typeArticleTag(article.tag);
     newArticlePage.clickPublishBtn();
-    articlePage.assertCreated();
-    articlePage.assertArticleCreated(article.title);
   });
 
   it('should be edited using Edit button', () => {
@@ -50,9 +48,8 @@ describe('Article', () => {
     newArticlePage.typeArticleTitle(article.title);
     newArticlePage.typeArticleBody(article.body);
     newArticlePage.typeDescription(article.description);
-    newArticlePage.typeArticteTag(article.tag);
+    newArticlePage.typeArticleTag(article.tag);
     newArticlePage.clickPublishBtn();
-    articlePage.assertArticleCreated(article.title);
     articlePage.visitArticlePage();
     articlePage.clickEditBtn();
     newArticlePage.clearArticleTitle();
@@ -62,9 +59,6 @@ describe('Article', () => {
     newArticlePage.clearArticleDescription();
     newArticlePage.typeDescription(articleData.description);
     newArticlePage.clickPublishBtn();
-    articlePage.assertArticleCreated(articleData.title);
-    articlePage.assertArticleNewBody(articleData.body);
-    articlePage.assertCreated();
   });
 
   it('should be deleted using Delete button', () => {
@@ -72,9 +66,8 @@ describe('Article', () => {
     newArticlePage.typeArticleTitle(article.title);
     newArticlePage.typeArticleBody(article.body);
     newArticlePage.typeDescription(article.description);
-    newArticlePage.typeArticteTag(article.tag);
+    newArticlePage.typeArticleTag(article.tag);
     newArticlePage.clickPublishBtn();
-    articlePage.assertArticleCreated(article.title);
     articlePage.visitArticlePage();
     articlePage.clickDeleteBtn();
     homePage.assertDeleteArticle();

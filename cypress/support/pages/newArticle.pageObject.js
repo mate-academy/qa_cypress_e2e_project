@@ -41,7 +41,7 @@ class NewArticlePageObject extends PageObject {
       .type(body);
   }
 
-  typeArticteTag(tags) {
+  typeArticleTag(tags) {
     this.articleTag.eq(0)
       .type(tags);
   }
