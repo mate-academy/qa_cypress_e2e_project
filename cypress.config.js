@@ -1,5 +1,4 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -11,20 +10,27 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
       on('task', {
-        generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+        generateData() {
+          const randomNumber = Math.ceil(Math.random() * 100000);
+          function generateRandomWord(length) {
+            const characters =
+              'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let randomWord = '';
+            for (let i = 0; i < length; i++) {
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              randomWord += characters[randomIndex];
+            }
+            return randomWord;
+          }
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
-          };
-        },
-        generateArticle() {
-          return {
-            title: faker.lorem.word(),
-            description: faker.lorem.words(),
-            body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            username: `YuriiMV${randomNumber}${generateRandomWord(5)}`,
+            email: `YuriiMV@${generateRandomWord(5)}.${generateRandomWord(3)}`,
+            password: `12345Qwer!${generateRandomWord(10)}`,
+            title: `Title${randomNumber}`,
+            about: `About ${generateRandomWord(15)}`,
+            body: `Body ${generateRandomWord(30)}`,
+            bio: `Bio ${generateRandomWord(35)}`,
+            tag: `Tag${randomNumber}`
           };
         },
         'db:clear'() {
