@@ -1,19 +1,22 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+import { signInPage } from '../support/pages/ProjectPages/SignInPage';
+import { homePage } from '../support/pages/ProjectPages/HomePage';
 
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
-
-describe('Sign In page', () => {
+describe('SignIn page', () => {
   let user;
+  let wrongUser;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
+  });
+  before(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
+    });
+    cy.task('generateWrongUser').then((generateWrongUser) => {
+      wrongUser = generateWrongUser;
     });
   });
 
@@ -21,14 +24,37 @@ describe('Sign In page', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
+    signInPage.typeEmail(user);
+    signInPage.typePassword(user);
     signInPage.clickSignInBtn();
 
-    homePage.assertHeaderContainUsername(user.username);
+    homePage.assertHeaderContainUsername(user);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeWrongEmail(wrongUser);
+    signInPage.typeWrongPassword(wrongUser);
+    signInPage.clickSignInBtn();
+    signInPage.AssertLoginFailed();
+    signInPage.AssertInvalidusercredentials();
+    signInPage.clickOkBtn();
+    signInPage.clearEmail();
+    signInPage.clearPassword();
+
+    signInPage.typeshortEmail(wrongUser);
+    signInPage.typeWrongPassword(wrongUser);
+    signInPage.clickSignInBtn();
+    signInPage.AssertLoginFailed();
+    signInPage.AssertEmailmustbeavalidemail();
+    signInPage.clickOkBtn();
+    signInPage.clearEmail();
+    signInPage.clearPassword();
+
+    signInPage.clickSignInBtn();
+    signInPage.AssertLoginFailed();
+    signInPage.AssertEmailfieldrequired();
   });
 });
