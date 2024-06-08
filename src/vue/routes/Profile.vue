@@ -10,6 +10,7 @@
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy = "unfollow-btn"
                 :to="{ name: 'settings' }"
               >
                 <i class="ion-gear-a"></i> Edit Profile Settings
@@ -26,6 +27,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy = "follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
