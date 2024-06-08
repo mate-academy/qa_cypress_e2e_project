@@ -38,7 +38,7 @@ describe('Sign In page', () => {
       homePage.assertHeaderContainUsername(user.username);
     });
 
-  it.only('should not provide an ability to log in with wrong credentials',
+  it('should not provide an ability to log in with wrong credentials',
     () => {
       signInPage.visit();
 
