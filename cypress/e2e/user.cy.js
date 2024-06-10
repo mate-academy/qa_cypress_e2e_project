@@ -1,12 +1,44 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-describe('User', () => {
-  before(() => {
+import HomePageObject from "../support/pages/home.pageObject";
 
+const homePage = new HomePageObject();
+
+describe("User", () => {
+  let user;
+  let article;
+  before(() => {
+    cy.task("generateUser").then((generateUser) => {
+      user = generateUser;
+    });
+
+    cy.task("generateArticle").then((generateArticle) => {
+      article = generateArticle;
+    });
   });
 
-  it.skip('should be able to follow the another user', () => {
+  beforeEach(() => {
+    cy.task("db:clear");
+    cy.login(user.email, user.username, user.password);
+    cy.get("@createdUser").then((user) => {
+      cy.createArticle(
+        user.id,
+        article.title,
+        article.description,
+        article.body
+      ).then((response) => {
+        const slug = response.body.article.slug;
+        cy.visit(`/#/articles/${slug}`);
+      });
+    });
+  });
 
+  it.only("should be able to follow the another user", () => {
+    cy.login(user.updatedEmail, user.updatedUsername, user.password);
+    homePage.visit();
+    homePage.clickOnAuthor();
+    homePage.clickOnFollowBtn();
+    homePage.assertBtnName("Unfollow");
   });
 });
