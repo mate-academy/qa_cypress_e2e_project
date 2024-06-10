@@ -1,33 +1,39 @@
-import PageObject from '../PageObject';
-
+import PageObject from "../PageObject";
 class SignInPageObject extends PageObject {
-  url = '/#/login';
-
+  url = "/#/login";
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy("email-sign-in");
   }
-
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataCy("password-sign-in");
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataCy("sign-in-btn");
+  }
+
+  get okBtn() {
+    return cy.get(".swal-button");
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  clickOkBtn() {
+    this.okBtn.click();
+  }
+
+  assertModalContent(content) {
+    cy.get(".swal-modal").should("contain", content);
   }
 }
 
