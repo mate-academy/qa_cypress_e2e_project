@@ -35,7 +35,7 @@ describe("Settings page", () => {
     settingsPage.assertUpdatedBio(user.bio);
   });
 
-  it.only("should provide an ability to update an email", () => {
+  it("should provide an ability to update an email", () => {
     settingsPage.typeEmail(user.updatedEmail);
     settingsPage.clickUpdateBtn();
     settingsPage.clickOkBtn();
