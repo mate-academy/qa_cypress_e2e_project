@@ -33,7 +33,7 @@ describe("User", () => {
       });
     });
   });
-
+// туть баг , кніпочка не активна ( 
   it.only("should be able to follow the another user", () => {
     cy.login(user.updatedEmail, user.updatedUsername, user.password);
     homePage.visit();
