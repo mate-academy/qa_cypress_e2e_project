@@ -29,6 +29,9 @@ describe("Sign In page", () => {
   });
 
   it("should not provide an ability to log in with wrong email", () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
     signInPage.typeEmail(user.updatedEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
@@ -38,6 +41,9 @@ describe("Sign In page", () => {
   });
 
   it("should not provide an ability to log in with wrong password", () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.updatedPassword);
     signInPage.clickSignInBtn();
