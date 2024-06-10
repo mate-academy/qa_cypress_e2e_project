@@ -15,6 +15,14 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get failedLoginAlert() {
+    return cy.get('.swal-title');
+  }
+
+  get invalidCredentialsAlert() {
+    return cy.get('.swal-text');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +36,14 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  isLoginFailed() {
+    this.failedLoginAlert
+      .contains('Login failed!');
+
+    this.invalidCredentialsAlert
+      .contains('Invalid user credentials.');
   }
 }
 
