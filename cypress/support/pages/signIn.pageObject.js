@@ -17,12 +17,12 @@ class SignInPageObject extends PageObject {
 
   typeEmail(email) {
     this.emailField
-      .type(email);
+      .type(`{selectAll}${email}`);
   }
 
   typePassword(password) {
     this.passwordField
-      .type(password);
+      .type(`{selectAll}${password}`);
   }
 
   clickSignInBtn() {

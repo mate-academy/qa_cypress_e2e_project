@@ -14,9 +14,13 @@ const homePage = new HomePageObject();
 describe('Settings page', () => {
   let data;
   const successPopupText = 'Update successful!';
+  const failedPopupTitle = 'Update failed!';
   const exampleEmail = 'example@email.slavaUkraini';
   const examplePassword = 'example@passw0rd.slavaUkraini';
   const urlRegisterInclude = 'register';
+  const popupInvalidPassword =
+    // eslint-disable-next-line max-len
+    'Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.';
 
   beforeEach(() => {
     cy.task('db:clear');
@@ -88,6 +92,37 @@ describe('Settings page', () => {
     signInPage.clickSignInBtn();
 
     homePage.assertHeaderContainUsername(data.username);
+  });
+
+  it('should not provide an ability to update password without letters', () => {
+    cy.signIn(data.email, data.username, data.password);
+    settingsPage.visit();
+
+    settingsPage.typePassword(data.passwordWithoutLeter);
+    settingsPage.clickUpdateSettingsBtn();
+    pageObject.assertPopupContainTitle(failedPopupTitle);
+    pageObject.assertPopupContainText(popupInvalidPassword);
+  });
+
+  it('should not provide an ability to update password without numbers', () => {
+    cy.signIn(data.email, data.username, data.password);
+    settingsPage.visit();
+
+    settingsPage.typePassword(data.passwordWithoutNumber);
+    settingsPage.clickUpdateSettingsBtn();
+    pageObject.assertPopupContainTitle(failedPopupTitle);
+    pageObject.assertPopupContainText(popupInvalidPassword);
+  });
+
+  // eslint-disable-next-line max-len
+  it('should not provide an ability to update password with length 7 characters', () => {
+    cy.signIn(data.email, data.username, data.password);
+    settingsPage.visit();
+
+    settingsPage.typePassword(data.shortPassword);
+    settingsPage.clickUpdateSettingsBtn();
+    pageObject.assertPopupContainTitle(failedPopupTitle);
+    pageObject.assertPopupContainText(popupInvalidPassword);
   });
 
   it('should provide an ability to log out', () => {

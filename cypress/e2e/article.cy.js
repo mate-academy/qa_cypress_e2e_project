@@ -11,6 +11,7 @@ const articlePage = new ArticlePageObject();
 
 describe('Article', () => {
   let data;
+  const popupOopsText = 'Oops!';
 
   beforeEach(() => {
     cy.task('db:clear');
@@ -25,6 +26,17 @@ describe('Article', () => {
     pageObject.assertUrlContainsText(data.title);
     articlePage.assertTitleContainText(data.title);
     articlePage.assertBodyContainText(data.body);
+  });
+
+  it('should not be created without Article Title', () => {
+    cy.signIn(data.email, data.username, data.password);
+    editPage.visit();
+    editPage.typeAbout(data.about);
+    editPage.typeBody(data.body);
+    editPage.typeTags(data.title);
+
+    editPage.clickPublishArticleBtn();
+    pageObject.assertPopupContainTitle(popupOopsText);
   });
 
   it('should be edited using Edit button', () => {

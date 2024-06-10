@@ -12,7 +12,10 @@ const pageObject = new PageObject();
 describe('Sign Up page', () => {
   let data;
   const popupSuccessText = 'Your registration was successful!';
-  const popupInvalidText = 'Email must be a valid email.';
+  const popupInvalidEmail = 'Email must be a valid email.';
+  const popupInvalidPassword =
+    // eslint-disable-next-line max-len
+    'Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.';
 
   beforeEach(() => {
     cy.task('db:clear');
@@ -34,10 +37,35 @@ describe('Sign Up page', () => {
 
   it('should not provide an ability to sign up with wrong credentials', () => {
     signUpPage.typeUsername(data.username);
-    signUpPage.typeEmail(data.username);
+    signUpPage.typeEmail(data.emailWithotDomain);
     signUpPage.typePassword(data.password);
     signUpPage.clickSignUpBtn();
 
-    pageObject.assertPopupContainText(popupInvalidText);
+    pageObject.assertPopupContainText(popupInvalidEmail);
+    pageObject.clickOnPopupBtn();
+
+    signUpPage.typeUsername(data.username);
+    signUpPage.typeEmail(data.email);
+    signUpPage.typePassword(data.passwordWithoutNumber);
+    signUpPage.clickSignUpBtn();
+
+    pageObject.assertPopupContainText(popupInvalidPassword);
+    pageObject.clickOnPopupBtn();
+
+    signUpPage.typeUsername(data.username);
+    signUpPage.typeEmail(data.email);
+    signUpPage.typePassword(data.passwordWithoutLeter);
+    signUpPage.clickSignUpBtn();
+
+    pageObject.assertPopupContainText(popupInvalidPassword);
+    pageObject.clickOnPopupBtn();
+
+    signUpPage.typeUsername(data.username);
+    signUpPage.typeEmail(data.email);
+    signUpPage.typePassword(data.shortPassword);
+    signUpPage.clickSignUpBtn();
+
+    pageObject.assertPopupContainText(popupInvalidPassword);
+    pageObject.clickOnPopupBtn();
   });
 });

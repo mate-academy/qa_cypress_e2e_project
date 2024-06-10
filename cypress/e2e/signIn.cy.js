@@ -11,7 +11,8 @@ const pageObject = new PageObject();
 
 describe('Sign In page', () => {
   let data;
-  const popupInvalidText = 'Invalid user credentials.';
+  const popupInvalidCredentials = 'Invalid user credentials.';
+  const popupInvalidEmail = 'Email must be a valid email.';
 
   beforeEach(() => {
     cy.task('db:clear');
@@ -36,6 +37,25 @@ describe('Sign In page', () => {
     signInPage.typePassword(data.password);
     signInPage.clickSignInBtn();
 
-    pageObject.assertPopupContainText(popupInvalidText);
+    pageObject.assertPopupContainText(popupInvalidCredentials);
+    pageObject.clickOnPopupBtn();
+
+    cy.register(data.email, data.username, data.password);
+
+    signInPage.typeEmail(data.email);
+    signInPage.typePassword(data.passwordWithoutLeter);
+    signInPage.clickSignInBtn();
+
+    pageObject.assertPopupContainText(popupInvalidCredentials);
+    pageObject.clickOnPopupBtn();
+
+    cy.register(data.email2, data.username, data.password);
+
+    signInPage.typeEmail(data.emailWithotDomain);
+    signInPage.typePassword(data.password);
+    signInPage.clickSignInBtn();
+
+    pageObject.assertPopupContainText(popupInvalidEmail);
+    pageObject.clickOnPopupBtn();
   });
 });

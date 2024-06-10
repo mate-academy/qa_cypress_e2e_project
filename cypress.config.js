@@ -25,7 +25,12 @@ module.exports = defineConfig({
           return {
             username: `YuriiMV${randomNumber}${generateRandomWord(5)}`,
             email: `YuriiMV@${generateRandomWord(5)}.${generateRandomWord(3)}`,
+            email2: `YuriiMV@${generateRandomWord(5)}.${generateRandomWord(3)}`,
+            emailWithotDomain: `YuriiMV${generateRandomWord(5)}@`,
             password: `12345Qwer!${generateRandomWord(10)}`,
+            shortPassword: `1Qw!${generateRandomWord(3)}`,
+            passwordWithoutLeter: `1234567!${randomNumber}`,
+            passwordWithoutNumber: `Qw!${generateRandomWord(10)}`,
             title: `Title${randomNumber}`,
             about: `About ${generateRandomWord(15)}`,
             body: `Body ${generateRandomWord(30)}`,

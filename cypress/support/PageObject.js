@@ -11,6 +11,15 @@ class PageObject {
     return cy.get('.swal-title');
   }
 
+  get popupBtn() {
+    return cy.get('.swal-button');
+  }
+
+  clickOnPopupBtn() {
+    this.popupBtn
+      .click();
+  }
+
   assertPopupContainText(text) {
     this.popupText
       .should('contain.text', `${text}`);
