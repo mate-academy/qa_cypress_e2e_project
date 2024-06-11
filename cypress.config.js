@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const faker = require('faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -14,24 +14,48 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: faker.internet.userName().toLowerCase() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            wrongEmail: 'wrong@MediaList.com',
+            wrongPassword: 'User!123',
+            notValidPassword: '123456',
+            notValidEmail: 'broken@email',
+            subscriberUsername: `subscriber${faker.internet.userName().toLowerCase()}`,
+            subscriberEmail: `subscriber${randomNumber}@mail.com}`
           };
         },
+
+        generateUpdateData() {
+          const userName = faker.internet.userName() + '_update';
+          const newEmail = faker.internet.email();
+          return {
+            username: userName.toLowerCase(),
+            bio: faker.lorem.sentence(),
+            email: newEmail.toLowerCase(),
+            password: 'newPassword1!'
+          };
+        },
+
         generateArticle() {
           return {
             title: faker.lorem.word(),
             description: faker.lorem.words(),
-            body: faker.lorem.words(),
-            tag: faker.lorem.word()
+            body: faker.lorem.sentences(3),
+            tags: faker.lorem.words(),
+            editTitle: `new ${faker.lorem.word()}`,
+            editDescription: `new ${faker.lorem.words()}`,
+            editBody: `new ${faker.lorem.sentences(3)}`,
+            editTags: `new ${faker.lorem.words()}`
           };
         },
+
         'db:clear'() {
           clear();
 
           return null;
         },
+
         'db:seed'() {
           seed();
 
