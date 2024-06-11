@@ -26,6 +26,10 @@ class SettingsPage extends PageObject {
   logout() {
     cy.getByDataCy('logout-btn').click();
   }
+
+  assertEmail(value) {
+    cy.getByDataCy('email').should('contain.value', value);
+  }
 }
 
 export default SettingsPage;

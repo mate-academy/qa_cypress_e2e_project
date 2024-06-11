@@ -50,6 +50,8 @@ describe('Settings page', () => {
     settingsPage.updateEmail(user.emailNew);
     settingsPage.submit();
     pageObject.assertPopupContainTitle(assertPopupContainTitle);
+    cy.reload();
+    settingsPage.assertEmail(user.emailNew);
   });
 
   it('should provide an ability to update password', () => {
