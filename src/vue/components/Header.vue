@@ -18,6 +18,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -71,7 +72,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
