@@ -27,6 +27,7 @@
         </li>
         <li class="nav-item">
           <router-link
+          data-cy="header-sign-up-btn"
             class="nav-link"
             active-class="active"
             exact
