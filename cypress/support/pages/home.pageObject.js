@@ -11,6 +11,14 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  assertSuccessfullRegistration() {
+    cy.get('.swal-text').should('contain', 'Your registration was successful!');
+  }
+
+  yourFeed() {
+    cy.contains('.nav-link', 'Your Feed').click();
+  }
 }
 
 export default HomePageObject;
