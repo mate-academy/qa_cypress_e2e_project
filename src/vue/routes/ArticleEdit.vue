@@ -11,6 +11,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   v-model="article.title"
+                  data-cy="articleTitle"
                   placeholder="Article Title"
                 />
               </fieldset>
@@ -19,6 +20,7 @@
                   type="text"
                   class="form-control"
                   v-model="article.description"
+                  data-cy="aboutArticle"
                   placeholder="What's this article about?"
                 />
               </fieldset>
@@ -27,6 +29,7 @@
                   class="form-control"
                   rows="8"
                   v-model="article.body"
+                  data-cy="bodyArticle"
                   placeholder="Write your article (in markdown)"
                 >
                 </textarea>
@@ -37,6 +40,7 @@
                   class="form-control"
                   v-model="tag"
                   :tags="tags"
+                  data-cy="publishButton"
                   @tags-changed="newTags => tags = newTags"
                 />
               </fieldset>
