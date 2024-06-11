@@ -1,8 +1,9 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+const SignInPageObject = require('../support/pages/signIn.pageObject');
+const HomePageObject = require('../support/pages/home.pageObject');
+const faker = require('faker');
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -29,6 +30,23 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
-
+    const wrongEmail = 'ababahalamaha@gmail.com';
+    const wrongPassword = '11111111';
+  
+    cy.visit('#/login');
+  
+    cy.get('[placeholder="Email"]').type(wrongEmail);
+    cy.get('[placeholder="Password"]').type(wrongPassword);
+    cy.get('.btn-primary').click();
+  
+  
+    cy.get('.swal-modal').should('be.visible').within(() => {
+      cy.get('.swal-title').should('contain.text', 'Login failed!');
+      cy.get('.swal-text').should('contain.text', 'Invalid user credentials.');
+      cy.get('.swal-button--confirm').click();
+    });
+  
+    cy.url().should('include', '/login');
   });
+  
 });
