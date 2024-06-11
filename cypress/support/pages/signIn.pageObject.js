@@ -29,6 +29,34 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  assertMessageInvalidEmail() {
+    cy.get('.swal-title')
+      .should('contain', 'Login failed!');
+    cy.get('.swal-text')
+      .should('contain', 'Email must be a valid email.');
+  }
+
+  assertMessageInvalidPassword() {
+    cy.get('.swal-title')
+      .should('contain', 'Login failed!');
+    cy.get('.swal-text')
+      .should('contain', 'Invalid user credentials.');
+  }
+
+  assertMessageEmptyEmail() {
+    cy.get('.swal-title')
+      .should('contain', 'Login failed!');
+    cy.get('.swal-text')
+      .should('contain', 'Email field required.');
+  }
+
+  assertMessageEmptyPassword() {
+    cy.get('.swal-title')
+      .should('contain', 'Login failed!');
+    cy.get('.swal-text')
+      .should('contain', 'Password field required.');
+  }
 }
 
 export default SignInPageObject;

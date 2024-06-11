@@ -19,6 +19,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.username"
+                  data-cy="username"
                   placeholder="Your username"
                 />
               </fieldset>
@@ -27,6 +28,7 @@
                   class="form-control form-control-lg"
                   rows="8"
                   v-model="user.bio"
+                  data-cy="bio"
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
@@ -35,6 +37,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.email"
+                  data-cy="email"
                   placeholder="Email"
                 />
               </fieldset>
@@ -42,6 +45,7 @@
                 <input
                   class="form-control form-control-lg"
                   type="password"
+                  data-cy="password"
                   v-model="user.password"
                   placeholder="Password"
                 />

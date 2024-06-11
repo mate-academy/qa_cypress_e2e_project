@@ -32,10 +32,24 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+Cypress.Commands.add('register', (email = 'sandra_m0123@test.com', username = 'sandra_ma0123', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
     username,
     password
   });
+});
+
+Cypress.Commands.add('login', (email = 'sandra_m0123@test.com', username = 'sandra_ma0123', password = '12345Qwert!') => {
+  cy.request('POST', '/users', {
+    email,
+    username,
+    password
+  }).then((response) => {
+    cy.setCookie('drash_sess', response.body.user.token);
+  });
+});
+
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
 });

@@ -32,7 +32,7 @@
             exact
             :to="{ name: 'register' }"
           >
-            <i class="ion-compose"></i>Sign up
+            <i class="ion-compose" data-cy = 'signUpLink'></i>Sign up
           </router-link>
         </li>
       </ul>
