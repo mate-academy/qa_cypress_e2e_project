@@ -14,11 +14,13 @@ function generateData() {
       password: generatePasswords(),
       settings: genSettings()
     },
+
     someone: {
       username: generateUsername(),
       email: generateEmail(),
       password: generatePasswords()
     },
+
     article: {
       title: generateRandomText(getRandomNumber(5, 20)),
       about: generateRandomText(getRandomNumber(10, 40)),

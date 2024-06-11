@@ -2,6 +2,7 @@ function generateRandomText(length) {
   const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const spaceFrequency = 0.15;
+
   let randomText = '';
   let isFirstNonSpaceCharacter = true;
 

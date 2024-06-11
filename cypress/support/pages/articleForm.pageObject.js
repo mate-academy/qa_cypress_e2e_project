@@ -57,6 +57,7 @@ class ArticleFormPageObject extends PageObject {
     if (option !== 'without title') {
       this.titleFieldType(title);
     }
+
     this.aboutFieldType(about);
     this.bodyFieldType(body);
     this.tagsFieldType(tags);

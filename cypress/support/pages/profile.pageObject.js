@@ -22,10 +22,12 @@ class ProfilePageObject extends PageObject {
       this.genData.someone.username,
       this.genData.someone.password.passwordDefault
     );
+
     cy.window().then((win) => {
       const userFromLocal = JSON.parse(win.localStorage.getItem('user'));
       cy.visit(`/#/@${userFromLocal.username}/`);
     });
+
     cy.register(
       this.genData.user.email.default,
       this.genData.user.username,

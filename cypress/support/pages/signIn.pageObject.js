@@ -55,11 +55,9 @@ class SignInPageObject extends PageObject {
     if (option !== 'without registration') {
       this.registrationForSignIn();
     }
-
     if (option !== 'without email') {
       this.typeEmail(this.genData.user.email.default);
     }
-
     if (option !== 'without password') {
       this.typePassword(this.genData.user.password.passwordDefault);
     }

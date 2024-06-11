@@ -58,6 +58,7 @@ class HomePageObject extends PageObject {
 
     cy.window().then((win) => {
       const userFromLocal = JSON.parse(win.localStorage.getItem('user'));
+
       cy.visit(`/#/@${userFromLocal.username}/`);
     });
   }
@@ -65,6 +66,7 @@ class HomePageObject extends PageObject {
   goToTheArticle() {
     cy.window().then((win) => {
       const articleFromLocal = JSON.parse(win.localStorage.getItem('article'));
+
       cy.visit(`/#/articles/${articleFromLocal.slug}`);
     });
   }

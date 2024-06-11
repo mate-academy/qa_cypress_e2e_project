@@ -97,6 +97,14 @@ class PopUpPageObject extends PageObject {
     };
   }
 
+  get okBtn() {
+    return cy.get('[class="swal-button swal-button--confirm"]');
+  }
+
+  okBtnClick() {
+    this.okBtn.click();
+  }
+
   get title() {
     return cy.get('.swal-title');
   }
@@ -111,14 +119,6 @@ class PopUpPageObject extends PageObject {
 
   assertText(text) {
     this.text.should('contain', text);
-  }
-
-  get okBtn() {
-    return cy.get('[class="swal-button swal-button--confirm"]');
-  }
-
-  okBtnClick() {
-    this.okBtn.click();
   }
 
   popUpAssert(process) {

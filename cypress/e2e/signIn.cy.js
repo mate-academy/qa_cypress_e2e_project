@@ -18,7 +18,7 @@ describe('Sign In page', () => {
     homePage.signInBtnClick();
   });
 
-  it('should redirect user on Sign Up page by clicking on the Need an account?',
+  it('should redirect user on Sign Up Page by clicking on the Need an account?',
     () => {
       signInPage.clickNeedAccountLink();
 

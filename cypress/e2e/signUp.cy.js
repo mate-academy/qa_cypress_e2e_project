@@ -11,7 +11,7 @@ const signUp = new SignUpPageObject();
 const popUp = new PopUpPageObject();
 const signIn = new SignInPageObject();
 
-describe('Sign Up page', () => {
+describe('Sign Up page tests', () => {
   before(() => {
 
   });

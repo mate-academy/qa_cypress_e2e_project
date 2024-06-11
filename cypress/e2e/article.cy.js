@@ -11,7 +11,7 @@ const articleFormPage = new ArticleFormPageObject();
 const articlePage = new ArticlePageObject();
 const popUpObject = new PopUpPageObject();
 
-describe('Article', () => {
+describe('Article tests', () => {
   before(() => {});
 
   beforeEach(() => {

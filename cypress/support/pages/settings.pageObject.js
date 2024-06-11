@@ -188,6 +188,7 @@ class SettingsPageObject extends PageObject {
       this.homePage.visit();
       cy.reload();
       this.homePage.signInBtnClick();
+
       cy.window().then((win) => {
         const userFromLocal = JSON.parse(win.localStorage.getItem('user'));
         this.signInPage.signInConfirmProcess(

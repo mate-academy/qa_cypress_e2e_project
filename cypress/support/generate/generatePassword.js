@@ -1,8 +1,8 @@
-function getRandomChar(characters) {
-  return characters.charAt(Math.floor(Math.random() * characters.length));
-}
-
 function generatePasswords() {
+  function getRandomChar(characters) {
+    return characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
   function generatePassword(option = 'default') {
     let length = 8;
     let lowercase = 'abcdefghijklmnopqrstuvwxyz';

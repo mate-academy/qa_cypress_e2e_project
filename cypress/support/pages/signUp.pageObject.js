@@ -124,8 +124,6 @@ class SignUpPageObject extends PageObject {
         this.typeEmail(this.genData.user.email.withDoubleDot);
         this.typePassword(this.genData.user.password.passwordDefault);
         break;
-      default:
-        break;
     }
 
     this.clickSignUpBtn();

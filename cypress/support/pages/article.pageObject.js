@@ -83,7 +83,6 @@ class ArticlePageObject extends PageObject {
         userFromLocal.id
       );
     });
-    // cy.articleCreateButFake();
   }
 
   deleteAssertion() {

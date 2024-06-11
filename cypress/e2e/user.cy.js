@@ -7,7 +7,7 @@ import ProfilePageObject from '../support/pages/profile.pageObject';
 const homePage = new HomePageObject();
 const profilePage = new ProfilePageObject();
 
-describe('User', () => {
+describe('User tests', () => {
   before(() => {
     cy.task('db:clear');
     homePage.visit();

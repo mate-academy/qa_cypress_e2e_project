@@ -7,8 +7,8 @@ function genSettings() {
   function genUrl() {
     const address = generateUsername();
     const domain = generateUsername(3);
-    const endpoint = generateUsername();
-    return `http://${address}.${domain}/${endpoint}`.toLowerCase();
+    const endPoint = generateUsername();
+    return `http://${address}.${domain}/${endPoint}`.toLowerCase();
   }
 
   return {

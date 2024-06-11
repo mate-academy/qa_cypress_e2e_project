@@ -110,23 +110,3 @@ Cypress.Commands.add(
     });
   }
 );
-
-// cy.register(user.email, user.username, user.password).then((user) => {
-//   cy.createArticle(
-//     user.id, article.title, article.description, article.body
-//   )
-//     .then((response) => {
-//       const slug = response.body.article.slug;
-//       cy.visit(`/#/articles/${slug}`);
-//     });
-// });
-
-// Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-//   cy.request('POST', '/api/users', {
-//     user: {
-//       email,
-//       username,
-//       password
-//     }
-//   });
-// });

@@ -9,7 +9,7 @@ const homePage = new HomePageObject();
 const settingsPage = new SettingsPageObject();
 const popUp = new PopUpPageObject();
 
-describe('Settings page', () => {
+describe('Settings page tests', () => {
   before(() => {
 
   });
