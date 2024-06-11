@@ -1,4 +1,4 @@
-function alertsMessages() { 
+function alertMessages() { 
     const registrationFailedMessage = 'Registration failed!'; 
     const emptyUsernameMessage = 'Username field required.'; 
     const emptyEmailMessage = 'Email field required.'; 
@@ -27,4 +27,4 @@ function alertsMessages() {
     }; 
   } 
    
-  export default alertsMessages;
+  export default alertMessages;

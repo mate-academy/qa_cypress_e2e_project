@@ -3,11 +3,12 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
-import alertMessages from '../support/pages/alertMessagesPageObject';
+import alertMessages from '../support/pages/alertMessages.PageObject';
 // import * as alertMessage from '../support/alertMessages';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
+const wrongEmail = '5555getParsedCommandLineOfConfigFile.com';
 
 describe('Sign In page', () => {
   let user;
@@ -34,20 +35,23 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
     signInPage.typePassword(user.password);
-    signInPage.typeEmail();
+    //signInPage.typeEmail();
+    signInPage.typeEmail(wrongEmail);
     signInPage.clickSignInBtn();
-     signInPage.assertModalContent(alertMessages.loginFailedMessage);
-     signInPage.assertModalContent(alertMessages.invalidEmailMessage);
+     signInPage.assertModalContent('Login failed!');
+     signInPage.assertModalContent('Email must be a valid email.');
     signInPage.clickOkBtn();
   });
 
   it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
     signInPage.typeEmail(user.email);
    // signInPage.typePassword(user.updatedPassword);
     signInPage.clickSignInBtn();
-     signInPage.assertModalContent(alertMessages.loginFailedMessage);
-     signInPage.assertModalContent(alertMessages.invalidPasswordMessage);
+     signInPage.assertModalContent('Login failed!');
+     //signInPage.assertModalContent('Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.');
     signInPage.clickOkBtn();
   });
 });

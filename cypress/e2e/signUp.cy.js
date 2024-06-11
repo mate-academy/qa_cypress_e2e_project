@@ -1,7 +1,7 @@
 /// <reference types='cypress' /> 
 /// <reference types='../support' /> 
  
-import {alertMessages} from '../support/pages/alertMessagesPageObject';
+import {alertMessages} from '../support/pages/alertMessages.PageObject';
 // import SignUpPageObject from '@pages/SignUpPageObject.js';
  import SignUpPageObject from '../support/pages/SignUpPageObject'; 
  
