@@ -1,5 +1,6 @@
-const { defineConfig } = require('cypress');
 const faker = require('@faker-js/faker');
+
+const { defineConfig } = require('cypress');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -11,7 +12,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:1667/',
     setupNodeEvents(on, config) {
       on('task', {
-        generateUser() {
+        generateInvalidUserdata() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
