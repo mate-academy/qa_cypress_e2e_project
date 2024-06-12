@@ -1,6 +1,3 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
-
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 
@@ -18,17 +15,28 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
+    signInPage.visit('#/login');
+    cy.login(user.username, user.email, user.password);
+    cy.log('Typing password');
     signInPage.typePassword(user.password);
+    cy.log('Visiting login page and typing email');
+    signInPage.typeEmail(user.email);
+    cy.log('Clicking sign in button');
     signInPage.clickSignInBtn();
-
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in without email field', () => {
+    signInPage.visit('#/login');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.assertUnSuccessModal('Email');
+  });
 
+  it('should not provide an ability to log in without password field', () => {
+    signInPage.visit('#/login');
+    signInPage.typeEmail(user.email);
+    signInPage.clickSignInBtn();
+    signInPage.assertUnSuccessLogin();
   });
 });
