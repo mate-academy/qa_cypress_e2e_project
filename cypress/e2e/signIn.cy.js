@@ -9,16 +9,23 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  const wrongUser = {
+    wrongEmail: 'maksi',
+    passwordBad: 'maksi'
+  };
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
+  beforeEach(() => {
+    cy.task('db:clear');
     signInPage.visit();
+  });
+
+  it('should provide an ability to log in with existing credentials', () => {
     cy.register(user.email, user.username, user.password);
 
     signInPage.typeEmail(user.email);
@@ -28,7 +35,33 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with empty email', () => {
+    signInPage.typePassword(user.password);
 
+    signInPage.clickSignInBtn();
+    signInPage.assertMessageBlankEmail();
+  });
+
+  it('should not provide an ability to log in with empty password', () => {
+    signInPage.typeEmail(user.email);
+
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessageBadPassword();
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(wrongUser.passwordBad);
+
+    signInPage.clickSignInBtn();
+    signInPage.assertErrorMessageBadPassword();
+  });
+
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.typeEmail(wrongUser.wrongEmail);
+    signInPage.typePassword(user.password);
+
+    signInPage.clickSignInBtn();
+    signInPage.asserErrorMessageBadEmail();
   });
 });
