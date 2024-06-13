@@ -16,18 +16,21 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.clear().type('{selectAll}' + email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type('{selectAll}' + password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  assertTheMessageErrorInvalidPassword() {
+    cy.get('.swal-title').should('contain', 'Login failed!');
+    cy.get('.swal-text').should('contain', 'Invalid user credentials.');
+    cy.get('.swal-button').click();
   }
 }
 

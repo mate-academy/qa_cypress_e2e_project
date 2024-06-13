@@ -19,6 +19,7 @@
               <button
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
+                data-cy = "unfollow-btn"
                 @click.prevent="unfollow()"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
@@ -27,6 +28,7 @@
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
+                data-cy = "follow-btn"
                 @click.prevent="follow()"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
