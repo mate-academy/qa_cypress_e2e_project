@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script>
+<script data-cy="login">
 import { mapGetters } from "vuex";
 import swal from "sweetalert";
 
