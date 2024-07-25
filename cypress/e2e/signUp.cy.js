@@ -16,51 +16,43 @@ describe('Sign Up page', () => {
     });
   });
 
-  it('should provide an ability to sign up a new user', () => {
+  beforeEach(() => {
     signUpPage.visit();
+  });
 
-    signUpPage.inputUsername(user.username);
-    signUpPage.inputEmail(user.email);
-    signUpPage.inputPassword(user.password);
+  it('should provide an ability to sign up a new user', () => {
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
 
     signUpPage.clickSignUpBtn();
-
     homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should provide an error message when' +
     'the user doesn`t input the "Username" field', () => {
-    signUpPage.visit();
-
-    signUpPage.inputEmail(user.email);
-    signUpPage.inputPassword(user.password);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
 
     signUpPage.clickSignUpBtn();
-
     signUpPage.findErrorMessage('Username field required.');
   });
 
   it('should provide an error message when' +
     ' the user doesn`t input the "Email" field', () => {
-    signUpPage.visit();
-
-    signUpPage.inputUsername(user.username);
-    signUpPage.inputPassword(user.password);
+    signUpPage.typeUsername(user.username);
+    signUpPage.typePassword(user.password);
 
     signUpPage.clickSignUpBtn();
-
     signUpPage.findErrorMessage('Email field required.');
   });
 
   it('should provide an error message when' +
     ' the user doesn`t input the "Password" field', () => {
-    signUpPage.visit();
-
-    signUpPage.inputUsername(user.username);
-    signUpPage.inputEmail(user.email);
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmail(user.email);
 
     signUpPage.clickSignUpBtn();
-
     signUpPage.findErrorMessage('Password field required.');
   });
 });

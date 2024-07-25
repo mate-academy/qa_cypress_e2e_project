@@ -7,7 +7,7 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataCy('username-sign-up');
   }
 
-  inputUsername(username) {
+  typeUsername(username) {
     this.findUsernameField.type(username);
   }
 
@@ -15,7 +15,7 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataCy('email-sign-up');
   }
 
-  inputEmail(email) {
+  typeEmail(email) {
     this.findEmailField.type(email);
   }
 
@@ -23,7 +23,7 @@ class SignUpPageObject extends PageObject {
     return cy.getByDataCy('password-sign-up');
   }
 
-  inputPassword(password) {
+  typePassword(password) {
     this.findPasswordField.type(password);
   }
 

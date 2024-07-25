@@ -8,6 +8,7 @@ import SignInPageObject from '../support/pages/signIn.pageObject';
 const articlePage = new ArticlePageObject();
 const homePage = new HomePageObject();
 const signInPage = new SignInPageObject();
+const editText = ' - edit';
 
 describe('Article', () => {
   let user;
@@ -17,61 +18,46 @@ describe('Article', () => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
+      cy.register(user.email, user.username, user.password);
     });
     cy.task('generateArticle').then((generateArticle) => {
       article = generateArticle;
     });
   });
 
-  it('should be created using New Article form', () => {
+  beforeEach(() => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-
     homePage.assertHeaderContainUsername(user.username);
+  });
 
+  it('should be created using New Article form', () => {
     articlePage.clickArticleLink();
-    articlePage.inputTitle(article.title);
-    articlePage.inputTopic(article.description);
-    articlePage.inputBody(article.body);
-    articlePage.inputTags(article.tag);
+    articlePage.typeTitle(article.title);
+    articlePage.typeTopic(article.description);
+    articlePage.typeBody(article.body);
+    articlePage.typeTags(article.tag);
     articlePage.clickPublishBtn();
     articlePage.checkCreatedArticle(article.title);
   });
 
   it('should be edited using Edit button', () => {
-    signInPage.visit();
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
-
     articlePage.clickYourFeedTab();
     articlePage.clickArticleThatWasCreated(article.title);
     articlePage.checkCreatedArticle(article.title);
     articlePage.clickEditLink(article.title);
 
-    articlePage.inputTitle(' - edit');
-    articlePage.inputTopic(' - edit');
-    articlePage.inputBody(' - edit');
+    articlePage.typeTitle(editText);
+    articlePage.typeTopic(editText);
+    articlePage.typeBody(editText);
     articlePage.clickPublishBtn();
-    articlePage.checkEditedArticle(article.title + ' - edit');
+    articlePage.checkEditedArticle(article.title + editText);
   });
 
   it('should be deleted using Delete button', () => {
-    signInPage.visit();
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
-
     articlePage.clickYourFeedTab();
     articlePage.clickArticleThatWasCreated(article.title);
     articlePage.clickDeleteBtn();

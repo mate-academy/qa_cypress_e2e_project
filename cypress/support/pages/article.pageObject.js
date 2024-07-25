@@ -15,7 +15,7 @@ class ArticlePageObject extends PageObject {
     return cy.getByDataCy('article-title-field');
   }
 
-  inputTitle(title) {
+  typeTitle(title) {
     this.findTitleField.type(title);
   }
 
@@ -23,7 +23,7 @@ class ArticlePageObject extends PageObject {
     return cy.getByDataCy('article-topic-field');
   }
 
-  inputTopic(topic) {
+  typeTopic(topic) {
     this.findTopicField.type(topic);
   }
 
@@ -31,7 +31,7 @@ class ArticlePageObject extends PageObject {
     return cy.getByDataCy('article-body-field');
   }
 
-  inputBody(body) {
+  typeBody(body) {
     this.findBodyField.type(body);
   }
 
@@ -39,7 +39,7 @@ class ArticlePageObject extends PageObject {
     return cy.getByDataCy('article-tags-field');
   }
 
-  inputTags(tags) {
+  typeTags(tags) {
     this.findTagsField.type(tags);
   }
 

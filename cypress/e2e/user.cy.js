@@ -7,16 +7,17 @@ import ArticlePageObject from '../support/pages/article.pageObject';
 import SettingsPageObject from '../support/pages/settings.pageObject';
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 
+let user;
+let article;
+
 const signInPage = new SignInPageObject();
 const userPage = new UserPageObject();
 const articlePage = new ArticlePageObject();
 const settingsPage = new SettingsPageObject();
 const signUpPage = new SignUpPageObject();
+const secondUser = 'test';
 
 describe('User', () => {
-  let user;
-  let article;
-
   before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
@@ -28,30 +29,30 @@ describe('User', () => {
     });
   });
 
-  it('should be able to follow the another user', () => {
+  beforeEach(() => {
     signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
     articlePage.clickArticleLink();
-    articlePage.inputTitle(article.title);
-    articlePage.inputTopic(article.description);
-    articlePage.inputBody(article.body);
+    articlePage.typeTitle(article.title);
+    articlePage.typeTopic(article.description);
+    articlePage.typeBody(article.body);
     articlePage.clickPublishBtn();
-
     settingsPage.clickSettingsLink();
     settingsPage.clickLogoutBtn();
 
     signUpPage.visit();
-
-    signUpPage.inputUsername('test' + user.username);
-    signUpPage.inputEmail('test' + user.email);
-    signUpPage.inputPassword(user.password);
+    signUpPage.typeUsername(secondUser + user.username);
+    signUpPage.typeEmail(secondUser + user.email);
+    signUpPage.typePassword(user.password);
 
     signUpPage.clickSignUpBtn();
-
     userPage.assertSuccessfulRegistration();
+  });
+
+  it('should be able to follow the another user', () => {
     articlePage.clickYourFeedTab();
     articlePage.clickArticleThatWasCreated(article.title);
     userPage.clickFollowBtn();
