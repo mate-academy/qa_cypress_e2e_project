@@ -8,6 +8,7 @@
   - [Troubleshooting](#troubleshooting)
 
 ## How to Run
+<!-- docker must be installed on your device -->
 
 Pre-setup:
 
