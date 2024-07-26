@@ -1,46 +1,31 @@
-# ![Drash Example App](logo.png)
+# User Flow Testing - POM
 
-## Workflow
+## Project Description
 
-1. Fork the repo.
-1. Clone **your** forked repository.
-1. Run `npm i`.
-1. Create a new branch `git checkout -b e2e_testing`.
-1. Run the [app](./DEV.md).
-1. Resolve tasks.
-1. Check yourself before submitting the task with a [Cypress checklist](https://mate-academy.github.io/qa-program/checklists/cypress.html).
-1. Create a pull request.
-1. Do not forget to click on `Re-request review` if you submit the homework after previous review.
+This project covers key aspects of user experience, including:
 
-## Task
+- User registration and login.
+- User data modification.
+- Creating, editing, and deleting articles.
+- Interaction with other users.
 
-Go to `e2e` folder and cover listed functionality with e2e tests:
+Testing includes both positive and negative test cases. Page Object Model (POM) was used to enhance code readability and facilitate easier modifications `cypress`/`support`/`pages`.
+Each element interacted with by the code has been assigned a `data-cy` attribute.
 
-- creating an article;
-- editings an article;
-- deleting an article;
-- sign in (positive);
-- sign in (invalid credentials);
-- sign up (positive);
-- sign up (negative);
-- following/unfollowing the user;
-- updating bio;
-- updating username;
-- updating email;
-- updating password.
+Additionally, `cy.task` was utilized for improved server interaction. API was employed for creating new users and articles directly on the site.
 
-### Basics level
+## How to Run the Project
 
-1. Clear all data from the database before the test.
-1. Add `data-qa` attributes for all elements you are working with in tests.
-1. Use faker and custom methods to generate a fake data in tests.
+- Fork the repo.
+- Clone **your** forked repository.
+- Run `npm i`.
+- Install Cypress `npm install cypress --save -dev`
+- Run the [app](./DEV.md).
+- Run Cypress `npx cypress open`
 
-### Advanced level
+## Test Locations
 
-Use PageObject pattern for your tests:
-
-1. Create a files with POM classes for your pages in `cypress`/`support`/`pages`.
-1. Use `PageObject.js` file for the common for the whole app elements.
-
-Observe an example in `cypress`/`e2e`/`signIn.cy.js`.  
-Find and additinoanl about Page Object in the [Cypress](https://mate.academy/learn/javascript-testing/cypress#/theory) topic.
+- e2e testing folder `cypress`/`e2e`.
+- test data generation `cypress.config.js`.
+- new cypress commands with API request `cypress`/`support`/`commands.js`.
+- Page Object Model `cypress`/`support`/`pages`.
