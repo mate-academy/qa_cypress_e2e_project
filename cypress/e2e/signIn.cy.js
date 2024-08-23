@@ -16,7 +16,7 @@ describe('Sign In page', () => {
       user = generateUser;
     });
   });
-
+  //this basic test doesnt work
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
@@ -29,6 +29,12 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(user.invalidEmail);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-title').should('contain', 'Login failed!');
   });
 });
