@@ -1,0 +1,11 @@
+{
+  "signUp": "Sign up",
+  "signIn": "Sign in",
+  "publishArticle": "Publish Article",
+  "editArticle": "Edit Article",
+  "deleteArticle": "Delete Article",
+  "followUser": "Follow",
+  "unfollowUser": "Unfollow",
+  "updateSettings": "Update Settings",
+  "logout": "Or click here to logout."
+}

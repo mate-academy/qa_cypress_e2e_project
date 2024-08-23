@@ -3,9 +3,12 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign up</h1>
+          <h1 
+            class="text-xs-center"
+            data-qa="title-page"
+          >Sign up</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'login' }">
+            <router-link :to="{ name: 'login' }" data-qa="link-to-sign-in-page">
               Have an account?
             </router-link>
           </p>
@@ -19,6 +22,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa="username-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +31,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="email-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +40,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa="password-sign-up"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-up">
               Sign up
             </button>
           </form>
@@ -88,7 +94,7 @@ export default {
             swal({
               title: "Welcome!",
               text: "Your registration was successful!",
-              icon: "success",
+              icon: "success"
             });
             return this.$router.push({ name: "home" });
           }

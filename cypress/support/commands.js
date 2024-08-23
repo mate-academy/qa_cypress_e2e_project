@@ -28,14 +28,88 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('getByDataQa', (selector) => {
+  cy.get(`[data-qa="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
+Cypress.Commands.add(`register`, (userData) => {
+  const {
     username,
-    password
+    email: { normalEmail },
+    password: { normalPassword }
+  } = userData;
+
+  cy.request('POST', 'users', {
+    email: normalEmail,
+    username,
+    password: normalPassword
+  }).then((response) => ({
+    ...response.body.user,
+    normalPassword
+  }));
+});
+
+Cypress.Commands.add(`login`, (email, password) => {
+  cy.request('POST', 'users/login', {
+    user: {
+      email,
+      password
+    }
+  }).then((response) => {
+    const user = {
+      id: response.body.user.id,
+      username: response.body.user.username,
+      email: response.body.user.email,
+      bio: response.body.user.bio,
+      image: `https://static.productionready.io/images/smiley-cyrus.jpg`,
+      token: response.body.user.token
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', user.token);
   });
+});
+
+Cypress.Commands.add(`authorization`, (userData) => {
+  const {
+    username,
+    email: { normalEmail },
+    password: { normalPassword }
+  } = userData;
+
+  cy.request('POST', `users`, {
+    email: normalEmail,
+    username,
+    password: normalPassword
+  }).then((response) => {
+    const user = {
+      id: response.body.user.id,
+      username: response.body.user.username,
+      email: response.body.user.email,
+      bio: response.body.user.bio,
+      image: `https://static.productionready.io/images/smiley-cyrus.jpg`,
+      token: response.body.user.token
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('drash_sess', user.token);
+
+    return cy.wrap(user).as(`userInfo`);
+  });
+});
+
+Cypress.Commands.add(`createArticle`, (articleData, id) => {
+  const { title, description, body, tag } = articleData;
+
+  cy.request('POST', 'articles', {
+    article: {
+      author_id: id,
+      title,
+      description,
+      body,
+      tags: tag
+    }
+  }).then((response) => response.body.article);
+});
+
+Cypress.Commands.add(`followUser`, (username) => {
+  cy.request('POST', `profiles/${username}/follow`, {});
 });
