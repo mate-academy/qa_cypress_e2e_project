@@ -1,5 +1,5 @@
 <template>
-  <div class="home-my-feed"><ArticleList type="feed" /></div>
+  <div class="home-my-feed" data-cy="created-articles-list"><ArticleList type="feed" /></div>
 </template>
 
 <script>
