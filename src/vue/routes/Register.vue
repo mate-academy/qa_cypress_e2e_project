@@ -14,30 +14,18 @@
           </ul>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
-                type="text"
-                v-model="username"
-                placeholder="Username"
-              />
+              <input class="form-control form-control-lg" type="text" v-model="username" placeholder="Username"
+                data-cy="username-sign-up" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
-                type="text"
-                v-model="email"
-                placeholder="Email"
-              />
+              <input class="form-control form-control-lg" type="text" v-model="email" placeholder="Email"
+                data-cy="email-sign-up" />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
-                type="password"
-                v-model="password"
-                placeholder="Password"
-              />
+              <input class="form-control form-control-lg" type="password" v-model="password" placeholder="Password"
+                data-cy="password-sign-up" />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="button-sign-up">
               Sign up
             </button>
           </form>

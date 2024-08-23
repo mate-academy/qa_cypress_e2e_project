@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
 const {
@@ -8,15 +8,17 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    baseUrl: 'http://localhost:1667',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random() * 1000);
+          const fullName = faker.person.fullName(); // Ensure this method exists in your faker version
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            username: `${fullName}${randomNumber}`,
+            email: `test${randomNumber}@mail.com`,
+            password: '12345Qwert!',
+            fullName: fullName
           };
         },
         generateArticle() {
@@ -29,12 +31,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });

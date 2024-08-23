@@ -10,7 +10,7 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
@@ -21,14 +21,17 @@ describe('Sign In page', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
+    cy.signIn(user.email, user.password);
 
     homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    cy.signIn('qwertyu123@qa.team', user.password);
+
+    cy.get('.swal-title').should('contain', 'Login failed!');
   });
 });

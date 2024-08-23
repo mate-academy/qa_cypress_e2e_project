@@ -7,53 +7,33 @@
           <form @submit.prevent="updateSettings()">
             <fieldset>
               <fieldset class="form-group">
-                <input
-                  class="form-control"
-                  type="text"
-                  v-model="user.image"
-                  placeholder="URL of profile picture"
-                />
+                <input class="form-control" type="text" v-model="user.image" placeholder="URL of profile picture"
+                  data-cy="avatar-field" />
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="text"
-                  v-model="user.username"
-                  placeholder="Your username"
-                />
+                <input class="form-control form-control-lg" type="text" v-model="user.username"
+                  placeholder="Your username" data-cy="username-settings" />
               </fieldset>
               <fieldset class="form-group">
-                <textarea
-                  class="form-control form-control-lg"
-                  rows="8"
-                  v-model="user.bio"
-                  placeholder="Short bio about you"
-                ></textarea>
+                <textarea class="form-control form-control-lg" rows="8" v-model="user.bio"
+                  placeholder="Short bio about you" data-cy="bio-settings"></textarea>
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="text"
-                  v-model="user.email"
-                  placeholder="Email"
-                />
+                <input class="form-control form-control-lg" type="text" v-model="user.email" placeholder="Email"
+                  data-cy="email-settings" />
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="password"
-                  v-model="user.password"
-                  placeholder="Password"
-                />
+                <input class="form-control form-control-lg" type="password" v-model="user.password"
+                  placeholder="Password" data-cy="password-settings" />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-button-settings">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-cy="logout-button-settings">
             Or click here to logout.
           </button>
         </div>
