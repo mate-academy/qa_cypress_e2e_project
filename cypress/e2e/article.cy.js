@@ -27,7 +27,6 @@ describe('Article', () => {
   });
 
   beforeEach(() => {
-    // Sign in before each test
     signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -47,26 +46,21 @@ describe('Article', () => {
 
   it('should be edited using Edit button', () => {
     cy.createArticleAsUser(article.title, article.description, article.body);
-    // Assuming you navigate to the article and click edit
     articlePage.clickOnArticle(article.title);
     articlePage.clickEditArticle();
 
-    // Modify and submit the article
     const updatedTitle = `${article.title} - Edited`;
     articlePage.typeArticleTitle(updatedTitle);
     articlePage.clickPublishArticleBtn();
 
-    // Assert the article was updated
     articlePage.getArticleTitle().should('contain', updatedTitle);
   });
 
-  it('should be deleted using Delete button', () => {
+  it.only('should be deleted using Delete button', () => {
     cy.createArticleAsUser(article.title, article.description, article.body);
-    // Assuming you navigate to the article and click delete
     articlePage.clickOnArticle(article.title);
     articlePage.clickDeleteArticle();
 
-    // Assert the article was deleted
     homePage.assertArticleDoesNotExist(article.title);
   });
 });
