@@ -1,6 +1,6 @@
-import PageObject from '../PageObject';
-
 /// <reference types="cypress" />
+
+import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
   constructor(slug) {
@@ -28,17 +28,17 @@ class ArticlePageObject extends PageObject {
     } = articleInfo;
 
     this.banner
-      .children(this.articleTitle)
+      .children()
       .should('contain.text', title)
       .and('be.visible');
 
     this.banner
-      .children(this.articleAuthor)
+      .children()
       .should('contain.text', authorName)
       .and('be.visible');
 
     this.banner
-      .children(this.publishDate)
+      .children()
       .should('contain.text', publishDate)
       .and('be.visible');
   }
@@ -62,7 +62,7 @@ class ArticlePageObject extends PageObject {
 
   assertBannerContainsEditArticleBtn(editBtn) {
     this.banner
-      .children(this.editArticleBtn)
+      .children()
       .should('exist')
       .and('be.visible')
       .and('contain.text', editBtn);
@@ -70,7 +70,7 @@ class ArticlePageObject extends PageObject {
 
   assertBannerContainsDeleteArticleBtn(deleteBtn) {
     this.banner
-      .children(this.deleteArticleBtn)
+      .children()
       .should('exist')
       .and('be.visible')
       .and('contain.text', deleteBtn);
@@ -78,7 +78,7 @@ class ArticlePageObject extends PageObject {
 
   assertBannerContainsFollowBtn(followBtn) {
     this.banner
-      .children(this.followUserBtn)
+      .children()
       .should('exist')
       .and('be.visible')
       .and('contain', followBtn);

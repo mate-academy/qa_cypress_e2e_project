@@ -16,17 +16,15 @@ const profilePage = new ProfilePageObject();
 
 describe('Article page', () => {
   beforeEach(() => {
+    cy.wrap(Cypress.currentTest.title).as('testTitle');
+
     cy.task('db:clear');
 
     cy.task('generateUserData').as('userData').then((user) => {
-      const userData = user;
-
-      cy.authorization(userData).then(({ id }) => {
+      cy.authorization(user).then(({ id }) => {
         cy.task('generateArticle').as('articleData').then((article) => {
           cy.createArticle(article, id).then(({ slug }) => {
-            const articlePage = new ArticlePageObject(slug);
-
-            articlePage.visit();
+            new ArticlePageObject(slug).visit();
 
             cy.wrap(slug)
               .as('articleSlug');
@@ -46,6 +44,7 @@ describe('Article page', () => {
 
     cy.get('@articleSlug').then((slug) => {
       const articleEditor = new ArticleEditorPageObject(slug);
+
       articleEditor.assertPageUrl(articleEditor.url);
     });
 
@@ -89,6 +88,7 @@ describe('Article page', () => {
 
     cy.intercept('PUT', 'articles').as('articleEditing');
     articleEditor.editFormAndSubmit(this.newArticleData);
+
     cy.wait('@articleEditing').then((interception) => {
       const {
         slug: updatedSlug

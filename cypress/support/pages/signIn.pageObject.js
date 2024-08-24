@@ -75,7 +75,7 @@ class SignInPageObject extends PageObject {
       }
 
       if (title.includes(`log in with email`)) {
-        cy.wrap(generateInvalidEmailForTest(title, normalEmail))
+        cy.wrap(generateInvalidEmailForTest(title, userData.email))
           .then((invalidEmail) => {
             this.typeEmail(invalidEmail);
             this.typePassword(normalPassword);

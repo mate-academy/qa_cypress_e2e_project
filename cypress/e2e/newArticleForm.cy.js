@@ -14,6 +14,8 @@ const profilePage = new ProfilePageObject();
 
 describe(`'New Article' form`, () => {
   beforeEach(() => {
+    cy.wrap(Cypress.currentTest.title).as('testTitle');
+
     cy.task('db:clear');
 
     cy.task('generateArticle').as('articleData');
@@ -31,21 +33,11 @@ describe(`'New Article' form`, () => {
 
   it(`should allow to create an article`, function () {
     const { username } = this.userData;
-
-    const {
-      title,
-      description,
-      body,
-      tag
-    } = this.articleData;
+    const { body } = this.articleData;
 
     cy.intercept('POST', 'articles').as('articleCreation');
 
-    articleEditor.typeTitle(title);
-    articleEditor.typeDescription(description);
-    articleEditor.typeBody(body);
-    articleEditor.typeTag(tag);
-    articleEditor.clickOnPublishArticleBtn();
+    articleEditor.fillFormAndSubmit(this.articleData);
 
     cy.wait('@articleCreation').then((interception) => {
       const slug = interception.response.body.article.slug;
@@ -64,19 +56,11 @@ describe(`'New Article' form`, () => {
 
   it(`should allow to create an article with the empty 'Enter Tags' field`, function () {
     const { username } = this.userData;
-
-    const {
-      title,
-      description,
-      body
-    } = this.articleData;
+    const { body } = this.articleData;
 
     cy.intercept('POST', 'articles').as('articleCreation');
 
-    articleEditor.typeTitle(title);
-    articleEditor.typeDescription(description);
-    articleEditor.typeBody(body);
-    articleEditor.clickOnPublishArticleBtn();
+    articleEditor.fillFormAndSubmit(this.articleData);
 
     cy.wait('@articleCreation').then((interception) => {
       const slug = interception.response.body.article.slug;
@@ -95,18 +79,9 @@ describe(`'New Article' form`, () => {
   });
 
   it(`should not allow to create an article with the empty 'Article Title' field`, function () {
-    const {
-      description,
-      body,
-      tag
-    } = this.articleData;
+    articleEditor.fillFormAndSubmit(this.articleData);
 
-    articleEditor.typeDescription(description);
-    articleEditor.typeBody(body);
-    articleEditor.typeTag(tag);
-    articleEditor.clickOnPublishArticleBtn();
-
-    articlePage.assertPageUrl(articleEditor.url);
-    articlePage.assertErrorMessage(validation.error.articleForm);
+    articleEditor.assertPageUrl(articleEditor.url);
+    articleEditor.assertErrorMessage(validation.error.articleForm);
   });
 });

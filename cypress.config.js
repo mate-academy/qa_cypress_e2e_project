@@ -14,13 +14,9 @@ module.exports = defineConfig({
     baseUrl: `http://localhost:1667/`,
     setupNodeEvents(on, config) {
       on('task', {
-        generateUserData() {
-          return generateUserData();
-        },
+        generateUserData,
 
-        generateArticle() {
-          return generateArticle();
-        },
+        generateArticle,
 
         'db:clear'() {
           clear();

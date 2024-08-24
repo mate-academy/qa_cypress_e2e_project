@@ -58,27 +58,30 @@ class ArticleEditorPageObject extends PageObject {
 
   fillFormAndSubmit(articleData, part) {
     const {
-      title,
+      title: articleTitle,
       description,
       body,
       tag
     } = articleData;
 
-    this.titleField
-      .type(part || title);
+    cy.get('@testTitle').then((title) => {
+      if (title.includes(`empty 'Enter Tags' field`)) {
+        this.typeTitle(articleTitle, part);
+        this.typeDescription(description, part);
+        this.typeBody(body, part);
+      } else if (title.includes(`empty 'Article Title' field`)) {
+        this.typeDescription(description, part);
+        this.typeBody(body, part);
+        this.typeTag(tag);
+      } else {
+        this.typeTitle(articleTitle, part);
+        this.typeDescription(description, part);
+        this.typeBody(body, part);
+        this.typeTag(tag);
+      }
+    });
 
-    this.descriptionField
-      .type(part || description);
-
-    this.bodyField
-      .type(part || body);
-
-    this.tagField
-      .children(this.tagField)
-      .type(tag);
-
-    this.publishArticleBtn
-      .click();
+    this.clickOnPublishArticleBtn();
   }
 
   editFormAndSubmit(newArticleData) {
@@ -101,36 +104,35 @@ class ArticleEditorPageObject extends PageObject {
       .clear()
       .type(body);
 
+    // remove tag from field:
     this.tagField
       .find('.ti-actions')
       .click();
 
-    this.tagField
-      .children()
-      .type(tag);
+    // after removing previous one, type new tag:
+    this.typeTag(tag);
 
-    this.publishArticleBtn
-      .click();
+    this.clickOnPublishArticleBtn();
   }
 
-  typeTitle(articleTitle) {
+  typeTitle(articleTitle, part) {
     this.titleField
-      .type(articleTitle);
+      .type(part || articleTitle);
   }
 
-  typeDescription(articleDescription) {
+  typeDescription(articleDescription, part) {
     this.descriptionField
-      .type(articleDescription);
+      .type(part || articleDescription);
   }
 
-  typeBody(articleBody) {
+  typeBody(articleBody, part) {
     this.bodyField
-      .type(articleBody);
+      .type(part || articleBody);
   }
 
   typeTag(articleTag) {
     this.tagField
-      .children(this.tagField)
+      .children()
       .type(articleTag);
   }
 

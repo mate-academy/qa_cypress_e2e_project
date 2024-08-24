@@ -113,14 +113,14 @@ class SettingsPageObject extends PageObject {
         this.typePassword(normalPassword);
       }
 
-      if (title.includes(`updating email`)) {
-        cy.wrap(generateInvalidEmailForTest(title, normalEmail))
+      if (title.includes(`updating email with`)) {
+        cy.wrap(generateInvalidEmailForTest(title, newUserData.email))
           .then((invalidEmail) => {
             this.typeEmail(invalidEmail);
           });
       }
 
-      if (title.includes(`password`)) {
+      if (title.includes(`update the password with`)) {
         cy.wrap(setPasswordForTest(title, newUserData.password))
           .then((password) => {
             this.typePassword(password);
@@ -173,7 +173,6 @@ class SettingsPageObject extends PageObject {
   }
 
   assertEmailUpdated(newEmail, userData) {
-    // add error handling:
     this.emailField
       .should('contain.value', newEmail);
 
@@ -186,9 +185,7 @@ class SettingsPageObject extends PageObject {
 
     cy.login(newEmail, normalPassword);
 
-    this.profilePage = new ProfilePageObject(username);
-
-    this.profilePage.visit();
+    new ProfilePageObject(username).visit();
     this.assertHeaderContainUsername(username);
   }
 
@@ -202,9 +199,7 @@ class SettingsPageObject extends PageObject {
 
     cy.login(normalEmail, newPassword);
 
-    this.profilePage = new ProfilePageObject(username);
-
-    this.profilePage.visit();
+    new ProfilePageObject(username).visit();
     this.assertHeaderContainUsername(username);
   }
 }

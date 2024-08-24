@@ -23,9 +23,9 @@ describe(`Settings page`, () => {
   });
 
   beforeEach(() => {
-    cy.task('db:clear');
-
     cy.wrap(Cypress.currentTest.title).as('testTitle');
+
+    cy.task('db:clear');
 
     cy.task('generateUserData').as('userData').then((user) => {
       const userData = user;
@@ -133,24 +133,24 @@ describe(`Settings page`, () => {
     settings.assertErrorMessage(validation.error.invalidEmail);
   });
 
-  it(`should allow to register with password that contains 8 characters`, () => {
+  it(`should allow to update the password with password that contains 8 characters`, () => {
     settings.fillFormAndSubmit(newUserData);
-    settings.assertErrorMessage(validation.success.updatingUserData);
+    settings.assertSuccessfulMessage(validation.success.updatingUserData);
   });
 
-  it(`should not allow to register with password ` +
+  it(`should not allow to update the password with password ` +
     `that contains less then 8 characters`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.invalidPassword);
   });
 
-  it(`should not allow to register with password ` +
+  it(`should not allow to update the password with password ` +
     `without numbers`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.invalidPassword);
   });
 
-  it(`should not allow to register with password ` +
+  it(`should not allow to update the password with password ` +
     `without capital letter`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.invalidPassword);

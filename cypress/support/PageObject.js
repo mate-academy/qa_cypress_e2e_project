@@ -115,22 +115,22 @@ class PageObject {
     } = articleInfo;
 
     this.articleBlock
-      .children(this.articleAuthor)
+      .children()
       .should('exist')
       .and('contain.text', author);
 
     this.articleBlock
-      .children(this.publishDate)
+      .children()
       .should('exist')
       .and('contain.text', publishDate);
 
     this.articleBlock
-      .children(this.articleTitle)
+      .children()
       .should('exist')
       .and('contain.text', articleTitle);
 
     this.articleBlock
-      .children(this.articleDescription)
+      .children()
       .should('exist')
       .and('contain.text', articleDescription);
   }

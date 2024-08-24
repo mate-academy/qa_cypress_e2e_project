@@ -1,25 +1,30 @@
-function generateInvalidEmailForTest(testTitle, baseEmail) {
-  const [namePart, domainsPart] = baseEmail.split('@');
-  const [domainPart, topDomainPart] = domainsPart.split('.');
+function generateInvalidEmailForTest(testTitle, emails) {
+  const {
+    noNamePartEmail,
+    noAtSymbolEmail,
+    noDomainPartEmail,
+    noDotPartEmail,
+    noTopDomainPartEmail
+  } = emails;
 
   if (testTitle.includes(`email without [name] part`)) {
-    return baseEmail.replace(namePart, '');
+    return noNamePartEmail;
   }
 
   if (testTitle.includes(`email without '@' symbol`)) {
-    return baseEmail.replace('@', '');
+    return noAtSymbolEmail;
   }
 
   if (testTitle.includes(`email without [domain] part`)) {
-    return baseEmail.replace(domainPart, '');
+    return noDomainPartEmail;
   }
 
   if (testTitle.includes(`email without dot (.)`)) {
-    return baseEmail.replace('.', '');
+    return noDotPartEmail;
   }
 
   if (testTitle.includes(`email without [top-domain] part`)) {
-    return baseEmail.replace(topDomainPart, '');
+    return noTopDomainPartEmail;
   }
 }
 

@@ -88,7 +88,7 @@ class SignUpPageObject extends PageObject {
       }
 
       if (title.includes(`register with email`)) {
-        cy.wrap(generateInvalidEmailForTest(title, normalEmail))
+        cy.wrap(generateInvalidEmailForTest(title, userData.email))
           .then((invalidEmail) => {
             this.typeUsername(username);
             this.typeEmail(invalidEmail);
