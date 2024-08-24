@@ -11,7 +11,7 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li v-if="is_authenticated" class="nav-item">
+              <li v-if="is_authenticated" class="nav-item" data-cy="home-page-your-article-toggle">
                 <router-link
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
