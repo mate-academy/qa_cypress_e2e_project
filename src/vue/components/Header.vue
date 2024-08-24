@@ -15,7 +15,7 @@
             Home
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-cy="sign-in-link">
           <router-link
             class="nav-link"
             active-class="active"
