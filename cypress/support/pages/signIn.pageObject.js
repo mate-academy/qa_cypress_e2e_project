@@ -15,6 +15,18 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get modalka() {
+    return cy.get('.swal-modal');
+  };
+
+  get modalOkBtn() {
+    return cy.get('.swal-button.swal-button--confirm');
+  }
+
+  get modalText() {
+    return cy.get('.swal-text');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +40,17 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertModalWindowFail() {
+    this.modalka.should('be.visible');
+    this.modalka
+      .should('contain', 'Login failed!');
+    this.modalka.should('contain', 'Invalid user credentials.');
+  };
+
+  clickOkBtn() {
+    this.modalOkBtn.should('contain', 'OK').click();
   }
 }
 
