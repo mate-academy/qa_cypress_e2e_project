@@ -20,6 +20,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-cy="settings-username"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +29,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-cy="settings-bio"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +38,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-cy="settings-email"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,9 +47,11 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-cy="settings-password"
                 />
               </fieldset>
               <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="settings-update-btn">
                 Update Settings
               </button>
             </fieldset>
@@ -54,6 +59,7 @@
           <!-- Line break for logout button -->
           <hr />
           <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-cy="settings-log-out-btn">
             Or click here to logout.
           </button>
         </div>
@@ -61,10 +67,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "Settings",
   computed: {

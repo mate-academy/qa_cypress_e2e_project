@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-cy="username-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,17 +28,19 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-cy="email-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
+@@ -35,9 +37,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-cy="password-sign-up"
               />
             </fieldset>
             <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-cy="btn-sign-up" class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
@@ -46,10 +49,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "Register",
   data() {
