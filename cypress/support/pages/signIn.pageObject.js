@@ -4,30 +4,27 @@ class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.get('input[placeholder="Email"]');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.get('input[placeholder="Password"]');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.contains('button', 'Sign in');
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
   }
 }
 
