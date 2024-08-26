@@ -7,13 +7,18 @@ import HomePageObject from '../support/pages/home.pageObject';
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
-describe('Sign In page', () => {
+describe('Settings page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+      const randomSuffix = Date.now();
+      user = {
+        ...generateUser,
+        email: `test${randomSuffix}@mail.com`,
+        username: `User${randomSuffix}`,
+      };
     });
   });
 
@@ -28,7 +33,25 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail('test@gmail.com');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-modal').should('contain', 'Invalid user credentials.');
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('passworD!1');
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-modal').should('contain', 'Invalid user credentials.');
   });
 });
