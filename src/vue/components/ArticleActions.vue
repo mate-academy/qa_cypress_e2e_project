@@ -2,16 +2,19 @@
   <!-- Used when user is also author -->
   <span v-if="canModify">
     <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link class="btn btn-sm btn-outline-secondary" data-cy="edit-article-btn" :to="editArticleLink">
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
     <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button class="btn btn-outline-danger btn-sm" data-cy="delete-article-btn" @click="deleteArticle">
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
   <span v-else>
     <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+    <button class="btn btn-sm btn-outline-secondary" data-cy="follow-user-btn" @click="toggleFollow">
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
       <span v-text="followUserLabel" />
     </button>
@@ -27,10 +30,8 @@
     </button>
   </span>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "ArticleActions",
   props: {
@@ -97,7 +98,6 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-
       const action = this.article.favorited
         ? "unset"
         : "set";
