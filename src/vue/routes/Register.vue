@@ -5,7 +5,9 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'login' }">
+            <router-link :to="{ name: 'login' }"
+            data-qa=have-an-account-link
+            >
               Have an account?
             </router-link>
           </p>
@@ -19,6 +21,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa=register-username-field
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +30,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa=register-email-field
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +39,12 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa=register-password-field
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right"
+            data-qa=sign-up-btn
+            >
               Sign up
             </button>
           </form>

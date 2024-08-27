@@ -7,6 +7,8 @@ import HomePageObject from '../support/pages/home.pageObject';
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
+const wrongEmail = 'angry.cat@gmail.com';
+
 describe('Sign In page', () => {
   let user;
 
@@ -29,6 +31,12 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(wrongEmail);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    signInPage.checkLoginFailed();
   });
 });
