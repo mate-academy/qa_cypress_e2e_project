@@ -12,6 +12,7 @@
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
+                  data-cy="article-title"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
+                  data-cy="article-description"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,12 +30,14 @@
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
+                  data-cy="article-body"
                 >
                 </textarea>
               </fieldset>
               <fieldset class="form-group">
                 <vue-tags-input
                   placeholder="Enter tags"
+                  data-cy="article-tags"
                   class="form-control"
                   v-model="tag"
                   :tags="tags"
@@ -45,6 +49,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-cy="submit-button"
             >
               Publish Article
             </button>
