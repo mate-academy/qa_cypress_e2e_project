@@ -3,9 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign in</h1>
+          <h1 class="text-xs-center" data-qa="title-page">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'register' }">
+            <router-link :to="{ name: 'register' }" data-qa="link-to-sign-up-page">
               Need an account?
             </router-link>
           </p>
@@ -19,7 +19,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
-                data-cy="email-sign-in"
+                data-qa="email-sign-in"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,10 +28,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="password-sign-in"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="btn-sign-in">
               Sign in
             </button>
           </form>

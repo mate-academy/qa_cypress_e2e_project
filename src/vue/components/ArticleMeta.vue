@@ -9,10 +9,11 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="author-username"
       >
         {{ authorUsername() }}
       </router-link>
-      <span class="date">{{ articleCreatedAt() | date }}</span>
+      <span data-qa="date-article-creation" class="date">{{ articleCreatedAt() | date }}</span>
     </div>
     <article-actions
       v-if="actions"
