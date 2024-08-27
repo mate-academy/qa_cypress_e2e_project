@@ -4,7 +4,7 @@ class ArticleEditorPageObject extends PageObject {
   constructor(slug) {
     super();
 
-    this.url = slug ? `#/editor/${slug}` : `#/editor`;
+    this.url = slug ? `#/editor/${slug}` : '#/editor';
   }
 
   get titleField() {
@@ -64,12 +64,12 @@ class ArticleEditorPageObject extends PageObject {
       tag
     } = articleData;
 
-    cy.get('@testTitle').then((title) => {
-      if (title.includes(`empty 'Enter Tags' field`)) {
+    cy.wrap(Cypress.currentTest.title).then((title) => {
+      if (title.includes('empty "Enter Tags" field')) {
         this.typeTitle(articleTitle, part);
         this.typeDescription(description, part);
         this.typeBody(body, part);
-      } else if (title.includes(`empty 'Article Title' field`)) {
+      } else if (title.includes('empty "Article Title" field')) {
         this.typeDescription(description, part);
         this.typeBody(body, part);
         this.typeTag(tag);
@@ -104,12 +104,10 @@ class ArticleEditorPageObject extends PageObject {
       .clear()
       .type(body);
 
-    // remove tag from field:
     this.tagField
       .find('.ti-actions')
       .click();
 
-    // after removing previous one, type new tag:
     this.typeTag(tag);
 
     this.clickOnPublishArticleBtn();

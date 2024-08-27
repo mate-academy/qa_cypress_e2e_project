@@ -21,26 +21,23 @@ function generateUserData() {
 function generatePassword(randomNumber) {
   const normalWord = faker.lorem.word(10);
   const capitalLetterNormal = normalWord.charAt(0).toUpperCase();
-  const normalPassword = `${capitalLetterNormal}${normalWord.slice(1)}${randomNumber}`;
+  const validPassword = `${capitalLetterNormal}${normalWord.slice(1)}${randomNumber}`;
 
-  // password with 8 chars:
   const word = faker.lorem.word(7);
   const capitalLetter = word.charAt(0).toUpperCase();
   const boundaryPassword = `${capitalLetter}${word.slice(1)}1`;
 
-  // short password:
   const shortWord = faker.lorem.word(6);
   const capitalLetterShort = shortWord.charAt(0).toUpperCase();
   const shortPassword = `${capitalLetterShort}${shortWord.slice(1)}1`;
 
-  // alphabetic password:
   const alphabeticPassword = `${capitalLetterNormal}${normalWord.slice(1)}`;
 
   return {
-    normalPassword,
+    validPassword,
     shortPassword,
     boundaryPassword,
-    lowcasePassword: normalPassword.toLowerCase(),
+    lowcasePassword: validPassword.toLowerCase(),
     alphabeticPassword
   };
 }
@@ -50,7 +47,7 @@ function generateEmail(username) {
   const topDomain = faker.internet.domainSuffix();
 
   return {
-    normalEmail: `test-${username.toLowerCase()}@${domain}.${topDomain}`,
+    validEmail: `test-${username.toLowerCase()}@${domain}.${topDomain}`,
     noNamePartEmail: `@${domain}.${topDomain}`,
     noAtSymbolEmail: `test-${username.toLowerCase()}${domain}.${topDomain}`,
     noDomainPartEmail: `test-${username.toLowerCase()}@.${topDomain}`,
@@ -61,6 +58,7 @@ function generateEmail(username) {
 
 function generateArticle() {
   const title = faker.lorem.sentence().toString().replace('.', '');
+  const slug = title.replaceAll(' ', '-').toLowerCase();
   const description = faker.lorem.sentence().toString().replace('.', '');
   const body = faker.lorem.paragraphs(1);
   const tag = `#${faker.lorem.word({ length: { min: 3, max: 10 } })}`;
@@ -68,6 +66,7 @@ function generateArticle() {
 
   return {
     title,
+    slug,
     description,
     body,
     tag,

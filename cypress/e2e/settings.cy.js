@@ -23,8 +23,6 @@ describe(`Settings page`, () => {
   });
 
   beforeEach(() => {
-    cy.wrap(Cypress.currentTest.title).as('testTitle');
-
     cy.task('db:clear');
 
     cy.task('generateUserData').as('userData').then((user) => {
@@ -36,15 +34,13 @@ describe(`Settings page`, () => {
     settings.visit();
   });
 
-  it(`should contain main components`, function () {
+  it(`should allow to update username`, function () {
+    const { username: newUsername } = newUserData;
+
     settings.assertPageUrl(settings.url);
     settings.assertPageTitle(pageTitle.settingsTitle);
     settings.assertSettingsFormExists(this.userData, btnNames.updateSettings);
     settings.assertLogoutBtnExists(btnNames.logout);
-  });
-
-  it(`should allow to update username`, () => {
-    const { username: newUsername } = newUserData;
 
     settings.typeUsername(newUsername);
     settings.clickOnUpdateBtn();
@@ -71,25 +67,25 @@ describe(`Settings page`, () => {
   });
 
   it(`should allow to update an email`, function () {
-    const { email: { normalEmail } } = newUserData;
+    const { email: { validEmail } } = newUserData;
 
-    settings.typeEmail(normalEmail);
+    settings.typeEmail(validEmail);
     settings.clickOnUpdateBtn();
     settings.assertSuccessfulMessage(validation.success.updatingUserData);
     settings.clickOnOkeyBtn();
-    settings.assertEmailUpdated(normalEmail, this.userData);
+    settings.assertEmailUpdated(validEmail, this.userData);
   });
 
   it(`should allow to update password`, function () {
-    const { password: { normalPassword } } = newUserData;
+    const { password: { validPassword } } = newUserData;
 
-    settings.typePassword(normalPassword);
-    settings.assertPasswordIsmasked();
+    settings.typePassword(validPassword);
+    settings.assertPasswordIsMasked();
     settings.clickOnUpdateBtn();
     settings.assertSuccessfulMessage(validation.success.updatingUserData);
     settings.clickOnOkeyBtn();
     settings.assertPasswordFieldEmpty();
-    settings.assertPasswordUpdated(normalPassword, this.userData);
+    settings.assertPasswordUpdated(validPassword, this.userData);
   });
 
   it(`should provide an ability to log out`, () => {
@@ -98,12 +94,12 @@ describe(`Settings page`, () => {
     homePage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to update user data with the empty 'Username' field`, () => {
+  it(`should not allow to update user data with the empty "Username" field`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.emptyUsername);
   });
 
-  it(`should not allow to update user data with the empty 'Email' field`, () => {
+  it(`should not allow to update user data with the empty "Email" field`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.emptyEmail);
   });
@@ -113,7 +109,7 @@ describe(`Settings page`, () => {
     settings.assertErrorMessage(validation.error.invalidEmail);
   });
 
-  it(`should show an error when updating email with email without '@' symbol`, () => {
+  it(`should show an error when updating email with email without "@" symbol`, () => {
     settings.fillFormAndSubmit(newUserData);
     settings.assertErrorMessage(validation.error.invalidEmail);
   });

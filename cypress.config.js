@@ -11,7 +11,12 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: `http://localhost:1667/`,
+    baseUrl: 'http://localhost:1667/',
+    retries: {
+      openMode: 2,
+      runMode: 2
+    },
+
     setupNodeEvents(on, config) {
       on('task', {
         generateUserData,

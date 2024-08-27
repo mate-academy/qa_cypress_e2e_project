@@ -11,7 +11,7 @@ class SettingsPageObject extends PageObject {
   constructor() {
     super();
 
-    this.url = `#/settings`;
+    this.url = '#/settings';
     this.profilePage = new ProfilePageObject();
   }
 
@@ -42,7 +42,7 @@ class SettingsPageObject extends PageObject {
   assertSettingsFormExists(userData, btnName) {
     const {
       username,
-      email: { normalEmail }
+      email: { validEmail }
     } = userData;
 
     this.usernameField
@@ -58,7 +58,7 @@ class SettingsPageObject extends PageObject {
     this.emailField
       .should('exist')
       .and('be.visible')
-      .and('contain.value', normalEmail);
+      .and('contain.value', validEmail);
 
     this.passwordField
       .should('exist')
@@ -83,7 +83,7 @@ class SettingsPageObject extends PageObject {
       .should('be.empty');
   }
 
-  assertPasswordIsmasked() {
+  assertPasswordIsMasked() {
     this.passwordField
       .should('have.attr', 'type', 'password');
   }
@@ -92,35 +92,35 @@ class SettingsPageObject extends PageObject {
     const {
       username,
       bio,
-      email: { normalEmail },
-      password: { normalPassword }
+      email: { validEmail },
+      password: { validPassword }
     } = newUserData;
 
-    cy.get('@testTitle').then((title) => {
-      if (title.includes(`empty 'Username' field`)) {
+    cy.wrap(Cypress.currentTest.title).then((title) => {
+      if (title.includes('empty "Username" field')) {
         this.usernameField
           .clear();
         this.typeBio(bio);
-        this.typeEmail(normalEmail);
-        this.typePassword(normalPassword);
+        this.typeEmail(validEmail);
+        this.typePassword(validPassword);
       }
 
-      if (title.includes(`empty 'Email' field`)) {
+      if (title.includes('empty "Email" field')) {
         this.typeUsername(username);
         this.typeBio(bio);
         this.emailField
           .clear();
-        this.typePassword(normalPassword);
+        this.typePassword(validPassword);
       }
 
-      if (title.includes(`updating email with`)) {
+      if (title.includes('updating email with')) {
         cy.wrap(generateInvalidEmailForTest(title, newUserData.email))
           .then((invalidEmail) => {
             this.typeEmail(invalidEmail);
           });
       }
 
-      if (title.includes(`update the password with`)) {
+      if (title.includes('update the password with')) {
         cy.wrap(setPasswordForTest(title, newUserData.password))
           .then((password) => {
             this.typePassword(password);
@@ -180,10 +180,10 @@ class SettingsPageObject extends PageObject {
 
     const {
       username,
-      password: { normalPassword }
+      password: { validPassword }
     } = userData;
 
-    cy.login(newEmail, normalPassword);
+    cy.login(newEmail, validPassword);
 
     new ProfilePageObject(username).visit();
     this.assertHeaderContainUsername(username);
@@ -194,10 +194,10 @@ class SettingsPageObject extends PageObject {
 
     const {
       username,
-      email: { normalEmail }
+      email: { validEmail }
     } = userData;
 
-    cy.login(normalEmail, newPassword);
+    cy.login(validEmail, newPassword);
 
     new ProfilePageObject(username).visit();
     this.assertHeaderContainUsername(username);

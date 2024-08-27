@@ -29,7 +29,7 @@ class PageObject {
     return cy.getByDataQa('title-article');
   }
 
-  get articleBody() {
+  get articleDescription() {
     return cy.getByDataQa('body-article');
   }
 
@@ -151,7 +151,7 @@ class PageObject {
     this.articleTitle
       .should('contain.text', newArticleTitle || updatedTitle);
 
-    this.articleBody
+    this.articleDescription
       .should('contain.text', newArticleDescription || updatedDescription);
   }
 }

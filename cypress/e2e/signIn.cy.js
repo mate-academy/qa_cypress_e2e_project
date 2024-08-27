@@ -16,8 +16,6 @@ const homePage = new HomePageObject();
 
 describe(`'Sign In' page`, () => {
   beforeEach(() => {
-    cy.wrap(Cypress.currentTest.title).as('testTitle');
-
     cy.task('db:clear');
 
     cy.task('generateUserData').as('userData').then((user) => {
@@ -31,28 +29,26 @@ describe(`'Sign In' page`, () => {
     signInPage.visit();
   });
 
-  it(`should have the main components`, function () {
+  it(`should allow user to get the 'Sign up' page by 'Need an account?' link`, function () {
     signInPage.assertPageTitle(pageTitle.signInTitle);
     signInPage.assertLinkNeedAccountExists(linkTitle.noAccount);
     signInPage.assertSignInFormExists(btnNames.signIn);
-  });
 
-  it(`should allow user to get the 'Sign up' page by 'Need an account?' link`, function () {
     signInPage.clickOnNeedAccountLink();
     signInPage.assertPageUrl(signUpPage.url);
     signInPage.assertPageTitle(pageTitle.signUpTitle);
   });
 
-  it(`should alow to log in with existing credentials`, function () {
+  it(`should allow to log in with existing credentials`, function () {
     const {
       username,
-      email: { normalEmail },
-      password: { normalPassword }
+      email: { validEmail },
+      password: { validPassword }
     } = this.userData;
 
-    signInPage.typeEmail(normalEmail);
-    signInPage.typePassword(normalPassword);
-    signInPage.assertPasswordIsmasked();
+    signInPage.typeEmail(validEmail);
+    signInPage.typePassword(validPassword);
+    signInPage.assertPasswordIsMasked();
     signInPage.clickOnSignInBtn();
 
     homePage.assertHeaderContainUsername(username);
@@ -60,18 +56,17 @@ describe(`'Sign In' page`, () => {
 
   it(`should not allow to log in with non-existed email`, function () {
     const {
-      password: { normalPassword }
+      password: { validPassword }
     } = this.userData;
-
     const {
-      email: { normalEmail: newEmail }
+      email: { validEmail: newEmail }
     } = this.newUserData;
 
     signInPage.typeEmail(newEmail);
-    signInPage.typePassword(normalPassword);
+    signInPage.typePassword(validPassword);
     signInPage.clickOnSignInBtn();
 
-    signInPage.assertErrorMessage(validation.error.invalidCreds);
+    signInPage.assertErrorMessage(validation.error.invalidCredentials);
     signInPage.clickOnOkeyBtn();
 
     signInPage.assertPageUrl(signInPage.url);
@@ -80,18 +75,17 @@ describe(`'Sign In' page`, () => {
 
   it(`should not allow to log in with non-existed password`, function () {
     const {
-      email: { normalEmail }
+      email: { validEmail }
     } = this.userData;
-
     const {
-      password: { normalPassword: newPassword }
+      password: { validPassword: newPassword }
     } = this.newUserData;
 
-    signInPage.typeEmail(normalEmail);
+    signInPage.typeEmail(validEmail);
     signInPage.typePassword(newPassword);
     signInPage.clickOnSignInBtn();
 
-    signInPage.assertErrorMessage(validation.error.invalidCreds);
+    signInPage.assertErrorMessage(validation.error.invalidCredentials);
     signInPage.clickOnOkeyBtn();
 
     signInPage.assertPageUrl(signInPage.url);
@@ -107,7 +101,7 @@ describe(`'Sign In' page`, () => {
     signInPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to log in with email without '@' symbol`, function () {
+  it(`should not allow to log in with email without "@" symbol`, function () {
     signInPage.fillFormAndSubmit(this.userData);
     signInPage.assertErrorMessage(validation.error.invalidEmail);
     signInPage.clickOnOkeyBtn();
@@ -143,7 +137,7 @@ describe(`'Sign In' page`, () => {
     signInPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to log in with the empty 'Email' field`, function () {
+  it(`should not allow to log in with the empty "Email" field`, function () {
     signInPage.fillFormAndSubmit(this.userData);
     signInPage.assertErrorMessage(validation.error.emptyEmail);
     signInPage.clickOnOkeyBtn();
@@ -152,7 +146,7 @@ describe(`'Sign In' page`, () => {
     signInPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to log in with the empty 'Password' field`, function () {
+  it(`should not allow to log in with the empty "Password" field`, function () {
     signInPage.fillFormAndSubmit(this.userData);
     signInPage.assertErrorMessage(validation.error.emptyPassword);
     signInPage.clickOnOkeyBtn();

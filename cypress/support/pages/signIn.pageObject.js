@@ -9,7 +9,7 @@ class SignInPageObject extends PageObject {
   constructor() {
     super();
 
-    this.url = `#/login`;
+    this.url = '#/login';
   }
 
   get linkToSignUpPage() {
@@ -61,24 +61,24 @@ class SignInPageObject extends PageObject {
 
   fillFormAndSubmit(userData) {
     const {
-      email: { normalEmail },
-      password: { normalPassword }
+      email: { validEmail },
+      password: { validPassword }
     } = userData;
 
-    cy.get('@testTitle').then((title) => {
-      if (title.includes(`empty 'Email' field`)) {
-        this.typePassword(normalPassword);
+    cy.wrap(Cypress.currentTest.title).then((title) => {
+      if (title.includes('empty "Email" field')) {
+        this.typePassword(validPassword);
       }
 
-      if (title.includes(`empty 'Password' field`)) {
-        this.typeEmail(normalEmail);
+      if (title.includes('empty "Password" field')) {
+        this.typeEmail(validEmail);
       }
 
-      if (title.includes(`log in with email`)) {
+      if (title.includes('log in with email without')) {
         cy.wrap(generateInvalidEmailForTest(title, userData.email))
           .then((invalidEmail) => {
             this.typeEmail(invalidEmail);
-            this.typePassword(normalPassword);
+            this.typePassword(validPassword);
           });
       }
     });
@@ -101,7 +101,7 @@ class SignInPageObject extends PageObject {
       .click();
   }
 
-  assertPasswordIsmasked() {
+  assertPasswordIsMasked() {
     this.passwordField
       .should('have.attr', 'type', 'password');
   }

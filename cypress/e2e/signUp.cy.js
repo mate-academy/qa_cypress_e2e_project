@@ -14,10 +14,8 @@ const signUpPage = new SignUpPageObject();
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
-describe(`Sign Up page`, () => {
+describe(`'Sign Up' page`, () => {
   beforeEach(() => {
-    cy.wrap(Cypress.currentTest.title).as('testTitle');
-
     cy.task('db:clear');
 
     cy.task('generateUserData').as('userData');
@@ -27,13 +25,11 @@ describe(`Sign Up page`, () => {
     signUpPage.visit();
   });
 
-  it(`should have the main components`, () => {
+  it(`should allow user to get the 'Sign in' page by 'Have an account?' link`, () => {
     signUpPage.assertPageTitle(pageTitle.signUpTitle);
     signUpPage.assertLinkHaveAccountExists(linkTitle.accountExists);
     signUpPage.assertSignUpFormExists(btnNames.signUp);
-  });
 
-  it(`should allow user to get the 'Sign in' page by 'Have an account?' link`, () => {
     signUpPage.clickOnHaveAccountLink();
     signInPage.assertPageUrl(signInPage.url);
     signInPage.assertPageTitle(pageTitle.signInTitle);
@@ -42,14 +38,14 @@ describe(`Sign Up page`, () => {
   it(`should allow to register`, function () {
     const {
       username,
-      email: { normalEmail },
-      password: { normalPassword }
+      email: { validEmail },
+      password: { validPassword }
     } = this.userData;
 
     signUpPage.typeUsername(username);
-    signUpPage.typeEmail(normalEmail);
-    signUpPage.typePassword(normalPassword);
-    signUpPage.assertPasswordIsmasked();
+    signUpPage.typeEmail(validEmail);
+    signUpPage.typePassword(validPassword);
+    signUpPage.assertPasswordIsMasked();
     signUpPage.clickOnSignUpBtn();
 
     signUpPage.assertSuccessfulMessage(validation.success.registration);
@@ -61,15 +57,16 @@ describe(`Sign Up page`, () => {
   it(`should not allow to register with taken email`, function () {
     const {
       username: newUsername,
-      password: { normalPassword }
+      password: { validPassword }
     } = this.newUserData;
+    const { email: { validEmail } } = this.userData;
 
-    cy.register(this.userData).then(({ email }) => {
-      signUpPage.typeUsername(newUsername);
-      signUpPage.typeEmail(email);
-      signUpPage.typePassword(normalPassword);
-      signUpPage.clickOnSignUpBtn();
-    });
+    cy.register(this.userData);
+
+    signUpPage.typeUsername(newUsername);
+    signUpPage.typeEmail(validEmail);
+    signUpPage.typePassword(validPassword);
+    signUpPage.clickOnSignUpBtn();
 
     signUpPage.assertErrorMessage(validation.error.takenEmail);
     signUpPage.clickOnOkeyBtn();
@@ -129,7 +126,7 @@ describe(`Sign Up page`, () => {
   });
 
   it(`should not allow to register with email ` +
-    `without '@' symbol`, function () {
+    `without "@" symbol`, function () {
     signUpPage.fillFormAndSubmit(this.userData);
     signUpPage.assertErrorMessage(validation.error.invalidEmail);
     signUpPage.clickOnOkeyBtn();
@@ -168,7 +165,7 @@ describe(`Sign Up page`, () => {
     signUpPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to register with the empty 'Username' field`, function () {
+  it(`should not allow to register with the empty "Username" field`, function () {
     signUpPage.fillFormAndSubmit(this.userData);
     signUpPage.assertErrorMessage(validation.error.emptyUsername);
     signUpPage.clickOnOkeyBtn();
@@ -177,7 +174,7 @@ describe(`Sign Up page`, () => {
     signUpPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to register with the empty 'Email' field`, function () {
+  it(`should not allow to register with the empty "Email" field`, function () {
     signUpPage.fillFormAndSubmit(this.userData);
     signUpPage.assertErrorMessage(validation.error.emptyEmail);
     signUpPage.clickOnOkeyBtn();
@@ -186,7 +183,7 @@ describe(`Sign Up page`, () => {
     signUpPage.assertHeaderNotContainUsername();
   });
 
-  it(`should not allow to register with the empty 'Password' field`, function () {
+  it(`should not allow to register with the empty "Password" field`, function () {
     signUpPage.fillFormAndSubmit(this.userData);
     signUpPage.assertErrorMessage(validation.error.emptyPassword);
     signUpPage.clickOnOkeyBtn();

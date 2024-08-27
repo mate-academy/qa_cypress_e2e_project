@@ -10,7 +10,7 @@ class SignUpPageObject extends PageObject {
   constructor() {
     super();
 
-    this.url = `#/register`;
+    this.url = '#/register';
   }
 
   get linkToSignInPage() {
@@ -67,40 +67,40 @@ class SignUpPageObject extends PageObject {
   fillFormAndSubmit(userData) {
     const {
       username,
-      email: { normalEmail },
-      password: { normalPassword }
+      email: { validEmail },
+      password: { validPassword }
     } = userData;
 
-    cy.get('@testTitle').then((title) => {
-      if (title.includes(`empty 'Username' field`)) {
-        this.typeEmail(normalEmail);
-        this.typePassword(normalPassword);
+    cy.wrap(Cypress.currentTest.title).then((title) => {
+      if (title.includes('empty "Username" field')) {
+        this.typeEmail(validEmail);
+        this.typePassword(validPassword);
       }
 
-      if (title.includes(`empty 'Email' field`)) {
+      if (title.includes('empty "Email" field')) {
         this.typeUsername(username);
-        this.typePassword(normalPassword);
+        this.typePassword(validPassword);
       }
 
-      if (title.includes(`empty 'Password' field`)) {
+      if (title.includes('empty "Password" field')) {
         this.typeUsername(username);
-        this.typeEmail(normalEmail);
+        this.typeEmail(validEmail);
       }
 
-      if (title.includes(`register with email`)) {
+      if (title.includes('register with email')) {
         cy.wrap(generateInvalidEmailForTest(title, userData.email))
           .then((invalidEmail) => {
             this.typeUsername(username);
             this.typeEmail(invalidEmail);
-            this.typePassword(normalPassword);
+            this.typePassword(validPassword);
           });
       }
 
-      if (title.includes(`register with password`)) {
+      if (title.includes('register with password')) {
         cy.wrap(setPasswordForTest(title, userData.password))
           .then((password) => {
             this.typeUsername(username);
-            this.typeEmail(normalEmail);
+            this.typeEmail(validEmail);
             this.typePassword(password);
           });
       }
@@ -129,7 +129,7 @@ class SignUpPageObject extends PageObject {
       .click();
   }
 
-  assertPasswordIsmasked() {
+  assertPasswordIsMasked() {
     this.passwordField
       .should('have.attr', 'type', 'password');
   }

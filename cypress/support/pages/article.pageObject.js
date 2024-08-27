@@ -13,6 +13,10 @@ class ArticlePageObject extends PageObject {
     return cy.getByDataQa('banner-info');
   }
 
+  get articleBody() {
+    return cy.getByDataQa('body-article');
+  }
+
   get editArticleBtn() {
     return cy.getByDataQa('btn-edit-article');
   }

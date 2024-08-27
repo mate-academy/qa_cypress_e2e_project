@@ -30,9 +30,11 @@ describe(`User`, () => {
     });
 
     cy.task('generateUserData').as('userFollower').then((userData) => {
-      cy.authorization(userData).then(({ username }) => {
-        new ProfilePageObject(username).visit();
-      });
+      const { username } = userData;
+
+      cy.authorization(userData);
+
+      new ProfilePageObject(username).visit();
     });
 
     homePage.visit();

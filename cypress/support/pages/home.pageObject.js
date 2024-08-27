@@ -4,7 +4,7 @@ class HomePageObject extends PageObject {
   constructor() {
     super();
 
-    this.url = `#/`;
+    this.url = '#/';
   }
 }
 

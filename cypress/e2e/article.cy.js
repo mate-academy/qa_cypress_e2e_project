@@ -6,8 +6,8 @@ import ArticlePageObject from '../support/pages/article.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 import ProfilePageObject from '../support/pages/profile.pageObject';
 
-const btnNames = require(`../fixtures/buttonNames.json`);
-const articleTip = require(`../fixtures/articleTip.json`);
+const btnNames = require('../fixtures/buttonNames.json');
+const articleTip = require('../fixtures/articleTip.json');
 
 const articleEditor = new ArticleEditorPageObject();
 const articlePage = new ArticlePageObject();
@@ -16,19 +16,16 @@ const profilePage = new ProfilePageObject();
 
 describe('Article page', () => {
   beforeEach(() => {
-    cy.wrap(Cypress.currentTest.title).as('testTitle');
-
     cy.task('db:clear');
 
     cy.task('generateUserData').as('userData').then((user) => {
       cy.authorization(user).then(({ id }) => {
         cy.task('generateArticle').as('articleData').then((article) => {
-          cy.createArticle(article, id).then(({ slug }) => {
-            new ArticlePageObject(slug).visit();
+          const { slug } = article;
 
-            cy.wrap(slug)
-              .as('articleSlug');
-          });
+          cy.createArticle(article, id);
+
+          new ArticlePageObject(slug).visit();
         });
       });
     });
@@ -38,73 +35,52 @@ describe('Article page', () => {
 
   it(`should allow to edit an article using Edit button`, function () {
     const { username } = this.userData;
+    const updatedTitle = this.articleData.title + ' edited';
+    const updatedDescription = this.articleData.description + ' edited';
+    const updatedBody = this.articleData.body + ' edited';
+    const { slug } = this.articleData;
+    const articlePage = new ArticlePageObject(slug);
+    const articleEditor = new ArticleEditorPageObject(slug);
 
     articlePage.assertBannerContainsEditArticleBtn(btnNames.editArticle);
     articlePage.clickOnEditArticleBtn();
 
-    cy.get('@articleSlug').then((slug) => {
-      const articleEditor = new ArticleEditorPageObject(slug);
-
-      articleEditor.assertPageUrl(articleEditor.url);
-    });
-
+    articleEditor.assertPageUrl(articleEditor.url);
     articleEditor.assertArticleFormContainsArticleParts(this.articleData);
+    articleEditor.fillFormAndSubmit(this.articleData, ' edited');
 
-    cy.intercept('PUT', 'articles').as('articleEditing');
-    articleEditor.fillFormAndSubmit(this.newArticleData, ` edited`);
+    articlePage.assertPageUrl(articlePage.url);
+    articlePage.assertArticleTitleUpdated(updatedTitle);
+    articlePage.assertArticleBodyUpdated(updatedBody);
+    articlePage.clickOnUsernameLink();
 
-    cy.wait('@articleEditing').then((interception) => {
-      const {
-        slug: updatedSlug,
-        title: updatedTitle,
-        body: updatedBody,
-        description: updatedDescription
-      } = interception.response.body.article;
-
-      const articlePage = new ArticlePageObject(updatedSlug);
-
-      articlePage.assertPageUrl(articlePage.url);
-      articlePage.assertArticleTitleUpdated(updatedTitle);
-      articlePage.assertArticleBodyUpdated(updatedBody);
-      articlePage.clickOnUsernameLink();
-
-      profilePage.assertUsernameExists(username);
-      profilePage
-        .assertArticlePreviewIsUpdated(updatedTitle, updatedDescription);
-    });
+    profilePage.assertUsernameExists(username);
+    profilePage
+      .assertArticlePreviewIsUpdated(updatedTitle, updatedDescription);
   });
 
   it(`should allow to completely rewrite an article using Edit button`, function () {
     const { username } = this.userData;
-
     const {
       title: updatedTitle,
       body: updatedBody
     } = this.newArticleData;
+    const { slug } = this.articleData;
+    const articlePage = new ArticlePageObject(slug);
 
     articlePage.clickOnEditArticleBtn();
 
     articleEditor.assertArticleFormExists();
-
-    cy.intercept('PUT', 'articles').as('articleEditing');
     articleEditor.editFormAndSubmit(this.newArticleData);
 
-    cy.wait('@articleEditing').then((interception) => {
-      const {
-        slug: updatedSlug
-      } = interception.response.body.article;
+    articlePage.assertPageUrl(articlePage.url);
+    articlePage.assertArticleTitleUpdated(updatedTitle);
+    articlePage.assertArticleBodyUpdated(updatedBody);
+    articlePage.clickOnUsernameLink();
 
-      const articlePage = new ArticlePageObject(updatedSlug);
-
-      articlePage.assertPageUrl(articlePage.url);
-      articlePage.assertArticleTitleUpdated(updatedTitle);
-      articlePage.assertArticleBodyUpdated(updatedBody);
-      articlePage.clickOnUsernameLink();
-
-      profilePage.assertUsernameExists(username);
-      profilePage
-        .assertArticlePreviewIsUpdated(this.newArticleData);
-    });
+    profilePage.assertUsernameExists(username);
+    profilePage
+      .assertArticlePreviewIsUpdated(this.newArticleData);
   });
 
   it(`should be deleted using Delete button`, function () {

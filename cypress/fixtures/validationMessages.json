@@ -11,7 +11,7 @@
     "takenEmail": "Email already taken.",
     "invalidEmail": "Email must be a valid email.",
     "invalidPassword": "Password must be 8 characters long and include 1 number, 1 uppercase letter, and 1 lowercase letter.",
-    "invalidCreds": "Invalid user credentials.",
+    "invalidCredentials": "Invalid user credentials.",
     "updatingUserData": "Update failed!",
     "articleForm": "Oops!"
   }
