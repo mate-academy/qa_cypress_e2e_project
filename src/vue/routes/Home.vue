@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <div class="banner">
-      <div class="container">
+      <div class="container" data-qa="banner">
         <h1 class="logo-font">conduit</h1>
         <p>A place to share your knowledge.</p>
       </div>
@@ -16,6 +16,7 @@
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
                   active-class="active"
+                  data-qa="your-feed-link"
                 >
                   Your Feed
                 </router-link>
