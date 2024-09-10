@@ -29,6 +29,11 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  checkNotValidCase() {
+    cy.contains('.swal-text', 'Invalid user credentials.')
+      .should('exist');
+  }
 }
 
 export default SignInPageObject;
