@@ -78,7 +78,7 @@ export default {
       swal({
         title: "Login failed!",
         text: response.errors.body.join(" "),
-        icon: "error"
+        icon: "error",
       });
     }
   },

@@ -5,7 +5,7 @@
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle" data-cy="article-delete">
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
