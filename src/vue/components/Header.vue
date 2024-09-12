@@ -9,6 +9,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="home"
             exact
             :to="{ name: 'home' }"
           >
@@ -19,6 +20,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="sign-in-link"
             exact
             :to="{ name: 'login' }"
           >
@@ -29,6 +31,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="sign-up-link"
             exact
             :to="{ name: 'register' }"
           >
@@ -51,6 +54,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="article-edit"
             :to="{
               name: 'article-edit',
               params: { new: true }
@@ -63,6 +67,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="settings"
             exact
             :to="{ name: 'settings' }"
           >
