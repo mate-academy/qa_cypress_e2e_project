@@ -11,6 +11,11 @@ class HomePageObject extends PageObject {
     this.usernameLink
       .should('contain', username);
   }
+
+  assertLogOut() {
+    cy.contains('.nav-link', 'Sign in').should('be.visible');
+    cy.contains('.nav-link', 'Sign up').should('be.visible');
+  }
 }
 
 export default HomePageObject;
