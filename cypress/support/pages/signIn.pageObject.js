@@ -29,6 +29,24 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  errorEmailMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Email field required.');
+    cy.get('.swal-button').click();
+  }
+
+  errorInvalidMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Invalid user credentials.');
+    cy.get('.swal-button').click();
+  }
+
+  errorPaswordMessage() {
+    cy.get('.swal-modal').should('contain', 'Login failed!');
+    cy.get('.swal-modal').should('contain', 'Password field required.');
+    cy.get('.swal-button').click();
+  }
 }
 
 export default SignInPageObject;
