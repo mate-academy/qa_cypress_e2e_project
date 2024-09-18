@@ -29,7 +29,7 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`, { timeout: 10000 });
+  cy.get(`[data-cy="${selector}"]`, { timeout: 5000 });
 });
 
 Cypress.Commands.add('register',
