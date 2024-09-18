@@ -15,6 +15,7 @@
                 <router-link
                   :to="{ name: 'home-my-feed' }"
                   class="nav-link"
+                  data-cy="your-feed-home"
                   active-class="active"
                 >
                   Your Feed
@@ -25,6 +26,7 @@
                   :to="{ name: 'home' }"
                   exact
                   class="nav-link"
+                  data-cy="global-feed-home"
                   active-class="active"
                 >
                   Global Feed
