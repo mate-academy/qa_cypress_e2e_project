@@ -1,23 +1,26 @@
 <template>
-  <div class="article-meta">
+  <div class="article-meta" data-testid="article-meta">
     <router-link
       :to="{ name: 'profile', params: { username: authorUsername() } }"
+      data-testid="author-link"
     >
-      <img :src="authorImage()" />
+      <img :src="authorImage()" data-testid="author-image" />
     </router-link>
     <div class="info">
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-testid="author-name"
       >
         {{ authorUsername() }}
       </router-link>
-      <span class="date">{{ articleCreatedAt() | date }}</span>
+      <span class="date" data-testid="article-date">{{ articleCreatedAt() | date }}</span>
     </div>
     <article-actions
       v-if="actions"
       :article="article"
       :canModify="isCurrentUser()"
+      data-testid="article-actions"
     ></article-actions>
     <button
       v-else
@@ -27,9 +30,10 @@
         'btn-primary': article && article.favorited,
         'btn-outline-primary': article && !article.favorited
       }"
+      data-testid="favorite-button"
     >
       <i class="ion-heart"></i>
-      <span class="counter"> {{ article.favoritesCount }} </span>
+      <span class="counter" data-testid="favorites-count"> {{ article.favoritesCount }} </span>
     </button>
   </div>
 </template>
