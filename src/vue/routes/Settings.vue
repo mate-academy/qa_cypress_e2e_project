@@ -9,7 +9,6 @@
               <fieldset class="form-group">
                 <input
                   class="form-control"
-                  data-qa="settings-user-bio-field"
                   type="text"
                   v-model="user.image"
                   placeholder="URL of profile picture"
