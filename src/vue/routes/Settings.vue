@@ -24,10 +24,9 @@
                   placeholder="Your username"
                 />
               </fieldset>
-              <fieldset class="form-group">
+              <fieldset class="form-group" data-qa="settings-user-bio-field">
                 <textarea
                   class="form-control form-control-lg"
-                  data-qa="settings-user-bio-field"
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
