@@ -19,6 +19,18 @@ class SettingsPageObject extends PageObject {
     return cy.getByDataQa('settings-user-password-field');
   }
 
+  get modalWindow() {
+    return cy.get('.swal-modal');
+  }
+
+  get modalBtn() {
+    return cy.get('.swal-button');
+  }
+
+  clickModalBtn() {
+    this.modalBtn.click();
+  }
+
   get updateSettingsBtn() {
     return cy.getByDataQa('settings-update-settings-btn');
   }

@@ -28,8 +28,8 @@ describe('Settings page', () => {
     settingsPage.usernameField.type(user.updateUsername);
     settingsPage.clickUpdateBtn();
 
-    cy.get('.swal-modal').should('contain', updateSuccessfulMessage);
-    cy.get('.swal-button').click();
+    settingsPage.modalWindow.should('contain', updateSuccessfulMessage);
+    settingsPage.clickModalBtn();
 
     homePage.usernameLink.should('contain', user.updateUsername);
   });
@@ -43,8 +43,9 @@ describe('Settings page', () => {
     settingsPage.bioField.type(user.bio);
     settingsPage.clickUpdateBtn();
 
-    cy.get('.swal-modal').should('contain', updateSuccessfulMessage);
-    cy.get('.swal-button').click();
+    settingsPage.modalWindow.should('contain', updateSuccessfulMessage);
+    settingsPage.clickModalBtn();
+
     homePage.usernameLink.click();
     cy.getByDataQa('user-profile-image').should('contain', user.bio);
   });
@@ -59,8 +60,8 @@ describe('Settings page', () => {
     settingsPage.emailField.type(user.updateEmail);
     settingsPage.clickUpdateBtn();
 
-    cy.get('.swal-modal').should('contain', updateSuccessfulMessage);
-    cy.get('.swal-button').click();
+    settingsPage.modalWindow.should('contain', updateSuccessfulMessage);
+    settingsPage.clickModalBtn();
 
     settingsPage.emailField.should('contain', user.updateEmail);
   });
@@ -74,8 +75,9 @@ describe('Settings page', () => {
     settingsPage.passwordField.type(user.updatePassword);
     settingsPage.clickUpdateBtn();
 
-    cy.get('.swal-modal').should('contain', updateSuccessfulMessage);
-    cy.get('.swal-button').click();
+    settingsPage.modalWindow.should('contain', updateSuccessfulMessage);
+    settingsPage.clickModalBtn();
+
     cy.reload().clearCookies();
     cy.visit('/#/login');
 

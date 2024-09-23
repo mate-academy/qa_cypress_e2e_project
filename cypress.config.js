@@ -15,13 +15,8 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
-            // username: 'kgfhdkgnkdjgjdkgjk',
-            // email: 'kgfhdkgnkdjgjdkgjk@mail.com',
-            // password: '12345Qwert!',
-            // updateUsername: 'xghfghgfhfghfghdfhgfshdf',
-            // updateEmail: 'dfzghdfhfdhhfdh@mail.com',
-            // bio: 'dfgdfghfdghdfgsdf',
-            // updatePassword: 'Password6789$'
+            firstUser: faker.internet.userName() + `${randomNumber}`,
+            firstEmail: faker.internet.email(),
             username: faker.internet.userName() + `${randomNumber}`,
             email: faker.internet.email(),
             password: '12345Qwert!',
