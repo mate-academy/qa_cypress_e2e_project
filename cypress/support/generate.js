@@ -4,10 +4,11 @@ function generateUser() {
   const randomNumber = Math.random().toString().slice(2, 6);
   const username = faker.internet.userName() + "_" + randomNumber;
   const email = `${username}@mail.com`;
+  const bio = faker.lorem.words(3);
 
   const password = generatePassword();
 
-  return { email, password, username };
+  return { email, password, username, bio };
 }
 
 function generatePassword() {
