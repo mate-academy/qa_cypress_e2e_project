@@ -1,6 +1,10 @@
 <template>
   <div class="profile-page">
-    <ArticleList :favorited="favorited" :items-per-page="5">
+    <ArticleList
+      :favorited="favorited"
+      :items-per-page="5"
+      data-qa="articleProfileFavourites"
+    >
     </ArticleList>
   </div>
 </template>
@@ -10,7 +14,7 @@ import ArticleList from "@/components/ArticleList.vue";
 export default {
   name: "ProfileFavorited",
   components: {
-    ArticleList
+    ArticleList,
   },
   mounted() {
     console.log("ProfileFavorited mounted!");
@@ -18,7 +22,7 @@ export default {
   computed: {
     favorited() {
       return this.$route.params.username;
-    }
-  }
+    },
+  },
 };
 </script>
