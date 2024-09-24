@@ -20,7 +20,7 @@ class ArticlePageObject extends PageObject {
   }
 
   get EditArticleTags() {
-    return cy.get('[data-qa="articleEditorTags"]');
+    return cy.get('input[data-qa="articleEditTags"]');
   }
 
   get HitPublishButton() {
@@ -28,12 +28,11 @@ class ArticlePageObject extends PageObject {
   }
 
   get HitDeleteArticleButton() {
-    return cy.get('[data-qa="deleteArticleButton"]').filter(":visible").click();
+    return cy.get('[data-qa="deleteArticleButton"]').eq(0).click();
   }
 
   get HitEditArticleButton() {
-    return cy.get('[data-qa="editArticleButton"]').filter(":visible").click();
+    return cy.get('[data-qa="editArticleButton"]').eq(0).click();
   }
 }
-
 export default ArticlePageObject;

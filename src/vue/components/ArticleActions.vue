@@ -4,17 +4,23 @@
     <router-link
       class="btn btn-sm btn-outline-secondary"
       :to="editArticleLink"
+<<<<<<< HEAD
       data-qa="editArticleButton"
+=======
+>>>>>>> b84f4cf5ba4bb0fbe92f38a921918f9273d56c7f
     >
-      <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
+      <i class="ion-edit" data-qa="editArticleButton"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
     <button
       class="btn btn-outline-danger btn-sm"
       @click="deleteArticle"
+<<<<<<< HEAD
       data-qa="deleteArticleButton"
+=======
+>>>>>>> b84f4cf5ba4bb0fbe92f38a921918f9273d56c7f
     >
-      <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
+      <i class="ion-trash-a" data-qa="deleteArticleButton"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
