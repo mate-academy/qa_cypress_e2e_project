@@ -1,8 +1,12 @@
+
 /* eslint-disable max-len */
 /// <reference types='cypress' />
 /// <reference types='../support' />
+import ArticlePage from '../support/pages/articlePage';
 
 describe('Article', () => {
+  const articlePage = new ArticlePage();
+
   beforeEach(() => {
     cy.task('db:clear');
     cy.register();
@@ -16,48 +20,43 @@ describe('Article', () => {
 
   it('should create a new article', () => {
     cy.task('generateArticle').then((article) => {
-      cy.get('input[placeholder="Article Title"]').type(article.title);
-      cy.get(':nth-child(2) > .form-control').type(article.description);
-      cy.get(':nth-child(3) > .form-control').type(article.body);
-      cy.get('.vue-tags-input').type(article.tag);
-      cy.get('.btn').click();
+      articlePage.typeTitle(article.title);
+      articlePage.typeDescription(article.description);
+      articlePage.typeBody(article.body);
+      articlePage.typeTag(article.tag);
+      articlePage.clickPublish();
       cy.url().should('include', '#/articles/');
-      cy.contains(article.title).should('exist');
+      articlePage.assertArticleTitleExists(article.title);
     });
   });
 
-  it('should be edited using Edit button', () => {
+  it('should be edited using the Edit button', () => {
     cy.task('generateArticle').then((article) => {
-      cy.get('input[placeholder="Article Title"]').type(article.title);
-      cy.get(':nth-child(2) > .form-control').type(article.description);
-      cy.get(':nth-child(3) > .form-control').type(article.body);
-      cy.get('.vue-tags-input').type(article.tag);
-      cy.get('.btn').click();
+      articlePage.typeTitle(article.title);
+      articlePage.typeDescription(article.description);
+      articlePage.typeBody(article.body);
+      articlePage.typeTag(article.tag);
+      articlePage.clickPublish();
       cy.url().should('include', '#/articles/');
-      cy.contains(article.title).should('exist');
+      articlePage.assertArticleTitleExists(article.title);
+      articlePage.clickEditArticleBtn();
+      articlePage.typeTitle('Edited Article Title');
+      articlePage.clickPublish();
+      articlePage.assertArticleTitleExists('Edited Article Title');
     });
-    cy.url().should('include', '#/articles/');
-    cy.get('.article-actions > [data-testid="article-meta"] > [data-testid="author-actions"] > [data-testid="edit-article-btn"]').click();
-    cy.get('input[placeholder="Article Title"]').type('Edited Article Title');
-
-    cy.get('.btn').click();
-
-    cy.contains('Edited Article Title').should('exist');
   });
 
-  it('should be deleted using Delete button', () => {
+  it('should be deleted using the Delete button', () => {
     cy.task('generateArticle').then((article) => {
-      cy.get('input[placeholder="Article Title"]').type(article.title);
-      cy.get(':nth-child(2) > .form-control').type(article.description);
-      cy.get(':nth-child(3) > .form-control').type(article.body);
-      cy.get('.vue-tags-input').type(article.tag);
-      cy.get('.btn').click();
+      articlePage.typeTitle(article.title);
+      articlePage.typeDescription(article.description);
+      articlePage.typeBody(article.body);
+      articlePage.typeTag(article.tag);
+      articlePage.clickPublish();
       cy.url().should('include', '#/articles/');
-      cy.contains(article.title).should('exist');
+      articlePage.assertArticleTitleExists(article.title);
+      articlePage.clickDeleteArticleBtn();
+      articlePage.assertArticleTitleDoesNotExist();
     });
-    cy.url().should('include', '#/articles/');
-    cy.contains('Delete Article').should('exist');
-    cy.contains('Delete Article').click();
-    cy.contains('Delete Article').should('not.exist');
   });
 });
