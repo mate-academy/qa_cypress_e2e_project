@@ -27,12 +27,10 @@ export default {
   name: "Comment",
   props: {
     slug: { type: String, required: true },
-    comment: { type: Object, required: true }
+    comment: { type: Object, required: true },
   },
   computed: {
-    ...mapGetters([
-      "user"
-    ]),
+    ...mapGetters(["user"]),
     isCurrentUser() {
       if (this.user.username && this.comment.author_username) {
         return this.comment.author_username === this.user.username;
@@ -43,7 +41,7 @@ export default {
   methods: {
     destroy(slug, commentId) {
       this.$store.dispatch("deleteComment", { slug, commentId });
-    }
-  }
+    },
+  },
 };
 </script>
