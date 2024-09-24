@@ -11,11 +11,11 @@ describe('Article', () => {
     cy.task('db:clear');
     cy.register();
     cy.visit('#/login');
-    cy.get('input[placeholder="Email"]').type('riot@qa.team');
-    cy.get('input[placeholder="Password"]').type('12345Qwert!');
-    cy.get('[data-cy="sign-in-btn"]').click();
+    cy.findByPlaceholder('Email').type('riot@qa.team');
+    cy.findByPlaceholder('Password').type('12345Qwert!');
+    cy.getByDataCy('sign-in-btn').click();
     cy.url().should('include', '/');
-    cy.get('[data-testid="new-article-nav"]').click();
+    cy.findByTestID('new-article-nav').click();
   });
 
   it('should create a new article', () => {

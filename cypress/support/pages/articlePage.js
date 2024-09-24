@@ -1,19 +1,18 @@
-
 class ArticlePage {
   visit() {
     cy.visit('#/editor');
   }
 
   typeTitle(title) {
-    cy.get('input[placeholder="Article Title"]').type(title);
+    cy.findByPlaceholder('Article Title').type(title);
   }
 
   typeDescription(description) {
-    cy.get(':nth-child(2) > .form-control').type(description);
+    cy.findByPlaceholder('What\'s this article about?').type(description);
   }
 
   typeBody(body) {
-    cy.get(':nth-child(3) > .form-control').type(body);
+    cy.findByPlaceholder('Write your article (in markdown)').type(body);
   }
 
   typeTag(tag) {
@@ -25,8 +24,7 @@ class ArticlePage {
   }
 
   clickEditArticleBtn() {
-    // eslint-disable-next-line max-len
-    cy.get('.article-actions > [data-testid="article-meta"] > [data-testid="author-actions"] > [data-testid="edit-article-btn"]').click();
+    cy.contains('Edit Article').click();
   }
 
   clickDeleteArticleBtn() {

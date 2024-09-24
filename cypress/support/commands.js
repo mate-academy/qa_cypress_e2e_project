@@ -40,3 +40,9 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
+});
+Cypress.Commands.add('findByTestID', (testId) => {
+  cy.get(`[data-testid="${testId}"]`);
+});
