@@ -1,6 +1,10 @@
 <template>
   <div class="profile-page">
-    <ArticleList :author="author" :items-per-page="5"></ArticleList>
+    <ArticleList
+      :author="author"
+      :items-per-page="5"
+      data-qa="articleProfileList"
+    ></ArticleList>
   </div>
 </template>
 
@@ -9,12 +13,12 @@ import ArticleList from "@/components/ArticleList.vue";
 export default {
   name: "ProfileArticles",
   components: {
-    ArticleList
+    ArticleList,
   },
   computed: {
     author() {
       return this.$route.params.username;
-    }
-  }
+    },
+  },
 };
 </script>
