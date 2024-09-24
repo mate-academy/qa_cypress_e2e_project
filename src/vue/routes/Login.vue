@@ -20,6 +20,7 @@
                 v-model="email"
                 placeholder="Email"
                 data-cy="email-sign-in"
+                data-qa="loginEmail"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -29,9 +30,14 @@
                 v-model="password"
                 placeholder="Password"
                 data-cy="password-sign-in"
+                data-qa="loginPassword"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-cy="sign-in-btn"
+              data-qa="signInBtn"
+            >
               Sign in
             </button>
           </form>
@@ -50,13 +56,11 @@ export default {
   data() {
     return {
       email: null,
-      password: null
+      password: null,
     };
   },
   computed: {
-    ...mapGetters([
-      "errors",
-    ])
+    ...mapGetters(["errors"]),
   },
   mounted() {
     console.log("Login.vue mounted!");
@@ -64,9 +68,9 @@ export default {
   methods: {
     async onSubmit(email, password) {
       swal({
-          text: "Logging you in... Please wait...",
-          buttons: false,
-        });
+        text: "Logging you in... Please wait...",
+        buttons: false,
+      });
 
       let response = await this.$store.dispatch("logIn", { email, password });
 
@@ -78,9 +82,9 @@ export default {
       swal({
         title: "Login failed!",
         text: response.errors.body.join(" "),
-        icon: "error"
+        icon: "error",
       });
-    }
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -88,6 +92,6 @@ export default {
       vm.email = null;
       vm.password = null;
     });
-  }
+  },
 };
 </script>

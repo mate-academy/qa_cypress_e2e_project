@@ -2,6 +2,7 @@
   <div class="article-meta">
     <router-link
       :to="{ name: 'profile', params: { username: authorUsername() } }"
+      data-qa="articleAuthorUsername"
     >
       <img :src="authorImage()" />
     </router-link>
@@ -9,6 +10,7 @@
       <router-link
         :to="{ name: 'profile', params: { username: authorUsername() } }"
         class="author"
+        data-qa="articleAuthorImg"
       >
         {{ authorUsername() }}
       </router-link>
@@ -25,11 +27,14 @@
       @click="toggleFavorite"
       :class="{
         'btn-primary': article && article.favorited,
-        'btn-outline-primary': article && !article.favorited
+        'btn-outline-primary': article && !article.favorited,
       }"
+      data-qa="addArticleToFavouritesButton"
     >
       <i class="ion-heart"></i>
-      <span class="counter"> {{ article.favoritesCount }} </span>
+      <span class="counter" data-qa="articleFavouritesCounter">
+        {{ article.favoritesCount }}
+      </span>
     </button>
   </div>
 </template>
@@ -41,24 +46,21 @@ import ArticleActions from "@/components/ArticleActions.vue";
 export default {
   name: "ArticleMeta",
   components: {
-    ArticleActions
+    ArticleActions,
   },
   props: {
     article: {
       type: Object,
-      required: false
+      required: false,
     },
     actions: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "user",
-    ])
+    ...mapGetters(["is_authenticated", "user"]),
   },
   mounted() {
     console.log("ArticleMeta mounted!");
@@ -82,9 +84,11 @@ export default {
     },
     isCurrentUser() {
       if (
-        (this.user && this.article && this.article.author)
-        && this.user.username
-        && this.article.author.username
+        this.user &&
+        this.article &&
+        this.article.author &&
+        this.user.username &&
+        this.article.author.username
       ) {
         return this.user.username === this.article.author.username;
       }
@@ -95,14 +99,12 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-      const action = this.article.favorited
-        ? "unset"
-        : "set";
+      const action = this.article.favorited ? "unset" : "set";
       this.$store.dispatch("toggleArticleFavorite", {
         slug: this.article.slug,
-        action: action
+        action: action,
       });
-    }
-  }
+    },
+  },
 };
 </script>
