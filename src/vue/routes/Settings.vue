@@ -63,8 +63,7 @@
           <button
             @click="logout"
             class="btn btn-outline-danger"
-            data-qa=""
-            logout-button
+            data-qa="logoutButton"
           >
             Or click here to logout.
           </button>

@@ -4,7 +4,7 @@
     <router-link
       class="btn btn-sm btn-outline-secondary"
       :to="editArticleLink"
-      data-qa="editArticle"
+      data-qa="editArticleButton"
     >
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
@@ -12,7 +12,7 @@
     <button
       class="btn btn-outline-danger btn-sm"
       @click="deleteArticle"
-      data-qa="deleteArticle"
+      data-qa="deleteArticleButton"
     >
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>

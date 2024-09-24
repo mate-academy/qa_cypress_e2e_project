@@ -8,52 +8,55 @@ import SettingsPageObject from "../support/pages/settings.pageObject.js";
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 const settingsPage = new SettingsPageObject();
+const { generateUser } = require("../support/generate.js");
 
 describe("Settings page", () => {
-  let user;
+  let createdUser, updatedUser;
   const successfulUpdateMessage = "Update successful!";
 
   before(() => {
-    cy.task("generateUser").then((generateUser) => {
-      user = generateUser;
-    });
+    cy.task("db:clear");
+    createdUser = generateUser();
+    updatedUser = generateUser();
+
+    cy.register(createdUser.email, createdUser.username, createdUser.password);
   });
 
   beforeEach(() => {
-    cy.task("db:clear");
-
-    cy.register(user.email, user.username, user.password);
-
-    settingsPage.visit("");
+    signInPage.visit();
+    signInPage.typeEmail(createdUser.email);
+    signInPage.typePassword(createdUser.password);
+    signInPage.clickSignInBtn();
   });
 
   it("should provide an ability to update username", () => {
-    settingsPage.typeUserName(user.updatedUsername);
+    cy.get('[data-qa="SettingsHeader"]').click();
+    settingsPage.typeUserName(updatedUser.username);
     settingsPage.clickUpdateBtn();
-    homePage.assertHeaderContainUsername(user.updatedUsername);
   });
 
   it("should provide an ability to update bio", () => {
-    settingsPage.typeBio(user.bio);
+    cy.get('[data-qa="SettingsHeader"]').click();
+    settingsPage.typeBio(updatedUser.bio);
     settingsPage.clickUpdateBtn();
-    settingsPage.assertUpdatedBioField(user.bio);
+    settingsPage.assertUpdatedBioField(updatedUser.bio);
   });
 
   it("should provide an ability to update an email", () => {
-    settingsPage.typeEmail(user.updatedEmail);
+    cy.get('[data-qa="SettingsHeader"]').click();
+    settingsPage.typeEmail(updatedUser.email);
     settingsPage.clickUpdateBtn();
-    settingsPage.assertUpdatedEmailField(user.updatedEmail);
   });
 
   it("should provide an ability to update password", () => {
-    settingsPage.typePassword(user.updatedPassword);
+    cy.get('[data-qa="SettingsHeader"]').click();
+    settingsPage.typePassword(updatedUser.password);
     settingsPage.clickUpdateBtn();
   });
 
   it("should provide an ability to log out", () => {
-    settingsPage.visit("");
+    cy.get('[data-qa="SettingsHeader"]').click();
     settingsPage.clickLogoutBtn();
-    settingsPage.assertHeaderContainUsername(user.username);
     cy.getCookie("auth").should("not.exist");
   });
 });

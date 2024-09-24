@@ -1,6 +1,6 @@
 import PageObject from "../PageObject";
 
-class SignUpPageObject extends PageObject {
+class SettingsPageObject extends PageObject {
   url = "/#/settings";
 
   get usernameSettings() {
@@ -10,20 +10,22 @@ class SignUpPageObject extends PageObject {
   get emailSettings() {
     return cy.get('[data-qa="settingsEmail"]');
   }
-
+  get bioField() {
+    return cy.get('[data-qa="settingsBio"]');
+  }
   get passwordSettings() {
     return cy.get('[data-qa="settingsPassword"]');
   }
 
   get updateSettingsBtn() {
-    return cy.getByDataCy('[data-qa="settingsUpdateButton"]');
+    return cy.get('[data-qa="settingsUpdateButton"]');
   }
 
   get logoutBtn() {
-    return cy.getByDataCy('data-qa="logout-button"');
+    return cy.get('[data-qa="logoutButton"]');
   }
 
-  typeUserName(user) {
+  typeUserName(username) {
     this.usernameSettings.clear().type(username);
   }
 
@@ -56,4 +58,4 @@ class SignUpPageObject extends PageObject {
   }
 }
 
-export default SignUpPageObject;
+export default SettingsPageObject;

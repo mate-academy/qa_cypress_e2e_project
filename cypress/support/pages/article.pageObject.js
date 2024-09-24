@@ -4,35 +4,35 @@ class ArticlePageObject extends PageObject {
   url = "/";
 
   get NewArticleLink() {
-    cy.get('[data-qa="newArticleLinkHeader"').click();
+    return cy.get('[data-qa="newArticleLinkHeader"]').click();
   }
 
   get EditArticleTitle() {
-    cy.get('[data-qa="articleEditTitle"');
+    return cy.get('[data-qa="articleEditTitle"]');
   }
 
   get EditArticleDescription() {
-    cy.get('[data-qa="articleEditDescription"');
+    return cy.get('[data-qa="articleEditDescription"]');
   }
 
   get EditArticleBody() {
-    cy.get('[data-qa="articleEditBody"');
+    return cy.get('[data-qa="articleEditBody"]');
   }
 
   get EditArticleTags() {
-    cy.get('[data-qa="articleEditTags"');
+    return cy.get('[data-qa="articleEditorTags"]');
   }
 
   get HitPublishButton() {
-    cy.get('[data-qa="articleEditPublishButton"').click();
+    return cy.get('[data-qa="articleEditPublishButton"]').click();
   }
 
   get HitDeleteArticleButton() {
-    cy.get('data-qa="deleteArticle"').click();
+    return cy.get('[data-qa="deleteArticleButton"]').filter(":visible").click();
   }
 
   get HitEditArticleButton() {
-    cy.get('data-qa="editArticle"').click();
+    return cy.get('[data-qa="editArticleButton"]').filter(":visible").click();
   }
 }
 
