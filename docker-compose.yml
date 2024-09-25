@@ -1,4 +1,3 @@
-version: '3'
 
 services:
 
@@ -21,7 +20,7 @@ services:
     image: "postgres:11"
     container_name: "realworld_postgres"
     ports:
-      - "54322:5432"
+      - "54320:5432"
     volumes:
       - ./.docker/data:/docker-entrypoint-initdb.d
     environment:
