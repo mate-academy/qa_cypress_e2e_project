@@ -21,6 +21,8 @@ module.exports = defineConfig({
           return {
             username: faker.name.firstName() + `${randomNumber}`,
             email: `testo${randomNumber}@gmail.com`,
+            username: faker.person.firstName() + `${randomNumber}`,
+            email: 'test' + `${randomNumber}` + '@mail.com',
             password: '12345Qwert!'
           };
         },
@@ -41,6 +43,11 @@ module.exports = defineConfig({
           seed();
 
           return null;
+        },
+        generateBio() {
+          return {
+            myBio: faker.lorem.words()
+          };
         }
       });
     }

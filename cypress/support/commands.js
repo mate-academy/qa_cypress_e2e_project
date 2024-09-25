@@ -48,13 +48,3 @@ Cypress.Commands.add('register', (email = 'riot@qa.team',
     password
   });
 });
-
-// Cypress.Commands.add('login', (email, password) => {
-//   const signInPage = new SignInPageObject();
-//   const homePage = new HomePageObject();
-//   signInPage.visit();
-//   signInPage.typeEmail(email);
-//   signInPage.typePassword(password);
-//   signInPage.clickSignInBtn();
-//   homePage.assertHeaderContainUsername(email.split('@')[0]);
-// });
