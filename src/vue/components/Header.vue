@@ -18,6 +18,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +29,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="registration-link"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -51,6 +53,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="edit-article-btn"
             :to="{
               name: 'article-edit',
               params: { new: true }
@@ -62,6 +65,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-qa="settings-btn"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -72,6 +76,7 @@
         <li class="nav-item" v-if="user.username">
           <router-link
             data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
