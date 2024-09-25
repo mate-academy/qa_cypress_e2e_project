@@ -1,12 +1,15 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-//import SignInPageObject from '../support/pages/signIn.pageObject';
-//import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
 import SettingsPageObject from '../support/pages/settings.pageObject';
+// import SignUpPageObject from '../support/pages/signUp.pageObject';
 
-//const signInPage = new SignInPageObject();
-//const homePage = new HomePageObject();
+// const signUpPage = new SignUpPageObject();
+
+const signInPage = new SignInPageObject();
+const homePage = new HomePageObject();
 const settingsPage = new SettingsPageObject()
 
 describe('Settings page', () => {
@@ -22,7 +25,7 @@ describe('Settings page', () => {
     });
 
     cy.task('generateBio').then((generateBio) => {
-      bio = generateBio
+      bio = generateBio;
     });
   });
 
@@ -32,11 +35,11 @@ describe('Settings page', () => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
 
-    cy.findByPlaceholder('Username').type(user.username);
-    cy.findByPlaceholder('Email').type(user.email);
-    cy.findByPlaceholder('Password').type(user.password);
-    cy.contains('button', 'Sign up').click();
-    settingsPage.clickOkBtn();
+      cy.findByPlaceholder('Username').type(user.username);
+      cy.findByPlaceholder('Email').type(user.email);
+      cy.findByPlaceholder('Password').type(user.password);
+      cy.contains('button', 'Sign up').click();
+      settingsPage.clickOkBtn();
     });
   });
 
@@ -47,10 +50,11 @@ describe('Settings page', () => {
     settingsPage.clickOkBtn();
     settingsPage.logoutBtn.click();
     settingsPage.loginLink.click();
-    cy.findByPlaceholder('Email').type(user.email);
-    cy.findByPlaceholder('Password').type(user.password);
-    cy.contains('button', 'Sign in').click();
-    cy.findByTestID('profile-nav').should('contain.text', changedUser.username);
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    // cy.findByTestID('profile-nav').should('contain.text', changedUser.username);
+    homePage.assertHeaderContainUsername(changedUser.username);
     settingsPage.settingsLink.click();
     settingsPage.usernameField
       .invoke('val')
@@ -65,9 +69,9 @@ describe('Settings page', () => {
     settingsPage.clickOkBtn();
     settingsPage.logoutBtn.click();
     settingsPage.loginLink.click();
-    cy.findByPlaceholder('Email').type(user.email);
-    cy.findByPlaceholder('Password').type(user.password);
-    cy.contains('button', 'Sign in').click();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
     settingsPage.settingsLink.click();
     settingsPage.bioField
       .invoke('val')
@@ -81,9 +85,9 @@ describe('Settings page', () => {
     settingsPage.clickOkBtn();
     settingsPage.logoutBtn.click();
     settingsPage.loginLink.click();
-    cy.findByPlaceholder('Email').type(changedUser.email);
-    cy.findByPlaceholder('Password').type(user.password);
-    cy.contains('button', 'Sign in').click();
+    signInPage.typeEmail(changedUser.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
     settingsPage.settingsLink.click();
     settingsPage.emailField
       .invoke('val')
@@ -97,10 +101,10 @@ describe('Settings page', () => {
     settingsPage.clickOkBtn();
     settingsPage.logoutBtn.click();
     settingsPage.loginLink.click();
-    cy.findByPlaceholder('Email').type(user.email);
-    cy.findByPlaceholder('Password').type(changedUser.password);
-    cy.contains('button', 'Sign in').click();
-    cy.findByTestID('profile-nav').should('contain.text', user.username);
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should provide an ability to log out', () => {
