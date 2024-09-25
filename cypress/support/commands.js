@@ -42,3 +42,16 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add('findByPlaceholder', (placeholder) => {
+  return cy.get(`[placeholder="${placeholder}"]`);
+});
+
+Cypress.Commands.add('findByTestID', (testId) => {
+  return cy.get(`[data-testid="${testId}"]`);
+});
+
+Cypress.Commands.add('assertPageUrl', (url) => {
+  cy.url()
+    .should('equal', url);
+});
