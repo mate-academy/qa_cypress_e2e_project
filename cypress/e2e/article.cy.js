@@ -35,7 +35,7 @@ describe('Article', () => {
     });
   });
 
-  it('should be edited using the Edit button', () => {
+  it('article should be edited using the Edit button', () => {
     cy.task('generateArticle').then((article) => {
       articlePage.typeTitle(article.title);
       articlePage.typeDescription(article.description);
@@ -51,7 +51,7 @@ describe('Article', () => {
     });
   });
 
-  it('should be deleted using the Delete button', () => {
+  it('article should be deleted using the Delete button', () => {
     cy.task('generateArticle').then((article) => {
       articlePage.typeTitle(article.title);
       articlePage.typeDescription(article.description);

@@ -27,10 +27,6 @@ Cypress.Commands.add('findByPlaceholder', (placeholder) => {
   return cy.get(`[placeholder="${placeholder}"]`);
 });
 
-Cypress.Commands.add('findByPlaceholder', (placeholder) => {
-  return cy.get(`[placeholder="${placeholder}"]`);
-});
-
 Cypress.Commands.add('findByTestID', (testId) => {
   return cy.get(`[data-testid="${testId}"]`);
 });
