@@ -39,6 +39,11 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
+Cypress.Commands.add('assertPageUrl', (url) => {
+  cy.url()
+    .should('equal', url);
+});
+
 Cypress.Commands.add('register', (email = 'riot@qa.team',
   username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', 'http://localhost:1667/users', {
