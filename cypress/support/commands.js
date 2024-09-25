@@ -56,5 +56,40 @@ Cypress.Commands.add('login', (email, username, password) => {
     // eslint-disable-next-line arrow-parens
   }).then(response => {
     cy.setCookie('drash_sess', response.body.user.token);
+    const authorId = response.body.user.id;
+    window.localStorage.setItem('authorId', authorId);
+  });
+});
+
+// let Slug;
+
+// Cypress.Commands.add('setArticleSlug', (slug) => {
+//   Slug = slug;
+// });
+
+// Cypress.Commands.add('getArticleSlug', () => {
+//   return Slug;
+// });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  cy.getCookie('drash_sess').then((token) => {
+    const authToken = token.value;
+    const author = window.localStorage.getItem('authorId');
+
+    cy.request('POST', 'http://localhost:1667/articles', {
+      article: {
+        title,
+        description,
+        body,
+        tags: '',
+        author_id: author
+      },
+      headers: {
+        Authorization: `Token ${authToken}`
+      }
+    });
+  }).then((response) => {
+    const articleSlug = response.body.article.slug;
+    window.localStorage.setItem('slug', articleSlug);
   });
 });

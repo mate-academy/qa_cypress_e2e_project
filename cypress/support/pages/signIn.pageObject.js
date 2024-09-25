@@ -29,6 +29,17 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  get invalidCredentialsMessage() {
+    return cy.get('.swal-text');
+  }
+
+  assertInvalidCredentialsMessage() {
+    this.invalidCredentialsMessage.should(
+      'contain',
+      'Invalid user credentials.'
+    );
+  }
 }
 
 export default SignInPageObject;
