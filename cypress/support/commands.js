@@ -24,6 +24,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+// Cypress.Commands.add('getByDataCy', (selector) => {
+//   cy.get(`[data-cy="${selector}"]`);
+// });
+
+// eslint-disable-next-line max-len
 // import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 // addMatchImageSnapshotCommand();
@@ -32,11 +37,6 @@ Cypress.Commands.add('getByDataQa', (selector) => {
   cy.get(`[data-qa="${selector}"]`);
 });
 
-// Cypress.Commands.add('getByDataCy', (selector) => {
-//   cy.get(`[data-cy="${selector}"]`);
-// });
-
-// eslint-disable-next-line max-len
 Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
   cy.request('POST', '/users', {
     email,
@@ -57,4 +57,14 @@ Cypress.Commands.add('login', (email, username, password) => {
   }).then(response => {
     cy.setCookie('drash_sess', response.body.user.token);
   });
+});
+
+let Slug;
+
+Cypress.Commands.add('setArticleSlug', (slug) => {
+  Slug = slug;
+});
+
+Cypress.Commands.add('getArticleSlug', () => {
+  return Slug;
 });

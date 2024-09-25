@@ -6,17 +6,18 @@
   "dependencies": {
     "eslint-plugin-cypress": "^2.12.1",
     "faker": "^5.5.3",
-    "pg": "^8.9.0",
-    "sequelize": "^6.21.2",
-    "@faker-js/faker": "^8.4.1",
+    "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.3",
     "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@simonsmith/cypress-image-snapshot": "^9.1.0",
     "@types/cypress": "latest",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
-    "@faker-js/faker": "^8.4.1",
-    "cypress": "^12.13.0",
+    "cypress": "^13.14.2",
     "eslint": "^8.34.0",
     "eslint-config-standard-with-typescript": "^34.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -34,5 +35,20 @@
   },
   "lint-staged": {
     "*.js": "eslint --max-warnings=0"
-  }
+  },
+  "name": "qa_cypress_e2e_project",
+  "description": "## Workflow",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Piotr-Wandas/qa_cypress_e2e_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Piotr-Wandas/qa_cypress_e2e_project/issues"
+  },
+  "homepage": "https://github.com/Piotr-Wandas/qa_cypress_e2e_project#readme"
 }
