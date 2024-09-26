@@ -1,9 +1,9 @@
 <template>
-  <nav>
+  <nav data-testid="pagination">
     <ul class="pagination">
       <li
         v-for="page in pages"
-        :data-test="`page-link-${page}`"
+        :data-testid="`page-link-${page}`"
         :key="page"
         :class="paginationClass(page)"
         @click.prevent="changePage(page)"

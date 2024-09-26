@@ -113,3 +113,4 @@ describe('Settings page', () => {
     cy.assertPageUrl('http://localhost:1667/#/');
   });
 });
+

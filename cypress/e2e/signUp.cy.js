@@ -61,4 +61,24 @@ describe('Sign Up page', () => {
     cy.get('div.swal-title').should('contain', failedMsg);
     signUpPage.modalText.should('contain', failedMsgBottom);
   });
+
+  it('Register a new account with wrong details', () => {
+    const failedMsg = 'Registration failed!';
+    const failedMsgBottom = 'Email must be a valid email.';
+
+    // Odwiedza stronę rejestracji
+    signUpPage.visit();
+
+    // Wypełnia formularz niepoprawnymi danymi
+    signUpPage.userNameField.type(user.username);
+    signUpPage.passwordField.type(user.email); // Błędne dane: zamienione miejscami email i hasło
+    signUpPage.emailField.type(user.password); // Błędne dane: zamienione miejscami hasło i email
+
+    // Kliknięcie przycisku "Sign up"
+    signUpPage.signUpBtn.click();
+
+    // Sprawdza czy pojawia się komunikat o nieudanej rejestracji
+    cy.get('div.swal-title').should('contain', failedMsg);
+    signUpPage.modalText.should('contain', failedMsgBottom);
+  });
 });

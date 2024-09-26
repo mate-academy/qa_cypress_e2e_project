@@ -1,9 +1,10 @@
 <template>
-  <ul class="tag-list" v-if="tags.length !== 1 && !!tags[0]">
+  <ul class="tag-list" v-if="tags.length !== 1 && !!tags[0]" data-testid="tag-list">
     <li
       class="tag-default tag-pill tag-outline"
       v-for="(tag, index) of tags"
       :key="index"
+      :data-testid="`tag-${index}`"
     >
       <span v-text="tag" />
     </li>
