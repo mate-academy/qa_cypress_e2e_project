@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <ListErrors :errors="errors" />
-    <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)">
+  <div data-testid="comment-editor">
+    <ListErrors :errors="errors" data-testid="list-errors" />
+    <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)" data-testid="comment-form">
       <div class="card-block">
         <textarea
           class="form-control"
           v-model="comment"
           placeholder="Write a comment..."
           rows="3"
+          data-testid="comment-textarea"
         >
         </textarea>
       </div>
       <div class="card-footer">
-        <img :src="userImage" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <img :src="userImage" class="comment-author-img" data-testid="user-image" />
+        <button class="btn btn-sm btn-primary" data-testid="post-comment-btn">Post Comment</button>
       </div>
     </form>
   </div>
