@@ -1,11 +1,11 @@
 <template>
-  <div class="article-preview">
-    <ArticleMeta :article="article" />
-    <router-link :to="articleLink" class="preview-link">
-      <h1 v-text="article.title" />
-      <p v-text="article.description" />
-      <span>Read more...</span>
-      <TagList :tags="article.tags" />
+  <div class="article-preview" data-testid="article-preview">
+    <ArticleMeta :article="article" data-testid="article-meta" />
+    <router-link :to="articleLink" class="preview-link" data-testid="article-link">
+      <h1 v-text="article.title" data-testid="article-title" />
+      <p v-text="article.description" data-testid="article-description" />
+      <span data-testid="read-more">Read more...</span>
+      <TagList :tags="article.tags" data-testid="tag-list" />
     </router-link>
   </div>
 </template>

@@ -1,10 +1,7 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
-const {
-  addMatchImageSnapshotPlugin
-} = require('cypress-image-snapshot/plugin');
 
 module.exports = defineConfig({
   e2e: {
@@ -15,6 +12,16 @@ module.exports = defineConfig({
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
             username: faker.name.firstName() + `${randomNumber}`,
+            email: `testo${randomNumber}@gmail.com`,
+            password: '12345Qwert!'
+          };
+        },
+        generateUser2() {
+          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          return {
+            username: faker.name.firstName() + `${randomNumber}`,
+            email: `testo${randomNumber}@gmail.com`,
+            username: faker.person.firstName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
             password: '12345Qwert!'
           };
@@ -36,9 +43,13 @@ module.exports = defineConfig({
           seed();
 
           return null;
+        },
+        generateBio() {
+          return {
+            myBio: faker.lorem.words()
+          };
         }
       });
-      addMatchImageSnapshotPlugin(on, config);
     }
   }
 });

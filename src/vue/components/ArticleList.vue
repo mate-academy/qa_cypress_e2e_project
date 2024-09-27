@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <div v-if="is_loading" class="article-preview">Loading articles...</div>
+  <div data-testid="article-list">
+    <div v-if="is_loading" class="article-preview" data-testid="loading-message">Loading articles...</div>
     <div v-else>
-      <div v-if="articles.length === 0" class="article-preview">
+      <div v-if="articles.length === 0" class="article-preview" data-testid="no-articles-message">
         No articles are here... yet.
       </div>
       <ArticlePreview
         v-for="(article, index) in articles"
         :article="article"
         :key="article.title + index"
+        :data-testid="`article-preview-${index}`"
       />
-      <Pagination :pages="pages" :currentPage.sync="currentPage" />
+      <Pagination :pages="pages" :currentPage.sync="currentPage" data-testid="pagination" />
     </div>
   </div>
 </template>
