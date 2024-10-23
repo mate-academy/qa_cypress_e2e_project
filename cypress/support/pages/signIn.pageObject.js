@@ -25,6 +25,17 @@ class SignInPageObject extends PageObject {
       .type(password);
   }
 
+  fillSignInForm(user) {
+    this.typeEmail(user.email);
+    this.typePassword(user.password);
+  }
+
+  registerAndSignIn(user) {
+    cy.register(user);
+    this.fillSignInForm(user);
+    this.clickSignInBtn();
+  }
+
   clickSignInBtn() {
     this.signInBtn
       .click();
