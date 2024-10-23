@@ -75,7 +75,6 @@ class SettingsPageObject extends PageObject {
   logout() {
     return cy
       .get('.btn.btn-outline-danger')
-      .contains('Or click here to logout')
       .click();
   }
 }

@@ -19,7 +19,8 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    SignInPage.registerAndSignIn(user);
+    cy.register(user);
+    SignInPage.fillSignInForm(user);
     HomePage.assertHeaderContainUsername(user.username);
   });
 

@@ -44,6 +44,10 @@ class ArticlePageObject extends PageObject {
     cy.visit(`${this.url}/${articleTitle}`);
     this.createArticle(newArticle);
   }
+
+  clickDeleteButton() {
+    this.deleteArticleButton.click();
+  }
 };
 
 export default ArticlePageObject;

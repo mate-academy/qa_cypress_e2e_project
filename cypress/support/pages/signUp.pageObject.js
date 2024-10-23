@@ -19,8 +19,8 @@ class SignUpPageObject extends PageObject {
     return cy.get('.btn.btn-lg');
   }
 
-  typeUsername(email) {
-    this.usernameField.type(email);
+  typeUsername(username) {
+    this.usernameField.type(username);
   }
 
   typeEmail(email) {

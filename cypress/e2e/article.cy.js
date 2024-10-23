@@ -34,7 +34,7 @@ describe('Article', () => {
 
   it('should be deleted using Delete button', () => {
     ArticlePage.createArticle(article);
-    ArticlePage.deleteArticleButton.click();
+    ArticlePage.clickDeleteButton();
     cy.contains('Deleted the article. Going home...');
     cy.assertPageURL('/');
   });
