@@ -9,6 +9,7 @@
               <fieldset class="form-group">
                 <input
                   type="text"
+                  data-cy="article-title"
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
@@ -18,6 +19,7 @@
                 <input
                   type="text"
                   class="form-control"
+                  data-cy="article-description"
                   v-model="article.description"
                   placeholder="What's this article about?"
                 />
@@ -25,6 +27,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control"
+                  data-cy="article-body"
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
@@ -45,6 +48,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-cy="publish-btn"
             >
               Publish Article
             </button>
