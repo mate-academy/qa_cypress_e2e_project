@@ -23,19 +23,78 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const imgUrl = 'https://static.productionready.io/images/smiley-cyrus.jpg';
 
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
-
-addMatchImageSnapshotCommand();
-
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('login', (user) => {
+  cy.request({
+    method: 'POST',
+    url: '/api/users/login',
+    body: {
+      user
+    }
+  }).then((response) => {
+    const user = {
+      bio: response.body.user.bio,
+      effectiveImage: imgUrl,
+      email: response.body.user.email,
+      image: response.body.user.image,
+      token: response.body.user.token,
+      username: response.body.user.username
+    };
+    window.localStorage.setItem('user', JSON.stringify(user));
+    cy.setCookie('auth', response.body.user.token);
+  });
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add('createArticle', (user, article) => {
+  cy.request({
+    method: 'POST',
+    url: '/api/users/login',
+    body: {
+      user: {
+        email: user.email,
+        password: user.password
+      }
+    }
+  }).then((loginResponse) => {
+    expect(loginResponse.status).to.eq(200);
+    const authToken = loginResponse.body.user.token;
+    cy.setCookie('auth', authToken);
+
+    cy.request({
+      method: 'POST',
+      url: '/api/articles',
+      headers: {
+        Authorization: 'Token ' + authToken
+      },
+      body: {
+        article: {
+          title: article.title,
+          description: article.description,
+          body: article.body,
+          tagList: article.tagList || []
+        }
+      }
+    }).then((articleResponse) => {
+      expect(articleResponse.status).to.eq(200);
+
+      cy.visit(`/article/${articleResponse.body.article.slug}`);
+    });
+  });
+});
+
+Cypress.Commands.add('createUser', () => {
+  const faker = require('faker');
+  const user = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: 'password123'
+  };
+
+  cy.request('POST', 'https://conduit.mate.academy/api/users', {
+    user
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    Cypress.env('user', response.body.user);
   });
 });
