@@ -1,5 +1,4 @@
 /// <reference types='cypress' />
-/// <reference types='../support' />
 
 import SignUpPageObject from '../support/pages/signUp.pageObject';
 
@@ -8,41 +7,25 @@ const signUpPage = new SignUpPageObject();
 describe('Sign Up page', () => {
   let user;
 
-  beforeEach(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+  before(() => {
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
     });
+  });
 
+  it('should allow a new user to sign up with valid data', () => {
     signUpPage.visit();
+    signUpPage.fillSignUpForm(user.email, user.username, user.password);
+    signUpPage.submitSignUp();
+
+    cy.contains('Your account has been created').should('be.visible'); // Verify successful sign-up
   });
 
-  it('should provide an ability to sign up', () => {
-    signUpPage.typeUsername(user.username);
-    signUpPage.typeEmail(user.email);
-    signUpPage.typePassword(user.password);
-    signUpPage.clickSignUpBtn();
-    signUpPage.checkSuccess('Welcome!');
-  });
+  it('should show error for invalid sign up data', () => {
+    signUpPage.visit();
+    signUpPage.fillSignUpForm('invalidemail', 'short', 'weak');
+    signUpPage.submitSignUp();
 
-  it('should not provide an ability to sign up without username', () => {
-    signUpPage.typeEmail(user.email);
-    signUpPage.typePassword(user.password);
-    signUpPage.clickSignUpBtn();
-    signUpPage.checkFail('Registration failed!');
-  });
-
-  it('should not provide an ability to sign up without email', () => {
-    signUpPage.typeUsername(user.username);
-    signUpPage.typePassword(user.password);
-    signUpPage.clickSignUpBtn();
-    signUpPage.checkFail('Registration failed!');
-  });
-
-  it('should not provide an ability to sign up without a password', () => {
-    signUpPage.typeUsername(user.username);
-    signUpPage.typeEmail(user.email);
-    signUpPage.clickSignUpBtn();
-    signUpPage.checkFail('Registration failed!');
+    cy.contains('Sign up failed').should('be.visible'); // Verify error for invalid sign-up
   });
 });

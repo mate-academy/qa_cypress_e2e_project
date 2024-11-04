@@ -1,53 +1,45 @@
-/// <reference types="cypress" />
-/// <reference types="../support" />
+/// <reference types='cypress' />
 
 import SettingsPageObject from '../support/pages/settings.pageObject';
 
 const settingsPage = new SettingsPageObject();
 
 describe('Settings page', () => {
-  let user;
-
-  before(() => {
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
-  });
-
   beforeEach(() => {
-    cy.task('db:clear');
-    cy.visit('/');
-    cy.register();
-    cy.login();
-    settingsPage.visit();
+    cy.task('db:clear'); // clear the database before each test
   });
 
   it('should provide an ability to update username', () => {
-    settingsPage.typeUsername(user.username);
-    settingsPage.submitForm();
-    settingsPage.assertProfilePage(user.username);
+    settingsPage.visit();
+    settingsPage.updateUsername('NewUsername');
+
+    cy.contains('NewUsername').should('be.visible'); // Verify the username is updated
   });
 
   it('should provide an ability to update bio', () => {
-    settingsPage.typeBio(user.bio);
-    settingsPage.submitForm();
-    settingsPage.assertProfilePage();
+    settingsPage.visit();
+    settingsPage.updateBio('This is my updated bio');
+
+    cy.contains('This is my updated bio').should('be.visible'); // Verify the bio is updated
   });
 
   it('should provide an ability to update an email', () => {
-    settingsPage.typeEmail(user.email);
-    settingsPage.submitForm();
-    settingsPage.assertProfilePage();
+    settingsPage.visit();
+    settingsPage.updateEmail('newemail@example.com');
+
+    cy.contains('Your email has been updated').should('be.visible'); // Verify the email is updated
   });
 
   it('should provide an ability to update password', () => {
-    settingsPage.typePassword(user.password);
-    settingsPage.submitForm();
-    settingsPage.assertProfilePage();
+    settingsPage.visit();
+    settingsPage.updatePassword('NewSecurePassword123!');
+
+    cy.contains('Your password has been updated').should('be.visible'); // Verify the password is updated
   });
 
   it('should provide an ability to log out', () => {
-    settingsPage.logout();
-    cy.url().should('include', '/');
+    settingsPage.logOut();
+
+    cy.contains('Sign In').should('be.visible'); // Verify the user is logged out
   });
 });

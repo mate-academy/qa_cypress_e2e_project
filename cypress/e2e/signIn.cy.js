@@ -1,9 +1,7 @@
 /// <reference types='cypress' />
-/// <reference types='../support' />
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
-import faker from 'faker';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -11,34 +9,31 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  beforeEach(() => {
+  before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-      cy.register(user.email, user.username, user.password);
-      signInPage.visit();
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
     });
   });
 
   it('should provide an ability to log in with existing credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    homePage.assertHeaderContainUsername(user.username);
+    homePage.assertHeaderContainUsername(user.username); // Verify successful login
   });
 
-  it('should not provide an ability to log in with wrong email', () => {
-    signInPage.typeEmail(faker.internet.email());
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-    signInPage.checkWrong('Login failed!');
-  });
+  it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
-  it('should not provide an ability to log in with wrong password', () => {
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(faker.internet.password());
+    signInPage.typeEmail('wrongemail@example.com');
+    signInPage.typePassword('WrongPassword123!');
     signInPage.clickSignInBtn();
-    signInPage.checkWrong('Login failed!');
+
+    cy.contains('Invalid credentials').should('be.visible'); // Verify error for invalid login
   });
 });

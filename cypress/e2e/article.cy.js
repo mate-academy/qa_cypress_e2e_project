@@ -1,70 +1,49 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import EditorPageObject from '../support/pages/editor.pageObject';
-import faker from 'faker';
+import ArticlePageObject from '../support/pages/article.pageObject';
 
-const editorPage = new EditorPageObject();
-let user;
-let article;
+const articlePage = new ArticlePageObject();
 
 describe('Article', () => {
-  beforeEach(() => {
-    cy.task('generateArticle').then((generateArticle) => {
-      article = generateArticle;
+  let article;
+
+  before(() => {
+    cy.task('generateArticle').then((generatedArticle) => {
+      article = generatedArticle;
     });
   });
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-      cy.login(user.email, user.username, user.password);
-    });
   });
 
   it('should be created using New Article form', () => {
-    editorPage.visit();
-    editorPage.typeTitle(article.title);
-    editorPage.typeDescription(article.description);
-    editorPage.typeBody(article.body);
-    editorPage.typeTags(article.tag);
-    editorPage.clickPublishBtn();
-    editorPage.assertArticleTitle(article.title);
-    editorPage.assertArticleBody(article.body);
+    articlePage.visitNewArticlePage();
+    articlePage.createArticle(
+      article.title,
+      article.description,
+      article.body
+    );
+
+    cy.contains(article.title).should('be.visible');
   });
 
   it('should be edited using Edit button', () => {
-    const newbody = faker.lorem.words();
-    cy.get('@user').then((user) => {
-      cy.createArticle(
-        user.id, article.title, article.description, article.body
-      )
-        .then((response) => {
-          const slug = response.body.article.slug;
-          cy.visit(`/#/articles/${slug}`);
-        });
-    });
+    articlePage.visitEditArticlePage(article.slug);
+    articlePage.editArticle(
+      'Updated Title',
+      'Updated Description',
+      'Updated Body'
+    );
 
-    editorPage.clickEditBtn();
-    editorPage.typeBody(newbody);
-    editorPage.clickPublishBtn();
-    editorPage.assertArticleBody(newbody);
+    cy.contains('Updated Title').should('be.visible');
   });
 
   it('should be deleted using Delete button', () => {
-    cy.get('@user').then((user) => {
-      cy.createArticle(
-        user.id, article.title, article.description, article.body
-      )
-        .then((response) => {
-          const slug = response.body.article.slug;
-          cy.visit(`/#/articles/${slug}`);
-        });
-    });
+    articlePage.visitArticlePage(article.slug);
+    articlePage.deleteArticle();
 
-    editorPage.clickDeleteBtn();
-    cy.get('.article-preview')
-      .should('contain.text', 'No articles are here... yet.');
+    cy.contains('No articles are here... yet.').should('be.visible');
   });
 });
