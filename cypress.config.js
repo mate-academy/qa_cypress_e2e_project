@@ -1,11 +1,9 @@
 const { defineConfig } = require('cypress');
-const faker = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
-const {
-  addMatchImageSnapshotPlugin
-} = require('cypress-image-snapshot/plugin');
-
+// eslint-disable-next-line max-len
+const { addMatchImageSnapshotPlugin } = require('cypress-image-snapshot/plugin');
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://localhost:1667/',
@@ -14,9 +12,10 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: faker.internet.userName() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            bio: faker.person.bio()
           };
         },
         generateArticle() {
@@ -29,12 +28,10 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
