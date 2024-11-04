@@ -1,34 +1,48 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
-
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
+const user = {
+  username: 'wombat098',
+  email: 'wombat098@i.ua',
+  password: '1234567890'
+};
 
 describe('Sign In page', () => {
-  let user;
-
-  before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
-  });
-
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
+    cy.visit('/user/login');
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button[type="submit"]').click();
+    cy.contains(user.username.toLowerCase()).should('be.visible');
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in without email', () => {
+    cy.visit('/user/login');
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button[type="submit"]').click();
+    cy.contains(`can't be blank`).should('be.visible');
+  });
 
+  it('should not provide an ability to log in without password', () => {
+    cy.visit('/user/login');
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('button[type="submit"]').click();
+    cy.contains(`can't be blank`).should('be.visible');
+  });
+
+  it('should not provide an ability to log in with wrong email', () => {
+    cy.visit('/user/login');
+    cy.get('input[placeholder="Email"]').type('wrongEmail@i.ua');
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button[type="submit"]').click();
+    cy.contains('is invalid').should('be.visible');
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    cy.visit('/user/login');
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('input[placeholder="Password"]').type('wrongPassword');
+    cy.get('button[type="submit"]').click();
+    cy.contains('is invalid').should('be.visible');
   });
 });
