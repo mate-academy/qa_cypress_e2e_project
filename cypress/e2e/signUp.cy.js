@@ -30,14 +30,14 @@ describe('Sign Up page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it.only('should not provide an ability to register with wrong email',
+  it('should not provide an ability to register with wrong email',
     () => {
       signUpPage.typeEmail('sdf');
       signUpPage.typePassword(user.password);
       signUpPage.clickSignUpBtn();
       signUpPage.assertFailedSignUp();
     });
-  it.only('should not provide an ability to register with wrong password',
+  it('should not provide an ability to register with wrong password',
     () => {
       signUpPage.typeEmail(user.email);
       signUpPage.typePassword('test');

@@ -16,22 +16,22 @@ describe('Article', () => {
     signInPage.clickSignInBtn();
   });
 
-  it.only('should be created using New Article form', () => {
+  it('should be created using New Article form', () => {
     articlePage.createNewArticle();
-    articlePage.typeTitle('My Title');
-    articlePage.typeDescription('My Description');
-    articlePage.typeBody('My Body');
+    articlePage.typeTitle('My Title test');
+    articlePage.typeDescription('My Description test');
+    articlePage.typeBody('My Body test');
     articlePage.submitArticle();
-    articlePage.assertArticleCreated('My Title');
+    articlePage.assertArticleCreated('My Title test');
   });
 
   it('should be edited using Edit button', () => {
     articlePage.clickEditArticleBtn();
-    articlePage.typeTitle('My Title1');
-    articlePage.typeDescription('My Description2');
-    articlePage.typeBody('My Body3');
+    articlePage.typeTitle('My Title new');
+    articlePage.typeDescription('My Description new');
+    articlePage.typeBody('My Body new');
     articlePage.submitArticle();
-    articlePage.assertArticleCreated('My Title1');
+    articlePage.assertArticleCreated('My Title new');
   });
 
   it('should be deleted using Delete button', () => {

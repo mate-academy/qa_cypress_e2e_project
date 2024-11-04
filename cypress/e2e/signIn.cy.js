@@ -17,7 +17,7 @@ describe('Sign In page', () => {
     signInPage.visit();
   });
 
-  it.only('should provide an ability to log in with existing credentials',
+  it('should provide an ability to log in with existing credentials',
     () => {
       cy.register(user.email, user.username, user.password);
       signInPage.typeEmail(user.email);
