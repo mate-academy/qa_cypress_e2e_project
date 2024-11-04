@@ -9,15 +9,15 @@
               <fieldset class="form-group">
                 <input
                   type="text"
+                  data-cy="article-title"
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
-                />
-              </fieldset>
-              <fieldset class="form-group">
+	@@ -18,13 +19,15 @@
                 <input
                   type="text"
                   class="form-control"
+                  data-cy="article-description"
                   v-model="article.description"
                   placeholder="What's this article about?"
                 />
@@ -25,6 +25,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control"
+                  data-cy="article-body"
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
@@ -45,6 +46,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-cy="publish-btn"
             >
               Publish Article
             </button>
@@ -54,7 +56,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import { store } from "../../public/js/_app.js";
@@ -110,14 +111,12 @@ export default {
         buttons: false,
       });
       let tags = this.tags.length ? this.tags.map(tag => tag.text) : []
-
       // Prep for sending to the Drash backend, that accepts a string
       if (tags.length) {
         tags = tags.join(",")
       } else {
         tags = ""
       }
-
       this.article.tags = tags
       this.publishing_article = true;
       this.$store.dispatch(action, this.article)
