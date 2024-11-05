@@ -35,7 +35,7 @@ describe('Article', () => {
 
     articlePage.clickPublishBtn();
 
-    articlePage.verifyAricleCreation(articleTitle);
+    articlePage.verifyArticleCreation(articleTitle);
   });
 
   it('should be edited using Edit button', () => {
@@ -54,7 +54,7 @@ describe('Article', () => {
 
     articlePage.clickPublishBtn();
 
-    articlePage.verifyAricleCreation(articleTitle);
+    articlePage.verifyArticleCreation(articleTitle);
   });
 
   it('should be deleted using Delete button', () => {

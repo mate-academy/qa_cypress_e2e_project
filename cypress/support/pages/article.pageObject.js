@@ -32,7 +32,7 @@ class ArticlePageObject extends PageObject {
   }
 
   typeArticleTags(articleTag) {
-    this.articleTagField.clear().type(`${articleTag}{enter}`);
+    this.articleTagsField.clear().type(`${articleTag}{enter}`);
   }
 
   get publishBtn() {
@@ -47,7 +47,7 @@ class ArticlePageObject extends PageObject {
     return cy.get('.container');
   }
 
-  verifyAricleCreation(articleTitle) {
+  verifyArticleCreation(articleTitle) {
     this.container.should('contain', articleTitle)
       .and('contain', 'Delete Article')
       .and('contain', 'Edit Article');
