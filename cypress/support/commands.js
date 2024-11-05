@@ -24,18 +24,30 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
-
-addMatchImageSnapshotCommand();
-
 Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
+Cypress.Commands.add('register', ({ email, username, password }) => {
+  cy.request('POST', '/api/users', {
+    user: {
+      email,
+      username,
+      password
+    }
+  }).then((res) => ({
+    ...res.body.user,
     password
-  });
+
+  }));
+});
+
+Cypress.Commands.add('login', (user) => {
+  cy.register(user)
+    .then(({ email, password }) => {
+      cy.request('POST', '/api/users/login', { user: { email, password } })
+        .then((res) => {
+          cy.setCookie('drash_sess', res.body.user.token);
+        });
+    });
 });
