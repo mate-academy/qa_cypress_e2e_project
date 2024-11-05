@@ -5,28 +5,11 @@ describe('Settings page', () => {
   before(() => {
 
   });
+import SettingsPageObject from '../support/pages/settings.pageObject';
 
   beforeEach(() => {
+const settingsPage = new SettingsPageObject();
 
+describe('Settings page', () => {
+    cy.task('db:clear');
   });
-
-  it('should provide an ability to update username', () => {
-
-  });
-
-  it('should provide an ability to update bio', () => {
-
-  });
-
-  it('should provide an ability to update an email', () => {
-
-  });
-
-  it('should provide an ability to update password', () => {
-
-  });
-
-  it('should provide an ability to log out', () => {
-
-  });
-});
