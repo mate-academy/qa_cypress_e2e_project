@@ -56,14 +56,14 @@ describe('Settings page', () => {
 
     settingsPage.visit();
 
-    settingsPage.verifyEmailUpdate(updateUser);
+    settingsPage.verifyEmailUpdate(updateUser.email);
 
   });
 
   it('should provide an ability to update password', () => {
     settingsPage.visit();
 
-    settingsPage.typeNewPassword(updateUser);
+    settingsPage.typeNewPassword(updateUser.password);
 
     settingsPage.clickOnUpdateSettingsBtn();
 

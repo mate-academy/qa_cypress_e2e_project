@@ -23,9 +23,9 @@ class SignUpPageObject extends PageObject {
         return cy.url();
       }
     
-      typeUsername(email) {
+      typeUsername(username) {
         this.usernameField
-          .type(email);
+          .type(username);
       }
 
       typeEmail(email) {
@@ -43,7 +43,7 @@ class SignUpPageObject extends PageObject {
           .click();
       }
 
-      verifySignUpUrl() {
+      verifySignUpUrl(url) {
         this.signUpUrl
           .should('equal', url);
       }

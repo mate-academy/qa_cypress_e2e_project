@@ -39,8 +39,10 @@ describe('Article', () => {
     newArticlePage.checkNewArticleLink(article.title);
   });
 
-  it.only('should be edited using Edit button', () => {
+  it('should be edited using Edit button', () => {
     cy.createArticle(article.title, article.description, article.body);
+    articlePage.visitArticle(article.title);
+    articlePage.clickOnEditArticleBtn();
     newArticlePage.typeTitle(article.title);
     newArticlePage.typeDescription(article.description);
     newArticlePage.typeBody(article.body);
@@ -53,7 +55,10 @@ describe('Article', () => {
   it('should be deleted using Delete button', () => {
     cy.createArticle(article.title, article.description, article.body);
     articlePage.clickOnDeleteArticleBtn();
-    homePage.verifyUrl();
+
+    homePage.visit();
+    
+    homePage.verifyAbsentArticle(article.title);
 
   });
 });

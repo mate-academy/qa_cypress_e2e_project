@@ -58,7 +58,7 @@ class SettingsPageObject extends PageObject {
     }
 
     verifyEmailUpdate(updateEmail) {
-        this.emailFieldField
+        this.emailField
             .should('contain', updateEmail);
     }
 

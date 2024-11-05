@@ -40,7 +40,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    signInPage.verifyEmailErorr();
+    signInPage.verifyEmailError();
 
   });
 
@@ -53,6 +53,6 @@ describe('Sign In page', () => {
     signInPage.typePassword(wrongUser.password);
     signInPage.clickSignInBtn();
 
-    signInPage.verifyPasswordErorr();
+    signInPage.verifyPasswordError();
   });
 });

@@ -23,6 +23,10 @@ class HomePageObject extends PageObject {
     return cy.getByDataCy('follow-user-btn')
   }
 
+  get articleTitle() {
+    return cy.getByDataCy('article-title-link');
+  }
+
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
@@ -54,6 +58,11 @@ class HomePageObject extends PageObject {
   verifyUnfollow() {
     this.followBtn
       .should('contain', 'Follow');
+  }
+
+  verifyAbsentArticle(title) {
+    this.articleTitle
+      .should('not.be.visible', title);
   }
 }
 

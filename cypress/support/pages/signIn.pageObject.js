@@ -38,12 +38,12 @@ class SignInPageObject extends PageObject {
       .click();
   }
 
-  verifyEmailErorr() {
+  verifyEmailError() {
     this.emailErrorMessage
       .should('be.visible');
   }
 
-  verifyPasswordErorr() {
+  verifyPasswordError() {
     this.passwordErrorMessage
       .should('be.visible');
   }

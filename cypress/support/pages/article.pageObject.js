@@ -8,7 +8,7 @@ class ArticlePageObject extends PageObject {
     }
 
     get deleteArticleBtn() {
-        return cy.getByDataCy('delete-article-btn')
+        return cy.getByDataCy('delete-article-btn');
     }
 
     clickOnEditArticleBtn() {
@@ -19,6 +19,10 @@ class ArticlePageObject extends PageObject {
     clickOnDeleteArticleBtn() {
         this.deleteArticleBtn
             .click();
+    }
+
+    visitArticle(title){
+        cy.visit(`/${title}`);
     }
 }
 
