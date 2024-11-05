@@ -6,19 +6,18 @@ import ArticlePageObject from '../support/pages/article.pageObject';
 const articlePage = new ArticlePageObject();
 
 describe('Article', () => {
-  before(() => {
   let article;
 
   before(() => {
-    cy.task('generateArticle').then((generatedArticle) => {
-      article = generatedArticle;
-    });
+    cy.task('generateArticle')
+      .then((generatedArticle) => {
+        article = generatedArticle;
+      })
+      .catch((error) => {
+        throw new Error("Failed to generate article: " + error);
+      });
   });
-
-  beforeEach(() => {
-    cy.task('db:clear');
-  });
-
+  
   it('should be created using New Article form', () => {
     articlePage.visitNewArticlePage();
     articlePage.createArticle(article.title, article.description, article.body);

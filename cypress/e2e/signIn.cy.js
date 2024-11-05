@@ -2,18 +2,13 @@ const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
   
-describe('Sign In page', () => {
-  let user;
+let user;
 
-  before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
 before(() => {
-      user = generateUser;
-    cy.task('generateUser').then((generatedUser) => {
-      user = generatedUser;
-    });
+  cy.task('generateUser').then((generatedUser) => {
+    user = generatedUser;
   });
+});
 
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
