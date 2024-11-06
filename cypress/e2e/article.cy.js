@@ -22,7 +22,7 @@ describe('Article', () => {
     articlePage.visitNewArticlePage();
     articlePage.createArticle(article.title, article.description, article.body);
 
-    cy.contains(article.title).should('be.visible'); // Verify the article is created
+    cy.contains(article.title).should('be.visible');
   });
 
   it('should be edited using Edit button', () => {

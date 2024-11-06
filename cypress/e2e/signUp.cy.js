@@ -19,7 +19,7 @@ describe('Sign Up page', () => {
     signUpPage.fillSignUpForm(user.email, user.username, user.password);
     signUpPage.submitSignUp();
 
-    cy.contains('Your account has been created').should('be.visible'); // Verify successful sign-up
+    cy.contains('Your account has been created').should('be.visible');
   });
 
   it('should show error for invalid sign up data', () => {

@@ -27,7 +27,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    homePage.assertHeaderContainUsername(user.username); // Verify successful login
+    homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {

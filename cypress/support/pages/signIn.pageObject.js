@@ -4,7 +4,7 @@ class SignInPageObject extends PageObject {
   url = '/#/login';
 
   get emailField() {
-    return this.getByDataCy('email-sign-in');
+    return this.getByDataCy('email-sign-in'); //email test
   }
 
   get passwordField() {

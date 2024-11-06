@@ -16,7 +16,7 @@ describe('User', () => {
     userPage.visit();
     userPage.followUser();
 
-    cy.contains('Following').should('be.visible'); // Verify that the user is followed
+    cy.contains('Following').should('be.visible');
   });
 
   it('should provide an ability to unfollow the user', () => {
