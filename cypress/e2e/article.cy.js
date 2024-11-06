@@ -15,7 +15,7 @@ describe('Article', () => {
   });
 
   beforeEach(() => {
-    cy.task('db:clear'); // clear the database before each test
+    cy.task('db:clear');
   });
 
   it('should be created using New Article form', () => {

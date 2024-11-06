@@ -27,6 +27,6 @@ describe('Sign Up page', () => {
     signUpPage.fillSignUpForm('invalidemail', 'short', 'weak');
     signUpPage.submitSignUp();
 
-    cy.contains('Sign up failed').should('be.visible'); // Verify error for invalid sign-up
+    cy.contains('Sign up failed').should('be.visible');
   });
 });

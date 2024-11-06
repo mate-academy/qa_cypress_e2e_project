@@ -14,7 +14,7 @@ describe('Settings page', () => {
     settingsPage.visit();
     settingsPage.updateUsername('NewUsername');
 
-    cy.contains('NewUsername').should('be.visible'); // Verify the username is updated
+    cy.contains('NewUsername').should('be.visible');
   });
 
   it('should provide an ability to update bio', () => {

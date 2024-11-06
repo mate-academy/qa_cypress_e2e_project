@@ -23,6 +23,6 @@ describe('User', () => {
     userPage.visit();
     userPage.unfollowUser();
 
-    cy.contains('Follow').should('be.visible'); // Verify that the user is unfollowed
+    cy.contains('Follow').should('be.visible');
   });
 });

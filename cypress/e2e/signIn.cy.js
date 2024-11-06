@@ -37,7 +37,7 @@ describe('Sign In page', () => {
     signInPage.typePassword('WrongPassword123!');
     signInPage.clickSignInBtn();
 
-    cy.contains('Invalid credentials').should('be.visible'); // Verify error for invalid login
+    cy.contains('Invalid credentials').should('be.visible');
   });
 });
 
