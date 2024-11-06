@@ -11,10 +11,11 @@ describe('Settings page', () => {
   });
 
   it('should update bio', () => {
-    cy.get('[data-qa="bio"]').clear().type(faker.lorem.sentence());
+    const newBio = faker.lorem.sentence();
+    cy.get('[data-qa="bio"]').clear().type(newBio);
     cy.get('[data-qa="save-profile"]').click();
     cy.reload();
-    cy.get('[data-qa="bio"]').should('contain', faker.lorem.sentence());
+    cy.get('[data-qa="bio"]').should('contain', newBio);
   });
 
   it('should update username', () => {
@@ -38,6 +39,6 @@ describe('Settings page', () => {
     cy.get('[data-qa="save-profile"]').click();
     cy.logout();
     cy.login('user@example.com', 'newpassword123');
-    cy.url().should('eq', '/');
+    cy.url().should('/');
   });
 });
