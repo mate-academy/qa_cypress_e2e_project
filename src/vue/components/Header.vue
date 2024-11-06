@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light">
+  <nav class="navbar navbar-light" data-cy="headerBar">
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'home' }">
         conduit
@@ -59,7 +59,7 @@
             <i class="ion-compose"></i>&nbsp;New Article
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-cy="settingsLink">
           <router-link
             class="nav-link"
             active-class="active"
