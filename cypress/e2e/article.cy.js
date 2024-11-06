@@ -4,7 +4,6 @@
 import ArticlePageObject from '../support/pages/article.pageObject';
 
 const articlePage = new ArticlePageObject();
-
 describe('Article', () => {
   let article;
 
