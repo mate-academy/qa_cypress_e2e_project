@@ -1,8 +1,6 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-/// <reference types='cypress' />
-
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 
@@ -13,7 +11,7 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
+    // cy.task('db:clear');
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
     });

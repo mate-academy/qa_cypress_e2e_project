@@ -6,9 +6,9 @@ import SettingsPageObject from '../support/pages/settings.pageObject';
 const settingsPage = new SettingsPageObject();
 
 describe('Settings page', () => {
-  beforeEach(() => {
-    cy.task('db:clear');
-  });
+  // beforeEach(() => {
+  //   cy.task('db:clear');
+  // });
 
   it('should provide an ability to update username', () => {
     settingsPage.visit();
