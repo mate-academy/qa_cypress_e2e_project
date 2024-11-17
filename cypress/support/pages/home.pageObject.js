@@ -4,12 +4,12 @@ class HomePageObject extends PageObject {
   url = '/#/';
 
   get usernameLink() {
-    return cy.getByDataCy('username-link');
+    return cy.get(':nth-child(4) > .nav-link');
   }
 
   assertHeaderContainUsername(username) {
     this.usernameLink
-      .should('contain', username);
+      .should('contain.text', username.toLowerCase());
   }
 }
 
