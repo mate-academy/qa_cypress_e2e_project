@@ -9,7 +9,11 @@ class HomePageObject extends PageObject {
 
   assertHeaderContainUsername(username) {
     this.usernameLink
-      .should('contain.text', username.toLowerCase());
+      .should('contain.text', username);
+  }
+
+  ClickOnUsernameLinkInHeader() {
+    this.usernameLink.click();
   }
 }
 
