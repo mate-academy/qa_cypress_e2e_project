@@ -3,9 +3,12 @@ class PageObject {
     cy.visit(url || this.url);
   }
 
-  // register(email, username, password) {
-  //   cy.register(user.email, user.username, user.password);
-  // }
+  confirmDelete() {
+    cy.on('window:confirm', (text) => {
+      expect(text).to.equal('Do you really want to delete it?');
+      return true;
+    });
+  }
 }
 
 export default PageObject;

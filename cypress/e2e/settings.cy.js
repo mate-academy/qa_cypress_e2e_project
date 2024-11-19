@@ -14,11 +14,15 @@ const signInPage = new SignInPageObject();
 describe('Settings page', () => {
   let user;
   let newUserName;
+  let newEmail;
+  let newPassword;
 
   beforeEach(() => {
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
       newUserName = user.username + '134';
+      newEmail = 'new' + user.email;
+      newPassword = 'new' + user.password;
       cy.register(user.email, user.username, user.password);
       cy.login(user);
     });
@@ -26,46 +30,44 @@ describe('Settings page', () => {
     cy.visit('/settings');
   });
 
-  it.only('should provide an ability to update username', () => {
+  it('should provide an ability to update username', () => {
     settingPage.typeUserName(newUserName);
     settingPage.clickUpdateButton();
-    homePage.ClickOnUsernameLinkInHeader();
+    homePage.clickOnUsernameLinkInHeader();
     homePage.assertHeaderContainUsername(newUserName);
   });
 
-  it.only('should provide an ability to update bio', () => {
+  it('should provide an ability to update bio', () => {
     settingPage.typeBio(user.username);
     settingPage.clickUpdateButton();
-    settingPage.visit('/profile/riot');
+    homePage.clickOnUsernameLinkInHeader();
     profilePage.assertBioContainNewBio(user.username);
   });
 
   it('should provide an ability to update an email', () => {
-    settingPage.typeEmail(user.email);
+    settingPage.typeEmail(newEmail);
     settingPage.clickUpdateButton();
     settingPage.clickLogoutButton();
-    settingPage.reloadPage();
-    signInPage.visit();
-    signInPage.typeEmail(user.email);
+    signInPage.visit('user/login');
+    signInPage.typeEmail(newEmail);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-    homePage.assertHeaderContainUsername('riot');
+    homePage.assertHeaderContainUsername(user.username);
   });
 
-  // it('should provide an ability to update password', () => {
-  //   settingPage.typePassword('newPassword123');
-  //   settingPage.clickUpdateButton();
-  //   settingPage.clickLogoutButton();
-  //   settingPage.reloadPage();
-  //   signInPage.visit();
-  //   signInPage.typeEmail('riot@qa.team');
-  //   signInPage.typePassword('newPassword123');
-  //   signInPage.clickSignInBtn();
-  //   homePage.assertHeaderContainUsername('riot');
-  // });
+  it('should provide an ability to update password', () => {
+    settingPage.typePassword(newPassword);
+    settingPage.clickUpdateButton();
+    settingPage.clickLogoutButton();
+    signInPage.visit('user/login');
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(newPassword);
+    signInPage.clickSignInBtn();
+    homePage.assertHeaderContainUsername(user.username);
+  });
 
-  // it('should provide an ability to log out', () => {
-  //   settingPage.clickLogoutButton();
-  //   homePage.assertHeaderContainH1Text('conduit');
-  // });
+  it('should provide an ability to log out', () => {
+    settingPage.clickLogoutButton();
+    homePage.assertHeaderContainH1Text('conduit');
+  });
 });

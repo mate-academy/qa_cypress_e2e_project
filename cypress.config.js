@@ -10,7 +10,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random() * 10000);
+          const randomNumber = Math.ceil(Math.random() * 100000);
           return {
             username: faker.person.firstName().toLowerCase() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',

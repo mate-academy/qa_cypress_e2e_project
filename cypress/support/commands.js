@@ -69,3 +69,25 @@ Cypress.Commands.add('registerAndLoginUser', () => {
     cy.login(user).then(() => user);
   });
 });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  cy.getCookie('auth').then((token) => {
+    const authToken = token.value;
+
+    cy.request({
+      method: 'POST',
+      url: '/api/articles',
+      body: {
+        article: {
+          title,
+          description,
+          body,
+          tagList: []
+        }
+      },
+      headers: {
+        Authorization: `Token ${authToken}`
+      }
+    });
+  });
+});

@@ -10,7 +10,7 @@ class SettingPageObject extends PageObject {
   }
 
   get passwordField() {
-    return cy.getByDataCy('Password').clear();
+    return cy.getByDataCy('New Password').clear();
   }
 
   get updateButton() {
