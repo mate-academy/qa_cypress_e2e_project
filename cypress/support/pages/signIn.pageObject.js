@@ -1,33 +1,39 @@
 import PageObject from '../PageObject';
 
 class SignInPageObject extends PageObject {
-  url = '/#/login';
+  url = '/login';
 
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
+  registerAndLogin(email, username, password) {
+    cy.registerAndLogin(email, username, password);
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+  registerOnly(email, username, password) {
+    cy.registerAndLogin(email, username, password);
   }
 
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  signInForTests(Email, Password) {
+    cy.findByPlaceholder('Email').type(Email);
+    cy.findByPlaceholder('Password').type(Password);
+    cy.contains(`button`, `Sign in`).click();
   }
 
-  typeEmail(email) {
-    this.emailField
-      .type(email);
+  signInWithEmptyEmail(Password) {
+    cy.findByPlaceholder('Password').type(Password);
+    cy.contains(`button`, `Sign in`).click();
   }
 
-  typePassword(password) {
-    this.passwordField
-      .type(password);
+  signInWithEmptyPassword(Email) {
+    cy.findByPlaceholder('Email').type(Email);
+    cy.contains(`button`, `Sign in`).click();
   }
 
-  clickSignInBtn() {
-    this.signInBtn
-      .click();
+  assertSignInPageURL() {
+    cy.url().should('include', '/login');
+  }
+
+  assertAfterLoginByUsername(username) {
+    cy.contains(`a`, username)
+      .should(`be.visible`);
   }
 }
 
