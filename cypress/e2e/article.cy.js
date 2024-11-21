@@ -66,6 +66,7 @@ describe('Article', () => {
         articlePage.clickOnDeleteButton();
         articlePage.confirmDelete();
         cy.visit(`article/${slugUr}`);
+        articlePage.clickOnEditButton();
         articlePage.assertArticleOnProfilePageIsDeleted();
       });
   });

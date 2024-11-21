@@ -9,6 +9,10 @@ class ProfilePageObject extends PageObject {
     return cy.get('h1');
   }
 
+  get followBtn() {
+    return cy.get('.btn');
+  }
+
   assertArticleOnProfilePage(title) {
     this.articleOnProfilePage
       .should('contain.text', title);
@@ -21,6 +25,14 @@ class ProfilePageObject extends PageObject {
   assertBioContainNewBio(username) {
     this.bioLink
       .should('contain', username);
+  }
+
+  clickOnFollowButton() {
+    this.followBtn.click();
+  }
+
+  assertSuccessfulFollow() {
+    this.followBtn.should('contain.text', 'Unfollow');
   }
 }
 
