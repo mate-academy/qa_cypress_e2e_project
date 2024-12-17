@@ -26,6 +26,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
