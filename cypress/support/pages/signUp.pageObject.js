@@ -23,7 +23,7 @@ class SignUpPageObject extends PageObject {
     this.usernameField
       .type(username);
   }
-  
+
   typeEmail(email) {
     this.emailField
       .type(email);
