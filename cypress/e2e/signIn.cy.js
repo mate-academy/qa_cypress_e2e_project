@@ -11,9 +11,8 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
     });
   });
 
@@ -29,6 +28,12 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail('notexisting@example.com');
+    signInPage.typePassword('notexisting123!');
+    signInPage.clickSignInBtn();
+
+    cy.contains('Invalid credentials').should('be.visible');
   });
 });
