@@ -17,6 +17,7 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="settings-name"
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
@@ -25,6 +26,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control form-control-lg"
+                  data-cy="settings-bio"
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
@@ -33,6 +35,7 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="settings-email"
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
@@ -41,19 +44,29 @@
               <fieldset class="form-group">
                 <input
                   class="form-control form-control-lg"
+                  data-cy="settings-password"
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+
+              <button
+                class="btn btn-lg btn-primary pull-xs-right"
+                data-cy="settings-update"
+              >
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+
+          <button
+            @click="logout"
+            class="btn btn-outline-danger"
+            data-cy="settings-logout"
+          >
             Or click here to logout.
           </button>
         </div>
@@ -63,55 +76,52 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "Settings",
+  name: 'Settings',
   computed: {
-    ...mapGetters([
-      "user",
-    ])
+    ...mapGetters(['user']),
   },
   mounted() {
-    console.log("Settings.vue mounted!");
+    console.log('Settings.vue mounted!');
   },
   methods: {
     updateSettings() {
       swal({
-          text: "Updating your information... Please wait...",
-          timer: 500,
-          buttons: false,
-        })
+        text: 'Updating your information... Please wait...',
+        timer: 500,
+        buttons: false,
+      })
         .then(async () => {
-          return await this.$store.dispatch("updateUser", this.user);
+          return await this.$store.dispatch('updateUser', this.user);
         })
         .then((response) => {
           if (response === true) {
             return swal({
-              title: "Update successful!",
-              icon: "success"
+              title: 'Update successful!',
+              icon: 'success',
             });
           }
-          let error = "";
+          let error = '';
           for (let key in response.errors) {
             error += `${response.errors[key]} `;
           }
           swal({
-            title: "Update failed!",
+            title: 'Update failed!',
             text: error,
-            icon: "error"
+            icon: 'error',
           });
         });
     },
     mounted() {
-      console.log("Settings.vue mounted!");
+      console.log('Settings.vue mounted!');
     },
     logout() {
-      this.$store.dispatch("logOut")
-        .then(() => {
-          this.$router.push({ name: "home" });
-        });
-    }
-  }
+      this.$store.dispatch('logOut').then(() => {
+        this.$router.push({ name: 'home' });
+      });
+    },
+  },
 };
 </script>

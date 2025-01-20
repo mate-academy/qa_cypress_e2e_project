@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  /**
+/**
    * example usage:
        <input id="tag-input"
          @keypress.enter.prevent="addTag(tag_input)" // update tag state here
@@ -33,10 +33,10 @@
          ])
        }
    */
-  export default {
-  name: "TagList",
+export default {
+  name: 'TagList',
   props: {
-    tags: Array
-  }
+    tags: Array,
+  },
 };
 </script>

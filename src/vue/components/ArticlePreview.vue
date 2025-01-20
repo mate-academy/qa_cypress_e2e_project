@@ -1,7 +1,11 @@
 <template>
   <div class="article-preview">
     <ArticleMeta :article="article" />
-    <router-link :to="articleLink" class="preview-link">
+    <router-link
+      :to="articleLink"
+      data-cy="user-article-preview"
+      class="preview-link"
+    >
       <h1 v-text="article.title" />
       <p v-text="article.description" />
       <span>Read more...</span>
@@ -11,30 +15,30 @@
 </template>
 
 <script>
-import ArticleMeta from "./ArticleMeta.vue";
-import TagList from "./TagList.vue";
+import ArticleMeta from './ArticleMeta.vue';
+import TagList from './TagList.vue';
 
 export default {
-  name: "ArticlePreview",
+  name: 'ArticlePreview',
   components: {
     ArticleMeta,
-    TagList
+    TagList,
   },
   props: {
     article: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     articleLink() {
       return {
-        name: "article",
+        name: 'article',
         params: {
-          slug: this.article.slug
-        }
+          slug: this.article.slug,
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

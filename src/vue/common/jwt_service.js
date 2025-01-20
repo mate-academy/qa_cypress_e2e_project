@@ -1,4 +1,4 @@
-const ID_TOKEN_KEY = "id_token";
+const ID_TOKEN_KEY = 'id_token';
 
 export const destroyToken = () => {
   window.localStorage.removeItem(ID_TOKEN_KEY);
@@ -15,5 +15,5 @@ export const saveToken = (token) => {
 export default {
   destroyToken,
   getToken,
-  saveToken,
+  saveToken
 };

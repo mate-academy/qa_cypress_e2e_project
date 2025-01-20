@@ -8,16 +8,18 @@
             <fieldset :disabled="publishing_article">
               <fieldset class="form-group">
                 <input
-                  type="text"
                   class="form-control form-control-lg"
+                  data-cy="article-title"
+                  type="text"
                   v-model="article.title"
                   placeholder="Article Title"
                 />
               </fieldset>
               <fieldset class="form-group">
                 <input
-                  type="text"
                   class="form-control"
+                  data-cy="article-description"
+                  type="text"
                   v-model="article.description"
                   placeholder="What's this article about?"
                 />
@@ -25,6 +27,7 @@
               <fieldset class="form-group">
                 <textarea
                   class="form-control"
+                  data-cy="article-body"
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
@@ -33,17 +36,19 @@
               </fieldset>
               <fieldset class="form-group">
                 <vue-tags-input
-                  placeholder="Enter tags"
                   class="form-control"
+                  data-cy="article-tags"
+                  placeholder="Enter tags"
                   v-model="tag"
                   :tags="tags"
-                  @tags-changed="newTags => tags = newTags"
+                  @tags-changed="(newTags) => (tags = newTags)"
                 />
               </fieldset>
             </fieldset>
             <button
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
+              data-cy="article-publish"
               type="submit"
             >
               Publish Article
@@ -56,114 +61,112 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { store } from "../../public/js/_app.js";
-import ListErrors from "@/components/ListErrors.vue";
+import { mapGetters } from 'vuex';
+import { store } from '../../public/js/_app.js';
+import ListErrors from '@/components/ListErrors.vue';
 import VueTagsInput from '@johmun/vue-tags-input';
 export default {
-  name: "ArticleEdit",
+  name: 'ArticleEdit',
   components: {
     ListErrors,
-    VueTagsInput
+    VueTagsInput,
   },
   props: {
     previousArticle: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      tag: "",
+      tag: '',
       tags: [],
       publishing_article: false,
-      errors: {}
+      errors: {},
     };
   },
   computed: {
-    ...mapGetters([
-      "article",
-    ])
+    ...mapGetters(['article']),
   },
   async beforeRouteEnter(to, from, next) {
     next((vm) => {
       // Unset the article if creating a new one
       if (to.params.new && to.params.new === true) {
-        vm.$store.commit("setArticle", {})
-        vm.$store.commit("setTags", [])
-      } else { // set the tags for the article
-        const article = store.getters.article
-        const tags = article.tags
-        if (tags && tags !== "" && tags.length) {
-          vm.tags = tags
+        vm.$store.commit('setArticle', {});
+        vm.$store.commit('setTags', []);
+      } else {
+        // set the tags for the article
+        const article = store.getters.article;
+        const tags = article.tags;
+        if (tags && tags !== '' && tags.length) {
+          vm.tags = tags;
         }
       }
-    })
+    });
   },
   methods: {
     onPublish(slug) {
       // If the article has a slug, then it already exists in the database; and
       // that means we're updating the article--not creating a new one.
-      let action = slug ? "updateArticle" : "createArticle";
+      let action = slug ? 'updateArticle' : 'createArticle';
       swal({
-        text: "Please wait...",
+        text: 'Please wait...',
         buttons: false,
       });
-      let tags = this.tags.length ? this.tags.map(tag => tag.text) : []
+      let tags = this.tags.length ? this.tags.map((tag) => tag.text) : [];
 
       // Prep for sending to the Drash backend, that accepts a string
       if (tags.length) {
-        tags = tags.join(",")
+        tags = tags.join(',');
       } else {
-        tags = ""
+        tags = '';
       }
 
-      this.article.tags = tags
+      this.article.tags = tags;
       this.publishing_article = true;
-      this.$store.dispatch(action, this.article)
-        .then((response) => {
-          swal.close();
-          console.log(response);
-          this.publishing_article = false;
-          this.$store.dispatch("unsetArticle");
-          this.tag = ""
-          this.tags = [];
-          if (response.data.article) {
-            this.$store.dispatch("setArticle", response.data.article)
-            this.$router.push({
-              name: "article",
-              params: { slug: response.data.article.slug }
-            });
-            return;
-          }
-          let error = "";
-          for (let key in response.errors) {
-            error += `${response.errors[key]} `;
-          }
-          console.log(error);
-          swal({
-            title: "Oops!",
-            text: error,
-            icon: "error"
+      this.$store.dispatch(action, this.article).then((response) => {
+        swal.close();
+        console.log(response);
+        this.publishing_article = false;
+        this.$store.dispatch('unsetArticle');
+        this.tag = '';
+        this.tags = [];
+        if (response.data.article) {
+          this.$store.dispatch('setArticle', response.data.article);
+          this.$router.push({
+            name: 'article',
+            params: { slug: response.data.article.slug },
           });
+          return;
+        }
+        let error = '';
+        for (let key in response.errors) {
+          error += `${response.errors[key]} `;
+        }
+        console.log(error);
+        swal({
+          title: 'Oops!',
+          text: error,
+          icon: 'error',
         });
+      });
     },
-  }
+  },
 };
 </script>
 <style lang="scss">
-  /**
+/**
    * Override some styling with the vue-tags component,
    * to keep it consistent with the overall design of the form
    */
-  form fieldset div.vue-tags-input.form-control {
-    max-width: none; /* Use bootstraps "form-control" style */
-  }
-  .vue-tags-input div.ti-input {
-    border: none; /* Border for input is already covered by botstraps "form-control" */
-    padding: 0; /* Same as above */
-  }
-  .vue-tags-input div.ti-input ul.ti-tags > li.ti-tag {
-    background-color: #5cb85c; /* Use conduits color instead of the blue that vue tags uses for the BG of each tag */
-  }
+form fieldset div.vue-tags-input.form-control {
+  max-width: none; /* Use bootstraps "form-control" style */
+}
+.vue-tags-input div.ti-input {
+  border: none; /* Border for input is already covered by botstraps "form-control" */
+  padding: 0; /* Same as above */
+}
+.vue-tags-input div.ti-input ul.ti-tags > li.ti-tag {
+  background-color: #5cb85c; /* Use conduits color instead of the blue that vue tags uses for the BG of each tag */
+}
 </style>
