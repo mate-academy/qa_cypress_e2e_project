@@ -6,7 +6,7 @@
           <div class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+            <p data-cy="settings-text-bio">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
@@ -48,7 +48,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile',
+                    params: { username: profile.username },
+                  }"
                 >
                   My Articles
                 </router-link>
@@ -58,7 +61,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile-favorites', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile-favorites',
+                    params: { username: profile.username },
+                  }"
                 >
                   Favorited Articles
                 </router-link>
@@ -73,19 +79,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "Profile",
+  name: 'Profile',
   mounted() {
-    this.$store.dispatch("fetchProfile", this.$route.params);
+    this.$store.dispatch('fetchProfile', this.$route.params);
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "profile",
-      "user",
-    ])
+    ...mapGetters(['is_authenticated', 'profile', 'user']),
   },
   methods: {
     isCurrentUser() {
@@ -96,18 +98,18 @@ export default {
     },
     follow() {
       if (!this.is_authenticated) return;
-      this.$store.dispatch("setFollowProfile", this.$route.params);
+      this.$store.dispatch('setFollowProfile', this.$route.params);
     },
     unfollow() {
-      this.$store.dispatch("setFollowProfile", this.$route.params);
-    }
+      this.$store.dispatch('setFollowProfile', this.$route.params);
+    },
   },
   watch: {
     $route(to) {
       if (to.params && to.params.username) {
-        this.$store.dispatch("fetchProfile", to.params);
+        this.$store.dispatch('fetchProfile', to.params);
       }
-    }
-  }
+    },
+  },
 };
 </script>

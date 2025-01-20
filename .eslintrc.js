@@ -2,23 +2,17 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    'cypress/globals': true
+    'cypress/globals': true,
   },
-  extends: [
-    'plugin:cypress/recommended',
-    'standard-with-typescript'
-  ],
-  overrides: [
-  ],
+  extends: ['plugin:cypress/recommended', 'standard-with-typescript'],
+  overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
   },
-  plugins: [
-    'vue',
-    'cypress'
-  ],
+  plugins: ['vue', 'cypress'],
   rules: {
     semi: ['error', 'always'],
+    '@typescript-eslint/dot-notation': 'off',
     'space-before-function-paren': 'off',
     'cypress/no-assigning-return-values': 'error',
     'cypress/no-unnecessary-waiting': 'error',
@@ -26,13 +20,17 @@ module.exports = {
     'cypress/no-force': 'warn',
     'cypress/no-async-tests': 'error',
     'cypress/no-pause': 'error',
-    'max-len': ['error', 80, {
-      ignoreTemplateLiterals: true,
-      ignoreRegExpLiterals: true,
-      ignoreComments: true
-    }],
+    'max-len': [
+      'error',
+      80,
+      {
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+        ignoreComments: true,
+      },
+    ],
     'arrow-parens': ['error', 'always'],
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    'no-console': ['error']
-  }
+    'no-console': ['error'],
+  },
 };

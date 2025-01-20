@@ -16,6 +16,7 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="sign-up-name"
                 type="text"
                 v-model="username"
                 placeholder="Username"
@@ -24,6 +25,7 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="sign-up-email"
                 type="text"
                 v-model="email"
                 placeholder="Email"
@@ -32,12 +34,16 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-cy="sign-up-password"
                 type="password"
                 v-model="password"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-cy="sign-up-btn"
+            >
               Sign up
             </button>
           </form>
@@ -48,62 +54,59 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "Register",
+  name: 'Register',
   data() {
     return {
-      username: "",
-      email: "",
-      password: ""
+      username: '',
+      email: '',
+      password: '',
     };
   },
   computed: {
-    ...mapGetters([
-      "errors",
-      "is_authenticated",
-    ])
+    ...mapGetters(['errors', 'is_authenticated']),
   },
   methods: {
     async onSubmit() {
       swal({
-          text: "Please wait...",
-          timer: 500,
-          buttons: false,
-        })
+        text: 'Please wait...',
+        timer: 500,
+        buttons: false,
+      })
         .then(async () => {
-          return await this.$store.dispatch("register", {
-              email: this.email,
-              password: this.password,
-              username: this.username
+          return await this.$store.dispatch('register', {
+            email: this.email,
+            password: this.password,
+            username: this.username,
           });
         })
         .then((response) => {
-          this.email = ""
-          this.username = ""
-          this.password = ""
+          this.email = '';
+          this.username = '';
+          this.password = '';
           console.log(response);
           if (response === true) {
             swal({
-              title: "Welcome!",
-              text: "Your registration was successful!",
-              icon: "success",
+              title: 'Welcome!',
+              text: 'Your registration was successful!',
+              icon: 'success',
             });
-            return this.$router.push({ name: "home" });
+            return this.$router.push({ name: 'home' });
           }
-          let error = "";
+          let error = '';
           for (let key in response.errors) {
             error += `${response.errors[key]} `;
           }
           console.log(error);
           swal({
-            title: "Registration failed!",
+            title: 'Registration failed!',
             text: error,
-            icon: "error"
+            icon: 'error',
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -9,6 +9,11 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  const fakeUser = {
+    email: 'fakeUser@fakeUser.com',
+    username: 'fakeUser',
+    password: 'fakeUser123!'
+  };
 
   before(() => {
     cy.task('db:clear');
@@ -29,6 +34,11 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(fakeUser.email);
+    signInPage.typePassword(fakeUser.password);
+    signInPage.clickSignInBtn();
+    signInPage.findLoginFailedTitle('Login failed!');
   });
 });

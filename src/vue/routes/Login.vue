@@ -31,7 +31,10 @@
                 data-cy="password-sign-in"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-cy="sign-in-btn"
+            >
               Sign in
             </button>
           </form>
@@ -42,52 +45,50 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import swal from "sweetalert";
+import { mapGetters } from 'vuex';
+import swal from 'sweetalert';
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       email: null,
-      password: null
+      password: null,
     };
   },
   computed: {
-    ...mapGetters([
-      "errors",
-    ])
+    ...mapGetters(['errors']),
   },
   mounted() {
-    console.log("Login.vue mounted!");
+    console.log('Login.vue mounted!');
   },
   methods: {
     async onSubmit(email, password) {
       swal({
-          text: "Logging you in... Please wait...",
-          buttons: false,
-        });
+        text: 'Logging you in... Please wait...',
+        buttons: false,
+      });
 
-      let response = await this.$store.dispatch("logIn", { email, password });
+      let response = await this.$store.dispatch('logIn', { email, password });
 
       if (response === true) {
         swal.close();
-        return this.$router.push({ name: "home" });
+        return this.$router.push({ name: 'home' });
       }
 
       swal({
-        title: "Login failed!",
-        text: response.errors.body.join(" "),
-        icon: "error"
+        title: 'Login failed!',
+        text: response.errors.body.join(' '),
+        icon: 'error',
       });
-    }
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      console.log("Resetting login form fields.");
+      console.log('Resetting login form fields.');
       vm.email = null;
       vm.password = null;
     });
-  }
+  },
 };
 </script>
