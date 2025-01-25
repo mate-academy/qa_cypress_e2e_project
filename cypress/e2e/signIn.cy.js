@@ -29,20 +29,18 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
-    it('should not provide an ability to log in with wrong password',
-      () => {
-        signInPage.typeEmail(user.email);
-        signInPage.typePassword('ssf');
-        signInPage.clickSignInBtn();
-        signInPage.assertFailedLogin();
-      });
-    it('should not provide an ability to log in with wrong email',
-      () => {
-        signInPage.typeEmail('ssf@ssf.ua');
-        signInPage.typePassword(user.password);
-        signInPage.clickSignInBtn();
-        signInPage.assertFailedLogin();
-      });
-  });
+  it('should not provide an ability to log in with wrong password',
+    () => {
+      signInPage.typeEmail(user.email);
+      signInPage.typePassword('ssf');
+      signInPage.clickSignInBtn();
+      signInPage.assertFailedLogin();
+    });
+  it('should not provide an ability to log in with wrong email',
+    () => {
+      signInPage.typeEmail('ssf@ssf.ua');
+      signInPage.typePassword(user.password);
+      signInPage.clickSignInBtn();
+      signInPage.assertFailedLogin();
+    });
 });
