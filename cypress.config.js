@@ -14,9 +14,10 @@ module.exports = defineConfig({
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
           return {
-            username: faker.name.firstName() + `${randomNumber}`,
+            username: faker.internet.username() + `${randomNumber}`,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: '12345Qwert!',
+            bio: faker.person.bio()
           };
         },
         generateArticle() {
