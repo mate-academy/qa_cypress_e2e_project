@@ -51,6 +51,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-cy="new-article-btn"
             :to="{
               name: 'article-edit',
               params: { new: true }
