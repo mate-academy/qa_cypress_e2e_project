@@ -1,18 +1,22 @@
 import PageObject from '../PageObject';
 
-class SignInPageObject extends PageObject {
-  url = '/#/login';
+class SignUpPageObject extends PageObject {
+  url = '/#/register';
+
+  get usernameField() {
+    return cy.getByDataCy('username-sign-up');
+  }
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByDataCy('email-sign-up');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByDataCy('password-sign-up');
   }
 
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  get submitBtn() {
+    return cy.getByDataCy('submit-btn');
   }
 
   get errorTitle() {
@@ -21,6 +25,11 @@ class SignInPageObject extends PageObject {
 
   get errorText() {
     return cy.get('div[class="swal-text"]');
+  }
+
+  typeUsername(username) {
+    this.usernameField
+      .type(username);
   }
 
   typeEmail(email) {
@@ -33,8 +42,8 @@ class SignInPageObject extends PageObject {
       .type(password);
   }
 
-  clickSignInBtn() {
-    this.signInBtn
+  clickSubmitBtn() {
+    this.submitBtn
       .click();
   }
 
@@ -47,4 +56,4 @@ class SignInPageObject extends PageObject {
   }
 }
 
-export default SignInPageObject;
+export default SignUpPageObject;
