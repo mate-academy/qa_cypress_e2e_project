@@ -44,3 +44,10 @@ Use PageObject pattern for your tests:
 
 Observe an example in `cypress`/`e2e`/`signIn.cy.js`.  
 Find and additinoanl about Page Object in the [Cypress](https://mate.academy/learn/javascript-testing/cypress#/theory) topic.
+
+
+<details>
+<summary>Hint</summary>
+<br>
+:bulb: Usually, front-end tests rely on specific <code>data-*</code> attributes to locate elements on the page. However, there might be cases when these attributes are missing in the front-end application code, so you might need to add them yourself. If your tests fail because elements cannot be found, double-check that necessary attributes are added in the component files and that your latest changes are pushed to the repository.
+</details> 
