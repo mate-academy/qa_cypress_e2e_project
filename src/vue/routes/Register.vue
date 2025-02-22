@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-cy="username"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-cy="email"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-cy="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="signUp">
               Sign up
             </button>
           </form>
@@ -90,6 +93,9 @@ export default {
               text: "Your registration was successful!",
               icon: "success",
             });
+            setTimeout(() => {
+              document.querySelector('.swal-modal').setAttribute('data-cy', 'swalModal');
+            }, 0)
             return this.$router.push({ name: "home" });
           }
           let error = "";
@@ -102,6 +108,9 @@ export default {
             text: error,
             icon: "error"
           });
+          setTimeout(() => {
+            document.querySelector('.swal-modal').setAttribute('data-cy', 'swalModal');
+          }, 0)
         });
     }
   }
