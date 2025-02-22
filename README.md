@@ -16,19 +16,6 @@
 
 Go to `e2e` folder and cover listed functionality with e2e tests:
 
-- creating an article;
-- editings an article;
-- deleting an article;
-- sign in (positive);
-- sign in (invalid credentials);
-- sign up (positive);
-- sign up (negative);
-- following/unfollowing the user;
-- updating bio;
-- updating username;
-- updating email;
-- updating password.
-
 ### Basics level
 
 1. Clear all data from the database before the test.

@@ -26,8 +26,7 @@ class SignInPageObject extends PageObject {
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
   }
 }
 

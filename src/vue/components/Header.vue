@@ -43,6 +43,7 @@
             active-class="active"
             exact
             :to="{ name: 'home' }"
+            data-cy="home"
           >
             Home
           </router-link>
@@ -55,6 +56,8 @@
               name: 'article-edit',
               params: { new: true }
             }"
+
+            data-cy="new-article"
           >
             <i class="ion-compose"></i>&nbsp;New Article
           </router-link>
@@ -65,6 +68,7 @@
             active-class="active"
             exact
             :to="{ name: 'settings' }"
+            data-cy="settings"
           >
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
