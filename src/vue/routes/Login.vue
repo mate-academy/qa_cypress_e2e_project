@@ -79,7 +79,11 @@ export default {
         title: "Login failed!",
         text: response.errors.body.join(" "),
         icon: "error"
-      });
+      })
+
+      setTimeout(() => {
+        document.querySelector(".swal-modal").setAttribute("data-cy", "swalModal");
+      }, 0);
     }
   },
   beforeRouteEnter(to, from, next) {

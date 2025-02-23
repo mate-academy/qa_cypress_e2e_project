@@ -20,6 +20,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-cy="username-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +29,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-cy="bio-field"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +38,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-cy="email-field"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,16 +47,17 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-cy="password-field"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-cy="logout-btn">
             Or click here to logout.
           </button>
         </div>
@@ -87,6 +91,10 @@ export default {
         })
         .then((response) => {
           if (response === true) {
+            setTimeout(() => {
+              document.querySelector('.swal-modal').setAttribute('data-cy', 'swalModal');
+            }, 0)
+
             return swal({
               title: "Update successful!",
               icon: "success"
@@ -101,6 +109,10 @@ export default {
             text: error,
             icon: "error"
           });
+
+          setTimeout(() => {
+            document.querySelector('.swal-modal').setAttribute('data-cy', 'swalModal');
+          }, 0)
         });
     },
     mounted() {
