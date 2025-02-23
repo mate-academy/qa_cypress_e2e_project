@@ -12,12 +12,22 @@ const homePage = new HomePageObject();
 const editorPage = new EditorPageObject();
 const articlePage = new ArticlePageObject();
 
-const title = faker.lorem.sentence();
-const newTitle = faker.lorem.sentence();
-const titleSlug = title.replaceAll(' ', '-').slice(0, -1).toLowerCase();
+const title = faker.lorem.words(3);
+const newTitle = faker.lorem.words(3);
 const description = faker.lorem.sentence();
-const textBody = faker.lorem.lines(3);
-const newTextBody = faker.lorem.lines(3);
+const newDescription = faker.lorem.sentence();
+const textBody = faker.lorem.paragraph(3);
+const newTextBody = faker.lorem.paragraph(3);
+
+// Lepsza metoda generowania slugów, obsługuje znaki specjalne i wielokrotne spacje
+const generateSlug = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-') // Zamienia wszystkie niealfanumeryczne znaki na '-'
+    .replace(/^-+|-+$/g, ''); // Usuwa myślniki na początku i końcu
+
+const titleSlug = generateSlug(title);
 
 describe('Article', () => {
   let user;
@@ -62,10 +72,13 @@ describe('Article', () => {
     articlePage.pressEditBtn();
     editorPage.titleField.clear();
     editorPage.typeTitle(newTitle);
+    editorPage.descriptionField.clear();
+    editorPage.typeDescription(newDescription);
     editorPage.bodyField.clear();
     editorPage.typeBody(newTextBody);
     editorPage.pressPublishBtn();
     articlePage.title.should('contain.text', newTitle);
+    articlePage.description.should('contain.text', newDescription);
     articlePage.body.should('contain.text', newTextBody);
   });
 

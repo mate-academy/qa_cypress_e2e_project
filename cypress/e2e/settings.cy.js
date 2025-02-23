@@ -7,7 +7,7 @@ import HomePageObject from '../support/pages/home.pageObject';
 import { faker } from '@faker-js/faker';
 
 const settingsPage = new SettingsPageObject();
-const singInPage = new SignInPageObject();
+const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 const newUsername = faker.internet.userName();
 const newEmail = faker.internet.email();
@@ -25,10 +25,10 @@ describe('Settings page', () => {
       user = response;
 
       cy.register(user.email, user.username, user.password);
-      singInPage.visit();
-      singInPage.typeEmail(user.email);
-      singInPage.typePassword(user.password);
-      singInPage.clickSignInBtn();
+      signInPage.visit();
+      signInPage.typeEmail(user.email);
+      signInPage.typePassword(user.password);
+      signInPage.clickSignInBtn();
       homePage.pressSettingsLink();
     });
   });

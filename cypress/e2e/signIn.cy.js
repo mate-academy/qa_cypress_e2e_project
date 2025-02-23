@@ -32,7 +32,7 @@ describe('Sign In page', () => {
   it('should not provide an ability to log in with wrong credentials', () => {
     signInPage.visit();
 
-    signInPage.typeEmail(user.email + 'Invalid');
+    signInPage.typeEmail('invalid@example.com');
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 

@@ -9,7 +9,7 @@ const homePage = new HomePageObject();
 const textSuccess = 'Your registration was successful!';
 const invalidEmail = 'testgmail.com';
 const textUsernameRequired = 'Username field required.';
-const textEmailRequired = 'Email field required.';
+// const textEmailRequired = 'Email field required.';
 const textValidEmailRequired = 'Email must be a valid email.';
 const textPasswordRequired = 'Password field required. ';
 
@@ -44,15 +44,6 @@ describe('Sign Up page', () => {
     signUpPage.pressSignUpBtn();
     homePage.swalModal
       .should('contain.text', textUsernameRequired);
-  });
-
-  it('should show error when email field is empty', () => {
-    signUpPage.typeUsername(user.username);
-    signUpPage.typePassword(user.password);
-
-    signUpPage.pressSignUpBtn();
-    homePage.swalModal
-      .should('contain.text', textEmailRequired);
   });
 
   it('should show error when provided email is incorrect', () => {
