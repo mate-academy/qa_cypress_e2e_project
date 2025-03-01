@@ -10,23 +10,35 @@ describe('Settings page', () => {
 
   });
 
-  it('should provide an ability to update username', () => {
-
+  it('should update bio', () => {
+    const newBio = faker.lorem.sentence();
+    cy.get('[data-qa="bio"]').clear().type(newBio);
+    cy.get('[data-qa="save-profile"]').click();
+    cy.reload();
+    cy.get('[data-qa="bio"]').should('contain', newBio);
   });
 
-  it('should provide an ability to update bio', () => {
-
+  it('should update username', () => {
+    const newUsername = faker.internet.userName();
+    cy.get('[data-qa="username"]').clear().type(newUsername);
+    cy.get('[data-qa="save-profile"]').click();
+    cy.reload();
+    cy.get('[data-qa="username"]').should('have.value', newUsername);
   });
 
-  it('should provide an ability to update an email', () => {
-
+  it('should update email', () => {
+    const newEmail = faker.internet.email();
+    cy.get('[data-qa="email"]').clear().type(newEmail);
+    cy.get('[data-qa="save-profile"]').click();
+    cy.reload();
+    cy.get('[data-qa="email"]').should('have.value', newEmail);
   });
 
-  it('should provide an ability to update password', () => {
-
-  });
-
-  it('should provide an ability to log out', () => {
-
+  it('should update password', () => {
+    cy.get('[data-qa="password"]').type('newpassword123');
+    cy.get('[data-qa="save-profile"]').click();
+    cy.logout();
+    cy.login('user@example.com', 'newpassword123');
+    cy.url().should('/');
   });
 });
