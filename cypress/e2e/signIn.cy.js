@@ -9,12 +9,18 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  const wrongEmail = 'rodionmail.com';
+  const wrongPassword = 'password';
 
   before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
+  });
+
+  beforeEach(() => {
+    signInPage.visit();
   });
 
   it('should provide an ability to log in with existing credentials', () => {
@@ -28,7 +34,21 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('shouldn\'t provide an ability to log in with wrong email', () => {
+    signInPage.typeEmail(wrongEmail);
+    signInPage.typePassword(user.password);
 
+    signInPage.clickSignInBtn();
+
+    signInPage.assertLoginFailed();
+  });
+
+  it('shouldn\'t provide an ability to log in with wrong password', () => {
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(wrongPassword);
+
+    signInPage.clickSignInBtn();
+
+    signInPage.assertLoginFailed();
   });
 });
