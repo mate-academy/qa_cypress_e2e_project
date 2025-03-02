@@ -1,6 +1,4 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
-
+/// <reference types="cypress" />
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
 
@@ -28,7 +26,19 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with incorrect credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('incorrectPassword');
+    signInPage.clickSignInBtn();
+
+    signInPage.checkWrong('Login failed!');
+
+    signInPage.typeEmail('nonexistent@example.com');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+
+    signInPage.checkWrong('Login failed!');
   });
 });
