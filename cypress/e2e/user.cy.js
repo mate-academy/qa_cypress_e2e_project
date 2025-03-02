@@ -2,11 +2,30 @@
 /// <reference types='../support' />
 
 describe('User', () => {
-  before(() => {
+  // eslint-disable-next-line no-unused-vars
+  let user;
 
+  before(() => {
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+    });
   });
 
-  it.skip('should be able to follow the another user', () => {
+  beforeEach(() => {
+    cy.task('db:clear');
+    cy.visit('/');
+    cy.register();
+    cy.login();
+  });
 
+  it('should be able to follow/unfollow the another user', () => {
+    cy.visit('#/@riot');
+    cy.get('.btn.btn-sm.btn-outline-secondary.action-btn').click();
+
+    cy.get('.btn').should('contain', 'Unfollow');
+
+    cy.get('.btn.btn-sm.btn-outline-secondary.action-btn').click();
+
+    cy.get('.btn').should('contain', 'Follow');
   });
 });
