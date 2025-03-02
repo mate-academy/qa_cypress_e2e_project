@@ -40,6 +40,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="home-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -62,6 +63,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="settings-link"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
