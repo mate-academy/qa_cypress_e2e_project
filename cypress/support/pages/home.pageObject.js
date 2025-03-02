@@ -5,12 +5,12 @@ class HomePageObject extends PageObject {
 
   get usernameLink() {
     return cy.getByDataCy('username-link');
+    return this.getByDataCy('username-link');
   }
 
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
+        .should('contain', username);
   }
 }
-
-export default HomePageObject;
