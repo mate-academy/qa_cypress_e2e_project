@@ -29,6 +29,12 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  verifyRegistrationError(expectedMessage) {
+    cy.get('.swal-modal').should('be.visible'); // Перевіряємо, що модальне вікно помилки відображається
+    cy.get('.swal-title').should('contain', 'Login failed!'); // Перевіряємо заголовок модального вікна
+    cy.get('.swal-text').should('contain', expectedMessage); // Перевіряємо текст помилки
+  }
 }
 
 export default SignInPageObject;

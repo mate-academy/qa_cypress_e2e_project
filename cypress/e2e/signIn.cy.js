@@ -12,23 +12,50 @@ describe('Sign In page', () => {
 
   before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+
+    // Створити нового користувача через API
+    const username = 'riot';
+    const email = 'riot@qa.team';
+    const password = '12345Qwert!';
+    // Використання команди для реєстрації користувача
+    cy.register(email, username, password).then((response) => {
+      // Перевірка, що реєстрація пройшла успішно
+      expect(response.status).to.equal(200); // або відповідний код статусу вашого API
+      user = { username, email, password }; // Зберігаємо дані користувача для подальшого використання
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
+  it.only('should can log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
 
+    // Введення облікових даних
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
+    // Перевірка, що користувач успішно увійшов
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it.only('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
 
+    // Введення неправильного логіна
+    signInPage.typeEmail('wrongemail@mail.com');
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    signInPage.verifyRegistrationError('Invalid user credentials.');
+    // Перевірка, що з'являється повідомлення про помилку
+  });
+
+  it.only('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+
+    // Введення неправильного логіна
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('Wrong12!');
+    signInPage.clickSignInBtn();
+    signInPage.verifyRegistrationError('Invalid user credentials.');
+    // Перевірка, що з'являється повідомлення про помилку
   });
 });
