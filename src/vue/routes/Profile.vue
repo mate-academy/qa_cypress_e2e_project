@@ -5,8 +5,8 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
-            <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+            <h4 data-cy="username-profile">{{ profile.username }}</h4>
+            <p data-cy="bio-profile">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
@@ -18,6 +18,7 @@
             <div v-else>
               <button
                 class="btn btn-sm btn-secondary action-btn"
+                data-cy="unfollow-profile"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
               >
@@ -26,6 +27,7 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-profile"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
@@ -46,6 +48,7 @@
               <li class="nav-item">
                 <router-link
                   class="nav-link"
+                  data-cy="my-articles-profile"
                   active-class="active"
                   exact
                   :to="{ name: 'profile', params: { username: profile.username } }"
@@ -56,6 +59,7 @@
               <li class="nav-item">
                 <router-link
                   class="nav-link"
+                  data-cy="favorites-articles-profile"
                   active-class="active"
                   exact
                   :to="{ name: 'profile-favorites', params: { username: profile.username } }"

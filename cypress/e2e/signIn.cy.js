@@ -29,6 +29,13 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('wrongPassword');
+    signInPage.clickSignInBtn();
+
+    signInPage.assertErrorTitle('Login failed!');
+    signInPage.assertErrorText('Invalid user credentials.');
   });
 });

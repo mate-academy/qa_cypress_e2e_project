@@ -8,6 +8,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="home-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -18,6 +19,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-in-link"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +30,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-up-link"
             active-class="active"
             exact
             :to="{ name: 'register' }"
@@ -40,6 +43,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="home-link"
             active-class="active"
             exact
             :to="{ name: 'home' }"
@@ -50,6 +54,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="new-article-link"
             active-class="active"
             :to="{
               name: 'article-edit',
@@ -62,6 +67,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="settings-link"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
@@ -71,8 +77,8 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
             class="nav-link"
+            data-cy="username-link"
             active-class="active"
             exact
             :to="{
