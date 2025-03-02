@@ -29,6 +29,13 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('test123');
+    signInPage.clickSignInBtn();
+
+    signInPage.assertErrorMessage('email or password: is invalid');
   });
 });

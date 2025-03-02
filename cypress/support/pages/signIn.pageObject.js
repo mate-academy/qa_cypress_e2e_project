@@ -29,6 +29,11 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+
+  assertErrorMessage(message) {
+    cy.get('ul.error-messages li')
+      .should('contain.text', message);
+  }
 }
 
 export default SignInPageObject;
