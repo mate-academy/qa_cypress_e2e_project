@@ -1,41 +1,53 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+/// <reference types='cypress' />
+/// <reference types='../support' />
 
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import UserPageObject from '../support/pages/user.PageObject';
+const signInPage = new SignInPageObject();
+const userPage = new UserPageObject();
+const homePage = new HomePageObject();
 
-addMatchImageSnapshotCommand();
+describe('User', () => {
+  let user;
+  let secondUser;
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
-});
+  before(() => {
+    cy.task('db:clear');
+    // Generating first user
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
+      // Registering first user
+      cy.register(user.email, user.username, user.password);
+    });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+    // Generating second user
+    cy.task('generateUser').then((generatedUser) => {
+      secondUser = generatedUser;
+      // Registering second user
+      cy.register(secondUser.email, secondUser.username, secondUser.password);
+    });
+  });
+
+  beforeEach(() => {
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    homePage.assertHeaderContainUsername(user.username);
+  });
+
+  it('should allow following a user', () => {
+    userPage.visitUserPage(secondUser.username);
+    userPage.assertCanFollowUser();
+    userPage.clickFollowBtn();
+    userPage.assertFollowingUser(secondUser.username);
+  });
+
+  it('should allow unfollowing a user', () => {
+    userPage.visitUserPage(secondUser.username);
+    userPage.assertFollowingUser(secondUser.username);
+    userPage.clickUnfollowBtn();
+    userPage.assertCanFollowUser();
   });
 });
