@@ -28,14 +28,97 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
 
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('getByDataQa', (selector) => {
+  cy.get(`[data-qa="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add(
+  'register',
+  (
+    email = 'riot@qa.team',
+    username = 'riot',
+    password = '12345Qwert!'
+  ) => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    });
   });
+
+Cypress.Commands.add(
+  'login',
+  (
+    email = 'riot@qa.team',
+    username = 'riot',
+    password = '12345Qwert!'
+  ) => {
+    cy.request('POST', '/users/login', {
+      user: {
+        email,
+        username,
+        password
+      }
+    }).then((response) => {
+      const user = {
+        id: response.body.user.id,
+        bio: response.body.user.bio,
+        effectiveImage: 'https://static.productionready' +
+                    '.io/images/smiley-cyrus.jpg',
+        email: response.body.user.email,
+        image: response.body.user.image,
+        token: response.body.user.token,
+        username: response.body.user.username
+      };
+      window.localStorage.setItem('user', JSON.stringify(user));
+      cy.setCookie('drash_sess', response.body.user.token);
+    });
+  });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  return cy.getCookie('drash_sess').then((token) => {
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    return cy.request({
+      method: 'POST',
+      url: '/articles',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+        'Content-Type': 'application/json'
+      },
+      body: {
+        article: {
+          title,
+          description,
+          body,
+          author_id: user.id
+        }
+      }
+    });
+  });
+});
+
+function initFavorite(articleSlug, action) {
+  return cy.getCookie('drash_sess').then((token) => {
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    return cy.request({
+      method: 'POST',
+      url: `articles/${articleSlug}/favorite`,
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+        'Content-Type': 'application/json'
+      },
+      body: {
+        action,
+        user_id: user.id
+      }
+    });
+  });
+}
+
+Cypress.Commands.add('setFavorite', (slug) => {
+  initFavorite(slug, 'set');
+});
+
+Cypress.Commands.add('unsetFavorite', (slug) => {
+  initFavorite(slug, 'unset');
 });

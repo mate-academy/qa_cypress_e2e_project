@@ -27,6 +27,21 @@ module.exports = defineConfig({
             tag: faker.lorem.word()
           };
         },
+        generateSettings() {
+          const url = faker.internet.url();
+          const username = faker.internet.userName();
+          const bio = faker.lorem.paragraph();
+          const email = faker.internet.email();
+          const password = faker.internet.password();
+
+          return {
+            url,
+            username,
+            bio,
+            email,
+            password
+          };
+        },
         'db:clear'() {
           clear();
 
