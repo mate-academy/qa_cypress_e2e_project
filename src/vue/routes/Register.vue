@@ -9,13 +9,14 @@
               Have an account?
             </router-link>
           </p>
-          <ul v-if="errors" class="error-messages">
+          <ul v-if="errors" class="error-messages" data-qa="error-messages">
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-qa="username-sign-up"
                 type="text"
                 v-model="username"
                 placeholder="Username"
@@ -24,6 +25,7 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-qa="email-sign-up"
                 type="text"
                 v-model="email"
                 placeholder="Email"
@@ -32,12 +34,13 @@
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
+                data-qa="password-sign-up"
                 type="password"
                 v-model="password"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button data-qa="sign-up-btn" class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
