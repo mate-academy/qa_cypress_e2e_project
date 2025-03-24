@@ -11,6 +11,7 @@
                   class="form-control"
                   type="text"
                   v-model="user.image"
+                  data-qa="url"
                   placeholder="URL of profile picture"
                 />
               </fieldset>
@@ -19,6 +20,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.username"
+                  data-qa="username"
                   placeholder="Your username"
                 />
               </fieldset>
@@ -27,6 +29,7 @@
                   class="form-control form-control-lg"
                   rows="8"
                   v-model="user.bio"
+                  data-qa="bio"
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
@@ -35,6 +38,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.email"
+                  data-qa="email"
                   placeholder="Email"
                 />
               </fieldset>
@@ -43,17 +47,20 @@
                   class="form-control form-control-lg"
                   type="password"
                   v-model="user.password"
+                  data-qa="password"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-qa="update"
+              >
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-qa="logout"
+          >
             Or click here to logout.
           </button>
         </div>
