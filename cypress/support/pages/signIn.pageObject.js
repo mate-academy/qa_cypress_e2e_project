@@ -12,7 +12,7 @@ class SignInPageObject extends PageObject {
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.getByDataCy('sign-in-button');
   }
 
   typeEmail(email) {
@@ -28,6 +28,30 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  get modalLogInError() {
+    return cy.get('.swal-modal');
+  }
+
+  get confirmErrorButton() {
+    return cy.get('.swal-button--confirm');
+  }
+
+  clickConfirmErrorButton() {
+    this.confirmErrorButton
+      .click();
+  }
+
+  assertModalLogError() {
+    this.modalLogInError
+      .should('be.visible');
+  }
+
+  assertModalCredError() {
+    this.modalLogInError
+      .should('contain', 'Login failed!')
+      .and('contain', 'Invalid user credentials.');
   }
 }
 
