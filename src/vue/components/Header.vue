@@ -47,7 +47,8 @@
             Home
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"
+        data-qa="header-new-article-link">
           <router-link
             class="nav-link"
             active-class="active"
@@ -59,7 +60,8 @@
             <i class="ion-compose"></i>&nbsp;New Article
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"
+            data-qa="navigation-settings-link">
           <router-link
             class="nav-link"
             active-class="active"
@@ -71,7 +73,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact

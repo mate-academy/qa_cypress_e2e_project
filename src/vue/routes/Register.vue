@@ -4,7 +4,9 @@
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
-          <p class="text-xs-center">
+          <p
+            class="text-xs-center"
+            data-qa="sign-in-page-link">
             <router-link :to="{ name: 'login' }">
               Have an account?
             </router-link>
@@ -15,6 +17,7 @@
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
+                data-qa="sign-up-username"
                 class="form-control form-control-lg"
                 type="text"
                 v-model="username"
@@ -23,6 +26,7 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                data-qa="sign-up-email"
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
@@ -31,13 +35,16 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                data-qa="sign-up-password"
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button 
+              data-qa="sign-up-btn-primary"
+              class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>

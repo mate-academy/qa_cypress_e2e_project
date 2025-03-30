@@ -1,19 +1,32 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link 
+    class="btn btn-sm btn-outline-secondary" 
+      :to="editArticleLink"
+      data-qa="profile-banner-edit-article-btn"
+    >
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
-      <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
+    <button 
+      class="btn btn-outline-danger btn-sm" 
+      @click="deleteArticle"
+      data-qa="article-page-delete-button"
+    >
+      <i class="ion-trash-a"></i> 
+      <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
   <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+    <button 
+    class="btn btn-sm btn-outline-secondary" 
+    @click="toggleFollow"
+    data-qa="profile-banner-follow-btn"
+    >
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
-      <span v-text="followUserLabel" />
+      <span v-text="followUserLabel"/>
     </button>
     <span>&nbsp;&nbsp;</span>
     <button
