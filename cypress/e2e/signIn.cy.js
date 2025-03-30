@@ -3,32 +3,49 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import PopUpPageObject from '../support/pages/popUp.pageObjects';
+import SignUpPageObject from '../support/pages/signUp.pageObject';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
+const popUp = new PopUpPageObject();
+const signUpPage = new SignUpPageObject();
 
 describe('Sign In page', () => {
-  let user;
-
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    homePage.visit();
+    homePage.signInBtnClick();
   });
 
+  it('should redirect user on Sign Up Page by clicking on the Need an account?',
+    () => {
+      signInPage.clickNeedAccountLink();
+
+      signUpPage.assertSignUpPage();
+    });
+
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+    signInPage.signInProcess();
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
+    homePage.assertHeaderContainUsername(signInPage.genData.user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.signInProcess('without registration');
 
+    popUp.popUpAssert('sign in: not valid credentials');
+  });
+
+  it('should not provide an ability to log in without email', () => {
+    signInPage.signInProcess('without email');
+
+    popUp.popUpAssert('sign in: without email');
+  });
+
+  it('should not provide an ability to log in without password', () => {
+    signInPage.signInProcess('without password');
+
+    popUp.popUpAssert('sign in: without password');
   });
 });
