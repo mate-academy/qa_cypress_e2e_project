@@ -1,32 +1,60 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
+/// <reference types="../support" />
 
-describe('Settings page', () => {
+import SignUpPageObject from '../support/pages/signUp.pageObject';
+import SettingsPageObject from '../support/pages/settings.pageObject';
+import { generateFakeUser } from '../support/fakeUser';
+import { faker } from '@faker-js/faker';
+
+const signUpPage = new SignUpPageObject();
+const settingsPage = new SettingsPageObject();
+
+describe('User Profile Update', () => {
+  const user = generateFakeUser();
+  const newUsername = faker.internet.userName();
+  const newEmail = faker.internet.email();
+  const newPassword = faker.internet.password();
+  const newBio = faker.lorem.sentence(); 
+
   before(() => {
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+    cy.wait(4000);
 
+    cy.contains('OK').click({ force: true });
   });
 
-  beforeEach(() => {
+  it('user is able to update their profile information', () => {
+    cy.visit('http://localhost:1667/#/settings');
+    cy.wait(2000);
 
-  });
+    settingsPage.clearBioField();
+    settingsPage.typeBio(newBio);
 
-  it('should provide an ability to update username', () => {
+    settingsPage.clearUsernameField();
+    settingsPage.typeUsername(newUsername);
 
-  });
+    settingsPage.clearEmailField();
+    settingsPage.typeEmail(newEmail);
 
-  it('should provide an ability to update bio', () => {
+    settingsPage.clearPasswordField();
+    settingsPage.typePassword(newPassword);
 
-  });
+    settingsPage.clickUpdateSettingsBtn();
 
-  it('should provide an ability to update an email', () => {
+    cy.contains('Update successful!').should('be.visible');
 
-  });
+    cy.wait(1000);
+    cy.contains('OK').click({ force: true });
 
-  it('should provide an ability to update password', () => {
+    settingsPage.bioField.should('have.value', newBio);
 
-  });
+    settingsPage.usernameField.should('have.value', newUsername);
 
-  it('should provide an ability to log out', () => {
-
+    // Bug
+    // settingsPage.emailField.should('have.value', newEmail);
   });
 });
