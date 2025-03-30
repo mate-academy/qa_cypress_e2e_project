@@ -5,7 +5,7 @@ class SignInPageObject extends PageObject {
 
   get emailField() {
     return cy.getByDataCy('email-sign-in');
-  }
+  } 
 
   get passwordField() {
     return cy.getByDataCy('password-sign-in');
@@ -29,6 +29,14 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
+  get alert() {
+    return cy.get('.swal-modal');
+  }
+
+  assertAlertContainErrorMessage() {
+    this.alert.should('contain', 'Login failed!')
+  }
+  
 }
 
 export default SignInPageObject;
