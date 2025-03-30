@@ -20,12 +20,14 @@
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-cy="unfollow-btn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary action-btn"
+                data-cy="follow-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
               >
