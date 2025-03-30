@@ -5,7 +5,7 @@
         conduit
       </router-link>
       <ul v-if="!is_authenticated" class="nav navbar-nav pull-xs-right">
-        <li class="nav-item">
+        <li class="nav-item" data-cy = "home-page">
           <router-link
             class="nav-link"
             active-class="active"
@@ -62,6 +62,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy ="header-settings"
             active-class="active"
             exact
             :to="{ name: 'settings' }"
