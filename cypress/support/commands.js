@@ -25,7 +25,12 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import articlePageObject from '../support/pages/article.pageObject';
 
+
+const articlePage = new articlePageObject();
+const signInPage = new SignInPageObject();
 addMatchImageSnapshotCommand();
 
 Cypress.Commands.add('getByDataCy', (selector) => {
@@ -39,3 +44,27 @@ Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', pas
     password
   });
 });
+
+Cypress.Commands.add('newArticle', (title, description, body) => {
+  cy.request('POST', '/article', {
+    title,
+    description,
+    body
+  });
+});
+
+Cypress.Commands.add('logIn', (email = 'riot@qa.team', password = '12345Qwert!') => {
+  signInPage.typeEmail(email);
+  signInPage.typePassword(password);
+  signInPage.clickSignInBtn();
+  });
+
+Cypress.Commands.add('createArticle', (title, description, body) => {
+  articlePage.createArticleBtn();
+  articlePage.articleTitle(title);
+  articlePage.articleDescription(description);
+  articlePage.articleBody(body);
+  articlePage.clickPublichBtn();
+  });
+
+  
