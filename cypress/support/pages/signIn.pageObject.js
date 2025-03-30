@@ -3,31 +3,24 @@ import PageObject from '../PageObject';
 class SignInPageObject extends PageObject {
   url = '/#/login';
 
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
-  }
-
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
-  }
-
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  typeUsername(username) {
+    cy.getByDataCy('sign-up-username').type(username);
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    cy.getByDataCy('email-sign-in').type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    cy.getByDataCy('password-sign-in').type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    cy.getByDataCy('sign-in-btn').click();
+  }
+
+  assertWindowForFailedLogin(message) {
+    cy.get('.swal-modal').should('contain', message);
   }
 }
 
