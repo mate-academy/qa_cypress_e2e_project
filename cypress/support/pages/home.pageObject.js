@@ -13,4 +13,5 @@ class HomePageObject extends PageObject {
   }
 }
 
+  
 export default HomePageObject;
