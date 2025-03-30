@@ -15,14 +15,17 @@
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
+                
                 class="form-control form-control-lg"
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-cy="user-name-sign-up"
               />
             </fieldset>
             <fieldset class="form-group">
               <input
+                data-cy="email-sign-in"
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
@@ -31,13 +34,16 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                data-cy="password-sign-in"
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button 
+            data-cy="sign-in-btn"
+            class="btn btn-lg btn-primary pull-xs-right">
               Sign up
             </button>
           </form>
