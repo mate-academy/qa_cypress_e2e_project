@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page">
+  <div data-cy="article-list" class="profile-page">
     <ArticleList :author="author" :items-per-page="5"></ArticleList>
   </div>
 </template>
