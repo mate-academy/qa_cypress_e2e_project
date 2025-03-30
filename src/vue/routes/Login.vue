@@ -19,7 +19,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
-                data-cy="email-sign-in"
+                data-qa="email-sign-in"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,10 +28,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="password-sign-in"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="sign-in-btn">
               Sign in
             </button>
           </form>
