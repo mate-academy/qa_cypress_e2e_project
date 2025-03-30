@@ -29,6 +29,9 @@ class SignInPageObject extends PageObject {
     this.signInBtn
       .click();
   }
-}
 
+  clickSignOutBtn() {
+    cy.get('.btn-outline-danger').click();
+  }
+}
 export default SignInPageObject;

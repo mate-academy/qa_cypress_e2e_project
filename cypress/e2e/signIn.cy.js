@@ -29,6 +29,12 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail('wronguser.email');
+    signInPage.typePassword('wronguser.password');
+    signInPage.clickSignInBtn();
+    cy.get('.swal-modal')
+      .should('exist');
   });
 });
