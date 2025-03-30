@@ -1,8 +1,6 @@
 import PageObject from '../PageObject';
-
 class SignInPageObject extends PageObject {
   url = '/#/login';
-
   get emailField() {
     return cy.getByDataCy('email-sign-in');
   }
@@ -13,6 +11,10 @@ class SignInPageObject extends PageObject {
 
   get signInBtn() {
     return cy.getByDataCy('sign-in-btn');
+  }
+
+  get failedSignIn() {
+    return cy.get('.swal-title');
   }
 
   typeEmail(email) {
@@ -28,6 +30,11 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertFailedSignIn() {
+    this.failedSignIn
+      .should('contain.text', 'Login failed!');
   }
 }
 

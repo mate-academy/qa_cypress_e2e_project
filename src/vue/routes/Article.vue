@@ -3,6 +3,7 @@
     <div class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
+        <h1 data-cy="article-title">{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
@@ -10,6 +11,7 @@
       <div class="row article-content">
         <div class="col-xs-12">
           <div v-html="parseMarkdown(article.body)"></div>
+          <div v-html="parseMarkdown(article.body)" data-cy="article-body"></div>
           <ul class="tag-list" v-if="article.tags && article.tags.length !== 1 && !!article.tags[0]">
             <li v-for="(tag, index) of article.tags" :key="tag + index">
               <Tag
@@ -50,7 +52,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import { store } from "../../public/js/_app.js";
