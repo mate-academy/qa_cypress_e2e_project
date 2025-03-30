@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get popUpTitle() {
+    return cy.get('.swal-title');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +32,11 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertPopUpLoginFailed() {
+    this.popUpTitle
+      .should('contain', 'Login failed!');
   }
 }
 
