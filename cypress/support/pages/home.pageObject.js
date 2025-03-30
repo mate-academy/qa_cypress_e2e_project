@@ -7,9 +7,18 @@ class HomePageObject extends PageObject {
     return cy.getByDataCy('username-link');
   }
 
+  get signInLink() {
+    return cy.getByDataQa('sign-in-link');
+  }
+
   assertHeaderContainUsername(username) {
     this.usernameLink
       .should('contain', username);
+  }
+
+  assertHeaderContainSignInLink(link) {
+    this.signInLink
+      .should('contain', link);
   }
 }
 
