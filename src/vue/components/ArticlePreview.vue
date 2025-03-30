@@ -1,5 +1,5 @@
 <template>
-  <div class="article-preview">
+  <div data-cy="article-card"class="article-preview">
     <ArticleMeta :article="article" />
     <router-link :to="articleLink" class="preview-link">
       <h1 v-text="article.title" />
