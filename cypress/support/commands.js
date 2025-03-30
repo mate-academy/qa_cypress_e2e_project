@@ -32,10 +32,51 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add('register',
+  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    });
   });
+
+Cypress.Commands.add('changepassword',
+  (id = 0, email = 'riot@qa.team', username = 'riot',
+    bio = '', image = '', token = '') => {
+    cy.request('POST', '/user', {
+      id,
+      email,
+      username,
+      bio,
+      image,
+      token
+    });
+  });
+
+Cypress.Commands.add('login',
+  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+    cy.request('POST', '/users', {
+      email,
+      username,
+      password
+    }).then((response) => {
+      const user = {
+        bio: response.body.user.bio,
+        effectiveImage:
+        'https://static.productionready.io/images/smiley-cyrus.jpg',
+        email: response.body.user.email,
+        image: response.body.user.image,
+        token: response.body.user.token,
+        username: response.body.user.username
+      };
+      window.localStorage.setItem('user', JSON.stringify(user));
+      cy.setCookie('auth', response.body.user.token);
+    });
+  });
+
+Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
+  const clearedText = `{selectall}{backspace}${text}`;
+
+  return originalFn(element, clearedText, options);
 });

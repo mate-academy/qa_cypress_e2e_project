@@ -12,6 +12,7 @@
                   type="text"
                   v-model="user.image"
                   placeholder="URL of profile picture"
+                  data-cy="setting-picture"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-cy="setting-username"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +30,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-cy="setting-bio"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +39,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-cy="setting-email"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,9 +48,10 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-cy="setting-password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-cy="update-btn">
                 Update Settings
               </button>
             </fieldset>
