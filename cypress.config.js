@@ -8,7 +8,8 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:1667/',
+    // baseUrl: 'http://localhost:1667/',
+    baseUrl: 'https://conduit.mate.academy/',
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
