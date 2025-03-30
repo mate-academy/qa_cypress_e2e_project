@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get modalMessage() {
+    return cy.get('.swal-modal');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +32,15 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertErrorMessage() {
+    this.modalMessage
+      .should('contain', 'Login failed!');
+  }
+
+  assertLoginPage() {
+    cy.url().should('include', this.url);
   }
 }
 
