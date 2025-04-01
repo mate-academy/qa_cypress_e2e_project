@@ -22,7 +22,7 @@
             exact
             :to="{ name: 'login' }"
           >
-            <i class="ion-compose"></i>Sign in
+            <i data-cy="sign-in" class="ion-compose"></i>Sign in
           </router-link>
         </li>
         <li class="nav-item">
@@ -56,7 +56,7 @@
               params: { new: true }
             }"
           >
-            <i class="ion-compose"></i>&nbsp;New Article
+            <i data-cy="article" class="ion-compose"></i>&nbsp;New Article
           </router-link>
         </li>
         <li class="nav-item">
@@ -66,7 +66,7 @@
             exact
             :to="{ name: 'settings' }"
           >
-            <i class="ion-gear-a"></i>&nbsp;Settings
+            <i data-cy="settings" class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
         </li>
         <li class="nav-item" v-if="user.username">

@@ -1,7 +1,7 @@
 <template>
   <!-- Used when user is also author -->
-  <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+  <span v-if="canModify" data-cy="box">
+    <router-link data-cy="edit" class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
@@ -11,7 +11,7 @@
   </span>
   <!-- Used in ArticleView when not author -->
   <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+    <button class="btn btn-sm btn-outline-secondary" data-cy="delete" @click="toggleFollow">
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
       <span v-text="followUserLabel" />
     </button>

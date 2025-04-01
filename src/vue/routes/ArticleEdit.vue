@@ -8,6 +8,7 @@
             <fieldset :disabled="publishing_article">
               <fieldset class="form-group">
                 <input
+                  data-cy="title"
                   type="text"
                   class="form-control form-control-lg"
                   v-model="article.title"
@@ -16,6 +17,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <input
+                  data-cy="description"
                   type="text"
                   class="form-control"
                   v-model="article.description"
@@ -24,6 +26,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <textarea
+                  data-cy="body"
                   class="form-control"
                   rows="8"
                   v-model="article.body"
@@ -42,6 +45,7 @@
               </fieldset>
             </fieldset>
             <button
+              data-cy="submit"
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
