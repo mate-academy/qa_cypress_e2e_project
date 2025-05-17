@@ -2,11 +2,21 @@
 /// <reference types='../support' />
 
 describe('User', () => {
-  before(() => {
+  const usernameToFollow = 'johndoe';
 
+  before(() => {
+    signIn();
   });
 
-  it.skip('should be able to follow the another user', () => {
+  it('should be able to follow another user', () => {
+    userPage.visit(usernameToFollow);
+    userPage.follow();
+    userPage.shouldBeFollowing();
+  });
 
+  it('should be able to unfollow the same user', () => {
+    userPage.visit(usernameToFollow);
+    userPage.unfollow();
+    userPage.shouldNotBeFollowing();
   });
 });
