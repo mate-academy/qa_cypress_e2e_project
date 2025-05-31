@@ -21,6 +21,7 @@
             active-class="active"
             exact
             :to="{ name: 'login' }"
+            data-cy="sign-in-link"
           >
             <i class="ion-compose"></i>Sign in
           </router-link>

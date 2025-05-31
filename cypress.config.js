@@ -27,13 +27,13 @@ module.exports = defineConfig({
             tag: faker.lorem.word()
           };
         },
-        'db:clear'() {
-          clear();
+        async 'db:clear'() {
+          await clear();
 
           return null;
         },
-        'db:seed'() {
-          seed();
+        async 'db:seed'() {
+          await seed();
 
           return null;
         }
