@@ -1,5 +1,6 @@
 {
   "scripts": {
+     "dev": "vite --port 1667",
     "prepare": "husky install",
     "lint": "eslint .",
     "test": "cypress run --browser chrome"

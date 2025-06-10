@@ -32,10 +32,77 @@ Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
+Cypress.Commands.add('getByPlaceholder', (placeholder) => {
+  cy.get(`[placeholder="${placeholder}"]`);
+});
+
+// Cypress.Commands.add(
+//   'register',
+//   (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+//     cy.request('POST', '/users', {
+//       email,
+//       username,
+//       password,
+//     });
+//   }
+// );
+
+Cypress.Commands.add('createArticle', (article) => {
+  if (!article || !article.title || !article.description || !article.body) {
+    throw new Error('Invalid article data');
+  }
+
+  cy.getCookie('auth').then((token) => {
+    const authToken = token.value;
+
+    cy.request({
+      method: 'POST',
+      url: '/articles',
+      body: {
+        article: {
+          title: article.title,
+          description: article.description,
+          body: article.body,
+          tagList: []
+        }
+      },
+      headers: {
+        Authorization: `Token ${authToken}`
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('register', (email, username, password) => {
+  return cy.request('POST', '/users', {
     email,
     username,
     password
   });
 });
+
+Cypress.Commands.add(
+  'login',
+  (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
+    cy.request('POST', '/users/login', {
+      user: {
+        email,
+        username,
+        password
+      }
+    }).then((response) => {
+      const user = {
+        id: response.body.user.id,
+        bio: response.body.user.bio,
+        effectiveImage:
+          'https://static.productionready' + '.io/images/smiley-cyrus.jpg',
+        email: response.body.user.email,
+        image: response.body.user.image,
+        token: response.body.user.token,
+        username: response.body.user.username
+      };
+      window.localStorage.setItem('user', JSON.stringify(user));
+      cy.setCookie('drash_sess', response.body.user.token);
+    });
+  }
+);
