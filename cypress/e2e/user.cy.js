@@ -3,10 +3,10 @@
 
 describe('User', () => {
   before(() => {
-
+    cy.task('db:clear');
   });
 
-  it.skip('should be able to follow the another user', () => {
+  it('should be able to follow the another user', () => {
 
   });
 });
