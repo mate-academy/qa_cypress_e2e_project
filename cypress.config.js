@@ -2,9 +2,6 @@ const { defineConfig } = require('cypress');
 const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
 const { seed } = require('./server/db');
-const {
-  addMatchImageSnapshotPlugin
-} = require('cypress-image-snapshot/plugin');
 
 module.exports = defineConfig({
   e2e: {
@@ -29,16 +26,19 @@ module.exports = defineConfig({
         },
         'db:clear'() {
           clear();
-
           return null;
         },
         'db:seed'() {
           seed();
-
           return null;
         }
       });
-      addMatchImageSnapshotPlugin(on, config);
+
+      // ❌ ВИДАЛЕНО:
+      // const { addMatchImageSnapshotPlugin } = require('cypress-image-snapshot/plugin');
+      // addMatchImageSnapshotPlugin(on, config);
+
+      return config;
     }
   }
 });
