@@ -1,32 +1,43 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import { faker } from '@faker-js/faker';
 
-describe('Settings page', () => {
+describe('User settings', () => {
+  const user = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '12345Qwert!'
+  };
+
+  const updated = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '98765Zxcv!',
+    bio: faker.lorem.sentence()
+  };
+
   before(() => {
-
+    cy.visit('/#/register');
+    cy.get('input[placeholder="Username"]').type(user.username);
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button:contains("Sign up")').click();
+    cy.get('button.swal-button').click();
+    cy.get(':nth-child(3) > .nav-link').click();
   });
 
-  beforeEach(() => {
-
+  it('updates bio with success dialog', () => {
+    cy.get('textarea[placeholder="Short bio about you"]').clear().type(updated.bio);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('.swal-modal').should('be.visible');
+    cy.get('.swal-title').should('contain', 'Update successful!');
+    cy.get('button.swal-button').click();
+    cy.get('[data-qa="profile-bio"]').should('contain', updated.bio);
   });
 
-  it('should provide an ability to update username', () => {
-
-  });
-
-  it('should provide an ability to update bio', () => {
-
-  });
-
-  it('should provide an ability to update an email', () => {
-
-  });
-
-  it('should provide an ability to update password', () => {
-
-  });
-
-  it('should provide an ability to log out', () => {
-
+  it('updates username, email, and password', () => {
+    cy.get('input[placeholder="Username"]').clear().type(updated.username);
+    cy.get('input[placeholder="Email"]').clear().type(updated.email);
+    cy.get('input[placeholder="New Password"]').clear().type(updated.password);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('[data-qa="username-link"]').should('contain', updated.username);
   });
 });
