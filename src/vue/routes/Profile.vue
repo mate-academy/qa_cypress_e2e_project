@@ -5,8 +5,8 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
-            <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+            <h4 data-cy="profile-username">{{ profile.username }}</h4>
+            <p data-cy="profile-bio">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
@@ -20,6 +20,7 @@
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-cy="profile-unfollow-button"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
@@ -28,6 +29,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-cy="profile-follow-button"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}
@@ -48,7 +50,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile',
+                    params: { username: profile.username }
+                  }"
                 >
                   My Articles
                 </router-link>
@@ -58,7 +63,10 @@
                   class="nav-link"
                   active-class="active"
                   exact
-                  :to="{ name: 'profile-favorites', params: { username: profile.username } }"
+                  :to="{
+                    name: 'profile-favorites',
+                    params: { username: profile.username }
+                  }"
                 >
                   Favorited Articles
                 </router-link>
@@ -73,19 +81,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "Profile",
+  name: 'Profile',
   mounted() {
-    this.$store.dispatch("fetchProfile", this.$route.params);
+    this.$store.dispatch('fetchProfile', this.$route.params);
   },
   computed: {
-    ...mapGetters([
-      "is_authenticated",
-      "profile",
-      "user",
-    ])
+    ...mapGetters(['is_authenticated', 'profile', 'user'])
   },
   methods: {
     isCurrentUser() {
@@ -96,16 +100,16 @@ export default {
     },
     follow() {
       if (!this.is_authenticated) return;
-      this.$store.dispatch("setFollowProfile", this.$route.params);
+      this.$store.dispatch('setFollowProfile', this.$route.params);
     },
     unfollow() {
-      this.$store.dispatch("setFollowProfile", this.$route.params);
+      this.$store.dispatch('setFollowProfile', this.$route.params);
     }
   },
   watch: {
     $route(to) {
       if (to.params && to.params.username) {
-        this.$store.dispatch("fetchProfile", to.params);
+        this.$store.dispatch('fetchProfile', to.params);
       }
     }
   }
