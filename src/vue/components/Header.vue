@@ -71,9 +71,9 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
             class="nav-link"
             active-class="active"
+            data-cy="header-username"
             exact
             :to="{
               name: 'profile',
@@ -89,11 +89,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 export default {
-  name: "Header",
+  name: 'Header',
   computed: {
-    ...mapGetters(["user", "is_authenticated"])
+    ...mapGetters(['user', 'is_authenticated'])
   }
 };
 </script>

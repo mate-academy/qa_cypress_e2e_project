@@ -19,6 +19,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.username"
+                  data-cy="settings-username-field"
                   placeholder="Your username"
                 />
               </fieldset>
@@ -27,6 +28,7 @@
                   class="form-control form-control-lg"
                   rows="8"
                   v-model="user.bio"
+                  data-cy="settings-bio-field"
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
@@ -35,6 +37,7 @@
                   class="form-control form-control-lg"
                   type="text"
                   v-model="user.email"
+                  data-cy="settings-email-field"
                   placeholder="Email"
                 />
               </fieldset>
@@ -43,10 +46,14 @@
                   class="form-control form-control-lg"
                   type="password"
                   v-model="user.password"
+                  data-cy="settings-password-field"
                   placeholder="Password"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button
+                class="btn btn-lg btn-primary pull-xs-right"
+                data-cy="settings-update-button"
+              >
                 Update Settings
               </button>
             </fieldset>
@@ -63,54 +70,51 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "Settings",
+  name: 'Settings',
   computed: {
-    ...mapGetters([
-      "user",
-    ])
+    ...mapGetters(['user'])
   },
   mounted() {
-    console.log("Settings.vue mounted!");
+    console.log('Settings.vue mounted!');
   },
   methods: {
     updateSettings() {
       swal({
-          text: "Updating your information... Please wait...",
-          timer: 500,
-          buttons: false,
-        })
+        text: 'Updating your information... Please wait...',
+        timer: 500,
+        buttons: false
+      })
         .then(async () => {
-          return await this.$store.dispatch("updateUser", this.user);
+          return await this.$store.dispatch('updateUser', this.user);
         })
         .then((response) => {
           if (response === true) {
             return swal({
-              title: "Update successful!",
-              icon: "success"
+              title: 'Update successful!',
+              icon: 'success'
             });
           }
-          let error = "";
+          let error = '';
           for (let key in response.errors) {
             error += `${response.errors[key]} `;
           }
           swal({
-            title: "Update failed!",
+            title: 'Update failed!',
             text: error,
-            icon: "error"
+            icon: 'error'
           });
         });
     },
     mounted() {
-      console.log("Settings.vue mounted!");
+      console.log('Settings.vue mounted!');
     },
     logout() {
-      this.$store.dispatch("logOut")
-        .then(() => {
-          this.$router.push({ name: "home" });
-        });
+      this.$store.dispatch('logOut').then(() => {
+        this.$router.push({ name: 'home' });
+      });
     }
   }
 };
