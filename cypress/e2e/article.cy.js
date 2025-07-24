@@ -66,7 +66,7 @@ describe('Article', () => {
     });
   });
 
-  it.only('should be deleted using Delete button', () => {
+  it('should be deleted using Delete button', () => {
     cy.contains('a', 'New Article').click();
 
     cy.task('generateArticle').then((article) => {
