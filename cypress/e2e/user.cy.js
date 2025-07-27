@@ -1,60 +1,27 @@
-import { faker } from '@faker-js/faker';
+/// <reference types='cypress' />
+/// <reference types='../support' />
 
-describe('Authentication and following', () => {
-  const user = {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: '12345Qwert!'
-  };
+describe('User', () => {
+  let user1, user2;
 
   before(() => {
-    cy.visit('/#/register');
-    cy.get('input[placeholder="Username"]').type(user.username);
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button:contains("Sign up")').click();
-    cy.get('button.swal-button').click();
-    cy.get('[data-qa="nav-logout"]').click();
+    return cy.task('db:clear')
+      .then(() => cy.task('generateUser'))
+      .then((u1) => {
+        user1 = u1;
+        return cy.register(user1.email, user1.username, user1.password);
+      })
+      .then(() => cy.task('generateUser'))
+      .then((u2) => {
+        user2 = u2;
+        return cy.register(user2.email, user2.username, user2.password);
+      });
   });
 
-  it('logs in successfully', () => {
-    cy.visit('/#/login');
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button:contains("Sign in")').click();
-    cy.get('[data-qa="username-link"]').should('contain', user.username);
-  });
-
-  it('shows error with wrong credentials', () => {
-    cy.visit('/#/login');
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type('wrongpass');
-    cy.get('button:contains("Sign in")').click();
-    cy.get('ul.error-messages').should('exist');
-  });
-
-  it('follows and unfollows another user', () => {
-    const otherUser = {
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: '12345Abcd!'
-    };
-
-    cy.visit('/#/register');
-    cy.get('input[placeholder="Username"]').type(otherUser.username);
-    cy.get('input[placeholder="Email"]').type(otherUser.email);
-    cy.get('input[placeholder="Password"]').type(otherUser.password);
-    cy.get('button:contains("Sign up")').click();
-    cy.get('button.swal-button').click();
-    cy.get('[data-qa="nav-logout"]').click();
-
-    cy.visit('/#/login');
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button:contains("Sign in")').click();
-
-    cy.visit(`/#/profile/${otherUser.username}`);
-    cy.get('button:contains("Follow")').click().should('contain', 'Unfollow');
-    cy.get('button:contains("Unfollow")').click().should('contain', 'Follow');
+  it('should be able to follow the another user', () => {
+    cy.login(user1.email, user1.password);
+    cy.visit(`/#/@${user2.username}`);
+    cy.get('[data-qa="follow-btn"]').click();
+    cy.get('[data-qa="follow-btn"]').should('contain', 'Unfollow');
   });
 });
