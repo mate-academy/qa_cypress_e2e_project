@@ -1,63 +1,43 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
-import HomePageObject from '../support/pages/home.pageObject';
-import ArticlePageObject from '../support/pages/article.pageObject';
+import { faker } from '@faker-js/faker';
 
-describe('Article', () => {
-  const homePage = new HomePageObject();
-  const articlePage = new ArticlePageObject();
-  let user;
+describe('User Settings', () => {
+  const user = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '12345Qwert!'
+  };
+
+  const updated = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '98765Zxcv!',
+    bio: faker.lorem.sentence()
+  };
 
   before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-      cy.register(user.email, user.username, user.password);
-    });
+    cy.visit('/#/register');
+    cy.get('input[placeholder="Username"]').type(user.username);
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button:contains("Sign up")').click();
+    cy.get('button.swal-button').click();
+    cy.get('[data-cy="settings-link"]').click();
   });
 
-  beforeEach(() => {
-    homePage.visit();
-    cy.login(user.email, user.username, user.password);
+  it('updates bio with success dialog', () => {
+    cy.get('textarea[placeholder="Short bio about you"]').clear().type(updated.bio);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('.swal-modal').should('be.visible');
+    cy.get('.swal-title').should('contain', 'Update successful!');
+    cy.get('button.swal-button').click();
+    cy.get('[data-cy="profile-bio"]').should('contain', updated.bio);
   });
 
-  it('should be created using New Article form', () => {
-    cy.task('generateArticle').then((article) => {
-      articlePage.visit();
-      articlePage.typeTitle(article.title);
-      articlePage.typeDescription(article.description);
-      articlePage.typeBody(article.body);
-      articlePage.clickPublishArticleBtn();
-      articlePage.titleField.should('contain', article.title);
-      articlePage.bodyField.should('contain', article.body);
-    });
-  });
-
-  it('should be edited using Edit button', () => {
-    cy.task('generateArticle').then((article) => {
-      cy.createArticle(article.title, article.description, article.body)
-        .then((response) => {
-          articlePage.visit(`#/articles/${response.body.article.slug}`);
-          articlePage.editArticleBtn.first().click();
-          articlePage.typeTitle(article.title);
-          articlePage.typeDescription(article.description);
-          articlePage.typeBody(article.body);
-          articlePage.clickPublishArticleBtn();
-          articlePage.titleField.should('contain', article.title);
-          articlePage.bodyField.should('contain', article.body);
-        });
-    });
-  });
-
-  it('should be deleted using Delete button', () => {
-    cy.task('generateArticle').then((article) => {
-      cy.createArticle(article.title, article.description, article.body)
-        .then((response) => {
-          const url = `#/articles/${response.body.article.slug}`;
-          articlePage.visit(url);
-          articlePage.deleteArticleBtn.first().click();
-          cy.url().should('not.include', url);
-        });
-    });
+  it('updates username, email, and password', () => {
+    cy.get('input[placeholder="Username"]').clear().type(updated.username);
+    cy.get('input[placeholder="Email"]').clear().type(updated.email);
+    cy.get('input[placeholder="New Password"]').clear().type(updated.password);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('[data-cy="username-link"]').should('contain', updated.username);
   });
 });
