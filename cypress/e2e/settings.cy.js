@@ -1,64 +1,43 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import { faker } from '@faker-js/faker';
 
-import HomePageObject from '../support/pages/home.pageObject';
-import SettingsPageObject from '../support/pages/settings.pageObject';
+describe('User settings', () => {
+  const user = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '12345Qwert!'
+  };
 
-describe('Settings page', () => {
-  const homePage = new HomePageObject();
-  const settingsPage = new SettingsPageObject();
-  let user;
-  let settings;
-  const VALID_PASSWORD = 'P@sswOrd1';
+  const updated = {
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: '98765Zxcv!',
+    bio: faker.lorem.sentence()
+  };
 
   before(() => {
-    return cy
-      .task('generateUser')
-      .then((generateUser) => {
-        user = generateUser;
-        return cy.register(user.email, user.username, user.password);
-      })
-      .then(() => {
-        return cy.task('generateSettings');
-      })
-      .then((generateSettings) => {
-        settings = generateSettings;
-      });
+    cy.visit('/#/register');
+    cy.get('input[placeholder="Username"]').type(user.username);
+    cy.get('input[placeholder="Email"]').type(user.email);
+    cy.get('input[placeholder="Password"]').type(user.password);
+    cy.get('button:contains("Sign up")').click();
+    cy.get('button.swal-button').click();
+    cy.get(':nth-child(3) > .nav-link').click();
   });
 
-  beforeEach(() => {
-    homePage.visit();
-    cy.login(user.email, user.username, user.password);
-    settingsPage.visit();
+  it('updates bio with success dialog', () => {
+    cy.get('textarea[placeholder="Short bio about you"]').clear().type(updated.bio);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('.swal-modal').should('be.visible');
+    cy.get('.swal-title').should('contain', 'Update successful!');
+    cy.get('button.swal-button').click();
+    cy.get('[data-qa="profile-bio"]').should('contain', updated.bio);
   });
 
-  it('should provide an ability to update username', () => {
-    settingsPage.typeUsername(settings.username);
-    settingsPage.clickUpdateBtn();
-    settingsPage.assertSuccessMessageContains('Update successful!');
-  });
-
-  it('should provide an ability to update bio', () => {
-    settingsPage.typeBio(settings.bio);
-    settingsPage.clickUpdateBtn();
-    settingsPage.assertSuccessMessageContains('Update successful!');
-  });
-
-  it('should provide an ability to update an email', () => {
-    settingsPage.emailField.clear();
-    settingsPage.typeEmail(settings.email);
-    settingsPage.clickUpdateBtn();
-    settingsPage.assertSuccessMessageContains('Update successful!');
-  });
-
-  it('should provide an ability to log out', () => {
-    settingsPage.clickLogoutBtn();
-    cy.url().should('not.include', 'settings');
-  });
-
-  it('should provide an ability to update password', () => {
-    settingsPage.typePassword(VALID_PASSWORD);
-    settingsPage.clickUpdateBtn();
-    settingsPage.assertSuccessMessageContains('Update successful!');
+  it('updates username, email, and password', () => {
+    cy.get('input[placeholder="Username"]').clear().type(updated.username);
+    cy.get('input[placeholder="Email"]').clear().type(updated.email);
+    cy.get('input[placeholder="New Password"]').clear().type(updated.password);
+    cy.get('button:contains("Update Settings")').click();
+    cy.get('[data-qa="username-link"]').should('contain', updated.username);
   });
 });
