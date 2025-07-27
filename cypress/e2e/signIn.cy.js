@@ -11,15 +11,16 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    return cy.task('db:clear')
+      .then(() => cy.task('generateUser'))
+      .then((generateUser) => {
+        user = generateUser;
+        return cy.register(user.email, user.username, user.password);
+      });
   });
 
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -29,6 +30,10 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
-
+    signInPage.visit();
+    signInPage.typeEmail('wrong@example.com');
+    signInPage.typePassword('wrongPassword');
+    signInPage.clickSignInBtn();
+    cy.contains('email or password is invalid').should('be.visible');
   });
 });
