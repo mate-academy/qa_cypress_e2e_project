@@ -1,25 +1,35 @@
-import { faker } from '@faker-js/faker';
+/// <reference types='cypress' />
+/// <reference types='../support' />
 
-describe('Sign up flow', () => {
-  it('signs up with valid data', () => {
+import SignUpPageObject from '../support/pages/signUp.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
+
+const signUpPage = new SignUpPageObject();
+const homePage = new HomePageObject();
+
+describe('Sign Up page', () => {
+  it('should allow valid user registration', () => {
     const user = {
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: '12345Qwert!',
+      email: `user_${Date.now()}@mail.com`,
+      username: `user${Date.now()}`,
+      password: 'StrongPass123!'
     };
 
-    cy.visit('/#/register');
-    cy.get('input.form-control-lg[placeholder="Username"]').type(user.username);
-    cy.get('input.form-control-lg[placeholder="Email"]').type(user.email);
-    cy.get('input.form-control-lg[placeholder="Password"]').type(user.password);
-    cy.get('button.btn.btn-lg.btn-primary').click();
-    cy.get('button.swal-button').click();
-    cy.get('[data-cy="username-link"]').should('contain', user.username);
+    signUpPage.visit();
+    signUpPage.typeUsername(user.username);
+    signUpPage.typeEmail(user.email);
+    signUpPage.typePassword(user.password);
+    signUpPage.clickSignUpBtn();
+
+    homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('shows error with empty form', () => {
-    cy.visit('/#/register');
-    cy.get('button.btn.btn-lg.btn-primary').click();
-    cy.get('ul.error-messages').should('exist');
+  it('should not allow invalid registration', () => {
+    signUpPage.visit();
+    signUpPage.typeUsername('');
+    signUpPage.typeEmail('bad-email');
+    signUpPage.typePassword('123');
+    signUpPage.clickSignUpBtn();
+    cy.contains('email must be a valid email').should('be.visible');
   });
 });
