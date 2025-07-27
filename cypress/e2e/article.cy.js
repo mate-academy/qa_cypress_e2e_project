@@ -1,43 +1,38 @@
-import { faker } from '@faker-js/faker';
+/* eslint-disable cypress/unsafe-to-chain-command */
+/// <reference types='cypress' />
+/// <reference types='../support' />
 
-describe('User Settings', () => {
-  const user = {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: '12345Qwert!'
-  };
-
-  const updated = {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: '98765Zxcv!',
-    bio: faker.lorem.sentence()
-  };
+describe('Article', () => {
+  let user;
 
   before(() => {
-    cy.visit('/#/register');
-    cy.get('input[placeholder="Username"]').type(user.username);
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button:contains("Sign up")').click();
-    cy.get('button.swal-button').click();
-    cy.get('[data-cy="settings-link"]').click();
+    cy.task('db:clear');
+    cy.task('generateUser').then((u) => {
+      user = u;
+      cy.register(user.email, user.username, user.password);
+    });
   });
 
-  it('updates bio with success dialog', () => {
-    cy.get('textarea[placeholder="Short bio about you"]').clear().type(updated.bio);
-    cy.get('button:contains("Update Settings")').click();
-    cy.get('.swal-modal').should('be.visible');
-    cy.get('.swal-title').should('contain', 'Update successful!');
-    cy.get('button.swal-button').click();
-    cy.get('[data-cy="profile-bio"]').should('contain', updated.bio);
+  beforeEach(() => {
+    cy.login(user.email, user.password);
   });
 
-  it('updates username, email, and password', () => {
-    cy.get('input[placeholder="Username"]').clear().type(updated.username);
-    cy.get('input[placeholder="Email"]').clear().type(updated.email);
-    cy.get('input[placeholder="New Password"]').clear().type(updated.password);
-    cy.get('button:contains("Update Settings")').click();
-    cy.get('[data-cy="username-link"]').should('contain', updated.username);
+  it('should be created using New Article form', () => {
+    cy.createArticle();
+    cy.contains('h1', Cypress.env('articleTitle')).should('be.visible');
+  });
+
+  it('should be edited using Edit button', () => {
+    cy.createArticle();
+    cy.contains('[data-qa="edit-article-btn"]').click();
+    cy.get('[data-qa="title-input"]').clear().type('Updated Title');
+    cy.contains('[data-qa="publish-article-btn"]').click();
+    cy.contains('h1', 'Updated Title').should('be.visible');
+  });
+
+  it('should be deleted using Delete button', () => {
+    cy.createArticle();
+    cy.contains('[data-qa="delete-article-btn"]').click();
+    cy.url().should('eq', 'http://localhost:3000/#/');
   });
 });
