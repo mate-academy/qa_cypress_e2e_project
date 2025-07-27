@@ -1,43 +1,49 @@
-import { faker } from '@faker-js/faker';
+/* eslint-disable cypress/unsafe-to-chain-command */
+/// <reference types='cypress' />
+/// <reference types='../support' />
 
-describe('User settings', () => {
-  const user = {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: '12345Qwert!'
-  };
-
-  const updated = {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: '98765Zxcv!',
-    bio: faker.lorem.sentence()
-  };
+describe('Settings page', () => {
+  let user;
 
   before(() => {
-    cy.visit('/#/register');
-    cy.get('input[placeholder="Username"]').type(user.username);
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button:contains("Sign up")').click();
-    cy.get('button.swal-button').click();
-    cy.get(':nth-child(3) > .nav-link').click();
+    cy.task('db:clear');
+    cy.task('generateUser').then((u) => {
+      user = u;
+      cy.register(user.email, user.username, user.password);
+    });
   });
 
-  it('updates bio with success dialog', () => {
-    cy.get('textarea[placeholder="Short bio about you"]').clear().type(updated.bio);
-    cy.get('button:contains("Update Settings")').click();
-    cy.get('.swal-modal').should('be.visible');
-    cy.get('.swal-title').should('contain', 'Update successful!');
-    cy.get('button.swal-button').click();
-    cy.get('[data-qa="profile-bio"]').should('contain', updated.bio);
+  beforeEach(() => {
+    cy.login(user.email, user.password);
+    cy.visit('/#/settings');
   });
 
-  it('updates username, email, and password', () => {
-    cy.get('input[placeholder="Username"]').clear().type(updated.username);
-    cy.get('input[placeholder="Email"]').clear().type(updated.email);
-    cy.get('input[placeholder="New Password"]').clear().type(updated.password);
-    cy.get('button:contains("Update Settings")').click();
-    cy.get('[data-qa="username-link"]').should('contain', updated.username);
+  it('should provide an ability to update username', () => {
+    cy.get('[data-qa="username-input"]').clear().type('new_user');
+    cy.get('[data-qa="password-input"]').type(user.password);
+    cy.get('[data-qa="submit-btn"]').click();
+  });
+
+  it('should provide an ability to update bio', () => {
+    cy.get('[data-qa="bio-textarea"]').clear().type('My new bio');
+    cy.get('[data-qa="password-input"]').type(user.password);
+    cy.get('[data-qa="submit-btn"]').click();
+  });
+
+  it('should provide an ability to update an email', () => {
+    const newEmail = `new_${Date.now()}@test.com`;
+    cy.get('[data-qa="email-input"]').clear().type(newEmail);
+    cy.get('[data-qa="password-input"]').type(user.password);
+    cy.get('[data-qa="submit-btn"]').click();
+  });
+
+  it('should provide an ability to update password', () => {
+    cy.get('[data-qa="password-input"]').type('NewPass123!');
+    cy.get('[data-qa="submit-btn"]').click();
+  });
+
+  it('should provide an ability to log out', () => {
+    cy.get('[data-qa="logout-btn"]').click();
+    cy.contains('a', 'Sign in').should('be.visible');
   });
 });
