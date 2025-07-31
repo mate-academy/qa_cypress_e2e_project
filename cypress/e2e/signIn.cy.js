@@ -20,15 +20,21 @@ describe('Sign In page', () => {
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
-
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
-
     homePage.assertHeaderContainUsername(user.username);
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password + '123');
+    signInPage.clickSignInBtn();
+
+    cy.contains('div[class="swal-title"]', 'Login failed!').should(
+      'be.visible'
+    );
   });
 });
