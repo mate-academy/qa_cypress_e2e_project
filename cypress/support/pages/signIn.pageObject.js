@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get loginError() {
+    return cy.get('[data-qa=login-error]');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
