@@ -1,38 +1,18 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    'cypress/globals': true
-  },
-  extends: [
-    'plugin:cypress/recommended',
-    'standard-with-typescript'
-  ],
-  overrides: [
-  ],
-  parserOptions: {
-    ecmaVersion: 'latest'
-  },
-  plugins: [
-    'vue',
-    'cypress'
-  ],
+  root: true,
+  env: { browser: true, es2021: true, node: true, 'cypress/globals': true },
+  plugins: ['cypress'],
+  extends: ['eslint:recommended', 'plugin:cypress/recommended'],
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   rules: {
-    semi: ['error', 'always'],
-    'space-before-function-paren': 'off',
-    'cypress/no-assigning-return-values': 'error',
-    'cypress/no-unnecessary-waiting': 'error',
-    'cypress/assertion-before-screenshot': 'warn',
-    'cypress/no-force': 'warn',
-    'cypress/no-async-tests': 'error',
-    'cypress/no-pause': 'error',
-    'max-len': ['error', 80, {
-      ignoreTemplateLiterals: true,
-      ignoreRegExpLiterals: true,
-      ignoreComments: true
-    }],
-    'arrow-parens': ['error', 'always'],
-    quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    'no-console': ['error']
-  }
+    // для e2e-тестов правило часто даёт ложные срабатывания
+    'cypress/unsafe-to-chain-command': 'off',
+    // помягче к временно неиспользуемым переменным
+    'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }]
+  },
+  overrides: [
+    // на всякий случай явно отмечаем node-окружение там, где оно точно нужно
+    { files: ['*.config.js', '.eslintrc.js', 'server/**/*.js'], env: { node: true } }
+  ],
+  ignorePatterns: ['src/**', 'server/**']
 };

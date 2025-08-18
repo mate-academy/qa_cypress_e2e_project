@@ -1,0 +1,30 @@
+const { defineConfig } = require('cypress')
+const { faker } = require('@faker-js/faker')
+
+module.exports = defineConfig({
+  e2e: {
+    supportFile: 'cypress/support/e2e.js',
+    baseUrl: 'https://demo.productionready.io/',           // UI
+    env: { api: 'https://conduit.productionready.io/api' }, // API
+    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
+    setupNodeEvents(on, config) {
+      on('task', {
+        generateUser() {
+          const n = Math.floor(Math.random() * 1e9)
+          return { username: `qa_${n}`, email: `qa_${n}@mail.com`, password: 'Qwerty1!' }
+        },
+        generateArticle() {
+          const title = faker.lorem.words(3)
+          const description = faker.lorem.sentence()
+          const body = faker.lorem.paragraph()
+          const slug = title.toLowerCase()
+            .replace(/[^\w-]+/g, '-')
+            .replace(/(^-+|-+$)/g, '')
+          return { title, description, body, slug }
+        },
+        'db:clear'() { return null }
+      })
+      return config
+    }
+  }
+})
