@@ -1,24 +1,52 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
+import ArticlesPageObject from '../support/pages/article.pageObject';
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import { faker } from '@faker-js/faker';
 
-describe('Article', () => {
+const articlePage = new ArticlesPageObject();
+const signInPage = new SignInPageObject();
+
+describe('Articles page', () => {
+  let user;
+
   before(() => {
-
+    cy.task('db:clear');
+    user = {
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      password: 'Pass12345!'
+    };
+    cy.register(user.email, user.username, user.password);
   });
 
   beforeEach(() => {
-    cy.task('db:clear');
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
   });
 
-  it('should be created using New Article form', () => {
+  it('should create a new article', () => {
+    const article = {
+      title: faker.lorem.words(3),
+      description: faker.lorem.sentence(),
+      body: faker.lorem.paragraph(),
+      tag: 'test'
+    };
 
+    articlePage.createArticle(article);
+    articlePage.assertArticleExists(article.title, article.body);
   });
 
-  it('should be edited using Edit button', () => {
-
+  it('should edit an article', () => {
+    const newBody = faker.lorem.paragraph();
+    articlePage.editFirstArticle(newBody);
+    articlePage.assertArticleBody(newBody);
   });
 
-  it('should be deleted using Delete button', () => {
-
+  it('should delete an article', () => {
+    const title = articlePage.getFirstArticleTitle();
+    articlePage.deleteFirstArticle();
+    articlePage.assertArticleNotExist(title);
   });
 });
