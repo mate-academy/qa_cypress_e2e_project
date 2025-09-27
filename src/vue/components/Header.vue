@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light">
+  <nav class="navbar navbar-light" data-cy="navbar">
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'home' }">
         conduit
@@ -18,6 +18,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-in"
             active-class="active"
             exact
             :to="{ name: 'login' }"
@@ -28,6 +29,7 @@
         <li class="nav-item">
           <router-link
             class="nav-link"
+            data-cy="sign-up"
             active-class="active"
             exact
             :to="{ name: 'register' }"

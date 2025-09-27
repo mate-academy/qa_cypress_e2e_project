@@ -46,6 +46,7 @@
               <li class="nav-item">
                 <router-link
                   class="nav-link"
+                  data-cy="my-articles-link"
                   active-class="active"
                   exact
                   :to="{ name: 'profile', params: { username: profile.username } }"
