@@ -1,24 +1,34 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import { ArticlePage } from "../pageObjects/ArticlePage";
 
-describe('Article', () => {
-  before(() => {
-
-  });
+describe("Articles", () => {
+  const article = new ArticlePage();
 
   beforeEach(() => {
-    cy.task('db:clear');
+    cy.resetDatabase();
+    cy.createUser().then((user) => cy.login(user));
   });
 
-  it('should be created using New Article form', () => {
+  it("should create a new article", () => {
+    const title = faker.lorem.sentence();
+    const body = faker.lorem.paragraph();
 
+    article.visitNew();
+    article.typeTitle(title);
+    article.typeBody(body);
+    article.submit();
+
+    cy.contains(title).should("be.visible");
+    cy.contains(body).should("be.visible");
   });
 
-  it('should be edited using Edit button', () => {
+  it("should delete an article", () => {
+    const title = faker.lorem.sentence();
+    const body = faker.lorem.paragraph();
 
-  });
-
-  it('should be deleted using Delete button', () => {
-
+    article.createViaAPI(title, body).then((slug) => {
+      cy.visit(`/article/${slug}`);
+      article.delete();
+      cy.contains(title).should("not.exist");
+    });
   });
 });

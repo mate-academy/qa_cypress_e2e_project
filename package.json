@@ -1,40 +1,46 @@
 {
+  "name": "realworld-deno-drash-vue-webpack",
+  "author": "Drash",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "acorn": ">=5.7.4",
+    "axios": "^0.19.2",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "braces": ">=2.3.1",
+    "css-loader": "^2.1.0",
+    "date-fns": "^2.14.0",
+    "elliptic": "^6.5.3",
+    "kind-of": ">=6.0.3",
+    "lodash": "^4.17.20",
+    "markdown-it": "^8.4.2",
+    "mime-types": "^2.1.22",
+    "prismjs": "^1.21.0",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "sass": "^1.70.0",
+    "sass-loader": "^7.1.0",
+    "scss-loader": "0.0.1",
+    "style-loader": "^0.23.1",
+    "sweetalert": "^2.1.2",
+    "typedoc": "^0.15.6",
+    "vue": "^2.6.7",
+    "vue-axios": "^2.1.5",
+    "vue-loader": "^15.6.4",
+    "vue-router": "^3.0.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.7",
+    "vuex": "^3.4.0",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  },
   "scripts": {
-    "prepare": "husky install",
-    "lint": "eslint .",
-    "test": "cypress run --browser chrome"
+    "webpack": "node_modules/.bin/webpack --hide-modules --env.environment=development",
+    "webpack-watch": "node_modules/.bin/webpack --hide-modules --watch --env.environment=development"
   },
   "dependencies": {
-    "cypress-image-snapshot": "^4.0.1",
-    "eslint-plugin-cypress": "^2.12.1",
-    "faker": "^5.5.3",
-    "pg": "^8.9.0",
-    "sequelize": "^6.21.2",
-    "@faker-js/faker": "^8.4.1",
-    "sequelize-cli": "^6.4.1"
-  },
-  "devDependencies": {
-    "@types/cypress": "latest",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
-    "@faker-js/faker": "^8.4.1",
-    "cypress": "^12.13.0",
-    "eslint": "^8.34.0",
-    "eslint-config-standard-with-typescript": "^34.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-vue": "^9.9.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "typescript": "^4.9.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": "eslint --max-warnings=0"
+    "@johmun/vue-tags-input": "^2.1.0"
   }
 }

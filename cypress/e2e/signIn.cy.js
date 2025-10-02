@@ -1,34 +1,26 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import { SignInPage } from "../pageObjects/SignInPage";
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+describe("Sign In", () => {
+  const signIn = new SignInPage();
 
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
+  beforeEach(() => cy.resetDatabase());
 
-describe('Sign In page', () => {
-  let user;
-
-  before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+  it("should login with valid credentials", () => {
+    cy.createUser().then((user) => {
+      signIn.visit();
+      signIn.typeEmail(user.email);
+      signIn.typePassword(user.password);
+      signIn.submit();
+      cy.contains(user.username).should("be.visible");
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
-  });
-
-  it('should not provide an ability to log in with wrong credentials', () => {
-
+  it("should not login with invalid credentials", () => {
+    signIn.visit();
+    signIn.typeEmail("wrong@example.com");
+    signIn.typePassword("badpassword");
+    signIn.submit();
+    cy.contains("email or password is invalid").should("be.visible");
   });
 });
+

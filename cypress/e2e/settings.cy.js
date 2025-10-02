@@ -1,32 +1,20 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import { SettingsPage } from "../pageObjects/SettingsPage";
 
-describe('Settings page', () => {
-  before(() => {
-
-  });
+describe("Settings", () => {
+  const settings = new SettingsPage();
 
   beforeEach(() => {
-
+    cy.resetDatabase();
+    cy.createUser().then((user) => cy.login(user));
   });
 
-  it('should provide an ability to update username', () => {
+  it("should update bio", () => {
+    const newBio = faker.lorem.sentence();
 
-  });
+    settings.visit();
+    settings.typeBio(newBio);
+    settings.submit();
 
-  it('should provide an ability to update bio', () => {
-
-  });
-
-  it('should provide an ability to update an email', () => {
-
-  });
-
-  it('should provide an ability to update password', () => {
-
-  });
-
-  it('should provide an ability to log out', () => {
-
+    cy.contains("Your settings have been updated").should("be.visible");
   });
 });
