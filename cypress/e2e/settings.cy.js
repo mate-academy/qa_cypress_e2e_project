@@ -1,32 +1,40 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-describe('Settings page', () => {
+import SignInPageObject from '../support/pages/signIn.pageObject';
+import HomePageObject from '../support/pages/home.pageObject';
+
+const signInPage = new SignInPageObject();
+const homePage = new HomePageObject();
+
+describe('Sign In page', () => {
+  let user;
+
   before(() => {
-
+    cy.task('db:clear');
+    cy.task('generateUser').then((generateUser) => {
+      user = generateUser;
+    });
   });
 
-  beforeEach(() => {
-
+  it('should provide an ability to log in with existing credentials', () => {
+    signInPage.visit();
+    cy.register(user.email, user.username, user.password);
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password);
+    signInPage.clickSignInBtn();
+    homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should provide an ability to update username', () => {
+  it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
-  });
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword(user.password + 'wrong111');
+    signInPage.clickSignInBtn();
 
-  it('should provide an ability to update bio', () => {
-
-  });
-
-  it('should provide an ability to update an email', () => {
-
-  });
-
-  it('should provide an ability to update password', () => {
-
-  });
-
-  it('should provide an ability to log out', () => {
-
+    cy.contains('div[class="swal-title"]', 'Login failed!').should(
+      'be.visible'
+    );
   });
 });
