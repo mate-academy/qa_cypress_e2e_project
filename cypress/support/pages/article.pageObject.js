@@ -4,39 +4,39 @@ class ArticlePageObject extends PageObject {
   url = '/#/editor';
 
   get titleField() {
-    return cy.get('input[placeholder="Article Title"]');
+    return cy.get('[data-qa="article-title-input"]');
   }
 
   get aboutField() {
-    return cy.get(`input[placeholder="What's this article about?"]`);
+    return cy.get('[data-qa="article-about-input"]');
   }
 
   get textField() {
-    return cy.get('textarea[placeholder="Write your article (in markdown)"]');
+    return cy.get('[data-qa="article-textarea"]');
   }
 
   get tagsField() {
-    return cy.get('input[placeholder="Enter tags"]');
+    return cy.get('[data-qa="article-tags-input"]');
   }
 
   get publishArticleButton() {
-    return cy.contains('button', 'Publish Article');
+    return cy.get('[data-qa="publish-article-btn"]');
   }
 
   typeTitle(title) {
-    this.titleField.type(title);
+    this.titleField.clear().type(title);
   }
 
   typeAbout(about) {
-    this.aboutField.type(about);
+    this.aboutField.clear().type(about);
   }
 
   typeText(text) {
-    this.textField.type(text);
+    this.textField.clear().type(text);
   }
 
   typeTag(tag) {
-    this.tagsField.type(tag + '{Enter}');
+    this.tagsField.clear().type(`${tag}{enter}`);
   }
 
   clickPublishArticleButton() {
