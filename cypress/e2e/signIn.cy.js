@@ -1,40 +1,47 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import PageObject from '../PageObject';
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+class SignInPageObject extends PageObject {
+  url = '/#/login';
 
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
+  get emailField() {
+    return cy.get('[data-cy="email-sign-in"]');
+  }
 
-describe('Sign In page', () => {
-  let user;
+  get passwordField() {
+    return cy.get('[data-cy="password-sign-in"]');
+  }
 
-  before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
-  });
+  get signInButton() {
+    return cy.get('[data-cy="sign-in-btn"]');
+  }
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-    homePage.assertHeaderContainUsername(user.username);
-  });
+  get errorTitle() {
+    return cy.get('[data-cy="login-error-title"]');
+  }
 
-  it('should not provide an ability to log in with wrong credentials', () => {
-    signInPage.visit();
+  visit() {
+    cy.visit(this.url);
+  }
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password + '123');
-    signInPage.clickSignInBtn();
+  typeEmail(email) {
+    this.emailField.clear().type(email);
+  }
 
-    cy.contains('div[class="swal-title"]', 'Login failed!').should(
-      'be.visible'
-    );
-  });
-});
+  typePassword(password) {
+    this.passwordField.clear().type(password);
+  }
+
+  clickOnSignInButton() {
+    this.signInButton.click();
+  }
+
+  checkUrlAfterLogin(username) {
+    cy.url().should('include', `/profile/${username}`);
+  }
+
+  checkErrorMessageVisible() {
+    this.errorTitle.should('be.visible');
+  }
+}
+
+export default SignInPageObject;

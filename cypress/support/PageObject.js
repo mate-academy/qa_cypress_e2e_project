@@ -1,6 +1,12 @@
+import Header from './components/Header';
+
 class PageObject {
-  visit(url) {
-    cy.visit(url || this.url);
+  constructor() {
+    this.header = new Header();
+  }
+
+  visit(path = this.url) {
+    cy.visit(path);
   }
 }
 
