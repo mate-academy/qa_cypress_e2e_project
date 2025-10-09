@@ -40,11 +40,15 @@ class SettingsPageObject extends PageObject {
   }
 
   assertBio(bio) {
-    this.bioField().should('have.value', bio);
+    cy.get('[data-qa="bio-field"]').should('have.value', bio);
   }
 
   assertEmail(email) {
     this.emailField().should('have.value', email);
+  }
+
+  logout() {
+    cy.get('[data-qa="logout-btn"]').click();
   }
 }
 

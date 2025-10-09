@@ -1,67 +1,45 @@
-/* eslint-disable max-len */
-// import PageObject from '../PageObject';
-
 import PageObject from '../PageObject';
 
+/* eslint-disable max-len */
 class ArticlePageObject extends PageObject {
-  url = '/new-article';
-
-  get titleField() {
-    return cy.get('[data-qa="article-title"]');
+  constructor() {
+    super();
+    this.titleField = () => cy.get('[data-qa="article-title"]');
+    this.descriptionField = () => cy.get('[data-qa="article-description"]');
+    this.bodyField = () => cy.get('[data-qa="article-body"]');
+    this.submitBtn = () => cy.get('[data-qa="submit-article-btn"]');
+    this.deleteBtn = () => cy.get('[data-qa="delete-article-btn"]');
   }
 
-  get descriptionField() {
-    return cy.get('[data-qa="article-description"]');
-  }
-
-  get bodyField() {
-    return cy.get('[data-qa="article-body"]');
-  }
-
-  get publishBtn() {
-    return cy.get('[data-qa="publish-article"]');
-  }
-
-  get editBtn() {
-    return cy.get('[data-qa="edit-article"]');
-  }
-
-  get deleteBtn() {
-    return cy.get('[data-qa="delete-article"]');
+  visitPage() {
+    super.visit('/editor');
   }
 
   createArticle({ title, description, body }) {
-    this.visit();
-    this.titleField.type(title);
-    this.descriptionField.type(description);
-    this.bodyField.type(body);
-    this.publishBtn.click();
+    this.visitPage();
+    this.titleField().clear().type(title);
+    this.descriptionField().clear().type(description);
+    this.bodyField().clear().type(body);
+    this.submitBtn().click();
   }
 
   editArticle({ title, description, body }) {
-    this.editBtn.click();
-    if (title) {
-      this.titleField.clear().type(title);
-    }
-    if (description) {
-      this.descriptionField.clear().type(description);
-    }
-    if (body) {
-      this.bodyField.clear().type(body);
-    }
-    this.publishBtn.click();
+    this.titleField().clear().type(title);
+    this.descriptionField().clear().type(description);
+    this.bodyField().clear().type(body);
+    this.submitBtn().click();
   }
 
   deleteArticle() {
-    this.deleteBtn.click();
+    this.deleteBtn().should('be.visible').click();
   }
 
   assertArticlePresent(title) {
-    cy.contains('[data-qa="article-title-display"]', title).should('be.visible');
+    cy.get('[data-qa="article-title-display"]').contains(title).should('be.visible');
   }
 
   assertArticleNotPresent(title) {
-    cy.contains('[data-qa="article-title-display"]', title).should('not.exist');
+    cy.get('[data-qa="article-title-display"]').contains(title).should('not.exist');
   }
 }
 
