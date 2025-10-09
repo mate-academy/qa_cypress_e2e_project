@@ -1,34 +1,36 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
 
 const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
 
   before(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
+  it('should log in with correct credentials', () => {
     cy.register(user.email, user.username, user.password);
 
+    signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    homePage.assertHeaderContainUsername(user.username);
+    cy.contains(user.username).should('be.visible');
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not log in with wrong password', () => {
+    signInPage.visit();
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('wrongPassword');
+    signInPage.clickSignInBtn();
 
+    cy.contains('email or password is invalid').should('be.visible');
   });
 });
