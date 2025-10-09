@@ -16,7 +16,7 @@ describe('Follow/unfollow button', () => {
   it('should provide an ability to unfollow the user', () => {
     const usernameToFollow = 'JaneDoe';
     userPage.visitProfile(usernameToFollow);
-    userPage.clickFollow(); // jeśli jest już "Unfollow", klikamy, żeby odfollowować
+    userPage.clickFollow();
     userPage.assertFollowButtonText('Follow');
   });
 });

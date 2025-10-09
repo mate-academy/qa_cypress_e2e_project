@@ -1,4 +1,4 @@
-import PageObject from './PageObject';
+import PageObject from '../PageObject';
 
 class UserPageObject extends PageObject {
   get followBtn() {

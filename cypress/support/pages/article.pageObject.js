@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-import PageObject from './PageObject';
+// import PageObject from '../PageObject';
+
+import PageObject from '../PageObject';
 
 class ArticlePageObject extends PageObject {
   url = '/new-article';
