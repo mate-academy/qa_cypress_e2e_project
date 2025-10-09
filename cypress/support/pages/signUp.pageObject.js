@@ -1,42 +1,37 @@
 import PageObject from '../PageObject';
 
 class SignUpPageObject extends PageObject {
-  url = '/register';
-
-  get usernameField() {
-    return cy.get('[data-qa="username-input"]');
-  }
-
-  get emailField() {
-    return cy.get('[data-qa="email-input"]');
-  }
-
-  get passwordField() {
-    return cy.get('[data-qa="password-input"]');
-  }
-
-  get signUpBtn() {
-    return cy.get('[data-qa="signup-button"]');
+  constructor() {
+    super();
+    this.url = '/register';
+    this.usernameField = () => cy.get('[data-qa="signup-username"]');
+    this.emailField = () => cy.get('[data-qa="signup-email"]');
+    this.passwordField = () => cy.get('[data-qa="signup-password"]');
+    this.signUpBtn = () => cy.get('[data-qa="sign-up-btn"]');
   }
 
   visitPage() {
-    this.visit(this.url);
+    super.visit(this.url);
   }
 
   typeUsername(username) {
-    this.usernameField.clear().type(username);
+    this.usernameField().clear().type(username);
   }
 
   typeEmail(email) {
-    this.emailField.clear().type(email);
+    this.emailField().clear().type(email);
   }
 
   typePassword(password) {
-    this.passwordField.clear().type(password);
+    this.passwordField().clear().type(password);
   }
 
   clickSignUpBtn() {
-    this.signUpBtn.click();
+    this.signUpBtn().should('be.visible').click();
+  }
+
+  assertSignedUp(username) {
+    cy.get('[data-qa="profile-link"]').should('contain.text', username);
   }
 }
 

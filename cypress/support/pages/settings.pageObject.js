@@ -1,62 +1,50 @@
 import PageObject from '../PageObject';
 
 class SettingsPageObject extends PageObject {
-  url = '/settings';
-
-  get usernameField() {
-    return cy.get('[data-qa="username-input"]');
-  }
-
-  get bioField() {
-    return cy.get('[data-qa="bio-input"]');
-  }
-
-  get emailField() {
-    return cy.get('[data-qa="email-input"]');
-  }
-
-  get passwordField() {
-    return cy.get('[data-qa="password-input"]');
-  }
-
-  get updateBtn() {
-    return cy.get('[data-qa="update-settings"]');
-  }
-
-  get logoutBtn() {
-    return cy.get('[data-qa="logout"]');
+  constructor() {
+    super();
+    this.url = '/settings';
+    this.usernameField = () => cy.get('[data-qa="settings-username"]');
+    this.bioField = () => cy.get('[data-qa="settings-bio"]');
+    this.emailField = () => cy.get('[data-qa="settings-email"]');
+    this.passwordField = () => cy.get('[data-qa="settings-password"]');
+    this.updateBtn = () => cy.get('[data-qa="update-btn"]');
   }
 
   visitPage() {
-    this.visit(this.url);
+    super.visit(this.url);
   }
 
   updateUsername(username) {
-    this.usernameField.clear().type(username);
-    this.updateBtn.click();
+    this.usernameField().clear().type(username);
+    this.updateBtn().click();
   }
 
   updateBio(bio) {
-    this.bioField.clear().type(bio);
-    this.updateBtn.click();
+    this.bioField().clear().type(bio);
+    this.updateBtn().click();
   }
 
   updateEmail(email) {
-    this.emailField.clear().type(email);
-    this.updateBtn.click();
+    this.emailField().clear().type(email);
+    this.updateBtn().click();
   }
 
   updatePassword(password) {
-    this.passwordField.clear().type(password);
-    this.updateBtn.click();
-  }
-
-  logout() {
-    this.logoutBtn.click();
+    this.passwordField().clear().type(password);
+    this.updateBtn().click();
   }
 
   assertUsername(username) {
-    cy.contains('[data-qa="profile-link"]', username).should('be.visible');
+    cy.get('[data-qa="profile-link"]').should('contain.text', username);
+  }
+
+  assertBio(bio) {
+    this.bioField().should('have.value', bio);
+  }
+
+  assertEmail(email) {
+    this.emailField().should('have.value', email);
   }
 }
 
