@@ -1,32 +1,50 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-describe('Settings page', () => {
-  before(() => {
+import SettingsPage from '../support/pages/SettingsPage';
+import SignInPage from '../support/pages/SignInPage';
+import { faker } from '@faker-js/faker';
 
-  });
+describe('Settings page tests', () => {
+  const settingsPage = new SettingsPage();
+  const signInPage = new SignInPage();
+  const user = {
+    email: 'testuser@example.com',
+    password: 'Test@1234'
+  };
 
   beforeEach(() => {
-
+    cy.task('db:clear'); // czyszczenie bazy danych
+    signInPage.visit();
+    signInPage.signIn(user.email, user.password);
   });
 
-  it('should provide an ability to update username', () => {
-
+  it('should update username', () => {
+    const newUsername = faker.internet.userName();
+    settingsPage.updateUsername(newUsername);
+    settingsPage.assertUsernameUpdated(newUsername);
   });
 
-  it('should provide an ability to update bio', () => {
-
+  it('should update bio', () => {
+    const newBio = faker.lorem.sentence();
+    settingsPage.updateBio(newBio);
+    settingsPage.assertBioUpdated(newBio);
   });
 
-  it('should provide an ability to update an email', () => {
-
+  it('should update email', () => {
+    const newEmail = faker.internet.email();
+    settingsPage.updateEmail(newEmail);
+    settingsPage.assertEmailUpdated(newEmail);
   });
 
-  it('should provide an ability to update password', () => {
-
+  it('should update password', () => {
+    const newPassword = 'NewPass@123';
+    settingsPage.updatePassword(newPassword);
+    settingsPage.assertPasswordUpdated(newPassword); // np. poprzez wylogowanie i ponowne logowanie
   });
 
-  it('should provide an ability to log out', () => {
-
+  it('should log out', () => {
+    settingsPage.logOut();
+    cy.url().should('include', '/login'); // sprawdzamy, że użytkownik został wylogowany
   });
 });
