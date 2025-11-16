@@ -1,18 +1,18 @@
 import PageObject from '../PageObject';
 
 class SignInPageObject extends PageObject {
-  url = '/#/login';
+  url = '/user/login';
 
   get emailField() {
-    return cy.getByDataCy('email-sign-in');
+    return cy.getByPlaceholder('Email');
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+    return cy.getByPlaceholder('Password');
   }
 
   get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+    return cy.contains('.btn', 'Sign in');
   }
 
   typeEmail(email) {
@@ -28,6 +28,12 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  assertErrorMessage() {
+    return cy.contains('li', 'email or password:')
+      .contains('li', 'is invalid')
+      .should('exist');
   }
 }
 
