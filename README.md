@@ -7,6 +7,9 @@
 1. Run `npm i`.
 1. Create a new branch `git checkout -b e2e_testing`.
 1. Run the [app](./DEV.md).
+  Docker should be running.
+  1st terminal - `docker compose run --rm drash bash -c "cd /var/www/src && npm run webpack"`
+  2nd terminal - `docker compose up`
 1. Resolve tasks.
 1. Check yourself before submitting the task with a [Cypress checklist](https://mate-academy.github.io/qa-program/checklists/cypress.html).
 1. Create a pull request.
@@ -16,18 +19,18 @@
 
 Go to `e2e` folder and cover listed functionality with e2e tests:
 
-- creating an article;
-- editings an article;
-- deleting an article;
-- sign in (positive);
-- sign in (invalid credentials);
-- sign up (positive);
-- sign up (negative);
-- following/unfollowing the user;
-- updating bio;
-- updating username;
-- updating email;
-- updating password.
+- creating an article;✅
+- editings an article;✅
+- deleting an article;✅
+- sign in (positive);✅
+- sign in (invalid credentials);✅
+- sign up (positive);✅
+- sign up (negative);✅
+- following/unfollowing the user;✅
+- updating bio;✅
+- updating username;✅
+- updating email;✅
+- updating password.✅
 
 ### Basics level
 

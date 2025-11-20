@@ -29,6 +29,18 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    let nonRegisteredUser;
+
+    cy.task('generateUser').then((generateUser) => {
+      nonRegisteredUser = generateUser;
+
+      signInPage.typeEmail(nonRegisteredUser.email);
+      signInPage.typePassword(nonRegisteredUser.password);
+      signInPage.clickSignInBtn();
+
+      cy.get('.login-failed').should('be.visible');
+    });
   });
 });

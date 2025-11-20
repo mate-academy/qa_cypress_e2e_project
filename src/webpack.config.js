@@ -32,12 +32,17 @@ module.exports = (envVars) => {
         // this will apply to both plain `.css` files
         // AND `<style>` blocks in `.vue` files
         {
-          test: /\.scss$/,
-          use: [
-            "style-loader", // creates style nodes from JS strings
-            "css-loader", // translates CSS into CommonJS
-            "sass-loader", // compiles Sass to CSS, using Node Sass by default
-          ],
+  test: /\.scss$/,
+  use: [
+    "style-loader",
+    "css-loader",
+    {
+      loader: "sass-loader",
+      options: {
+        implementation: require("sass"),  // ✅ явно вказуємо sass
+      }
+    }
+  ],
         },
       ],
     },
