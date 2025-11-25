@@ -2,7 +2,20 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint .",
-    "test": "cypress run --browser chrome"
+    "test": "cypress run --browser chrome",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "test:edge": "cypress run --browser edge",
+    "test:headed": "cypress run --headed",
+    "test:ui": "cypress open",
+    "test:smoke": "cypress run --env grepTags=@smoke",
+    "test:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'",
+    "test:ui:chrome": "cypress run --browser chrome --spec 'cypress/e2e/ui/**/*.cy.js'",
+    "test:report": "cypress run --reporter mochawesome",
+    "cy:verify": "cypress verify",
+    "cy:version": "cypress version",
+    "cy:info": "cypress info",
+    "cy:cache:list": "cypress cache list"
   },
   "dependencies": {
     "cypress-image-snapshot": "^4.0.1",
