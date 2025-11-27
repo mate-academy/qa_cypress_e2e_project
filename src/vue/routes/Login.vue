@@ -9,7 +9,7 @@
               Need an account?
             </router-link>
           </p>
-          <ul v-if="errors" class="error-messages">
+          <ul v-if="errors" class="error-messages" data-cy="login-error">
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
           <form @submit.prevent="onSubmit(email, password)">
