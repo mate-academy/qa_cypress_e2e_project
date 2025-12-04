@@ -31,11 +31,12 @@ class ArticlePageObject extends PageObject {
   }
 
   assertArticleExists(title) {
-    cy.contains(title).should('exist');
+    // используем data-qa для заголовка статьи
+    cy.get('[data-qa=article-title-display]').should('contain.text', title);
   }
 
   assertArticleNotExists(title) {
-    cy.contains(title).should('not.exist');
+    cy.get('[data-qa=article-title-display]').should('not.contain.text', title);
   }
 }
 

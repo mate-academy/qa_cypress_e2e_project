@@ -10,15 +10,13 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
-    cy.task('db:clear'); // очищаем базу один раз перед всеми тестами
-  });
-
   beforeEach(() => {
-    // Генерируем нового пользователя перед каждым тестом
+    // Очищаем базу перед каждым тестом
+    cy.task('db:clear');
+
+    // Генерируем и регистрируем нового пользователя перед каждым тестом
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
-      // Регистрируем пользователя перед каждым тестом
       cy.register(user.email, user.username, user.password);
     });
   });
@@ -41,7 +39,7 @@ describe('Sign In page', () => {
     signInPage.typePassword('wrongPassword');
     signInPage.clickSignInBtn();
 
-    // Проверка, что появилось сообщение об ошибке
+    // Проверка сообщения об ошибке
     cy.get('[data-qa=error-messages]')
       .should('be.visible')
       .and('contain', 'email or password is invalid');

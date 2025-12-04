@@ -9,20 +9,17 @@ const settingsPage = new SettingsPageObject();
 describe('Settings page', () => {
   let user;
 
-  before(() => {
-    // Очищаем базу данных перед тестами
+  beforeEach(() => {
+    // Очищаем базу перед каждым тестом
     cy.task('db:clear');
 
-    // Генерируем нового пользователя для тестов
+    // Генерируем и регистрируем нового пользователя
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
+      cy.register(user.email, user.username, user.password);
+      cy.login(user.email, user.password);
+      settingsPage.visit();
     });
-  });
-
-  beforeEach(() => {
-    // Логиним пользователя перед каждым тестом
-    cy.login(user.email, user.password);
-    settingsPage.visit();
   });
 
   it('should provide an ability to update username', () => {
@@ -50,7 +47,6 @@ describe('Settings page', () => {
     const newPassword = faker.internet.password();
     settingsPage.typePassword(newPassword);
     settingsPage.clickUpdateSettings();
-    // После изменения пароля пробуем заново войти
     cy.logout();
     cy.login(user.email, newPassword);
     settingsPage.assertLoggedIn();

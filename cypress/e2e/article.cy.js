@@ -1,41 +1,58 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
+import { faker } from '@faker-js/faker';
 import ArticlePageObject from '../support/pages/article.pageObject';
 
 const articlePage = new ArticlePageObject();
 
 describe('Article tests', () => {
-  before(() => {
-    cy.registerAndLogin('testuser', 'testuser@example.com', 'password123');
-  });
+  let user;
+  let title;
+  let description;
+  let body;
 
   beforeEach(() => {
     cy.task('db:clear');
-    cy.login('testuser@example.com', 'password123');
+
+    // Генерация пользователя
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
+      cy.register(user.email, user.username, user.password);
+      cy.login(user.email, user.password);
+    });
+
+    // Генерация случайных данных для статьи
+    title = faker.lorem.words(5);
+    description = faker.lorem.sentence();
+    body = faker.lorem.paragraphs(2);
+
     cy.visit('/');
   });
 
   it('should create a new article', () => {
     articlePage.visitNewArticle();
-    articlePage.typeTitle('My Test Article');
-    articlePage.typeDescription('Article description');
-    articlePage.typeBody('This is the content of the article.');
+    articlePage.typeTitle(title);
+    articlePage.typeDescription(description);
+    articlePage.typeBody(body);
     articlePage.publishArticle();
-    articlePage.assertArticleExists('My Test Article');
+    articlePage.assertArticleExists(title);
   });
 
   it('should edit an article', () => {
-    cy.createArticle('Original Article', 'Desc', 'Body');
+    cy.createArticle(title, description, body);
+
+    const newTitle = faker.lorem.words(5);
+
     articlePage.editArticle();
-    articlePage.typeTitle('Edited Article');
+    articlePage.typeTitle(newTitle);
     articlePage.publishArticle();
-    articlePage.assertArticleExists('Edited Article');
+    articlePage.assertArticleExists(newTitle);
   });
 
   it('should delete an article', () => {
-    cy.createArticle('Delete Me', 'Desc', 'Body');
+    cy.createArticle(title, description, body);
     articlePage.deleteArticle();
-    articlePage.assertArticleNotExists('Delete Me');
+    articlePage.assertArticleNotExists(title);
   });
 });

@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable no-trailing-spaces */
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
@@ -14,30 +13,27 @@ describe('User', () => {
   let anotherUser;
 
   beforeEach(() => {
-    // Очищаем базу перед каждым тестом
     cy.task('db:clear');
 
     // Генерация и регистрация основного пользователя
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
-      cy.register(user.email, user.username, user.password);
-    });
-
-    // Генерация и регистрация другого пользователя
-    cy.task('generateUser').then((generatedAnotherUser) => {
-      anotherUser = generatedAnotherUser;
-      cy.register(anotherUser.email, anotherUser.username, anotherUser.password);
+      cy.register(user.email, user.username, user.password).then(() => {
+        // Генерация и регистрация второго пользователя после регистрации первого
+        cy.task('generateUser').then((generatedAnotherUser) => {
+          anotherUser = generatedAnotherUser;
+          cy.register(anotherUser.email, anotherUser.username, anotherUser.password);
+        });
+      });
     });
   });
 
   it('should be able to follow and unfollow another user', () => {
-    // Вход в аккаунт основного пользователя
     signInPage.visit();
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
 
-    // Переход на профиль другого пользователя
     profilePage.visitProfile(anotherUser.username);
 
     // Подписка
