@@ -29,6 +29,19 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
 
+    // Попытка входа с неверным паролем
+    signInPage.typeEmail(user.email);
+    signInPage.typePassword('wrongPassword');
+    signInPage.clickSignInBtn();
+
+    // Проверка, что появилось сообщение об ошибке
+    cy.get('[data-qa=error-messages]')
+      .should('be.visible')
+      .and('contain', 'email or password is invalid');
+
+    // Проверка, что мы не попали на главную страницу
+    cy.url().should('not.include', '/');
   });
 });
