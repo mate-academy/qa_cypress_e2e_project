@@ -11,15 +11,20 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.task('db:clear'); // очищаем базу один раз перед всеми тестами
+  });
+
+  beforeEach(() => {
+    // Генерируем нового пользователя перед каждым тестом
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
+      // Регистрируем пользователя перед каждым тестом
+      cy.register(user.email, user.username, user.password);
     });
   });
 
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);

@@ -11,10 +11,10 @@ const homePage = new HomePageObject();
 describe('Sign Up page', () => {
   let user;
 
-  before(() => {
-    // Очистка базы перед тестами
+  beforeEach(() => {
+    // Очистка базы перед каждым тестом
     cy.task('db:clear');
-    // Генерация пользователя для теста
+    // Генерация нового пользователя для теста
     cy.task('generateUser').then((generatedUser) => {
       user = generatedUser;
     });
@@ -33,18 +33,20 @@ describe('Sign Up page', () => {
   });
 
   it('should not allow a user to register with existing email', () => {
+    // Создаем пользователя через API или команду регистрации
+    cy.register(user.email, user.username, user.password);
+
     signUpPage.visit();
 
-    // Используем тот же email, чтобы проверить негативный сценарий
+    // Пытаемся зарегистрироваться с тем же email
     signUpPage.typeUsername('anotherUser');
     signUpPage.typeEmail(user.email);
     signUpPage.typePassword('anotherPassword123');
     signUpPage.clickSignUpBtn();
 
-    // Проверяем, что появилось сообщение об ошибке
+    // Проверяем сообщение об ошибке
     cy.get('[data-qa=error-messages]')
       .should('be.visible')
       .and('contain', 'email has already been taken');
   });
 });
-
