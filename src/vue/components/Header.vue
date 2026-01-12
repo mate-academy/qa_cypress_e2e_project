@@ -11,6 +11,7 @@
             active-class="active"
             exact
             :to="{ name: 'home' }"
+            data-qa="header-home-btn"
           >
             Home
           </router-link>
@@ -21,6 +22,7 @@
             active-class="active"
             exact
             :to="{ name: 'login' }"
+            data-qa="header-sign-in-btn"
           >
             <i class="ion-compose"></i>Sign in
           </router-link>
@@ -31,6 +33,7 @@
             active-class="active"
             exact
             :to="{ name: 'register' }"
+            data-qa="header-sign-up-btn"
           >
             <i class="ion-compose"></i>Sign up
           </router-link>
@@ -42,6 +45,7 @@
             class="nav-link"
             active-class="active"
             exact
+            data-qa="home"
             :to="{ name: 'home' }"
           >
             Home
@@ -51,9 +55,10 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="new-article-link"
             :to="{
               name: 'article-edit',
-              params: { new: true }
+              params: { new: true },
             }"
           >
             <i class="ion-compose"></i>&nbsp;New Article
@@ -65,19 +70,20 @@
             active-class="active"
             exact
             :to="{ name: 'settings' }"
+            data-qa="settings"
           >
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
             :to="{
               name: 'profile',
-              params: { username: user.username }
+              params: { username: user.username },
             }"
           >
             {{ user.username }}
@@ -93,7 +99,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapGetters(["user", "is_authenticated"])
-  }
+    ...mapGetters(["user", "is_authenticated"]),
+  },
 };
 </script>

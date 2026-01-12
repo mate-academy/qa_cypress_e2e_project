@@ -2,8 +2,8 @@
   <div class="article-preview">
     <ArticleMeta :article="article" />
     <router-link :to="articleLink" class="preview-link">
-      <h1 v-text="article.title" />
-      <p v-text="article.description" />
+      <h1 v-text="article.title" data-qa="preview-title" />
+      <p v-text="article.description" data-qa="preview-description" />
       <span>Read more...</span>
       <TagList :tags="article.tags" />
     </router-link>
@@ -18,23 +18,23 @@ export default {
   name: "ArticlePreview",
   components: {
     ArticleMeta,
-    TagList
+    TagList,
   },
   props: {
     article: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     articleLink() {
       return {
         name: "article",
         params: {
-          slug: this.article.slug
-        }
+          slug: this.article.slug,
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

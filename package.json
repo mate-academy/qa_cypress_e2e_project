@@ -2,7 +2,10 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint .",
-    "test": "cypress run --browser chrome"
+    "test": "cypress run --browser chrome",
+    "cypress": "npx cypress open",
+    "docker": "docker-compose build && docker-compose up"
+
   },
   "dependencies": {
     "cypress-image-snapshot": "^4.0.1",

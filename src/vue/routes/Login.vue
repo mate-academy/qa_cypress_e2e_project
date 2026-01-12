@@ -19,7 +19,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
-                data-cy="email-sign-in"
+                data-qa="email-sign-in"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,10 +28,13 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="password-sign-in"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-qa="sign-in-btn"
+            >
               Sign in
             </button>
           </form>
@@ -50,13 +53,11 @@ export default {
   data() {
     return {
       email: null,
-      password: null
+      password: null,
     };
   },
   computed: {
-    ...mapGetters([
-      "errors",
-    ])
+    ...mapGetters(["errors"]),
   },
   mounted() {
     console.log("Login.vue mounted!");
@@ -64,9 +65,21 @@ export default {
   methods: {
     async onSubmit(email, password) {
       swal({
-          text: "Logging you in... Please wait...",
-          buttons: false,
-        });
+        text: "Logging you in... Please wait...",
+        buttons: false,
+      });
+
+      setTimeout(() => {
+        const swalModal = document.querySelector(".swal-modal");
+        if (swalModal) {
+          swalModal.setAttribute("data-cy", "login-loading-modal");
+        }
+
+        const swalText = document.querySelector(".swal-text");
+        if (swalText) {
+          swalText.setAttribute("data-cy", "login-status-text");
+        }
+      }, 50);
 
       let response = await this.$store.dispatch("logIn", { email, password });
 
@@ -78,9 +91,14 @@ export default {
       swal({
         title: "Login failed!",
         text: response.errors.body.join(" "),
-        icon: "error"
+        icon: "error",
+      }).then(() => {
+        const errorModal = document.querySelector(".swal-modal");
+        if (errorModal) {
+          errorModal.setAttribute("data-cy", "login-error-modal");
+        }
       });
-    }
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -88,6 +106,6 @@ export default {
       vm.email = null;
       vm.password = null;
     });
-  }
+  },
 };
 </script>

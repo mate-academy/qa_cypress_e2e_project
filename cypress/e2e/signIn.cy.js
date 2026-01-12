@@ -3,32 +3,32 @@
 
 import SignInPageObject from '../support/pages/signIn.pageObject';
 import HomePageObject from '../support/pages/home.pageObject';
+import generateUser from '../support/utils/generateUser';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
-  let user;
-
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
-    });
+    signInPage.visit();
   });
 
   it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
+    const { username, email, password } = generateUser();
+    cy.register(email, username, password);
+    signInPage.typeEmail(email);
+    signInPage.typePassword(password);
     signInPage.clickSignInBtn();
 
-    homePage.assertHeaderContainUsername(user.username);
+    homePage.assertHeaderContainUsername(username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
-
-  });
+  it('should not provide an ability to log in with wrong credentials',
+    () => {
+      signInPage.typeEmail('wrongMail@example.com');
+      signInPage.typePassword('WrongPassword!!!');
+      signInPage.clickSignInBtn();
+      signInPage.assertSignInError();
+    });
 });

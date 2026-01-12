@@ -18,3 +18,13 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// Ignore vue-router "Navigation cancelled" errors which are expected
+// when a new navigation interrupts a previous one during tests.
+Cypress.on('uncaught:exception', (err) => {
+  if (err && err.message && err.message.includes('Navigation cancelled')) {
+    return false;
+  }
+  // Let other errors fail the test
+  return true;
+});
