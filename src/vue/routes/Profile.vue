@@ -6,11 +6,12 @@
           <div class="col-xs-12 col-md-10 offset-md-1">
             <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+            <p data-qa="user-bio">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
                 :to="{ name: 'settings' }"
+                data-qa="edit-profile-settings-btn"
               >
                 <i class="ion-gear-a"></i> Edit Profile Settings
               </router-link>
@@ -20,6 +21,7 @@
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-qa="unfollow-btn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
@@ -28,6 +30,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-qa="follow-btn"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}

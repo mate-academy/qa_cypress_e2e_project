@@ -55,6 +55,7 @@
               name: 'article-edit',
               params: { new: true }
             }"
+            data-qa="new-article-btn"
           >
             <i class="ion-compose"></i>&nbsp;New Article
           </router-link>

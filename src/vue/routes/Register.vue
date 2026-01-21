@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa="username-register"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="email-register"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa="password-register"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="sign-up-btn">
               Sign up
             </button>
           </form>
@@ -89,6 +92,9 @@ export default {
               title: "Welcome!",
               text: "Your registration was successful!",
               icon: "success",
+              didOpen: (modal) => {
+                modal.setAttribute('data-qa', 'success-alert');
+              }
             });
             return this.$router.push({ name: "home" });
           }
@@ -100,7 +106,10 @@ export default {
           swal({
             title: "Registration failed!",
             text: error,
-            icon: "error"
+            icon: "error",
+            didOpen: (modal) => {
+              modal.setAttribute('data-qa', 'error-alert');
+            }
           });
         });
     }
