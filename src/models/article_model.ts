@@ -1,26 +1,26 @@
-import BaseModel from "./base_model.ts";
-import type { UserEntity, UserModel } from "./user_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts'
+import { UserEntity, UserModel } from './user_model.ts'
+import { QueryResult } from '../deps.ts'
 
-export type ArticleEntity = {
-  author?: UserEntity | null;
-  author_id: number;
-  body: string;
-  created_at: number;
-  description: string;
-  favorited: boolean;
-  favoritesCount: number;
-  id?: number;
-  slug?: string;
-  title: string;
-  updated_at: number;
-  tags?: string;
-};
+export interface ArticleEntity {
+  author?: UserEntity | null
+  author_id: number
+  body: string
+  created_at: number
+  description: string
+  favorited: boolean
+  favoritesCount: number
+  id?: number
+  slug?: string
+  title: string
+  updated_at: number
+  tags?: string
+}
 
-export type Filters = {
-  author?: UserModel | null;
-  offset?: number;
-};
+export interface Filters {
+  author?: UserModel | null
+  offset?: number
+}
 
 /**
  * @description
@@ -30,7 +30,7 @@ export type Filters = {
  *
  * @return ArticleModel
  */
-export function createArticleModelObject(article: ArticleEntity): ArticleModel {
+export function createArticleModelObject (article: ArticleEntity): ArticleModel {
   return new ArticleModel(
     article.author_id,
     article.title,
@@ -40,16 +40,16 @@ export function createArticleModelObject(article: ArticleEntity): ArticleModel {
     article.slug,
     article.created_at,
     article.updated_at,
-    article.id,
-  );
+    article.id
+  )
 }
 
 // (ebebbington) Error comes from this model adding the where method, that uses different
 // params compared to BaseModel's where method
 export class ArticleModel extends BaseModel {
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - PROPERTIES //////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @var number
@@ -131,9 +131,9 @@ export class ArticleModel extends BaseModel {
    */
   public updated_at: number;
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - CONSTRCUTOR /////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @param number authorId
@@ -146,16 +146,16 @@ export class ArticleModel extends BaseModel {
    * @param number updatedAt=Date
    * @param number id=-1
    */
-  constructor(
+  constructor (
     authorId: number,
     title: string,
     description: string,
     body: string,
-    tags: string = "",
-    slug: string = "",
+    tags: string = '',
+    slug: string = '',
     createdAt: number = Date.now(),
     updatedAt: number = Date.now(),
-    id: number = -1,
+    id: number = -1
   ) {
     super();
     this.id = id;
@@ -169,23 +169,23 @@ export class ArticleModel extends BaseModel {
     this.updated_at = updatedAt;
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - CRUD //////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * Delete this model.
    *
    * @return Promise<boolean>
    */
-  public async delete(): Promise<boolean> {
-    let query = `DELETE FROM articles WHERE id = ?`;
+  public async delete (): Promise<boolean> {
+    let query = 'DELETE FROM articles WHERE id = ?'
     query = this.prepareQuery(
       query,
       [
-        String(this.id),
-      ],
-    );
+        String(this.id)
+      ]
+    )
 
     try {
       const client = await BaseModel.connect();
@@ -206,16 +206,16 @@ export class ArticleModel extends BaseModel {
    *
    * @return Promise<ArticleModel|[]> The saved article, else [] if failure to save
    */
-  public async save(): Promise<ArticleModel | []> {
+  public async save (): Promise<ArticleModel | []> {
     // If this model already has an ID, then that means we're updating the model
     if (this.id != -1) {
-      return this.update();
+      return await this.update();
     }
 
     // TODO(ebebbington) Dont allow duplicate aerticles, because the slug is just the article name
-    let query = "INSERT INTO articles " +
-      " (author_id, title, description, body, slug, created_at, updated_at, tags)" +
-      " VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?), ?);";
+    let query = 'INSERT INTO articles ' +
+      ' (author_id, title, description, body, slug, created_at, updated_at, tags)' +
+      ' VALUES (?, ?, ?, ?, ?, to_timestamp(?), to_timestamp(?), ?);'
     query = this.prepareQuery(
       query,
       [
@@ -226,14 +226,14 @@ export class ArticleModel extends BaseModel {
         this.createSlug(this.title),
         String(Date.now() / 1000.00),
         String(Date.now() / 1000.00),
-        this.tags,
-      ],
-    );
+        this.tags
+      ]
+    )
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
     client.release();
-    if (dbResult!.rowCount! < 1) {
+    if (dbResult.rowCount! < 1) {
       return [];
     }
 
@@ -250,9 +250,9 @@ export class ArticleModel extends BaseModel {
    *
    * @return Promise<ArticleModel|[]> The updated article, else [] if it failed to update
    */
-  public async update(): Promise<ArticleModel | []> {
-    let query = "UPDATE articles SET " +
-      "title = ?, description = ?, body = ?, updated_at = to_timestamp(?), tags = ? " +
+  public async update (): Promise<ArticleModel | []> {
+    let query = 'UPDATE articles SET ' +
+      'title = ?, description = ?, body = ?, updated_at = to_timestamp(?), tags = ? ' +
       `WHERE id = '${this.id}';`;
     query = this.prepareQuery(
       query,
@@ -261,9 +261,9 @@ export class ArticleModel extends BaseModel {
         this.description,
         this.body,
         String(Date.now()),
-        this.tags,
-      ],
-    );
+        this.tags
+      ]
+    )
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
     if (dbResult.rowCount! < 1) {
@@ -279,9 +279,9 @@ export class ArticleModel extends BaseModel {
     return updatedResult[0];
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - STATIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * Get all records--filtered or unfiltered.
@@ -290,8 +290,8 @@ export class ArticleModel extends BaseModel {
    *
    * @return Promise<ArticleMode[]|[]>
    */
-  static async all(filters: Filters): Promise<ArticleModel[] | []> {
-    let query = "SELECT * FROM articles ";
+  static async all (filters: Filters): Promise<ArticleModel[] | []> {
+    let query = 'SELECT * FROM articles '
     if (filters.author) {
       query += ` WHERE author_id = '${filters.author.id}' `;
     }
@@ -307,38 +307,88 @@ export class ArticleModel extends BaseModel {
 
     const results = BaseModel.formatResults(
       dbResult.rows,
-      dbResult.rowDescription.columns,
-    );
+      dbResult.rowDescription.columns
+    )
 
     if (results.length === 0) {
       return [];
     }
-    const articles: Array<ArticleModel> = [];
+    const articles: ArticleModel[] = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
-        : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
-      };
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number'
+          ? result.updated_at
+          : 0,
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : ''
+      }
       articles.push(createArticleModelObject(entity));
-    });
+    })
+    return articles;
+  }
+
+  /**
+   * Get all records where author_id is in the provided list.
+   *
+   * @param number[] authorIds
+   *
+   * @return Promise<ArticleModel[]|[]>
+   */
+  static async whereInAuthorIds (
+    authorIds: number[]
+  ): Promise<ArticleModel[] | []> {
+    const results = await BaseModel.WhereIn('articles', {
+      column: 'author_id',
+      values: authorIds
+    })
+
+    if (results.length === 0) {
+      return [];
+    }
+
+    const articles: ArticleModel[] = [];
+    results.forEach((result) => {
+      const entity: ArticleEntity = {
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
+          ? result.created_at
+          : 0,
+        description: typeof result.description === 'string'
+          ? result.description
+          : '',
+        favorited: typeof result.favorited === 'boolean'
+          ? result.favorited
+          : false,
+        favoritesCount: typeof result.favoritesCount === 'number'
+          ? result.favoritesCount
+          : 0,
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number'
+          ? result.updated_at
+          : 0,
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : ''
+      }
+      articles.push(createArticleModelObject(entity));
+    })
     return articles;
   }
 
@@ -350,41 +400,42 @@ export class ArticleModel extends BaseModel {
    *
    * @return Promise<ArticleModel[]|[]>
    */
-  static async where(
-    fields: { [key: string]: string | number },
+  static async where (
+    fields: Record<string, string | number>
   ): Promise<ArticleModel[] | []> {
-    const results = await BaseModel.Where("articles", fields);
+    const results = await BaseModel.Where('articles', fields);
 
     if (results.length <= 0) {
       return [];
     }
 
-    const articles: Array<ArticleModel> = [];
+    const articles: ArticleModel[] = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
-        : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
-      };
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number'
+          ? result.updated_at
+          : 0,
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : ''
+      }
       articles.push(createArticleModelObject(entity));
-    });
+    })
     return articles;
   }
 
@@ -397,56 +448,57 @@ export class ArticleModel extends BaseModel {
    *
    * @return Promise<ArticleModel[]|[]>
    */
-  static async whereIn(
+  static async whereIn (
     column: string,
-    values: string[] | number[],
+    values: string[] | number[]
   ): Promise<ArticleModel[] | []> {
-    const results = await BaseModel.WhereIn("articles", {
+    const results = await BaseModel.WhereIn('articles', {
       column,
-      values,
-    });
+      values
+    })
 
     if (results.length <= 0) {
       return [];
     }
 
-    const articles: Array<ArticleModel> = [];
+    const articles: ArticleModel[] = [];
     results.forEach((result) => {
       const entity: ArticleEntity = {
-        id: typeof result.id === "number" ? result.id : 0,
-        body: typeof result.body === "string" ? result.body : "",
-        author_id: typeof result.author_id === "number" ? result.author_id : 0,
-        created_at: typeof result.created_at === "number"
+        id: typeof result.id === 'number' ? result.id : 0,
+        body: typeof result.body === 'string' ? result.body : '',
+        author_id: typeof result.author_id === 'number' ? result.author_id : 0,
+        created_at: typeof result.created_at === 'number'
           ? result.created_at
           : 0,
-        description: typeof result.description === "string"
+        description: typeof result.description === 'string'
           ? result.description
-          : "",
-        favorited: typeof result.favorited === "boolean"
+          : '',
+        favorited: typeof result.favorited === 'boolean'
           ? result.favorited
           : false,
-        favoritesCount: typeof result.favoritesCount === "number"
+        favoritesCount: typeof result.favoritesCount === 'number'
           ? result.favoritesCount
           : 0,
-        title: typeof result.title === "string" ? result.title : "",
-        updated_at: typeof result.updated_at === "number" ? result.updated_at
-        : 0,
-        tags: typeof result.tags === "string" ? result.tags : "",
-        slug: typeof result.slug === "string" ? result.slug : "",
-      };
+        title: typeof result.title === 'string' ? result.title : '',
+        updated_at: typeof result.updated_at === 'number'
+          ? result.updated_at
+          : 0,
+        tags: typeof result.tags === 'string' ? result.tags : '',
+        slug: typeof result.slug === 'string' ? result.slug : ''
+      }
       articles.push(createArticleModelObject(entity));
-    });
+    })
     return articles;
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PUBLIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @return ArticleEntity
    */
-  public toEntity(): ArticleEntity {
+  public toEntity (): ArticleEntity {
     return {
       id: this.id,
       author_id: this.author_id,
@@ -458,13 +510,13 @@ export class ArticleModel extends BaseModel {
       tags: this.tags,
       slug: this.slug,
       created_at: this.created_at,
-      updated_at: this.updated_at,
-    };
+      updated_at: this.updated_at
+    }
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PROTECTED /////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * Create a slug based on the given title.
@@ -473,9 +525,9 @@ export class ArticleModel extends BaseModel {
    *
    * @return string
    */
-  protected createSlug(title: string): string {
+  protected createSlug (title: string): string {
     return title.toLowerCase()
-      .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/\s/g, "-");
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s/g, '-')
   }
 }

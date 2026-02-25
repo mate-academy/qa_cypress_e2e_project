@@ -15,6 +15,10 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get swalText() {
+    return cy.get('.swal-text');
+  }
+
   typeEmail(email) {
     this.emailField
       .type(email);
@@ -28,6 +32,16 @@ class SignInPageObject extends PageObject {
   clickSignInBtn() {
     this.signInBtn
       .click();
+  }
+
+  login(email, password) {
+    this.typeEmail(email);
+    this.typePassword(password);
+    this.clickSignInBtn();
+  }
+
+  assertSwalContainInvUser() {
+    this.swalText.should('contain', 'Invalid user credentials.');
   }
 }
 

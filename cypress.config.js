@@ -13,10 +13,12 @@ module.exports = defineConfig({
       on('task', {
         generateUser() {
           const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const bioText = faker.lorem.lines({ min: 1, max: 3 });
           return {
             username: faker.person.firstName() + `${randomNumber}`,
+            bio: bioText,
             email: 'test' + `${randomNumber}` + '@mail.com',
-            password: '12345Qwert!'
+            password: `${randomNumber}Qwert!`
           };
         },
         generateArticle() {
