@@ -1,11 +1,11 @@
 <template>
   <!-- Used when user is also author -->
   <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink" data-cy="article-edit">
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle" data-cy="article-delete">
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
@@ -53,10 +53,11 @@ export default {
     },
     followUserLabel() {
       if (this.article && this.article.author) {
-        return `${this.profile.following ? "Unfollow" : "Follow"} ${
+        return `${this.article.author.following ? "Unfollow" : "Follow"} ${
           this.article.author.username
         }`;
       }
+      return "";
     },
     toggleFavoriteButtonClasses() {
       return {
@@ -111,9 +112,11 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
+      if (!this.article || !this.article.author) return;
+      const action = this.article.author.following ? "unset" : "set";
       this.$store.dispatch("setFollowProfile", {
-        username: this.profile.username,
-        value: !this.article.following
+        username: this.article.author.username,
+        action,
       });
     },
   }

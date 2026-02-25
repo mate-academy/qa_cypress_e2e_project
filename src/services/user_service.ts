@@ -1,5 +1,5 @@
-import UserModel from "../models/user_model.ts";
-import SessionModel from "../models/session_model.ts";
+import UserModel from '../models/user_model.ts'
+import SessionModel from '../models/session_model.ts'
 
 export default class UserService {
   /**
@@ -15,15 +15,15 @@ export default class UserService {
    *       - No session exists with the "drash_sess" cookie
    *       - No user was found with that session
    */
-  static async getLoggedInUser(
-    cookieValue: string,
+  static async getLoggedInUser (
+    cookieValue: string
   ): Promise<UserModel | boolean> {
     const sessionCookie = cookieValue;
     if (!sessionCookie) {
       return false;
     }
-    const sessionOne = sessionCookie.split("|::|")[0];
-    const sessionTwo = sessionCookie.split("|::|")[1];
+    const sessionOne = sessionCookie.split('|::|')[0];
+    const sessionTwo = sessionCookie.split('|::|')[1];
     const session = await SessionModel.getUserSession(sessionOne, sessionTwo);
     if (!session) {
       return false;

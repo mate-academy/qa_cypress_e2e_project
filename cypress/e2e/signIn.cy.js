@@ -9,11 +9,15 @@ const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
   let user;
+  let wrongCred;
 
   before(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
+    });
+    cy.task('generateUser').then((generateUser) => {
+      wrongCred = generateUser;
     });
   });
 
@@ -21,14 +25,22 @@ describe('Sign In page', () => {
     signInPage.visit();
     cy.register(user.email, user.username, user.password);
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
+    signInPage.login(user.email, user.password);
 
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not provide an ability to log in with wrong email', () => {
+    signInPage.visit();
+    signInPage.login(wrongCred.email, user.password);
 
+    signInPage.assertSwalContainInvUser();
+  });
+
+  it('should not provide an ability to log in with wrong password', () => {
+    signInPage.visit();
+    signInPage.login(user.email, wrongCred.password);
+
+    signInPage.assertSwalContainInvUser();
   });
 });

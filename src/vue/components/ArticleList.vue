@@ -91,7 +91,6 @@ export default {
   },
   watch: {
     currentPage(newValue) {
-      this.params.filters.offset = (newValue - 1) * this.itemsPerPage;
       this.fetchArticles();
     },
     type() {
@@ -116,10 +115,9 @@ export default {
   },
   methods: {
     fetchArticles() {
-      this.$store.dispatch("fetchArticles", this.params.filters);
+      this.$store.dispatch("fetchArticles", this.params);
     },
     resetPagination() {
-      this.params.offset = 0;
       this.currentPage = 1;
     }
   }

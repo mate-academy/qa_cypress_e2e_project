@@ -13,7 +13,7 @@ const state = {
     last_login: null,
     password: null,
     username: null,
-    image: null,
+    image: null
   },
   tags: [],
   user: {
@@ -23,8 +23,8 @@ const state = {
     last_login: null,
     password: null,
     username: null,
-    image: null,
-  },
+    image: null
+  }
 };
 
 const getters = {
@@ -66,7 +66,7 @@ const getters = {
 
   user() {
     return state.user;
-  },
+  }
 };
 
 export { getters, state };

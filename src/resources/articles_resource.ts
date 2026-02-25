@@ -1,59 +1,65 @@
-import type { Drash } from "../deps.ts";
-import BaseResource from "./base_resource.ts";
+import { Drash } from '../deps.ts'
+import BaseResource from './base_resource.ts'
 import {
   ArticleEntity,
   ArticleModel,
-  Filters as ArticleFilters,
-} from "../models/article_model.ts";
-import { ArticlesFavoritesModel } from "../models/articles_favorites_model.ts";
-import UserModel from "../models/user_model.ts";
+  Filters as ArticleFilters
+} from '../models/article_model.ts'
+import { ArticlesFavoritesModel } from '../models/articles_favorites_model.ts'
+import UsersFollowsModel from '../models/users_follows_model.ts'
+import UserModel from '../models/user_model.ts'
 
 class ArticlesResource extends BaseResource {
   static paths = [
-    "/articles",
-    "/articles/:slug",
-    "/articles/:slug/favorite",
-  ];
+    '/articles',
+    '/articles/feed',
+    '/articles/:slug',
+    '/articles/:slug/favorite'
+  ]
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - HTTP //////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
-  public async GET(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource GET.");
+  public async GET (): Promise<Drash.Http.Response> {
+    console.log('Handling ArticlesResource GET.')
 
-    if (this.request.getPathParam("slug")) {
+    if (this.request.url_path.includes('/feed')) {
+      return await this.getFeed();
+    }
+
+    if (this.request.getPathParam('slug')) {
       return await this.getArticle();
     }
 
     return await this.getArticles();
   }
 
-  public async POST(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource POST.");
+  public async POST (): Promise<Drash.Http.Response> {
+    console.log('Handling ArticlesResource POST.')
 
-    if (this.request.url_path.includes("/favorite")) {
+    if (this.request.url_path.includes('/favorite')) {
       return await this.toggleFavorite();
     }
 
     return await this.createArticle();
   }
 
-  public async PUT(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource PUT");
+  public async PUT (): Promise<Drash.Http.Response> {
+    console.log('Handling ArticlesResource PUT')
 
     return await this.updateArticle();
   }
 
-  public async DELETE(): Promise<Drash.Http.Response> {
-    console.log("Handling ArticlesResource DELETE");
+  public async DELETE (): Promise<Drash.Http.Response> {
+    console.log('Handling ArticlesResource DELETE')
 
     return await this.deleteArticle();
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PROTECTED /////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @description
@@ -64,20 +70,41 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<ArticleEntity[]>
    */
-  protected async addAuthorsToEntities(
+  protected async addAuthorsToEntities (
     authorIds: number[],
-    entities: ArticleEntity[],
+    entities: ArticleEntity[]
   ): Promise<ArticleEntity[]> {
-    const authors: UserModel[] = await UserModel.whereIn("id", authorIds);
+    const authors: UserModel[] = await UserModel.whereIn('id', authorIds);
+    const currentUser = await this.getCurrentUser();
+    const followsByAuthorId: Record<number, boolean> = {};
+
+    if (currentUser) {
+      try {
+        const follows = await UsersFollowsModel.whereIn(
+          'following_id',
+          authorIds
+        )
+        follows.forEach((follow) => {
+          if (follow.follower_id === currentUser.id && follow.value === true) {
+            followsByAuthorId[follow.following_id] = true;
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     entities.map((entity: ArticleEntity) => {
       authors.forEach((user: UserModel) => {
         if (user.id === entity.author_id) {
-          entity.author = user.toEntity();
+          entity.author = {
+            ...user.toEntity(),
+            following: !!followsByAuthorId[user.id]
+          }
         }
       });
       return entity;
-    });
+    })
 
     return entities;
   }
@@ -91,9 +118,9 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<ArticleEntity[]>
    */
-  protected async addFavoritedToEntities(
+  protected async addFavoritedToEntities (
     articleIds: number[],
-    entities: ArticleEntity[],
+    entities: ArticleEntity[]
   ): Promise<ArticleEntity[]> {
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
@@ -101,7 +128,7 @@ class ArticlesResource extends BaseResource {
     }
 
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
     entities = entities.map((entity: ArticleEntity) => {
       favs.forEach((favorite: ArticlesFavoritesModel) => {
@@ -112,7 +139,7 @@ class ArticlesResource extends BaseResource {
         }
       });
       return entity;
-    });
+    })
 
     return entities;
   }
@@ -126,12 +153,12 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<ArticleEntity[]>
    */
-  protected async addFavoritesCountToEntities(
+  protected async addFavoritesCountToEntities (
     articleIds: number[],
-    entities: ArticleEntity[],
+    entities: ArticleEntity[]
   ): Promise<ArticleEntity[]> {
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
     entities.map((entity: ArticleEntity) => {
       favs.forEach((favorite: ArticlesFavoritesModel) => {
@@ -142,7 +169,7 @@ class ArticlesResource extends BaseResource {
         }
       });
       return entity;
-    });
+    })
 
     return entities;
   }
@@ -162,14 +189,14 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<Drash.Http.Response>
    */
-  protected async updateArticle(): Promise<Drash.Http.Response> {
+  protected async updateArticle (): Promise<Drash.Http.Response> {
     const inputArticle: ArticleEntity | null =
-      this.request.getBodyParam("article")
-        ? (this.request.getBodyParam("article") as ArticleEntity)
+      this.request.getBodyParam('article')
+        ? (this.request.getBodyParam('article') as unknown as ArticleEntity)
         : null;
 
     if (inputArticle === null) {
-      return this.errorResponse(400, "Article parameter must be passed in");
+      return this.errorResponse(400, 'Article parameter must be passed in')
     }
 
     const article: ArticleModel = new ArticleModel(
@@ -181,17 +208,17 @@ class ArticlesResource extends BaseResource {
       inputArticle.slug,
       inputArticle.created_at,
       inputArticle.updated_at,
-      inputArticle.id,
-    );
+      inputArticle.id
+    )
     await article.save();
 
     if (!article) {
-      return this.errorResponse(500, "Article could not be saved.");
+      return this.errorResponse(500, 'Article could not be saved.')
     }
 
     this.response.body = {
-      article: article.toEntity(),
-    };
+      article: article.toEntity()
+    }
 
     return this.response;
   }
@@ -202,21 +229,21 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<Drash.Http.Response>
    */
-  protected async deleteArticle(): Promise<Drash.Http.Response> {
-    const articleSlug = this.request.getPathParam("slug");
+  protected async deleteArticle (): Promise<Drash.Http.Response> {
+    const articleSlug = this.request.getPathParam('slug')
 
     if (!articleSlug) {
-      return this.errorResponse(400, "No article slug was passed in");
+      return this.errorResponse(400, 'No article slug was passed in')
     }
 
     const articleResult: ArticleModel[] | [] = await ArticleModel.where(
-      { slug: articleSlug },
-    );
+      { slug: articleSlug }
+    )
     if (!articleResult.length) {
       return this.errorResponse(
         500,
-        "Failed to fetch the article by slug: " + articleSlug,
-      );
+        'Failed to fetch the article by slug: ' + articleSlug
+      )
     }
 
     const article: ArticleModel = articleResult[0];
@@ -224,13 +251,13 @@ class ArticlesResource extends BaseResource {
     if (deleted === false) {
       return this.errorResponse(
         500,
-        "Failed to delete the article of slug: " + articleSlug,
-      );
+        'Failed to delete the article of slug: ' + articleSlug
+      )
     }
 
     this.response.body = {
-      success: true,
-    };
+      success: true
+    }
 
     return this.response;
   }
@@ -249,32 +276,32 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<Drash.Http.Response>
    */
-  protected async createArticle(): Promise<Drash.Http.Response> {
+  protected async createArticle (): Promise<Drash.Http.Response> {
     const inputArticle: ArticleEntity =
-      (this.request.getBodyParam("article") as ArticleEntity);
+      (this.request.getBodyParam('article') as unknown as ArticleEntity);
 
     if (!inputArticle.title) {
-      return this.errorResponse(400, "You must set the article title.");
+      return this.errorResponse(400, 'You must set the article title.')
     }
 
     const article: ArticleModel = new ArticleModel(
       inputArticle.author_id,
       inputArticle.title,
-      inputArticle.description || "",
-      inputArticle.body || "",
-      inputArticle.tags || "",
-    );
-    console.log("article to save:");
+      inputArticle.description || '',
+      inputArticle.body || '',
+      inputArticle.tags || ''
+    )
+    console.log('article to save:')
     console.log(article);
     await article.save();
 
     if (!article) {
-      return this.errorResponse(500, "Article could not be saved.");
+      return this.errorResponse(500, 'Article could not be saved.')
     }
 
     this.response.body = {
-      article: article.toEntity(),
-    };
+      article: article.toEntity()
+    }
 
     return this.response;
   }
@@ -282,23 +309,23 @@ class ArticlesResource extends BaseResource {
   /**
    * @return Promise<Drash.Http.Response>
    */
-  protected async getArticle(): Promise<Drash.Http.Response> {
+  protected async getArticle (): Promise<Drash.Http.Response> {
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       return this.errorResponse(
         400,
-        "`user_id` field is required.",
-      );
+        '`user_id` field is required.'
+      )
     }
 
-    const slug = this.request.getPathParam("slug") || "";
-    const articleResult = await ArticleModel.where({ slug: slug });
+    const slug = this.request.getPathParam('slug') || ''
+    const articleResult = await ArticleModel.where({ slug });
 
     if (articleResult.length <= 0) {
       return this.errorResponse(
         404,
-        "Article not found.",
-      );
+        'Article not found.'
+      )
     }
 
     const article = articleResult[0];
@@ -307,14 +334,29 @@ class ArticlesResource extends BaseResource {
     if (userResult.length <= 0) {
       return this.errorResponse(
         400,
-        "Unable to determine the article's author.",
-      );
+        'Unable to determine the article\'s author.'
+      )
     }
 
     const user = userResult[0];
 
     const entity: ArticleEntity = article.toEntity();
-    entity.author = user.toEntity();
+    let following = false;
+    if (currentUser) {
+      try {
+        const follow = await UsersFollowsModel.where({
+          follower_id: currentUser.id,
+          following_id: user.id
+        })
+        following = follow.length > 0 && follow[0].value === true;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    entity.author = {
+      ...user.toEntity(),
+      following
+    }
 
     const favs = await ArticlesFavoritesModel
       .where({ article_id: article.id });
@@ -334,8 +376,8 @@ class ArticlesResource extends BaseResource {
     }
 
     this.response.body = {
-      article: entity,
-    };
+      article: entity
+    }
 
     return this.response;
   }
@@ -354,7 +396,7 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<Drash.Http.Response>
    */
-  protected async getArticles(): Promise<Drash.Http.Response> {
+  protected async getArticles (): Promise<Drash.Http.Response> {
     const articles: ArticleModel[] = await ArticleModel
       .all(await this.getQueryFilters());
 
@@ -362,14 +404,14 @@ class ArticlesResource extends BaseResource {
     const authorIds: number[] = [];
 
     let entities: ArticleEntity[] = articles.map((article: ArticleModel) => {
-      if (authorIds.indexOf(article.author_id) === -1) {
+      if (!authorIds.includes(article.author_id)) {
         authorIds.push(article.author_id);
       }
-      if (articleIds.indexOf(article.id) === -1) {
+      if (!articleIds.includes(article.id)) {
         articleIds.push(article.id);
       }
       return article.toEntity();
-    });
+    })
 
     entities = await this.addAuthorsToEntities(authorIds, entities);
     entities = await this.addFavoritesCountToEntities(articleIds, entities);
@@ -377,8 +419,65 @@ class ArticlesResource extends BaseResource {
     entities = await this.filterEntitiesByFavoritedBy(articleIds, entities);
 
     this.response.body = {
-      articles: entities,
-    };
+      articles: entities
+    }
+    return this.response;
+  }
+
+  /**
+   * @description
+   *     Get the feed for the current user (articles by followed authors).
+   *
+   * @return Promise<Drash.Http.Response>
+   */
+  protected async getFeed (): Promise<Drash.Http.Response> {
+    const currentUser = await this.getCurrentUser();
+    if (!currentUser) {
+      this.response.body = {
+        articles: []
+      }
+      return this.response;
+    }
+
+    const follows: UsersFollowsModel[] = await UsersFollowsModel.where({
+      follower_id: currentUser.id,
+      value: 1
+    })
+
+    if (follows.length === 0) {
+      this.response.body = {
+        articles: []
+      }
+      return this.response;
+    }
+
+    const authorIds = follows.map((follow: UsersFollowsModel) =>
+      follow.following_id
+    );
+
+    const articles: ArticleModel[] = await ArticleModel
+      .whereInAuthorIds(authorIds);
+
+    const articleIds: number[] = [];
+    const feedAuthorIds: number[] = [];
+
+    let entities: ArticleEntity[] = articles.map((article: ArticleModel) => {
+      if (!feedAuthorIds.includes(article.author_id)) {
+        feedAuthorIds.push(article.author_id);
+      }
+      if (!articleIds.includes(article.id)) {
+        articleIds.push(article.id);
+      }
+      return article.toEntity();
+    })
+
+    entities = await this.addAuthorsToEntities(feedAuthorIds, entities);
+    entities = await this.addFavoritesCountToEntities(articleIds, entities);
+    entities = await this.addFavoritedToEntities(articleIds, entities);
+
+    this.response.body = {
+      articles: entities
+    }
     return this.response;
   }
 
@@ -391,19 +490,19 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<ArticleEntity[]>
    */
-  protected async filterEntitiesByFavoritedBy(
+  protected async filterEntitiesByFavoritedBy (
     articleIds: number[],
-    entities: ArticleEntity[],
+    entities: ArticleEntity[]
   ): Promise<ArticleEntity[]> {
     const favs: ArticlesFavoritesModel[] = await ArticlesFavoritesModel
-      .whereIn("article_id", articleIds);
+      .whereIn('article_id', articleIds);
 
-    const username = this.request.getUrlQueryParam("favorited_by");
+    const username = this.request.getUrlQueryParam('favorited_by')
     if (!username) {
       return entities;
     }
 
-    const results = await UserModel.where({ username: username });
+    const results = await UserModel.where({ username });
 
     if (results.length <= 0) {
       return entities;
@@ -424,7 +523,7 @@ class ArticlesResource extends BaseResource {
           }
         }
       });
-    });
+    })
 
     return filtered;
   }
@@ -435,9 +534,9 @@ class ArticlesResource extends BaseResource {
    *
    * @return Promise<ArticleFilters>
    */
-  protected async getQueryFilters(): Promise<ArticleFilters> {
-    const author = this.request.getUrlQueryParam("author");
-    const offset = this.request.getUrlQueryParam("offset");
+  protected async getQueryFilters (): Promise<ArticleFilters> {
+    const author = this.request.getUrlQueryParam('author')
+    const offset = this.request.getUrlQueryParam('offset')
 
     const filters: ArticleFilters = {};
 
@@ -455,19 +554,19 @@ class ArticlesResource extends BaseResource {
    * @return Promise<Drash.Http.Response>
    *     Returns the updated article in the response.
    */
-  protected async toggleFavorite(): Promise<Drash.Http.Response> {
-    console.log("Handling action: toggleFavorite.");
+  protected async toggleFavorite (): Promise<Drash.Http.Response> {
+    console.log('Handling action: toggleFavorite.')
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       return this.errorResponse(
         400,
-        "`user_id` field is required.",
-      );
+        '`user_id` field is required.'
+      )
     }
 
-    const slug = this.request.getPathParam("slug") || "";
+    const slug = this.request.getPathParam('slug') || ''
 
-    const result = await ArticleModel.where({ slug: slug });
+    const result = await ArticleModel.where({ slug });
     if (result.length <= 0) {
       return this.errorResponse(404, `Article with slug "${slug}" not found.`);
     }
@@ -476,15 +575,15 @@ class ArticlesResource extends BaseResource {
 
     let favorite;
 
-    const action = this.request.getBodyParam("action");
+    const action = this.request.getBodyParam('action')
     switch (action) {
-      case "set":
+      case 'set':
         // Check if the user already has a record in the db before creating a
         // new one. If the user has a record, then we just update the record.
         favorite = await ArticlesFavoritesModel.where({
           article_id: article.id,
-          user_id: currentUser.id,
-        });
+          user_id: currentUser.id
+        })
         if (favorite.length > 0) {
           favorite[0].value = true;
           await favorite[0].save();
@@ -492,28 +591,28 @@ class ArticlesResource extends BaseResource {
           favorite = new ArticlesFavoritesModel(
             article.id,
             currentUser.id,
-            true,
-          );
+            true
+          )
           await favorite.save();
         }
         break;
-      case "unset":
+      case 'unset':
         favorite = await ArticlesFavoritesModel.where({
           article_id: article.id,
-          user_id: currentUser.id,
-        });
+          user_id: currentUser.id
+        })
         if (!favorite) {
           return this.errorResponse(
             404,
-            "Can't unset favorite on article that doesn't have any favorites.",
-          );
+            'Can\'t unset favorite on article that doesn\'t have any favorites.'
+          )
         }
         favorite[0].value = false;
         await favorite[0].save();
-        break;
+        break
     }
 
-    return this.getArticle();
+    return await this.getArticle();
   }
 }
 

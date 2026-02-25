@@ -1,18 +1,17 @@
-import { Column, Pool, PoolClient } from "../deps.ts";
-import type { QueryResult } from "../deps.ts";
+import { Column, Pool, PoolClient, QueryResult } from '../deps.ts';
 
 export const dbPool = new Pool({
-  user: "user",
-  password: "userpassword",
-  database: "realworld",
-  hostname: "realworld_postgres",
-  port: 5432,
+  user: 'user',
+  password: 'userpassword',
+  database: 'realworld',
+  hostname: 'realworld_postgres',
+  port: 5432
 }, 50);
 
 export default abstract class BaseModel {
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PUBLIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @description
@@ -20,13 +19,13 @@ export default abstract class BaseModel {
    *
    * @return Promise<PoolClient>
    */
-  static async connect(): Promise<PoolClient> {
+  static async connect (): Promise<PoolClient> {
     return await dbPool.connect();
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - STATIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @description
@@ -47,25 +46,25 @@ export default abstract class BaseModel {
    * @example
    * BaseModel.formatResults([[1, 'ed'], [2, 'john']], [{name: 'id', ...}, {name: 'name', ...}]);
    */
-  static formatResults(
-    rows: Array<string[]>,
-    columns: Column[],
-  ): [] | Array<{ [key: string]: string | number | boolean }> {
-    if (!rows.length) {
+  static formatResults (
+    rows: string[][],
+    columns: Column[]
+  ): [] | Array<Record<string, string | number | boolean>> {
+    if (rows.length === 0) {
       return [];
     }
     const columnNames: string[] = columns.map((column) => {
       return column.name;
-    });
-    const newResult: Array<{ [key: string]: string }> = [];
+    })
+    const newResult: Array<Record<string, string>> = [];
     rows.forEach((row, rowIndex) => {
-      const rowData: { [key: string]: string } = {};
+      const rowData: Record<string, string> = {};
       row.forEach((rVal, rIndex) => {
         const columnName: string = columnNames[rIndex];
         rowData[columnName] = row[rIndex];
-      });
+      })
       newResult.push(rowData);
-    });
+    })
     return newResult;
   }
 
@@ -78,17 +77,17 @@ export default abstract class BaseModel {
    *
    * @return Promise<[]|[{[key: string]: string}]> Empty array if no results were found, else array of objects
    */
-  protected static async Where(
+  protected static async Where (
     table: string,
-    fields: { [key: string]: string | number },
-  ): Promise<[] | Array<{ [key: string]: string | number | boolean }>> {
+    fields: Record<string, string | number>
+  ): Promise<[] | Array<Record<string, string | number | boolean>>> {
     let query = `SELECT * FROM ${table} WHERE `;
     const clauses: string[] = [];
     for (const field in fields) {
       const value = fields[field];
       clauses.push(`${field} = '${value}'`);
     }
-    query += clauses.join(" AND ");
+    query += clauses.join(' AND ')
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
@@ -99,8 +98,8 @@ export default abstract class BaseModel {
 
     return BaseModel.formatResults(
       dbResult.rows,
-      dbResult.rowDescription.columns,
-    );
+      dbResult.rowDescription.columns
+    )
   }
 
   /**
@@ -116,17 +115,17 @@ export default abstract class BaseModel {
    *
    * @return Promise<any> Empty array if no data was found
    */
-  static async WhereIn(
+  static async WhereIn (
     table: string,
-    data: { values: Array<number | string> | number[]; column: string },
-  ): Promise<[] | Array<{ [key: string]: string | number | boolean }>> {
+    data: { values: Array<number | string> | number[], column: string }
+  ): Promise<[] | Array<Record<string, string | number | boolean>>> {
     if (data.values.length <= 0) {
       return [];
     }
 
     const query = `SELECT * FROM ${table} ` +
       ` WHERE ${data.column} ` +
-      ` IN (${data.values.join(",")})`;
+      ` IN (${data.values.join(',')})`;
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
@@ -137,13 +136,13 @@ export default abstract class BaseModel {
 
     return BaseModel.formatResults(
       dbResult.rows,
-      dbResult.rowDescription.columns,
-    );
+      dbResult.rowDescription.columns
+    )
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PROTECTED /////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @description
@@ -163,24 +162,24 @@ export default abstract class BaseModel {
    * @return string
    *     The query with the placeholders replaced with the data
    */
-  protected prepareQuery(query: string, data?: Array<string | number>): string {
-    if (!data || !data.length) {
+  protected prepareQuery (query: string, data?: Array<string | number>): string {
+    if (!data || (data.length === 0)) {
       return query;
     }
     // First create an array item for each placeholder
-    const occurrences = query.split("?");
-    if (occurrences[occurrences.length - 1] === "") { // for when last item is ""
+    const occurrences = query.split('?')
+    if (occurrences[occurrences.length - 1] === '') { // for when last item is ""
       occurrences.splice(occurrences.length - 1);
     }
     // Replace each item with itself but passed in data instead of the placeholder
     data.forEach((val, i) => {
-      occurrences[i] = occurrences[i] + "'" + data[i] + "'";
+      occurrences[i] = occurrences[i] + '\'' + data[i] + '\''
     });
     // re construct the string
-    let prepared = "";
+    let prepared = ''
     occurrences.forEach((val, i) => {
       prepared += occurrences[i];
-    });
+    })
     return prepared;
   }
 }

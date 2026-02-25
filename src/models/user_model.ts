@@ -1,15 +1,16 @@
-import BaseModel from "./base_model.ts";
-import type { QueryResult } from "../deps.ts";
+import BaseModel from './base_model.ts'
+import { QueryResult } from '../deps.ts'
 
-export type UserEntity = {
-  bio?: string;
-  email: string;
-  id?: number;
-  image?: string;
-  password?: string;
-  username: string;
-  token?: null | string;
-};
+export interface UserEntity {
+  bio?: string
+  email: string
+  following?: boolean
+  id?: number
+  image?: string
+  password?: string
+  username: string
+  token?: null | string
+}
 
 /**
  * @description
@@ -25,13 +26,13 @@ export type UserEntity = {
  *
  * @return UserModel
  */
-export function createUserModelObject(user: {
-  username: string;
-  password: string;
-  email: string;
-  bio: string;
-  image: string;
-  id: number;
+export function createUserModelObject (user: {
+  username: string
+  password: string
+  email: string
+  bio: string
+  image: string
+  id: number
 }): UserModel {
   return new UserModel(
     user.username,
@@ -39,16 +40,14 @@ export function createUserModelObject(user: {
     user.email,
     user.bio,
     user.image,
-    user.id,
-  );
+    user.id
+  )
 }
 
-//@ts-ignore UserModel defines a where method that has different params than base models
-// where method. Might need to investigate the naming usage
 export class UserModel extends BaseModel {
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - PROPERTIES //////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @var string
@@ -92,9 +91,9 @@ export class UserModel extends BaseModel {
    */
   public username: string;
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - CONSTRCUTOR /////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @param string username
@@ -104,13 +103,13 @@ export class UserModel extends BaseModel {
    * @param string image="https://static.productionready.io/images/smiley-cyrus.jpg"
    * @param number id=-1
    */
-  constructor(
+  constructor (
     username: string,
     password: string,
     email: string,
-    bio: string = "",
-    image: string = "https://static.productionready.io/images/smiley-cyrus.jpg",
-    id: number = -1,
+    bio: string = '',
+    image: string = 'https://static.productionready.io/images/smiley-cyrus.jpg',
+    id: number = -1
   ) {
     super();
     this.id = id;
@@ -121,23 +120,23 @@ export class UserModel extends BaseModel {
     this.image = image;
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - CRUD //////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * Delete this model.
    *
    * @return Promise<boolean> False if the query failed to delete
    */
-  public async delete(): Promise<boolean> {
-    let query = `DELETE FROM users WHERE id = ?`;
+  public async delete (): Promise<boolean> {
+    let query = 'DELETE FROM users WHERE id = ?'
     query = this.prepareQuery(
       query,
       [
-        String(this.id),
-      ],
-    );
+        String(this.id)
+      ]
+    )
 
     try {
       const client = await BaseModel.connect();
@@ -158,15 +157,15 @@ export class UserModel extends BaseModel {
    *
    * @return Promise<UserModel|null> Empty array if no data was found
    */
-  public async save(): Promise<UserModel | null> {
+  public async save (): Promise<UserModel | null> {
     // If this model already has an ID, then that means we're updating the model
     if (this.id != -1) {
-      return this.update();
+      return await this.update();
     }
 
-    let query = "INSERT INTO users " +
-      " (username, email, password, bio, image)" +
-      " VALUES (?, ?, ?, ?, ?);";
+    let query = 'INSERT INTO users ' +
+      ' (username, email, password, bio, image)' +
+      ' VALUES (?, ?, ?, ?, ?);'
     query = this.prepareQuery(
       query,
       [
@@ -174,9 +173,9 @@ export class UserModel extends BaseModel {
         this.email,
         this.password,
         this.bio,
-        this.image,
-      ],
-    );
+        this.image
+      ]
+    )
 
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
@@ -198,10 +197,11 @@ export class UserModel extends BaseModel {
    *
    * @return Promise<UserModel|null> False if no results were found
    */
-  public async update(): Promise<UserModel | null> {
-    let query = "UPDATE users SET " +
-      "username = ?, password = ?, email = ?, bio = ?, image = ? " +
-      `WHERE id = '${this.id}';`;
+  public async update (): Promise<UserModel | null> {
+    let query = 'UPDATE users SET ' +
+      'username = ?, password = ?, email = ?, bio = ?, image = ? ' +
+      `WHERE id = '${this.id}' ` +
+      'RETURNING *;'
     query = this.prepareQuery(
       query,
       [
@@ -209,26 +209,41 @@ export class UserModel extends BaseModel {
         this.password,
         this.email,
         this.bio,
-        this.image,
-      ],
-    );
+        this.image
+      ]
+    )
     const client = await BaseModel.connect();
     const dbResult: QueryResult = await client.query(query);
     client.release();
     if (dbResult.rowCount! < 1) {
       return null;
     }
-
-    const updatedResult = await UserModel.where({ email: this.email });
+    if (dbResult.rows?.length) {
+      const formatted = BaseModel.formatResults(
+        dbResult.rows,
+        dbResult.rowDescription.columns
+      )
+      if (formatted.length) {
+        return createUserModelObject(formatted[0] as {
+          username: string
+          password: string
+          email: string
+          bio: string
+          image: string
+          id: number
+        });
+      }
+    }
+    const updatedResult = await UserModel.where({ id: this.id });
     if (updatedResult.length === 0) {
       return null;
     }
     return updatedResult[0];
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - STATIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @description
@@ -238,20 +253,20 @@ export class UserModel extends BaseModel {
    *
    * @return Promise<UserModel[]|[]>
    */
-  static async where(
-    fields: { [key: string]: string | number },
+  static async where (
+    fields: Record<string, string | number>
   ): Promise<UserModel[] | []> {
-    const results = await BaseModel.Where("users", fields);
+    const results = await BaseModel.Where('users', fields);
 
     if (results.length <= 0) {
       return [];
     }
 
-    //@ts-ignore Nothing we can do about this.. the createUserModelObject expect
+    // @ts-expect-error Nothing we can do about this.. the createUserModelObject expect
     // a user object type, but there's no way to type it like that the return type of whereIn can't be user
     return results.map((result) => {
       return createUserModelObject(result);
-    });
+    })
   }
 
   /**
@@ -263,42 +278,42 @@ export class UserModel extends BaseModel {
    *
    * @return Promise<UserModel[]> | []
    */
-  static async whereIn(
+  static async whereIn (
     column: string,
-    values: string[] | number[],
+    values: string[] | number[]
   ): Promise<UserModel[] | []> {
-    const results = await BaseModel.WhereIn("users", {
+    const results = await BaseModel.WhereIn('users', {
       column,
-      values,
-    });
+      values
+    })
 
     if (results.length <= 0) {
       return [];
     }
 
-    //@ts-ignore Nothing we can do about this.. the createUserModelObject expect
+    // @ts-expect-error Nothing we can do about this.. the createUserModelObject expect
     // a user object type, but there's no way to type it like that the return type of whereIn can't be user
     return results.map((result) => {
       return createUserModelObject(result);
-    });
+    })
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
   // FILE MARKER - METHODS - PUBLIC ////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////
 
   /**
    * @return UserEntity
    */
-  public toEntity(): UserEntity {
+  public toEntity (): UserEntity {
     return {
       id: this.id,
       username: this.username,
       email: this.email,
       bio: this.bio,
       image: this.image,
-      token: null,
-    };
+      token: null
+    }
   }
 }
 

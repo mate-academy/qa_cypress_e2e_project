@@ -61,6 +61,7 @@
         </li>
         <li class="nav-item">
           <router-link
+            data-cy="settings-link"
             class="nav-link"
             active-class="active"
             exact

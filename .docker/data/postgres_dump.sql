@@ -283,6 +283,20 @@ CREATE TABLE public.articles_favorites (
 ALTER TABLE public.articles_favorites OWNER TO "user";
 
 --
+-- Name: users_follows; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.users_follows (
+    id integer NOT NULL,
+    follower_id integer NOT NULL,
+    following_id integer NOT NULL,
+    value boolean NOT NULL
+);
+
+
+ALTER TABLE public.users_follows OWNER TO "user";
+
+--
 -- Name: articles_favorites_id_seq; Type: SEQUENCE; Schema: public; Owner: user
 --
 
@@ -302,6 +316,27 @@ ALTER TABLE public.articles_favorites_id_seq OWNER TO "user";
 --
 
 ALTER SEQUENCE public.articles_favorites_id_seq OWNED BY public.articles_favorites.id;
+
+--
+-- Name: users_follows_id_seq; Type: SEQUENCE; Schema: public; Owner: user
+--
+
+CREATE SEQUENCE public.users_follows_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_follows_id_seq OWNER TO "user";
+
+--
+-- Name: users_follows_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: user
+--
+
+ALTER SEQUENCE public.users_follows_id_seq OWNED BY public.users_follows.id;
 
 
 --
@@ -422,6 +457,12 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 
 ALTER TABLE ONLY public.articles_favorites ALTER COLUMN id SET DEFAULT nextval('public.articles_favorites_id_seq'::regclass);
 
+--
+-- Name: users_follows id; Type: DEFAULT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.users_follows ALTER COLUMN id SET DEFAULT nextval('public.users_follows_id_seq'::regclass);
+
 
 --
 -- Name: sessions id; Type: DEFAULT; Schema: public; Owner: user
@@ -458,6 +499,14 @@ COPY public.articles (id, author_id, title, description, body, slug, created_at,
 --
 
 COPY public.articles_favorites (id, article_id, user_id, value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_follows; Type: TABLE DATA; Schema: public; Owner: user
+--
+
+COPY public.users_follows (id, follower_id, following_id, value) FROM stdin;
 \.
 
 
@@ -590,6 +639,12 @@ SELECT pg_catalog.setval('public.article_comments_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.articles_favorites_id_seq', 1, false);
 
+--
+-- Name: users_follows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
+--
+
+SELECT pg_catalog.setval('public.users_follows_id_seq', 1, false);
+
 
 --
 -- Name: articles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
@@ -626,6 +681,13 @@ ALTER TABLE ONLY public.article_comments
 
 ALTER TABLE ONLY public.articles_favorites
     ADD CONSTRAINT articles_favorites_pkey PRIMARY KEY (id);
+
+--
+-- Name: users_follows users_follows_pkey; Type: CONSTRAINT; Schema: public; Owner: user
+--
+
+ALTER TABLE ONLY public.users_follows
+    ADD CONSTRAINT users_follows_pkey PRIMARY KEY (id);
 
 
 --

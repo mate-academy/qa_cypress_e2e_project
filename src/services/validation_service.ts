@@ -1,5 +1,5 @@
-import { bcrypt } from "../deps.ts";
-import UserModel from "../models/user_model.ts";
+import { bcrypt } from '../deps.ts'
+import UserModel from '../models/user_model.ts'
 
 export default class ValidationService {
   /**
@@ -13,8 +13,8 @@ export default class ValidationService {
    *     - Returns the input back if it is not a string. This method only
    *       decodes strings.
    */
-  static decodeInput(input: string): string | undefined {
-    if ((typeof input) !== "string") {
+  static decodeInput (input: string): string | undefined {
+    if ((typeof input) !== 'string') {
       return input;
     }
     return decodeURIComponent(input);
@@ -32,10 +32,10 @@ export default class ValidationService {
    *     - Returns true if the email passes validation.
    *     - Returns false if the email fails validation.
    */
-  static isEmail(email: string): boolean {
+  static isEmail (email: string): boolean {
     const emailRegex = new RegExp(
-      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-    );
+      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    )
     return emailRegex.test(email);
   }
 
@@ -49,8 +49,8 @@ export default class ValidationService {
    *     - Returns true if the email is unique.
    *     - Returns false if the email is already taken.
    */
-  static async isEmailUnique(email: string): Promise<boolean> {
-    const user = await UserModel.where({ email: email });
+  static async isEmailUnique (email: string): Promise<boolean> {
+    const user = await UserModel.where({ email });
     if (user.length) {
       return false;
     }
@@ -68,9 +68,9 @@ export default class ValidationService {
    *     - Returns true if the two passwords match.
    *     - Returns false if the two passwords do not match.
    */
-  static async isPasswordCorrect(
+  static async isPasswordCorrect (
     passwordOne: string,
-    passwordTwo: string,
+    passwordTwo: string
   ): Promise<boolean> {
     return await bcrypt.compare(passwordOne, passwordTwo);
   }
@@ -92,7 +92,7 @@ export default class ValidationService {
    *     - Returns true if the password passes any of the above checks.
    *     - Returns false if the password fails any of the above checks.
    */
-  static isPasswordStrong(password: string): boolean {
+  static isPasswordStrong (password: string): boolean {
     return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password);
   }
 }
