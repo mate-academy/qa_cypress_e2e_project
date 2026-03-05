@@ -1,35 +1,37 @@
 <template>
   <!-- Used when user is also author -->
-  <span v-if="canModify">
-    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink">
+  <span v-if="canModify" data-qa="article-actions-author-section">
+    <router-link class="btn btn-sm btn-outline-secondary" :to="editArticleLink" data-qa="edit-article-button">
       <i class="ion-edit"></i> <span>&nbsp;Edit Article</span>
     </router-link>
     <span>&nbsp;&nbsp;</span>
-    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+    <button class="btn btn-outline-danger btn-sm" @click="deleteArticle" data-qa="delete-article-button">
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
   <!-- Used in ArticleView when not author -->
-  <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
+  <span v-else data-qa="article-actions-reader-section">
+    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow" data-qa="toggle-follow-button">
       <i class="ion-plus-round"></i> <span>&nbsp;</span>
-      <span v-text="followUserLabel" />
+      <span v-text="followUserLabel" data-qa="follow-user-label" />
     </button>
     <span>&nbsp;&nbsp;</span>
     <button
       class="btn btn-sm"
       @click="toggleFavorite"
       :class="toggleFavoriteButtonClasses"
+      data-qa="toggle-favorite-button"
     >
       <i class="ion-heart"></i> <span>&nbsp;</span>
-      <span v-text="favoriteArticleLabel" /> <span>&nbsp;</span>
-      <span class="counter" v-text="favoriteCounter" />
+      <span v-text="favoriteArticleLabel" data-qa="favorite-article-label" /> <span>&nbsp;</span>
+      <span class="counter" v-text="favoriteCounter" data-qa="favorite-counter" />
     </button>
   </span>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "ArticleActions",

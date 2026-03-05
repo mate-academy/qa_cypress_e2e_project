@@ -107,6 +107,7 @@ export default class UserResource extends BaseResource {
     }
 
     user.username = username;
+    user.email = email;
     user.bio = bio ?? "";
     user.image = image;
     if (rawPassword) {

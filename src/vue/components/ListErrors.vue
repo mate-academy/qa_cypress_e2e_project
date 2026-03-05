@@ -1,8 +1,8 @@
-<template v-show="errors">
-  <ul class="error-messages">
-    <li v-for="(value, key) in errors" :key="key">
-      <span v-text="key" />
-      <span v-for="err in value" :key="err" v-text="err" />
+<template>
+  <ul class="error-messages" data-qa="error-messages-list">
+    <li v-for="(value, key) in errors" :key="key" data-qa="error-message-item">
+      <span v-text="key" data-qa="error-message-key" />
+      <span v-for="err in value" :key="err" v-text="err" data-qa="error-message-value" />
     </li>
   </ul>
 </template>

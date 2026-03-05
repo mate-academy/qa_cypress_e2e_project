@@ -1,12 +1,11 @@
-FROM debian:oldstable-20230612-slim
+FROM --platform=linux/amd64 debian:bullseye-slim
 
 RUN apt update -y \
-  && apt clean \
-  && apt install bash curl unzip -y \
-  && apt install -y --no-install-recommends nodejs \
-  && apt install -y --no-install-recommends npm \
-  && npm install -g npm@6.14.6
+  && apt install -y bash curl unzip nodejs npm \
+  && npm install -g npm@6.14.6 \
+  && apt clean
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.5.1
-RUN export DENO_INSTALL="/usr/bin"
-RUN export PATH="$DENO_INSTALL/bin:$PATH"
+RUN curl -fsSL -o /tmp/deno.zip https://github.com/denoland/deno/releases/download/v1.5.1/deno-x86_64-unknown-linux-gnu.zip \
+  && unzip /tmp/deno.zip -d /usr/local/bin/ \
+  && chmod +x /usr/local/bin/deno \
+  && rm /tmp/deno.zip

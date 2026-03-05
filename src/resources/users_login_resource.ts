@@ -100,7 +100,7 @@ class LoginResource extends BaseResource {
     const inputUser: UserEntity =
       (this.request.getBodyParam("user") as UserEntity);
 
-    if (!inputUser.email) {
+    if (!inputUser || !inputUser.email) {
       return this.errorResponse(422, "Email field required.");
     }
     if (!ValidationService.isEmail(inputUser.email)) {

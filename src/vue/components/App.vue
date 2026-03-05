@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
-    <Header />
+  <div id="app" data-qa="app-container">
+    <Header data-qa="app-header" />
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <Footer />
+    <Footer data-qa="app-footer" />
   </div>
 </template>
 

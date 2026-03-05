@@ -1,10 +1,10 @@
 <template>
-  <div class="editor-page">
+  <div class="editor-page" data-qa="article-editor-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
-          <ListErrors :errors="errors" />
-          <form @submit.prevent="onPublish(article.slug)">
+          <ListErrors :errors="errors" data-qa="article-editor-errors" />
+          <form @submit.prevent="onPublish(article.slug)" data-qa="article-editor-form">
             <fieldset :disabled="publishing_article">
               <fieldset class="form-group">
                 <input
@@ -12,6 +12,7 @@
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
+                  data-qa="article-title-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
+                  data-qa="article-description-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +30,7 @@
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
+                  data-qa="article-body-textarea"
                 >
                 </textarea>
               </fieldset>
@@ -38,6 +41,7 @@
                   v-model="tag"
                   :tags="tags"
                   @tags-changed="newTags => tags = newTags"
+                  data-qa="article-tags-input"
                 />
               </fieldset>
             </fieldset>
@@ -45,6 +49,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-qa="publish-article-button"
             >
               Publish Article
             </button>
@@ -58,6 +63,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { store } from "../../public/js/_app.js";
+import swal from "sweetalert";
 import ListErrors from "@/components/ListErrors.vue";
 import VueTagsInput from '@johmun/vue-tags-input';
 export default {

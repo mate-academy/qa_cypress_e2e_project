@@ -253,7 +253,7 @@ class ArticlesResource extends BaseResource {
     const inputArticle: ArticleEntity =
       (this.request.getBodyParam("article") as ArticleEntity);
 
-    if (!inputArticle.title) {
+    if (!inputArticle || !inputArticle.title) {
       return this.errorResponse(400, "You must set the article title.");
     }
 

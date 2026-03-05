@@ -1,10 +1,10 @@
 <template>
-  <div class="settings-page">
+  <div class="settings-page" data-qa="settings-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Your Settings</h1>
-          <form @submit.prevent="updateSettings()">
+          <h1 class="text-xs-center" data-qa="settings-heading">Your Settings</h1>
+          <form @submit.prevent="updateSettings()" data-qa="settings-form">
             <fieldset>
               <fieldset class="form-group">
                 <input
@@ -12,6 +12,7 @@
                   type="text"
                   v-model="user.image"
                   placeholder="URL of profile picture"
+                  data-qa="profile-picture-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   type="text"
                   v-model="user.username"
                   placeholder="Your username"
+                  data-qa="username-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +30,7 @@
                   rows="8"
                   v-model="user.bio"
                   placeholder="Short bio about you"
+                  data-qa="bio-textarea"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
@@ -36,6 +39,7 @@
                   type="text"
                   v-model="user.email"
                   placeholder="Email"
+                  data-qa="email-input"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -44,16 +48,17 @@
                   type="password"
                   v-model="user.password"
                   placeholder="Password"
+                  data-qa="password-input"
                 />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right" data-qa="update-settings-button">
                 Update Settings
               </button>
             </fieldset>
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger" data-qa="logout-button">
             Or click here to logout.
           </button>
         </div>
@@ -64,6 +69,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "Settings",
@@ -83,7 +89,7 @@ export default {
           buttons: false,
         })
         .then(async () => {
-          return await this.$store.dispatch("updateUser", this.user);
+          return await this.$store.dispatch("updateUser", { ...this.user });
         })
         .then((response) => {
           if (response === true) {
@@ -103,11 +109,9 @@ export default {
           });
         });
     },
-    mounted() {
-      console.log("Settings.vue mounted!");
-    },
     logout() {
       this.$store.dispatch("logOut")
+
         .then(() => {
           this.$router.push({ name: "home" });
         });

@@ -653,6 +653,35 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: user_follows; Type: TABLE; Schema: public; Owner: user
+--
+
+CREATE TABLE public.user_follows (
+    id integer NOT NULL,
+    follower_id integer NOT NULL,
+    followed_id integer NOT NULL
+);
+
+ALTER TABLE public.user_follows OWNER TO "user";
+
+CREATE SEQUENCE public.user_follows_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.user_follows_id_seq OWNER TO "user";
+ALTER SEQUENCE public.user_follows_id_seq OWNED BY public.user_follows.id;
+ALTER TABLE ONLY public.user_follows ALTER COLUMN id SET DEFAULT nextval('public.user_follows_id_seq'::regclass);
+ALTER TABLE ONLY public.user_follows ADD CONSTRAINT user_follows_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.user_follows ADD CONSTRAINT user_follows_unique UNIQUE (follower_id, followed_id);
+ALTER TABLE ONLY public.user_follows ADD CONSTRAINT user_follows_follower_fkey FOREIGN KEY (follower_id) REFERENCES public.users(id);
+ALTER TABLE ONLY public.user_follows ADD CONSTRAINT user_follows_followed_fkey FOREIGN KEY (followed_id) REFERENCES public.users(id);
+
+
+--
 -- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: user
 --
 

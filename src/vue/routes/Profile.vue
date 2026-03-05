@@ -1,16 +1,17 @@
 <template>
-  <div class="profile-page">
+  <div class="profile-page" data-qa="profile-page">
     <div class="user-info">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img :src="profile.image" class="user-img" />
-            <h4>{{ profile.username }}</h4>
-            <p>{{ profile.bio }}</p>
+            <img :src="profile.image" class="user-img" data-qa="profile-image" />
+            <h4 data-qa="profile-username">{{ profile.username }}</h4>
+            <p data-qa="profile-bio">{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
               <router-link
                 class="btn btn-sm btn-outline-secondary action-btn"
                 :to="{ name: 'settings' }"
+                data-qa="edit-profile-settings-button"
               >
                 <i class="ion-gear-a"></i> Edit Profile Settings
               </router-link>
@@ -20,6 +21,7 @@
                 class="btn btn-sm btn-secondary action-btn"
                 v-if="profile.following"
                 @click.prevent="unfollow()"
+                data-qa="unfollow-button"
               >
                 <i class="ion-plus-round"></i> &nbsp;Unfollow
                 {{ profile.username }}
@@ -28,6 +30,7 @@
                 class="btn btn-sm btn-outline-secondary action-btn"
                 v-if="!profile.following"
                 @click.prevent="follow()"
+                data-qa="follow-button"
               >
                 <i class="ion-plus-round"></i> &nbsp;Follow
                 {{ profile.username }}
@@ -49,6 +52,7 @@
                   active-class="active"
                   exact
                   :to="{ name: 'profile', params: { username: profile.username } }"
+                  data-qa="my-articles-link"
                 >
                   My Articles
                 </router-link>
@@ -59,6 +63,7 @@
                   active-class="active"
                   exact
                   :to="{ name: 'profile-favorites', params: { username: profile.username } }"
+                  data-qa="favorited-articles-link"
                 >
                   Favorited Articles
                 </router-link>
@@ -96,10 +101,10 @@ export default {
     },
     follow() {
       if (!this.is_authenticated) return;
-      this.$store.dispatch("setFollowProfile", this.$route.params);
+      this.$store.dispatch("setFollowProfile", { ...this.$route.params, value: true });
     },
     unfollow() {
-      this.$store.dispatch("setFollowProfile", this.$route.params);
+      this.$store.dispatch("setFollowProfile", { ...this.$route.params, value: false });
     }
   },
   watch: {

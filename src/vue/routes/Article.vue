@@ -1,20 +1,21 @@
 <template>
-  <div class="article-page">
+  <div class="article-page" data-qa="article-page">
     <div class="banner">
       <div class="container">
-        <h1>{{ article.title }}</h1>
+        <h1 data-qa="article-title">{{ article.title }}</h1>
         <ArticleMeta :article="article" :actions="true"></ArticleMeta>
       </div>
     </div>
     <div class="container page">
       <div class="row article-content">
         <div class="col-xs-12">
-          <div v-html="parseMarkdown(article.body)"></div>
+          <div v-html="parseMarkdown(article.body)" data-qa="article-body"></div>
           <ul class="tag-list" v-if="article.tags && article.tags.length !== 1 && !!article.tags[0]">
-            <li v-for="(tag, index) of article.tags" :key="tag + index">
+            <li v-for="(tag, index) of article.tags" :key="tag + index" data-qa="article-tag-item">
               <Tag
                 :name="tag"
                 className="tag-default tag-pill tag-outline"
+                data-qa="article-tag"
               ></Tag>
             </li>
           </ul>
@@ -30,12 +31,13 @@
             v-if="is_authenticated"
             :slug="slug"
             :userImage="user.image"
+            data-qa="comment-editor"
           >
           </CommentEditor>
-          <p v-else>
-            <router-link :to="{ name: 'login' }">Sign in</router-link>
+          <p v-else data-qa="comment-login-prompt">
+            <router-link :to="{ name: 'login' }" data-qa="comment-login-link">Sign in</router-link>
             or
-            <router-link :to="{ name: 'register' }">sign up</router-link>
+            <router-link :to="{ name: 'register' }" data-qa="comment-register-link">sign up</router-link>
             to add comments on this article.
           </p>
           <Comment
@@ -43,6 +45,7 @@
             :slug="slug"
             :comment="comment"
             :key="index"
+            data-qa="article-comment"
           >
           </Comment>
         </div>
@@ -102,7 +105,7 @@ export default {
     },
     authorImage() {
       if (this.article && this.article.author && this.article.author.image) {
-        return article.author.image;
+        return this.article.author.image;
       }
       return null;
     },

@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="homeRoute" :class="className" v-text="name"></router-link>
+  <router-link :to="homeRoute" :class="className" v-text="name" data-qa="tag-link"></router-link>
 </template>
 
 <script>

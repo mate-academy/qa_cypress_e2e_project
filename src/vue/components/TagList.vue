@@ -1,11 +1,12 @@
 <template>
-  <ul class="tag-list" v-if="tags.length !== 1 && !!tags[0]">
+  <ul class="tag-list" v-if="tags && tags.length > 0" data-qa="tag-list-container">
     <li
       class="tag-default tag-pill tag-outline"
       v-for="(tag, index) of tags"
       :key="index"
+      data-qa="tag-list-item"
     >
-      <span v-text="tag" />
+      <span v-text="tag" data-qa="tag-list-item-text" />
     </li>
   </ul>
 </template>

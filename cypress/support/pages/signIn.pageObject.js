@@ -1,34 +1,47 @@
-import PageObject from '../PageObject';
+import PageObject from './PageObject.js';
 
-class SignInPageObject extends PageObject {
-  url = '/#/login';
-
-  get emailField() {
-    return cy.getByDataCy('email-sign-in');
+class SignInPage extends PageObject {
+  getPage() {
+    return cy.get('[data-qa="login-page"]');
   }
 
-  get passwordField() {
-    return cy.getByDataCy('password-sign-in');
+  getHeading() {
+    return cy.get('[data-qa="login-heading"]');
   }
 
-  get signInBtn() {
-    return cy.getByDataCy('sign-in-btn');
+  getRegisterLink() {
+    return cy.get('[data-qa="register-link"]');
   }
 
-  typeEmail(email) {
-    this.emailField
-      .type(email);
+  getLoginForm() {
+    return cy.get('[data-qa="login-form"]');
   }
 
-  typePassword(password) {
-    this.passwordField
-      .type(password);
+  getEmailInput() {
+    return cy.get('[data-qa="email-input"]');
   }
 
-  clickSignInBtn() {
-    this.signInBtn
-      .click();
+  getPasswordInput() {
+    return cy.get('[data-qa="password-input"]');
+  }
+
+  getSignInButton() {
+    return cy.get('[data-qa="login-button"]');
+  }
+
+  fillLoginForm(email, password) {
+    this.getEmailInput().type(email);
+    this.getPasswordInput().type(password);
+  }
+
+  submitLoginForm() {
+    this.getSignInButton().click();
+  }
+
+  visit() {
+    cy.visit('/#/login');
+    this.getPage().should('be.visible');
   }
 }
 
-export default SignInPageObject;
+export default new SignInPage();

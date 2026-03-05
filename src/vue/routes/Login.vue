@@ -1,25 +1,25 @@
 <template>
-  <div class="auth-page">
+  <div class="auth-page" data-qa="login-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign in</h1>
+          <h1 class="text-xs-center" data-qa="login-heading">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'register' }">
+            <router-link :to="{ name: 'register' }" data-qa="register-link">
               Need an account?
             </router-link>
           </p>
-          <ul v-if="errors" class="error-messages">
+          <ul v-if="errors" class="error-messages" data-qa="login-errors">
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
-          <form @submit.prevent="onSubmit(email, password)">
+          <form @submit.prevent="onSubmit(email, password)" data-qa="login-form">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
                 placeholder="Email"
-                data-cy="email-sign-in"
+                data-qa="email-input"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,10 +28,10 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                data-cy="password-sign-in"
+                data-qa="password-input"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" data-cy="sign-in-btn">
+            <button class="btn btn-lg btn-primary pull-xs-right" data-qa="login-button">
               Sign in
             </button>
           </form>

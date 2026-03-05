@@ -1,41 +1,76 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import { faker } from '@faker-js/faker';
 
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+Cypress.Commands.add('registerAndLogin', (email, password, username) => {
+  const userEmail = email || faker.internet.email();
+  const userPassword = password || 'Password123!';
+  const userUsername = username || faker.internet.userName();
 
-addMatchImageSnapshotCommand();
-
-Cypress.Commands.add('getByDataCy', (selector) => {
-  cy.get(`[data-cy="${selector}"]`);
+  cy.request({
+    method: 'POST',
+    url: '/users',
+    body: {
+      username: userUsername,
+      email: userEmail,
+      password: userPassword
+    }
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.user).to.have.property('token');
+    const user = {
+      ...response.body.user,
+      password: userPassword
+    };
+    cy.setCookie('drash_sess', user.token);
+    cy.wrap(user);
+  });
 });
 
-Cypress.Commands.add('register', (email = 'riot@qa.team', username = 'riot', password = '12345Qwert!') => {
-  cy.request('POST', '/users', {
-    email,
-    username,
-    password
+Cypress.Commands.add('login', (email, password) => {
+  cy.request({
+    method: 'POST',
+    url: '/users/login',
+    body: {
+      user: {
+        email,
+        password
+      }
+    }
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.user).to.have.property('token');
+    cy.setCookie('drash_sess', response.body.user.token);
+    cy.wrap(response.body.user);
+  });
+});
+
+Cypress.Commands.add('createArticle', (articleData) => {
+  cy.getCookie('drash_sess').then((cookie) => {
+    const token = cookie ? cookie.value : null;
+    if (!token) {
+      throw new Error(
+        'No session token found. Log in before creating an article.'
+      );
+    }
+
+    cy.request({
+      method: 'POST',
+      url: '/articles',
+      body: {
+        article: {
+          author_id: articleData.author_id || 0,
+          title: articleData.title,
+          description: articleData.description,
+          body: articleData.body,
+          tags: articleData.tags ? articleData.tags.join(',') : ''
+        }
+      },
+      headers: {
+        Cookie: `drash_sess=${token}`
+      }
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.article).to.have.property('slug');
+      cy.wrap(response.body.article);
+    });
   });
 });

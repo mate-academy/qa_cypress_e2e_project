@@ -1,34 +1,59 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+/// <reference types="cypress" />
+/// <reference types="../../support" />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+import { faker } from '@faker-js/faker';
+import SignInPage from '../support/pages/signIn.pageObject.js';
+import PageObject from '../support/pages/PageObject.js';
 
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
-
-describe('Sign In page', () => {
+describe('Sign In Functionality', () => {
+  const commonPage = new PageObject();
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+  });
+
+  context('Positive Scenarios', () => {
+    beforeEach(() => {
+      cy.registerAndLogin().then((loggedInUser) => {
+        user = loggedInUser;
+      });
+      cy.clearCookies();
+      SignInPage.visit();
+    });
+
+    it('should allow a user to sign in with valid credentials', () => {
+      SignInPage.fillLoginForm(user.email, user.password);
+      SignInPage.submitLoginForm();
+
+      cy.url().should('not.include', '/login');
+      commonPage.getProfileLink().should('contain', user.username);
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
+  context('Negative Scenarios', () => {
+    beforeEach(() => {
+      SignInPage.visit();
+    });
 
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
+    it('should not allow a user to sign in with invalid credentials', () => {
+      const invalidEmail = faker.internet.email();
+      const invalidPassword = faker.internet.password();
 
-    homePage.assertHeaderContainUsername(user.username);
-  });
+      SignInPage.fillLoginForm(invalidEmail, invalidPassword);
+      SignInPage.submitLoginForm();
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+      cy.get('.swal-title').should('be.visible')
+        .and('contain', 'Login failed');
+      cy.url().should('include', '/login');
+    });
 
+    it('should not allow a user to sign in with empty credentials', () => {
+      SignInPage.submitLoginForm();
+
+      cy.get('.swal-title').should('be.visible')
+        .and('contain', 'Login failed');
+      cy.url().should('include', '/login');
+    });
   });
 });
