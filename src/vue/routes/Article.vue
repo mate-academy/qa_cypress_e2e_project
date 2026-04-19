@@ -102,7 +102,7 @@ export default {
     },
     authorImage() {
       if (this.article && this.article.author && this.article.author.image) {
-        return article.author.image;
+        return this.article.author.image;
       }
       return null;
     },

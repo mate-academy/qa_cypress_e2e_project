@@ -17,11 +17,11 @@
     "lodash": "^4.17.20",
     "markdown-it": "^8.4.2",
     "mime-types": "^2.1.22",
-    "node-sass": "^4.14.1",
+    "sass": "^1.77.0",
     "prismjs": "^1.21.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^10.5.2",
     "scss-loader": "0.0.1",
     "style-loader": "^0.23.1",
     "sweetalert": "^2.1.2",
@@ -38,6 +38,7 @@
   },
   "scripts": {
     "webpack": "node_modules/.bin/webpack --hide-modules --env.environment=development",
+    "webpack:build": "node_modules/.bin/webpack --hide-modules --env.environment=production",
     "webpack-watch": "node_modules/.bin/webpack --hide-modules --watch --env.environment=development"
   },
   "dependencies": {

@@ -1,8 +1,10 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
+import SignInPageObject
+  from '../support/pages/signIn.pageObject';
+import HomePageObject
+  from '../support/pages/home.pageObject';
 
 const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
@@ -10,16 +12,18 @@ const homePage = new HomePageObject();
 describe('Sign In page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+    cy.task('generateUser').then((generatedUser) => {
+      user = generatedUser;
+      return cy.createUser(
+        user.email, user.username, user.password
+      );
     });
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
+  it('should provide an ability to log in', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
 
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
@@ -28,7 +32,14 @@ describe('Sign In page', () => {
     homePage.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
+  it('should not log in with wrong credentials', () => {
+    signInPage.visit();
 
+    signInPage.typeEmail('wrong' + user.email);
+    signInPage.typePassword('WrongPassword1!');
+    signInPage.clickSignInBtn();
+
+    cy.get('.swal-title')
+      .should('contain', 'Login failed');
   });
 });

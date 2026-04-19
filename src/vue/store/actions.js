@@ -215,11 +215,13 @@ export default {
         .then((response) => {
           console.log("Profile fetched successfully. Setting profile.");
           context.dispatch("setProfile", response.data.profile);
+          resolve(response);
         })
-        .catch((response) => {
+        .catch((error) => {
           console.log("Unsetting profile.");
           console.log(error.response);
           context.dispatch("unsetProfile");
+          resolve(error.response);
         });
     });
   },
@@ -332,6 +334,12 @@ export default {
   },
 
   setProfile(context, profile) {
+    context.commit("setProfile", profile);
+  },
+
+  setFollowProfile(context, params) {
+    const profile = { ...context.getters.profile };
+    profile.following = !profile.following;
     context.commit("setProfile", profile);
   },
 

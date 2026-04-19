@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
 
@@ -13,23 +13,43 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-      
-    - name: Set up Node.js 14
+
+    - name: Set up Node.js 20
       uses: actions/setup-node@v3
       with:
-        node-version: 14
-        
-    - name: Build the Docker image
-      run: docker compose -f docker-compose.m1.yml up --build -d
-  
+        node-version: 20
+
+    - name: Build and start containers
+      run: docker compose up --build -d
+
     - name: Install packages
-      run: npm install
-      
+      run: npm ci
+
+    - name: Wait for app to be ready
+      run: |
+        for i in $(seq 1 180); do
+          if curl -sf http://localhost:1667 > /dev/null 2>&1; then
+            echo "App is ready!"
+            exit 0
+          fi
+          echo "[$i/180] Waiting for app..."
+          sleep 2
+        done
+        echo "App failed to start."
+        docker compose logs drash
+        docker compose logs postgres
+        exit 1
+
     - name: Run tests
       run: npm run test
-      
+
+    - name: Print container logs on failure
+      if: failure()
+      run: docker compose logs
+
     - name: Stop and remove containers
-      run: docker compose -f docker-compose.m1.yml down
+      if: always()
+      run: docker compose down

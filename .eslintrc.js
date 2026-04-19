@@ -9,13 +9,29 @@ module.exports = {
     'standard-with-typescript'
   ],
   overrides: [
+    {
+      files: ['**/*.js'],
+      extends: ['plugin:cypress/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+    }
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    project: './tsconfig.json'
   },
   plugins: [
     'vue',
     'cypress'
+  ],
+  ignorePatterns: [
+    'src/**',
+    'console/**',
+    'server/**',
+    'node_modules/**',
+    'webpack.config.js',
+    'cypress/support/index.d.ts'
   ],
   rules: {
     semi: ['error', 'always'],
