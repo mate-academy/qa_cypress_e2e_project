@@ -15,19 +15,26 @@ class SignInPageObject extends PageObject {
     return cy.getByDataCy('sign-in-btn');
   }
 
+  get errorMessage() {
+    return cy.get('.swal-modal');
+  }
+
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.clear().type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.clear().type(password);
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click();
+  }
+
+  errorEmailOrPasswordIsInvalid() {
+    this.errorMessage.should('contain', 'Login failed!');
+
+    cy.get('.swal-button').should('contain', 'OK').click();
   }
 }
 
