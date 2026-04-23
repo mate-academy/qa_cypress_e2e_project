@@ -1,22 +1,23 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
+import SignUpPageObject from '../support/pages/signUp.pageObject';
+
+const signUpPage = new SignUpPageObject();
+
 describe('Sign Up page', () => {
   let user;
 
-  before(() => {
+  beforeEach(() => {
     cy.task('db:clear');
     cy.task('generateUser').then((res) => {
       user = res;
     });
-    cy.visit('/#/register');
+    signUpPage.visit();
   });
 
-  it('should register a new user', () => {
-    cy.get('input[placeholder="Username"]').type(user.username);
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button').contains('Sign up').click();
+  it('should register a new user with valid data', () => {
+    signUpPage.register(user.username, user.email, user.password);
 
     cy.get('[data-cy="username-link"]', { timeout: 10000 })
       .should('be.visible')
@@ -26,11 +27,7 @@ describe('Sign Up page', () => {
   it('should not register with an already taken email', () => {
     cy.register(user.email, user.username, user.password);
 
-    cy.get('input[placeholder="Username"]').type('SomeOtherName');
-    cy.get('input[placeholder="Email"]').type(user.email);
-    cy.get('input[placeholder="Password"]').type(user.password);
-    cy.get('button').contains('Sign up').click();
-
+    signUpPage.register('AnyName', user.email, user.password);
     cy.get('.error-messages')
       .should('be.visible')
       .and('contain', 'email has already been taken');
