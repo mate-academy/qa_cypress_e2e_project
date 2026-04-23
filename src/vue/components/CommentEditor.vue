@@ -4,6 +4,7 @@
     <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)">
       <div class="card-block">
         <textarea
+          data-cy="comment-field"
           class="form-control"
           v-model="comment"
           placeholder="Write a comment..."
@@ -13,7 +14,7 @@
       </div>
       <div class="card-footer">
         <img :src="userImage" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <button data-cy="post-comment-btn" class="btn btn-sm btn-primary">Post Comment</button>
       </div>
     </form>
   </div>
