@@ -16,18 +16,16 @@ class SignInPageObject extends PageObject {
   }
 
   typeEmail(email) {
-    this.emailField
-      .type(email);
+    this.emailField.type(email);
   }
 
   typePassword(password) {
-    this.passwordField
-      .type(password);
+    this.passwordField.clear({ force: true });
+    this.passwordField.type(password, { force: true });
   }
 
   clickSignInBtn() {
-    this.signInBtn
-      .click();
+    this.signInBtn.click({ force: true });
   }
 }
 
