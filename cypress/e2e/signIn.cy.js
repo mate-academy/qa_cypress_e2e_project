@@ -29,6 +29,11 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    signInPage.typeEmail('wrong@email.com');
+    signInPage.typePassword('wrongPassword1!');
+    signInPage.clickSignInBtn();
 
+    cy.get('.swal-title').should('contain', 'Login failed!');
   });
 });
