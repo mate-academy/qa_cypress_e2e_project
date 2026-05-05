@@ -115,9 +115,6 @@ export default {
           });
         });
     },
-    mounted() {
-      console.log("Settings.vue mounted!");
-    },
     logout() {
       this.$store.dispatch("logOut")
         .then(() => {

@@ -1,40 +1,39 @@
 /// <reference types='cypress' />
 /// <reference types='../support' />
 
-import ArticleEditPageObject
-  from '../support/pages/articleEdit.pageObject';
-import ArticlePageObject from '../support/pages/article.pageObject';
+import ArticleEditPageObject from "../support/pages/articleEdit.pageObject";
+import ArticlePageObject from "../support/pages/article.pageObject";
 
 const articleEditPage = new ArticleEditPageObject();
 const articlePage = new ArticlePageObject();
 
-describe('Article', () => {
+describe("Article", () => {
   let user;
   let article;
   let userId;
 
   before(() => {
-    cy.task('generateUser').then((generatedUser) => {
+    cy.task("generateUser").then((generatedUser) => {
       user = generatedUser;
-    });
-    cy.task('generateArticle').then((generatedArticle) => {
+      return cy.task('generateArticle');
+    }).then((generatedArticle) => {
       article = generatedArticle;
     });
   });
 
   beforeEach(() => {
-    cy.task('db:clear');
-    cy.request('POST', '/users', {
+    cy.task("db:clear");
+    cy.request("POST", "/users", {
       email: user.email,
       username: user.username,
       password: user.password,
     }).then(({ body }) => {
       userId = body.user.id;
-      cy.setCookie('drash_sess', body.user.token);
+      cy.setCookie("drash_sess", body.user.token);
     });
   });
 
-  it('should be created using New Article form', () => {
+  it("should be created using New Article form", () => {
     articleEditPage.visit();
     articleEditPage.typeTitle(article.title);
     articleEditPage.typeDescription(article.description);
@@ -44,14 +43,14 @@ describe('Article', () => {
     articlePage.assertTitle(article.title);
   });
 
-  it('should be edited using Edit button', () => {
+  it("should be edited using Edit button", () => {
     let newTitle;
 
-    cy.task('generateArticle').then(({ title }) => {
+    cy.task("generateArticle").then(({ title }) => {
       newTitle = title;
     });
 
-    cy.request('POST', '/articles', {
+    cy.request("POST", "/articles", {
       article: { ...article, author_id: userId },
     }).then(({ body }) => {
       articlePage.visit(body.article.slug);
@@ -59,7 +58,7 @@ describe('Article', () => {
       articlePage.clickEditBtn();
 
       articleEditPage.titleField
-        .should('have.value', article.title)
+        .should("have.value", article.title)
         .clear()
         .type(newTitle);
       articleEditPage.clickPublishBtn();
@@ -68,15 +67,15 @@ describe('Article', () => {
     });
   });
 
-  it('should be deleted using Delete button', () => {
-    cy.request('POST', '/articles', {
+  it("should be deleted using Delete button", () => {
+    cy.request("POST", "/articles", {
       article: { ...article, author_id: userId },
     }).then(({ body }) => {
       articlePage.visit(body.article.slug);
       articlePage.assertTitle(article.title);
       articlePage.clickDeleteBtn();
 
-      cy.url().should('not.include', '/articles/');
+      cy.url().should("not.include", "/articles/");
     });
   });
 });

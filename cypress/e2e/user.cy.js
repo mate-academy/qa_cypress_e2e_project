@@ -2,10 +2,8 @@
 /// <reference types='../support' />
 
 import ProfilePageObject from '../support/pages/profile.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
 
 const profilePage = new ProfilePageObject();
-const homePage = new HomePageObject();
 
 describe('User', () => {
   let user1;
@@ -14,8 +12,8 @@ describe('User', () => {
   before(() => {
     cy.task('generateUser').then((generatedUser) => {
       user1 = generatedUser;
-    });
-    cy.task('generateUser').then((generatedUser) => {
+      return cy.task('generateUser');
+    }).then((generatedUser) => {
       user2 = generatedUser;
     });
   });
