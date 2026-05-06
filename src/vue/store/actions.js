@@ -331,6 +331,14 @@ export default {
     context.commit("setComments", comments);
   },
 
+  setFollowProfile(context) {
+    const current = context.getters.profile;
+    context.commit("setProfile", {
+      ...current,
+      following: !current.following,
+    });
+  },
+
   setProfile(context, profile) {
     context.commit("setProfile", profile);
   },

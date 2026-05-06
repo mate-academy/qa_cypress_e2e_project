@@ -1,30 +1,30 @@
-import PageObject from '../PageObject';
+import PageObject from "../PageObject";
 
-class SettingsPageObject extends PageObject {
-  url = '/#/settings';
+export default class SettingsPageObject extends PageObject {
+  url = "/#/settings";
 
   get usernameField() {
-    return cy.getByDataCy('username-settings');
+    return cy.getByDataCy("username-settings");
   }
 
   get bioField() {
-    return cy.getByDataCy('bio-settings');
+    return cy.getByDataCy("bio-settings");
   }
 
   get emailField() {
-    return cy.getByDataCy('email-settings');
+    return cy.getByDataCy("email-settings");
   }
 
   get passwordField() {
-    return cy.getByDataCy('password-settings');
+    return cy.getByDataCy("password-settings");
   }
 
   get updateBtn() {
-    return cy.getByDataCy('update-settings-btn');
+    return cy.getByDataCy("update-settings-btn");
   }
 
   get logoutBtn() {
-    return cy.getByDataCy('logout-btn');
+    return cy.getByDataCy("logout-btn");
   }
 
   typeUsername(username) {
@@ -51,5 +51,3 @@ class SettingsPageObject extends PageObject {
     this.logoutBtn.click();
   }
 }
-
-export default SettingsPageObject;

@@ -1,22 +1,22 @@
-import PageObject from '../PageObject';
+import PageObject from "../PageObject";
 
-class ArticleEditPageObject extends PageObject {
-  url = '/#/editor';
+export default class ArticleEditPageObject extends PageObject {
+  url = "/#/editor";
 
   get titleField() {
-    return cy.getByDataCy('title-article');
+    return cy.getByDataCy("title-article");
   }
 
   get descriptionField() {
-    return cy.getByDataCy('description-article');
+    return cy.getByDataCy("description-article");
   }
 
   get bodyField() {
-    return cy.getByDataCy('body-article');
+    return cy.getByDataCy("body-article");
   }
 
   get publishBtn() {
-    return cy.getByDataCy('publish-article-btn');
+    return cy.getByDataCy("publish-article-btn");
   }
 
   typeTitle(title) {
@@ -35,5 +35,3 @@ class ArticleEditPageObject extends PageObject {
     this.publishBtn.click();
   }
 }
-
-export default ArticleEditPageObject;

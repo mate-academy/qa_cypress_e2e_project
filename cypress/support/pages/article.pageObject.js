@@ -1,24 +1,24 @@
-import PageObject from '../PageObject';
+import PageObject from "../PageObject";
 
-class ArticlePageObject extends PageObject {
+export default class ArticlePageObject extends PageObject {
   visit(slug) {
     cy.visit(`/#/articles/${slug}`);
   }
 
   get title() {
-    return cy.getByDataCy('article-title');
+    return cy.getByDataCy("article-title");
   }
 
   get editBtn() {
-    return cy.getByDataCy('edit-article-btn');
+    return cy.getByDataCy("edit-article-btn");
   }
 
   get deleteBtn() {
-    return cy.getByDataCy('delete-article-btn');
+    return cy.getByDataCy("delete-article-btn");
   }
 
   assertTitle(expectedTitle) {
-    this.title.should('contain', expectedTitle);
+    this.title.should("contain", expectedTitle);
   }
 
   clickEditBtn() {
@@ -29,5 +29,3 @@ class ArticlePageObject extends PageObject {
     this.deleteBtn.click();
   }
 }
-
-export default ArticlePageObject;

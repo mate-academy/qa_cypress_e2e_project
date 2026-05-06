@@ -1,16 +1,16 @@
-import PageObject from '../PageObject';
+import PageObject from "../PageObject";
 
-class ProfilePageObject extends PageObject {
+export default class ProfilePageObject extends PageObject {
   visit(username) {
     cy.visit(`/#/@${username}`);
   }
 
   get followBtn() {
-    return cy.getByDataCy('follow-btn');
+    return cy.getByDataCy("follow-btn");
   }
 
   get unfollowBtn() {
-    return cy.getByDataCy('unfollow-btn');
+    return cy.getByDataCy("unfollow-btn");
   }
 
   clickFollowBtn() {
@@ -21,5 +21,3 @@ class ProfilePageObject extends PageObject {
     this.unfollowBtn.click();
   }
 }
-
-export default ProfilePageObject;
