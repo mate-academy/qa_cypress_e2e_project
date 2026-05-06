@@ -11,16 +11,18 @@ describe('Sign In page', () => {
   let user;
 
   before(() => {
-    cy.task('db:clear');
     cy.task('generateUser').then((generateUser) => {
       user = generateUser;
     });
   });
 
+  beforeEach(() => {
+    cy.task('db:clear');
+    cy.register(user.email, user.username, user.password);
+  });
+
   it('should provide an ability to log in with existing credentials', () => {
     signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
     signInPage.typeEmail(user.email);
     signInPage.typePassword(user.password);
     signInPage.clickSignInBtn();
@@ -29,6 +31,11 @@ describe('Sign In page', () => {
   });
 
   it('should not provide an ability to log in with wrong credentials', () => {
+    signInPage.visit();
+    signInPage.typeEmail('wrong@email.com');
+    signInPage.typePassword('wrongPassword1!');
+    signInPage.clickSignInBtn();
 
+    cy.get('.swal-title').should('contain', 'Login failed!');
   });
 });
