@@ -44,26 +44,22 @@ describe("Article", () => {
   });
 
   it("should be edited using Edit button", () => {
-    let newTitle;
+    cy.task("generateArticle").then(({ title: newTitle }) => {
+      cy.request('POST', '/articles', {
+        article: { ...article, author_id: userId },
+      }).then(({ body }) => {
+        articlePage.visit(body.article.slug);
+        articlePage.assertTitle(article.title);
+        articlePage.clickEditBtn();
 
-    cy.task("generateArticle").then(({ title }) => {
-      newTitle = title;
-    });
+        articleEditPage.titleField
+          .should('have.value', article.title)
+          .clear()
+          .type(newTitle);
+        articleEditPage.clickPublishBtn();
 
-    cy.request("POST", "/articles", {
-      article: { ...article, author_id: userId },
-    }).then(({ body }) => {
-      articlePage.visit(body.article.slug);
-      articlePage.assertTitle(article.title);
-      articlePage.clickEditBtn();
-
-      articleEditPage.titleField
-        .should("have.value", article.title)
-        .clear()
-        .type(newTitle);
-      articleEditPage.clickPublishBtn();
-
-      articlePage.assertTitle(newTitle);
+        articlePage.assertTitle(newTitle);
+      });
     });
   });
 
