@@ -19,6 +19,7 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                data-qa="sign-up-username"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -27,6 +28,7 @@
                 type="text"
                 v-model="email"
                 placeholder="Email"
+                data-qa="sign-up-email"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -35,9 +37,13 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
+                data-qa="sign-up-password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              data-qa="sign-up-submit"
+            >
               Sign up
             </button>
           </form>
@@ -49,6 +55,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "Register",

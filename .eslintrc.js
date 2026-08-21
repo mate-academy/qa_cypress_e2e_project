@@ -1,4 +1,9 @@
 module.exports = {
+  ignorePatterns: [
+    'console/**',
+    'src/**',
+    '**/*.d.ts'
+  ],
   env: {
     browser: true,
     es2021: true,
@@ -6,7 +11,7 @@ module.exports = {
   },
   extends: [
     'plugin:cypress/recommended',
-    'standard-with-typescript'
+    'standard'
   ],
   overrides: [
   ],

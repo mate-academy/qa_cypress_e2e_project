@@ -7,7 +7,11 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = "http://localhost:1667";
+// Use the same origin that served the SPA. In Docker this lets browser
+// requests go through Apache on :8080 instead of bypassing the proxy and
+// connecting directly to the legacy Drash HTTP server on :1667.
+axios.defaults.baseURL = window.location.origin;
+Vue.axios.defaults.baseURL = window.location.origin;
 
 //
 // Vue filters

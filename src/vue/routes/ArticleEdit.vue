@@ -12,6 +12,7 @@
                   class="form-control form-control-lg"
                   v-model="article.title"
                   placeholder="Article Title"
+                  data-qa="article-title"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -20,6 +21,7 @@
                   class="form-control"
                   v-model="article.description"
                   placeholder="What's this article about?"
+                  data-qa="article-description"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -28,6 +30,7 @@
                   rows="8"
                   v-model="article.body"
                   placeholder="Write your article (in markdown)"
+                  data-qa="article-body"
                 >
                 </textarea>
               </fieldset>
@@ -45,6 +48,7 @@
               :disabled="publishing_article"
               class="btn btn-lg pull-xs-right btn-primary"
               type="submit"
+              data-qa="article-publish"
             >
               Publish Article
             </button>
@@ -57,6 +61,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import swal from "sweetalert";
 import { store } from "../../public/js/_app.js";
 import ListErrors from "@/components/ListErrors.vue";
 import VueTagsInput from '@johmun/vue-tags-input';

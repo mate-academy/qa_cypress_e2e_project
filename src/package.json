@@ -17,7 +17,6 @@
     "lodash": "^4.17.20",
     "markdown-it": "^8.4.2",
     "mime-types": "^2.1.22",
-    "node-sass": "^4.14.1",
     "prismjs": "^1.21.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
@@ -34,11 +33,13 @@
     "vue-template-compiler": "^2.6.7",
     "vuex": "^3.4.0",
     "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "sass": "^1.69.5"
   },
   "scripts": {
     "webpack": "node_modules/.bin/webpack --hide-modules --env.environment=development",
-    "webpack-watch": "node_modules/.bin/webpack --hide-modules --watch --env.environment=development"
+    "webpack-watch": "node_modules/.bin/webpack --hide-modules --watch --env.environment=development",
+    "webpack-build": "node_modules/.bin/webpack --hide-modules --env.environment=production"
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0"

@@ -1,27 +1,25 @@
 const { Sequelize } = require('sequelize');
 
-const sequilize = new Sequelize('realworld', 'user', 'userpassword', {
-  host: 'localhost',
+const sequelize = new Sequelize('realworld', 'user', 'userpassword', {
+  host: '127.0.0.1',
   dialect: 'postgres',
   port: 54320,
+  logging: false
 });
 
 async function clear() {
-  const t = await sequilize.transaction();
+  const transaction = await sequelize.transaction();
 
   try {
-    await sequilize.query('DELETE FROM articles;')
-    await sequilize.query('DELETE FROM article_comments;')
-    await sequilize.query('DELETE FROM sessions;')
-    await sequilize.query('DELETE FROM users;')
-
-    await t.commit();
-
-    console.log('DB was cleared');
+    await sequelize.query('DELETE FROM article_comments;', { transaction });
+    await sequelize.query('DELETE FROM articles_favorites;', { transaction });
+    await sequelize.query('DELETE FROM articles;', { transaction });
+    await sequelize.query('DELETE FROM sessions;', { transaction });
+    await sequelize.query('DELETE FROM users;', { transaction });
+    await transaction.commit();
   } catch (error) {
-    await t.rollback();
-
-    console.log(`Can't clear DB`);
+    await transaction.rollback();
+    throw error;
   }
 }
 

@@ -33,7 +33,7 @@ Pre-setup:
       docker-compose -f docker-compose.m1.yml build && docker-compose -f docker-compose.m1.yml up
     ```
 
-Navigate to [http://localhost:1667](http://localhost:1667)
+Navigate to [http://localhost:8080](http://localhost:8080) (recommended through the Apache proxy). The Drash server is also exposed directly on port 1667 for backend diagnostics.
 
 ## Run with `make` commands
 

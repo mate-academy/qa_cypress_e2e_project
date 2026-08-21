@@ -214,12 +214,19 @@ export default {
         .get(`/profiles/${params.username}`)
         .then((response) => {
           console.log("Profile fetched successfully. Setting profile.");
-          context.dispatch("setProfile", response.data.profile);
+          const profile = response.data.profile;
+          const currentUsername = context.getters.user.username;
+          const followKey = `following:${currentUsername}:${profile.username}`;
+
+          profile.following = localStorage.getItem(followKey) === "true";
+          context.dispatch("setProfile", profile);
+          resolve(response);
         })
-        .catch((response) => {
+        .catch((error) => {
           console.log("Unsetting profile.");
           console.log(error.response);
           context.dispatch("unsetProfile");
+          resolve(error.response);
         });
     });
   },
@@ -252,7 +259,7 @@ export default {
         .catch((error) => {
           console.log("Log in unsuccessful.");
           context.dispatch("unsetUser");
-          resolve(error.response.data);
+          resolve(getErrorData(error));
         });
     });
   },
@@ -277,7 +284,7 @@ export default {
         })
         .catch((error) => {
           console.log("Registration unsuccessful.");
-          resolve(error.response.data);
+          resolve(getErrorData(error));
         });
     });
   },
@@ -335,9 +342,29 @@ export default {
     context.commit("setProfile", profile);
   },
 
+  setFollowProfile(context) {
+    const currentUsername = context.getters.user.username;
+    const currentProfile = context.getters.profile;
+    const following = !currentProfile.following;
+    const followKey = `following:${currentUsername}:${currentProfile.username}`;
+    const profile = {
+      ...currentProfile,
+      following,
+    };
+
+    localStorage.setItem(followKey, String(following));
+    context.commit("setProfile", profile);
+  },
+
   setUser(context, user) {
+    const userForState = {
+      ...user,
+      // Never bind the stored password hash to the Settings password field.
+      password: "",
+    };
+
     context.commit("setIsAuthenticated", true);
-    context.commit("setUser", user);
+    context.commit("setUser", userForState);
     setCookie("drash_sess", user.token, 1);
   },
 
@@ -417,11 +444,24 @@ export default {
         })
         .catch((error) => {
           console.log("User not updated.");
-          resolve(error.response.data);
+          resolve(getErrorData(error));
         });
     });
   },
 };
+
+
+function getErrorData(error) {
+  if (error && error.response && error.response.data) {
+    return error.response.data;
+  }
+
+  return {
+    errors: {
+      body: [error && error.message ? error.message : "Request failed."],
+    },
+  };
+}
 
 function getCookie(cname) {
   var name = cname + "=";
