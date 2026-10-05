@@ -1,12 +1,36 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
+import SignUpPageObject from '../support/pages/signUp.pageObject';
 
-describe('Sign Up page', () => {
-  before(() => {
+const page = new SignUpPageObject();
 
+describe('Sign up', () => {
+  let user;
+
+  beforeEach(() => {
+    cy.task('generateUser').then((data) => { user = data; });
+    page.visit();
   });
 
-  it('should ...', () => {
+  it('registers a new user', () => {
+    page.signUp(user);
+    page.assertHeaderContainUsername(user.username);
+    page.dismissDialog();
+    page.reload();
+    page.assertHeaderContainUsername(user.username);
+  });
 
+  it('rejects an already registered email', () => {
+    cy.register(user.email, user.username, user.password);
+    page.signUp({ ...user, username: `${user.username}other` });
+    page.assertErrors('Email already taken.');
+    page.dismissDialog();
+    page.assertSignedOut();
+    page.assertPath('#/register');
+  });
+
+  it('rejects an invalid email', () => {
+    page.signUp({ ...user, email: 'invalid-email' });
+    page.assertErrors('Email must be a valid email.');
+    page.dismissDialog();
+    page.assertSignedOut();
   });
 });

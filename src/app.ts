@@ -33,7 +33,7 @@ const server = new Drash.Http.Server({
 });
 
 server.run({
-  hostname: "realworld_drash",
+  hostname: Deno.env.get("APP_HOST") || "realworld_drash",
   port: 1667,
 });
 

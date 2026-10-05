@@ -1,34 +1,30 @@
-/// <reference types='cypress' />
-/// <reference types='../support' />
-
 import SignInPageObject from '../support/pages/signIn.pageObject';
-import HomePageObject from '../support/pages/home.pageObject';
 
-const signInPage = new SignInPageObject();
-const homePage = new HomePageObject();
+const page = new SignInPageObject();
 
-describe('Sign In page', () => {
+describe('Sign in', () => {
   let user;
 
-  before(() => {
-    cy.task('db:clear');
-    cy.task('generateUser').then((generateUser) => {
-      user = generateUser;
+  beforeEach(() => {
+    cy.task('generateUser').then((data) => {
+      user = data;
+      cy.register(user.email, user.username, user.password);
     });
+    page.visit();
   });
 
-  it('should provide an ability to log in with existing credentials', () => {
-    signInPage.visit();
-    cy.register(user.email, user.username, user.password);
-
-    signInPage.typeEmail(user.email);
-    signInPage.typePassword(user.password);
-    signInPage.clickSignInBtn();
-
-    homePage.assertHeaderContainUsername(user.username);
+  it('logs in with existing credentials', () => {
+    page.signIn(user);
+    page.assertHeaderContainUsername(user.username);
+    page.reload();
+    page.assertHeaderContainUsername(user.username);
   });
 
-  it('should not provide an ability to log in with wrong credentials', () => {
-
+  it('rejects an incorrect password', () => {
+    page.signIn({ ...user, password: 'IncorrectPassword1!' });
+    page.assertErrors('Invalid user credentials.');
+    page.dismissDialog();
+    page.assertSignedOut();
+    page.assertPath('#/login');
   });
 });

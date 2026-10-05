@@ -5,8 +5,8 @@ export const dbPool = new Pool({
   user: "user",
   password: "userpassword",
   database: "realworld",
-  hostname: "realworld_postgres",
-  port: 5432,
+  hostname: Deno.env.get("DB_HOST") || "realworld_postgres",
+  port: Number(Deno.env.get("DB_PORT") || 5432),
 }, 50);
 
 export default abstract class BaseModel {
