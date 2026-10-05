@@ -1,12 +1,11 @@
-FROM --platform=linux/amd64 debian:oldstable-20230612-slim
+FROM --platform=linux/amd64 node:20-bookworm-slim
 
-RUN apt update -y \
-  && apt clean \
-  && apt install bash curl unzip -y \
-  && apt install -y --no-install-recommends nodejs \
-  && apt install -y --no-install-recommends npm \
-  && npm install -g npm@6.14.6
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates curl unzip \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.5.1
-RUN export DENO_INSTALL="/usr/bin"
-RUN export PATH="$DENO_INSTALL/bin:$PATH"
+RUN curl -fsSL https://github.com/denoland/deno/releases/download/v1.5.1/deno-x86_64-unknown-linux-gnu.zip -o /tmp/deno.zip \
+  && unzip /tmp/deno.zip -d /usr/local/bin \
+  && chmod +x /usr/local/bin/deno \
+  && rm /tmp/deno.zip
+ENV NODE_OPTIONS=--openssl-legacy-provider

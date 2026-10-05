@@ -27,11 +27,20 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=userpassword
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U user -d realworld"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
     networks:
       - drash-app-network
 
   drash:
     container_name: realworld_drash
+    depends_on:
+      postgres:
+        condition: service_healthy
     build:
       context: .
       dockerfile: .docker/drash-m1.dockerfile
@@ -40,7 +49,7 @@ services:
     working_dir: /var/www/src
     ports:
       - "1667:1667"
-    command: bash -c "npm i && npm run webpack & deno run --allow-net --allow-read --unstable app.ts"
+    command: bash -c "npm i && npm run webpack & deno run --allow-net --allow-read --allow-env --unstable app.ts"
     networks:
       - drash-app-network
 

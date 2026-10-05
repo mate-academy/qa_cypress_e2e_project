@@ -1,16 +1,14 @@
 {
   "scripts": {
     "prepare": "husky install",
-    "lint": "eslint .",
-    "test": "cypress run --browser chrome"
+    "lint": "eslint \"cypress/**/*.js\" cypress.config.js server/db.js .eslintrc.js && npm run lint:types",
+    "test": "cypress run --browser chrome",
+    "lint:types": "tsc --noEmit --skipLibCheck cypress/support/index.d.ts"
   },
   "dependencies": {
-    "cypress-image-snapshot": "^4.0.1",
     "eslint-plugin-cypress": "^2.12.1",
-    "faker": "^5.5.3",
     "pg": "^8.9.0",
     "sequelize": "^6.21.2",
-    "@faker-js/faker": "^8.4.1",
     "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
@@ -35,6 +33,7 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --max-warnings=0"
+    "cypress/**/*.js": "eslint --max-warnings=0",
+    "{cypress.config.js,.eslintrc.js,server/db.js}": "eslint --max-warnings=0"
   }
 }

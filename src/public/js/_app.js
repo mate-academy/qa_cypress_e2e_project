@@ -145,15 +145,12 @@ const router = new VueRouter({
 
 // Ensure we checked auth before each page load.
 router.beforeEach(async (to, from, next) => {
-  if (to.path !== "/login" && to.path !== "/register" && to.path !== "/") {
-    const result = await store.dispatch("checkIfUserIsAuthenticated");
-    if (!result) {
-      router.push("/login");
-    }
-    next();
-  } else {
-    next();
+  const authenticated = await store.dispatch("checkIfUserIsAuthenticated");
+  const publicPage = ["/", "/login", "/register"].includes(to.path);
+  if (!authenticated && !publicPage) {
+    return next("/login");
   }
+  next();
 });
 
 //
@@ -176,3 +173,17 @@ window.app = new Vue({
 });
 
 export { router, store };
+
+// Stable selectors for the shared SweetAlert dialog elements.
+new MutationObserver(() => {
+  for (const [selector, qa] of [
+    ['.swal-title', 'dialog-title'],
+    ['.swal-text', 'dialog-text'],
+    ['.swal-button--confirm', 'dialog-confirm']
+  ]) {
+    const element = document.querySelector(selector);
+    if (element && element.getAttribute('data-qa') !== qa) {
+      element.setAttribute('data-qa', qa);
+    }
+  }
+}).observe(document.body, { childList: true, subtree: true });

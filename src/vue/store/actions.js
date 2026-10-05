@@ -211,7 +211,9 @@ export default {
     console.log("Handling action: fetchProfile");
     return new Promise((resolve) => {
       axios
-        .get(`/profiles/${params.username}`)
+        .get(`/profiles/${params.username}`, {
+          params: { user_id: context.getters.user.id },
+        })
         .then((response) => {
           console.log("Profile fetched successfully. Setting profile.");
           context.dispatch("setProfile", response.data.profile);
@@ -329,6 +331,15 @@ export default {
 
   setComments(context, comments) {
     context.commit("setComments", comments);
+  },
+
+  setFollowProfile(context, params) {
+    return axios.post(`/profiles/${params.username}/follow`, {
+      user_id: context.getters.user.id,
+      following: !context.getters.profile.following,
+    }).then((response) => {
+      context.dispatch("setProfile", response.data.profile);
+    });
   },
 
   setProfile(context, profile) {

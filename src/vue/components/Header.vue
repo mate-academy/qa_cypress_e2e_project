@@ -20,6 +20,7 @@
             class="nav-link"
             active-class="active"
             exact
+            data-qa="sign-in-link"
             :to="{ name: 'login' }"
           >
             <i class="ion-compose"></i>Sign in
@@ -51,6 +52,7 @@
           <router-link
             class="nav-link"
             active-class="active"
+            data-qa="new-article-link"
             :to="{
               name: 'article-edit',
               params: { new: true }
@@ -64,6 +66,7 @@
             class="nav-link"
             active-class="active"
             exact
+            data-qa="settings-link"
             :to="{ name: 'settings' }"
           >
             <i class="ion-gear-a"></i>&nbsp;Settings
@@ -71,7 +74,7 @@
         </li>
         <li class="nav-item" v-if="user.username">
           <router-link
-            data-cy="username-link"
+            data-cy="username-link" data-qa="username-link"
             class="nav-link"
             active-class="active"
             exact
