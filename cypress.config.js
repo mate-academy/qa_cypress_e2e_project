@@ -1,7 +1,6 @@
 const { defineConfig } = require('cypress');
 const { faker } = require('@faker-js/faker');
 const { clear } = require('./server/db');
-const { seed } = require('./server/db');
 const {
   addMatchImageSnapshotPlugin
 } = require('cypress-image-snapshot/plugin');
@@ -12,13 +11,15 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         generateUser() {
-          const randomNumber = Math.ceil(Math.random(1000) * 1000);
+          const randomNumber = Math.ceil(Math.random() * 1000);
+
           return {
             username: faker.person.firstName() + `${randomNumber}`,
-            email: 'test' + `${randomNumber}` + '@mail.com',
+            email: `test${randomNumber}@mail.com`,
             password: '12345Qwert!'
           };
         },
+
         generateArticle() {
           return {
             title: faker.lorem.word(),
@@ -27,18 +28,16 @@ module.exports = defineConfig({
             tag: faker.lorem.word()
           };
         },
-        'db:clear'() {
-          clear();
 
-          return null;
-        },
-        'db:seed'() {
-          seed();
-
+        'db:clear': async () => {
+          await clear();
           return null;
         }
       });
+
       addMatchImageSnapshotPlugin(on, config);
+
+      return config;
     }
   }
 });
