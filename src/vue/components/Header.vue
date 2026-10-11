@@ -74,6 +74,7 @@
             data-cy="username-link"
             class="nav-link"
             active-class="active"
+            data-qa="username-link"
             exact
             :to="{
               name: 'profile',
