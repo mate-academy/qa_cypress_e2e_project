@@ -43,15 +43,3 @@ describe("Sign In page", () => {
     cy.get(".swal-title").should("contain.text", "Login failed!");
   });
 });
-it("debugs the sign-in page", () => {
-  cy.visit("/#/login");
-
-  cy.url().should("include", "/#/login");
-
-  cy.get("body").then(($body) => {
-    cy.log(`Page text: ${$body.text().slice(0, 500)}`);
-    cy.log(
-      `Email selector count: ${$body.find('[data-cy="email-sign-in"]').length}`,
-    );
-  });
-});
